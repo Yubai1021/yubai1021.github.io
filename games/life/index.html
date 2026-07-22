@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · 入道境界修正版</title>
+<title>随机人生模拟器 · 传承滚动与现世扩展版</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -85,17 +85,47 @@ input:focus{border-color:var(--purple)}
   margin-top:12px;padding:11px 12px;border-radius:13px;background:rgba(255,209,102,.08);
   border:1px solid rgba(255,209,102,.18);font-size:11px;color:#e8dfbd;line-height:1.7
 }
-.abilityBar{display:flex;gap:7px;overflow-x:auto;padding:0 0 12px}
+.abilityBar{
+  display:flex;gap:7px;overflow-x:auto;padding:0 0 12px;
+  min-width:0;max-width:100%;-webkit-overflow-scrolling:touch
+}
 .abilityPill{
   flex:0 0 auto;padding:7px 9px;border-radius:999px;background:rgba(139,124,255,.12);
-  border:1px solid rgba(139,124,255,.22);font-size:11px;color:#ddd9ff
+  border:1px solid rgba(139,124,255,.22);font-size:11px;color:#ddd9ff;
+  max-width:100%;white-space:normal;overflow-wrap:anywhere
 }
 .chanceLine{display:block;margin-top:5px;color:#91efd3!important;font-weight:800}
 .attributeUse{font-size:10px;color:#bfc8e5;margin-top:3px}
 
-.metaGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-@media(max-width:520px){.metaGrid{grid-template-columns:1fr}}
-.metaItem{padding:11px;border-radius:14px;background:rgba(255,255,255,.05);font-size:12px;border:1px solid rgba(255,255,255,.07)}
+.metaCard{overflow:hidden}
+.metaGrid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;
+  min-width:0
+}
+@media(max-width:520px){.metaGrid{grid-template-columns:minmax(0,1fr)}}
+.metaItem{
+  min-width:0;max-width:100%;overflow:hidden;overflow-wrap:anywhere;word-break:break-word;
+  padding:11px;border-radius:14px;background:rgba(255,255,255,.05);
+  font-size:12px;border:1px solid rgba(255,255,255,.07);line-height:1.65
+}
+.metaItem.full{grid-column:1/-1}
+.legacyScroll{
+  margin-top:9px;max-height:220px;overflow-y:auto;overflow-x:hidden;
+  padding:9px 7px 9px 2px;border-top:1px solid rgba(255,255,255,.08);
+  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-width:thin
+}
+.legacyWrap{
+  display:flex;flex-wrap:wrap;align-content:flex-start;gap:7px;
+  min-width:0;width:100%
+}
+.legacyHint{
+  margin-top:7px;font-size:10px;color:#8f9abf
+}
+.legacyScroll::-webkit-scrollbar{width:5px}
+.legacyScroll::-webkit-scrollbar-thumb{
+  background:rgba(139,124,255,.45);border-radius:999px
+}
 .gameHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .person{display:flex;align-items:center;gap:11px}
 .avatar{width:56px;height:56px;border-radius:17px;display:grid;place-items:center;background:rgba(255,255,255,.07);font-size:33px}
@@ -265,7 +295,7 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">入道境界修正版</div>
+    <div class="badge">现世扩展版</div>
   </div>
 
   <section id="home" class="screen on">
@@ -725,6 +755,12 @@ const eventBank={
   {text:"通过正式制度申诉",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[-1,1],charm:[-2,2]},lifeTrack:{success:{career:2,reputation:2},fail:{career:-2,reputation:1}},success:"委员会重审贡献，署名顺序得到纠正。",fail:"程序漫长，你失去了一部分合作关系。"},
   {text:"独立公开自己的完整工作",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[1,4],mind:[1,3]},setLifeFlags:{publicFigure:true},lifeTrack:{success:{reputation:4,career:1},fail:{reputation:-1,career:-1}},success:"同行看见了真正的工作量，你建立了独立声誉。",fail:"公开行为被解释成破坏团队规则。"},
   {text:"忍下这次，离开团队",hint:"保留精力重新开始",need:"body",fx:{body:[1,3],mind:[0,2],charm:[-1,0]},lifeTrack:{stability:1,career:-1},success:"你带着经验离开，后来没有再犯同样的错误。",fail:"离开团队后，你花了很久才重新找到位置。"}
+ ]},
+{id:"human_exam_second_chance",title:"你距离重要考试合格只差一点",desc:"重新准备意味着再投入一年，立即工作则能减轻家庭压力。",choices:[
+  {text:"再准备一年，全力冲刺",hint:"依赖智力与身体",need:"mind",fx:{mind:[2,4],body:[-2,0],family:[-2,0]},lifeTrack:{success:{career:3,stability:-1},fail:{career:0,stability:-2}},success:"你终于跨过门槛，获得了新的职业资格。",fail:"结果仍未达到目标，但学习能力和方向更加清晰。"},
+  {text:"用学海传灯重新设计学习方法",hint:"需要传承：学海传灯",need:"mind",requiresLegacy:"study_legacy",fx:{mind:[2,5],body:[-1,1]},lifeTrack:{success:{career:3,reputation:1},fail:{career:1}},success:"新的学习结构让效率明显提高，你不再只是重复上一年。",fail:"方法改善了，但压力仍然影响发挥。"},
+  {text:"先工作，再利用业余时间备考",hint:"兼顾收入和目标",need:"family",fx:{family:[1,3],mind:[1,3],body:[-3,-1]},lifeTrack:{career:1,stability:1},success:"你维持了收入，也没有放弃目标。",fail:"工作消耗太大，备考进度不断被压缩。"},
+  {text:"接受这次结果，转向另一条道路",hint:"降低沉没成本",need:"mind",fx:{mind:[1,3],body:[1,2],charm:[0,2]},lifeTrack:{stability:2,career:0},success:"你发现原先的考试并不是唯一入口。",fail:"新的方向同样需要从零积累。"}
  ]}
 ],
 "事业":[
@@ -753,6 +789,12 @@ const eventBank={
   {text:"向旧客户和熟人募集过桥资金",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[-3,5]},lifeTrack:{success:{career:3,bonds:1},fail:{career:-1,bonds:-2}},success:"几名信任你的人帮项目撑过最危险的阶段。",fail:"人情和商业混在一起，关系开始承受压力。"},
   {text:"公开产品故事进行众筹",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[1,5],family:[-2,5]},setLifeFlags:{publicFigure:true},lifeTrack:{success:{reputation:3,career:3},fail:{reputation:-2,career:-1}},success:"大量小额支持让项目活了下来。",fail:"关注很多，真正愿意付费的人却不够。"},
   {text:"主动关闭项目，结清团队费用",hint:"保护底线",need:"family",fx:{family:[-3,0],body:[1,3],charm:[0,2]},lifeTrack:{stability:2,career:-2,reputation:1},success:"你失去公司，却保住了信用和重新开始的能力。",fail:"关停过程比预计更复杂，仍留下部分债务。"}
+ ]},
+{id:"human_remote_work_conflict",title:"公司突然要求结束远程办公",desc:"回办公室会显著增加通勤和照护压力，拒绝则可能失去当前岗位。",choices:[
+  {text:"整理工作成果，谈判保留部分远程",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],charm:[1,3]},lifeTrack:{success:{career:2,stability:2},fail:{career:-1,stability:-1}},success:"你用可量化成果争取到混合办公方案。",fail:"公司坚持统一规则，但给予了短暂过渡期。"},
+  {text:"通过旧识寻找更灵活的岗位",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[0,3]},lifeTrack:{success:{career:3,stability:2},fail:{career:-1}},success:"你在旧关系中找到更合适的工作机会。",fail:"机会不少，真正匹配的岗位却不多。"},
+  {text:"每天通勤，暂时保住工作",hint:"短期稳定，身体承压",need:"body",fx:{body:[-4,-1],family:[1,3]},lifeTrack:{career:1,stability:1},success:"你维持了收入，但必须重新安排生活。",fail:"长期通勤让身体和情绪迅速透支。"},
+  {text:"主动离职，重新设计生活结构",hint:"依赖家境与决断",need:"family",fx:{family:[-4,1],body:[1,3],mind:[1,2]},lifeTrack:{career:-1,stability:0},success:"你失去眼前岗位，却重新获得对时间的控制。",fail:"寻找新工作比预计更慢。"}
  ]}
 ],
 "财富":[
@@ -775,6 +817,12 @@ const eventBank={
   {text:"邀请家族成员共同核对记忆",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],family:[-1,2]},lifeTrack:{success:{bonds:3,stability:1},fail:{bonds:-2}},success:"几段长期被压住的委屈终于被说出来。",fail:"共同回忆变成了互相指责。"},
   {text:"依据现有法律文件处理",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{family:[-1,3],charm:[-2,1]},lifeTrack:{success:{stability:3,reputation:1},fail:{bonds:-2}},success:"结果不一定完美，但争议获得了明确终点。",fail:"法律解决了资产，却没有解决家庭关系。"},
   {text:"放弃自己的部分份额换取和解",hint:"资源换关系",need:"charm",fx:{family:[-4,-1],charm:[2,5]},lifeTrack:{bonds:3,stability:-1},success:"你的让步让争议停止，家庭关系逐渐恢复。",fail:"有人把让步理解成默认自己理亏。"}
+ ]},
+{id:"human_subscription_trap",title:"你发现自己每月被大量小额自动扣费",desc:"单项金额都不大，合计却已经影响储蓄。部分服务取消流程十分复杂。",choices:[
+  {text:"彻底整理账单并逐项取消",hint:"依赖智力",need:"mind",fx:{mind:[1,3],family:[2,4]},lifeTrack:{stability:2},success:"你堵住了长期漏财，也更清楚真实生活成本。",fail:"大部分扣费被取消，但仍有几个项目隐藏得很深。"},
+  {text:"依据规则要求退款",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[1,5],charm:[-1,1]},lifeTrack:{reputation:1,stability:2},success:"你追回了一部分不合理扣款。",fail:"条款对平台更有利，但你至少阻止了后续扣费。"},
+  {text:"让理财系统自动归类和提醒",hint:"需要经营手札",need:"mind",requiresLegacy:"career_legacy",fx:{mind:[1,3],family:[2,4]},lifeTrack:{career:1,stability:2},success:"自动提醒让你的现金流更稳定。",fail:"工具只能发现问题，仍需要你亲自处理。"},
+  {text:"不处理，认为金额不大",hint:"避免当下麻烦",need:"family",fx:{family:[-3,-1],body:[0,1]},lifeTrack:{stability:-1},success:"短期没有明显影响。",fail:"一年后累计金额远超预期。"}
  ]}
 ],
 "爱情":[
@@ -802,6 +850,12 @@ const eventBank={
   {text:"先试着共同生活三个月",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],body:[-1,1]},lifeTrack:{success:{bonds:3,stability:2},fail:{bonds:-1,stability:-1}},success:"你们重新认识彼此，而不是假装回到从前。",fail:"距离消失后，长期被忽略的问题全部出现。"},
   {text:"直接结婚或建立长期家庭",hint:"依赖家境与承诺",need:"family",fx:{family:[-2,3],charm:[-2,4]},lifeTrack:{success:{bonds:3,stability:3},fail:{bonds:-2,stability:-2}},success:"共同生活逐渐稳定，你们把等待变成了真正的日常。",fail:"决定过快，现实磨合远比想象更困难。"},
   {text:"承认已经不再适合，和平结束",hint:"依赖智力",need:"mind",fx:{mind:[1,3],charm:[-2,0],body:[0,1]},lifeTrack:{stability:1,bonds:-1},success:"你们没有否定过去，也没有继续消耗未来。",fail:"结束仍然带来很长的空白期。"}
+ ]},
+{id:"human_social_media_jealousy",title:"伴侣频繁查看你的社交记录并产生猜疑",desc:"事情没有明确背叛证据，但双方对隐私和安全感的理解完全不同。",choices:[
+  {text:"讨论边界和真正的不安全感",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],mind:[1,2]},lifeTrack:{success:{bonds:3,stability:1},fail:{bonds:-1}},success:"你们把争吵背后的恐惧说了出来。",fail:"理解彼此并不等于立刻改变习惯。"},
+  {text:"共同制定双方都遵守的隐私规则",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],charm:[0,2]},lifeTrack:{bonds:2,stability:2},success:"清晰规则减少了反复试探。",fail:"规则写得很清楚，情绪仍然会越过规则。"},
+  {text:"交出所有账号和设备",hint:"用隐私换短期平静",need:"charm",fx:{charm:[-3,2],body:[-1,1]},lifeTrack:{bonds:1,stability:-1},success:"短期猜疑减少，但关系变得更加依赖检查。",fail:"新的检查并没有带来真正安全感。"},
+  {text:"结束缺乏信任的关系",hint:"保护长期边界",need:"mind",fx:{mind:[1,3],charm:[-3,-1],body:[0,2]},lifeTrack:{stability:1,bonds:-3},success:"你离开了不断被审查的关系。",fail:"决定正确与否并不能立刻消除失去。"}
  ]}
 ],
 "健康":[
@@ -829,6 +883,12 @@ const eventBank={
   {text:"按照循证方案长期康复",hint:"需要医疗常识",need:"body",requiresLegacy:"medical_legacy",fx:{body:[2,5],mind:[1,2],family:[-2,0]},lifeTrack:{stability:2},success:"恢复虽慢，却持续而稳定。",fail:"进展有限，但你避免了二次损伤。"},
   {text:"尝试高强度突破训练",hint:"高风险体质路线",need:"body",fx:{body:[-4,5],mind:[0,2]},lifeTrack:{success:{stability:2},fail:{stability:-2}},success:"你突破平台期，重新获得一部分失去的能力。",fail:"过度训练导致伤情反复。",deathOnFail:{chance:5,cause:"康复期进行高强度训练时发生严重心肺意外"}},
   {text:"调整目标，学习与限制共处",hint:"依赖智力与关系支持",need:"mind",fx:{mind:[2,4],charm:[1,3],body:[0,1]},lifeTrack:{stability:3,bonds:1},success:"你没有完全恢复从前，却建立了新的完整生活。",fail:"接受现实比说出来更困难。"}
+ ]},
+{id:"human_sleep_warning",title:"你的智能设备连续数周提示睡眠和心率异常",desc:"你白天仍能工作，因此一直把提醒当成误差。最近一次夜间心率异常持续了很久。",choices:[
+  {text:"携带完整记录去正规检查",hint:"需要医疗常识",need:"mind",requiresLegacy:"medical_legacy",fx:{mind:[1,3],body:[1,4],family:[-1,0]},lifeTrack:{stability:2},success:"检查发现了可干预的问题，你及时开始治疗。",fail:"暂时没有明确诊断，但医生建议继续监测。"},
+  {text:"先彻底停止熬夜和刺激性饮料",hint:"依赖体质和自律",need:"body",fx:{body:[1,4],mind:[0,1]},lifeTrack:{stability:2},success:"睡眠和心率逐渐改善。",fail:"生活调整有帮助，却没有完全解决问题。"},
+  {text:"继续观察，等出现明显症状再说",hint:"省去当前麻烦",need:"body",fx:{body:[-4,1],family:[0,1]},lifeTrack:{stability:-1},success:"异常没有继续发展。",fail:"一次夜间心律失常让你被紧急送医。",deathOnFail:{chance:9,cause:"长期忽视夜间心率异常后发生恶性心律失常，抢救无效"}},
+  {text:"购买大量保健产品自行调整",hint:"高花费、结果不确定",need:"family",fx:{family:[-4,-1],body:[-2,2]},lifeTrack:{stability:-1},success:"部分生活习惯因此改善，但产品本身作用有限。",fail:"错误搭配反而加重了身体不适。"}
  ]}
 ],
 "家庭":[
@@ -857,6 +917,12 @@ const eventBank={
   {text:"先理解孩子为什么喜欢它",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],mind:[0,2]},lifeTrack:{bonds:3},success:"你们找到了兴趣背后的需要，也建立了更真实的信任。",fail:"理解没有立刻解决资源和未来的问题。"},
   {text:"要求优先完成主流学业",hint:"强调稳定",need:"family",fx:{family:[1,2],charm:[-3,0],mind:[0,1]},lifeTrack:{stability:2,bonds:-2},success:"孩子保持了基本成绩，同时有限保留兴趣。",fail:"兴趣逐渐消失，关系也变得更疏远。"},
   {text:"投入资源让孩子全力尝试",hint:"高风险家庭路线",need:"family",fx:{family:[-5,3],charm:[1,4]},lifeTrack:{success:{bonds:3,reputation:1},fail:{stability:-2,bonds:0}},success:"孩子在冷门领域获得罕见机会。",fail:"投入没有得到结果，家庭需要重新承担成本。"}
+ ]},
+{id:"human_family_group_conflict",title:"家庭群里的一次争论演变成长期冷战",desc:"最初只是对一件小事的不同意见，后来每个人都开始翻旧账。",choices:[
+  {text:"分别倾听每个人真正介意的事情",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],mind:[0,2]},lifeTrack:{success:{bonds:4,stability:1},fail:{bonds:-1}},success:"你发现冲突真正来源于长期未被承认的付出。",fail:"每个人都愿意单独说，却不愿意面对彼此。"},
+  {text:"整理事实和时间线，停止反复翻旧账",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],charm:[0,2]},lifeTrack:{bonds:2,stability:2},success:"明确事实让争论逐渐回到可以解决的问题。",fail:"事实清楚了，情绪仍然没有出口。"},
+  {text:"组织一次线下家庭聚餐",hint:"依赖家境与魅力",need:"charm",fx:{family:[-2,0],charm:[1,4]},lifeTrack:{success:{bonds:3},fail:{bonds:-2}},success:"面对面的交流让很多激烈表达自然软化。",fail:"聚餐变成了新一轮争吵。"},
+  {text:"退出群聊，暂时远离冲突",hint:"保护自身情绪",need:"body",fx:{body:[1,3],charm:[-2,0]},lifeTrack:{stability:2,bonds:-2},success:"距离让你恢复平静，也让其他人自行处理问题。",fail:"沉默被理解成站队。"}
  ]}
 ],
 "奇遇":[
@@ -952,6 +1018,12 @@ const eventBank={
   {text:"用旧识人脉拓展职业和生活圈",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,3],family:[0,3]},lifeTrack:{career:2,bonds:1},success:"一段旧关系为你连接出整个新网络。",fail:"工作关系增加了，生活中的孤独并没有完全消失。"},
   {text:"买房或签长期租约",hint:"用资源换确定感",need:"family",fx:{family:[-5,2],body:[0,1]},lifeTrack:{stability:3},success:"固定住所让生活开始有了长期结构。",fail:"住所稳定了，内心仍然把这里视为过渡。"},
   {text:"承认不适合，再次离开",hint:"依赖体质与决断",need:"body",fx:{body:[-2,2],mind:[1,3],family:[-2,1]},lifeTrack:{career:0,stability:-1},success:"你没有把沉没成本误认为归属。",fail:"连续迁徙消耗了更多资源和关系。"}
+ ]},
+{id:"human_return_hometown",title:"多年在外后，家乡出现一个不错的工作机会",desc:"收入可能下降，但能靠近家人；留下则意味着继续远离熟悉的人。",choices:[
+  {text:"回家乡重新建立生活",hint:"需要家族档案或共情余温",need:"charm",requiresAnyLegacy:["family_archive","empathy_legacy"],fx:{charm:[2,4],family:[-2,2],body:[0,2]},setLifeFlags:{movedCity:true},lifeTrack:{bonds:3,stability:2,career:-1},success:"你重新连接了家庭和旧关系，也找到了新的生活节奏。",fail:"回去以后才发现，记忆中的家乡已经改变。"},
+  {text:"先远程试做三个月",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[0,2]},lifeTrack:{career:1,stability:2},success:"试运行让你看清工作和生活是否真正适合。",fail:"双方对远程协作的期待差异很大。"},
+  {text:"通过旧识提前了解真实情况",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[0,2]},lifeTrack:{career:1,bonds:2},success:"你避免了只凭宣传和情感作出决定。",fail:"熟人的信息也带有各自立场。"},
+  {text:"继续留在当前城市",hint:"维持已有事业",need:"family",fx:{family:[1,3],charm:[-1,1]},lifeTrack:{career:2,stability:1,bonds:-1},success:"你守住了已经建立的生活。",fail:"与家人的距离仍然成为长期问题。"}
  ]}
 ],
 "友情":[
@@ -976,6 +1048,12 @@ const eventBank={
   {text:"签署清晰借款协议",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{family:[-3,2],charm:[-1,2]},lifeTrack:{stability:1,bonds:0},success:"边界清楚反而保护了友情。",fail:"对方认为协议意味着不信任。"},
   {text:"只提供自己承受得起的小额帮助",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{family:[-2,-1],charm:[2,4]},setLifeFlags:{friendAlliance:true},lifeTrack:{bonds:3,stability:0},success:"你提供了真实帮助，也没有把自己拖入困境。",fail:"小额帮助无法解决对方的核心问题。"},
   {text:"直接拒绝",hint:"保护资源",need:"family",fx:{family:[1,2],charm:[-3,0]},lifeTrack:{stability:2,bonds:-2},success:"你守住了边界，关系经过一段时间后恢复。",fail:"这段友情从此变得疏远。"}
+ ]},
+{id:"human_friend_business_split",title:"你和好友共同做的小项目开始赚钱",desc:"最初只是互相帮忙，没有合同，也没有明确约定谁拥有客户和成果。",choices:[
+  {text:"趁关系尚好，补签清晰协议",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[1,4],charm:[0,2]},lifeTrack:{career:2,bonds:2,stability:2},success:"边界清楚后，合作反而更加轻松。",fail:"对方认为正式协议破坏了最初的信任。"},
+  {text:"按照实际贡献重新分配",hint:"需要经营手札",need:"mind",requiresLegacy:"career_legacy",fx:{mind:[1,4],family:[1,5],charm:[-1,2]},lifeTrack:{success:{career:3,bonds:1},fail:{career:0,bonds:-2}},success:"新的分配让双方都愿意继续投入。",fail:"对贡献的理解完全不同。"},
+  {text:"维持口头约定，相信友情",hint:"关系优先",need:"charm",fx:{charm:[1,3],family:[-3,4]},lifeTrack:{bonds:2,stability:-2},success:"你们罕见地在没有正式规则下仍然保持公平。",fail:"项目越成功，模糊边界造成的矛盾越大。"},
+  {text:"主动退出，把项目留给朋友",hint:"避免关系和利益继续冲突",need:"charm",fx:{family:[-2,0],charm:[1,4]},lifeTrack:{bonds:2,career:-2},success:"你失去未来收益，却保住了一段重要关系。",fail:"对方仍然认为你在关键时刻抛下项目。"}
  ]}
 ],
 "名望":[
@@ -1006,6 +1084,12 @@ const eventBank={
   {text:"亲自讲述并动员公众",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],body:[-2,0]},lifeTrack:{success:{reputation:5,bonds:1},fail:{reputation:-2}},success:"大量人愿意提供小额帮助，影响远超预期。",fail:"情绪动员很成功，后续执行却没有跟上。"},
   {text:"只转发，不承担管理责任",hint:"降低个人风险",need:"mind",fx:{charm:[0,2],family:[0,1]},lifeTrack:{reputation:1,stability:1},success:"信息得到传播，你没有越过自己的能力边界。",fail:"项目方仍把你的转发当成了背书。"},
   {text:"拒绝参与",hint:"保护个人生活",need:"family",fx:{body:[0,2],charm:[-2,0]},lifeTrack:{stability:2,reputation:-1},success:"你避免承担无法核实的责任。",fail:"部分关注者认为你只享受名望，不愿承担公共责任。"}
+ ]},
+{id:"human_public_apology",title:"你在公开场合说错了一句话",desc:"事情本身不算严重，但传播速度很快。删除、解释和道歉都会被不同人解读。",choices:[
+  {text:"迅速承认错误并说明改正方式",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[1,4],mind:[1,2]},lifeTrack:{success:{reputation:3,stability:1},fail:{reputation:-1}},success:"明确承担责任让争议逐渐平息。",fail:"部分人认为道歉只是危机公关。"},
+  {text:"保存完整上下文后正式回应",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],charm:[0,2]},lifeTrack:{reputation:2,stability:2},success:"完整记录避免了问题被进一步扩大。",fail:"上下文能解释原因，却不能完全消除伤害。"},
+  {text:"删除内容并保持沉默",hint:"等待热度过去",need:"body",fx:{body:[1,2],charm:[-3,0]},lifeTrack:{stability:1,reputation:-2},success:"关注很快转移到其他话题。",fail:"删除被截图保存，沉默反而增加猜测。"},
+  {text:"与批评者持续争论",hint:"高消耗路线",need:"charm",fx:{charm:[-4,3],body:[-3,-1]},lifeTrack:{reputation:-2,stability:-2},success:"你说服了一小部分人。",fail:"争论不断产生新的片段，事件持续发酵。"}
  ]}
 ],
 "时代":[
@@ -1031,6 +1115,12 @@ const eventBank={
   {text:"公开组织用户共同迁移",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[0,2]},setLifeFlags:{communityLeader:true},lifeTrack:{reputation:3,bonds:2},success:"用户建立了替代社区，你也获得新的影响力。",fail:"组织成本很高，大多数人仍然各自离开。"},
   {text:"用技术和手艺自建独立空间",hint:"需要手艺火种",need:"mind",requiresLegacy:"craft_legacy",fx:{mind:[1,4],family:[-3,2]},setLifeFlags:{independentWorker:true},lifeTrack:{career:3,stability:1},success:"你不再完全依赖单一平台。",fail:"维护独立系统消耗了大量时间和资源。"},
   {text:"接受损失，从头开始",hint:"依赖体质和适应力",need:"body",fx:{body:[-1,2],mind:[1,2],family:[-2,0]},lifeTrack:{career:0,stability:-1},success:"失去积累很痛，但你重新建立了更健康的结构。",fail:"重新开始比预想更慢。"}
+ ]},
+{id:"human_ai_impersonation",title:"有人使用生成技术冒充你的声音和形象",desc:"伪造内容被发给同事和亲友，部分人已经相信。",choices:[
+  {text:"保存证据并向平台与相关方申诉",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],family:[-2,1]},lifeTrack:{reputation:2,stability:2},success:"多个平台标记并删除了伪造内容。",fail:"传播速度快于处理流程。"},
+  {text:"用公众渠道演示如何辨别伪造",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[1,2]},setLifeFlags:{publicFigure:true},lifeTrack:{reputation:4,bonds:1},success:"你不仅澄清自身，也帮助更多人理解风险。",fail:"部分观众反而把澄清视频当成另一段伪造内容。"},
+  {text:"建立与亲友之间的验证口令",hint:"需要人情或共情传承",need:"charm",requiresAnyLegacy:["social_legacy","empathy_legacy"],fx:{charm:[1,4],mind:[0,2]},lifeTrack:{bonds:3,stability:2},success:"亲近关系没有再被伪造内容轻易欺骗。",fail:"口令保护了少数人，却无法阻止公共传播。"},
+  {text:"不回应，认为很快会被识破",hint:"省去当下精力",need:"body",fx:{body:[0,2],charm:[-4,-1]},lifeTrack:{reputation:-3,stability:-1},success:"伪造内容很快暴露出明显漏洞。",fail:"沉默期间，误解已经造成真实损失。"}
  ]}
 ],
 "天灾":[
@@ -1673,7 +1763,13 @@ function renderMetaSummary(){
     <div class="metaItem"><b>永久加成：</b>体质 +${m.bonus.body} / 智力 +${m.bonus.mind} / 魅力 +${m.bonus.charm} / 家境 +${m.bonus.family}</div>
     <div class="metaItem"><b>命运强化：</b>全判定 +${m.chanceAll}% / 额外重抽 +${m.rerollBonus} / 寿命 +${m.lifespanBonus} 年</div>
     <div class="metaItem"><b>隐藏世界线：</b>${m.cultivationUnlocked?"已继承修真线索，下一世可逐步寻道":"尚未继承；带有未知回声的能力可能在结局中留下线索"}</div>
-    <div class="metaItem"><b>传承能力：</b><div class="abilityBar" style="padding-top:8px">${legacyNames||'<span class="muted">暂无传承</span>'}</div></div>
+    <div class="metaItem full">
+      <b>传承能力：</b>
+      <div class="legacyScroll">
+        <div class="legacyWrap">${legacyNames||'<span class="muted">暂无传承</span>'}</div>
+      </div>
+      <div class="legacyHint">传承较多时，可在此区域上下滑动查看全部内容。</div>
+    </div>
   `;
 }
 function changePoint(k,d){
