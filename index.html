@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>随机人生模拟器 · 多人派对版</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#141b34;
+      --panel2:#1b2547;
+      --text:#f7f8ff;
+      --muted:#aeb8d9;
+      --accent:#8b7cff;
+      --accent2:#49d9b0;
+      --danger:#ff6b86;
+      --gold:#ffd166;
+      --shadow:0 18px 60px rgba(0,0,0,.35);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:
+      radial-gradient(circle at 15% 10%,rgba(139,124,255,.22),transparent 30%),
+      radial-gradient(circle at 85% 15%,rgba(73,217,176,.16),transparent 28%),
+      radial-gradient(circle at 50% 100%,rgba(255,107,134,.13),transparent 30%),
+      var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+    button,input,select{font:inherit}
+    button{border:0;cursor:pointer}
+    .app{width:min(1100px,100%);margin:auto;padding:20px 16px 40px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+    .brand{font-weight:900;font-size:clamp(20px,4vw,30px);letter-spacing:.5px}
+    .brand span{color:var(--accent2)}
+    .pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);padding:8px 12px;border-radius:999px;color:var(--muted);font-size:13px}
+    .screen{display:none}
+    .screen.active{display:block;animation:fade .28s ease}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .card{background:linear-gradient(180deg,rgba(27,37,71,.98),rgba(20,27,52,.98));border:1px solid rgba(255,255,255,.09);box-shadow:var(--shadow);border-radius:var(--radius);padding:20px}
+    .hero{padding:34px 22px;text-align:center}
+    .hero-emoji{font-size:72px;filter:drop-shadow(0 12px 24px rgba(0,0,0,.35));animation:float 3s ease-in-out infinite}
+    @keyframes float{50%{transform:translateY(-8px) rotate(2deg)}}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(32px,8vw,58px);line-height:1.06;margin-bottom:12px}
+    h2{font-size:clamp(24px,5vw,36px)}
+    .sub{color:var(--muted);line-height:1.8;max-width:720px;margin:0 auto 22px}
+    .btn{padding:13px 18px;border-radius:15px;font-weight:800;color:white;background:linear-gradient(135deg,var(--accent),#6f5cff);box-shadow:0 10px 24px rgba(139,124,255,.25);transition:.18s transform,.18s opacity}
+    .btn:hover{transform:translateY(-2px)}
+    .btn:active{transform:translateY(0) scale(.98)}
+    .btn.secondary{background:rgba(255,255,255,.08);box-shadow:none;border:1px solid rgba(255,255,255,.1)}
+    .btn.green{background:linear-gradient(135deg,var(--accent2),#1ebf93);box-shadow:0 10px 24px rgba(73,217,176,.2)}
+    .btn.danger{background:linear-gradient(135deg,var(--danger),#e84264)}
+    .btn.gold{background:linear-gradient(135deg,#ffcf67,#f6a800);color:#251800}
+    .btn.small{padding:9px 12px;border-radius:12px;font-size:13px}
+    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+    .setup-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}
+    @media(max-width:780px){.setup-grid{grid-template-columns:1fr}}
+    label{display:block;color:var(--muted);font-size:14px;margin:12px 0 7px}
+    input,select{width:100%;background:#0d1430;color:white;border:1px solid rgba(255,255,255,.13);border-radius:13px;padding:12px 13px;outline:none}
+    input:focus,select:focus{border-color:var(--accent)}
+    .player-input{display:flex;gap:8px;margin-bottom:8px}
+    .player-input input{flex:1}
+    .tiny{font-size:12px;color:var(--muted);line-height:1.6}
+    .rules{display:grid;gap:9px;margin-top:12px}
+    .rule{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.045);padding:11px;border-radius:14px}
+    .rule b{color:var(--accent2)}
+    .game-layout{display:grid;grid-template-columns:260px 1fr;gap:16px}
+    @media(max-width:860px){.game-layout{grid-template-columns:1fr}.sidebar{order:2}}
+    .players{display:grid;gap:10px}
+    .player-card{background:rgba(255,255,255,.055);border:1px solid transparent;border-radius:16px;padding:12px;transition:.2s}
+    .player-card.active{border-color:var(--accent2);box-shadow:0 0 0 2px rgba(73,217,176,.11);transform:translateX(3px)}
+    .player-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+    .player-name{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .score-mini{font-size:12px;color:var(--gold)}
+    .bars{display:grid;gap:6px}
+    .bar-row{display:grid;grid-template-columns:45px 1fr 28px;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+    .bar{height:7px;background:#091027;border-radius:99px;overflow:hidden}
+    .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.45s width}
+    .turn-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}
+    .turn-title{font-size:24px;font-weight:900}
+    .meta{color:var(--muted);font-size:13px;line-height:1.65}
+    .event-card{position:relative;overflow:hidden;min-height:420px}
+    .event-card::before{content:"";position:absolute;inset:-80px auto auto -80px;width:220px;height:220px;border-radius:50%;background:rgba(139,124,255,.12);filter:blur(5px)}
+    .event-inner{position:relative;z-index:1}
+    .event-icon{font-size:64px;margin:8px 0 10px}
+    .event-tag{display:inline-flex;padding:7px 10px;border-radius:999px;background:rgba(73,217,176,.11);border:1px solid rgba(73,217,176,.24);color:#8ff0d3;font-size:12px;font-weight:800;margin-bottom:10px}
+    .event-title{font-size:clamp(24px,5vw,38px);font-weight:950;line-height:1.22;margin-bottom:12px}
+    .event-desc{color:#d7def5;line-height:1.8;font-size:16px}
+    .choices{display:grid;gap:10px;margin-top:18px}
+    .choice{width:100%;text-align:left;background:rgba(255,255,255,.07);color:white;border:1px solid rgba(255,255,255,.11);padding:15px;border-radius:16px;transition:.2s}
+    .choice:hover{border-color:var(--accent);background:rgba(139,124,255,.13);transform:translateY(-2px)}
+    .choice b{display:block;font-size:15px;margin-bottom:3px}
+    .choice span{color:var(--muted);font-size:12px}
+    .result{display:none;margin-top:18px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.09);padding:16px;border-radius:16px}
+    .result.show{display:block;animation:pop .24s ease}
+    @keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+    .result-title{font-size:20px;font-weight:900;margin-bottom:8px}
+    .effects{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+    .effect{padding:6px 9px;border-radius:10px;background:rgba(255,255,255,.07);font-size:12px}
+    .effect.good{color:#8ff0d3}.effect.bad{color:#ff9bad}.effect.neutral{color:#ffe39b}
+    .news{margin-top:12px;border-top:1px solid rgba(255,255,255,.08);padding-top:12px;color:var(--muted);font-size:12px;max-height:120px;overflow:auto}
+    .news div{margin-bottom:6px}
+    .top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(4,7,18,.82);backdrop-filter:blur(10px);z-index:20}
+    .modal.show{display:flex}
+    .modal-box{width:min(560px,100%);max-height:90vh;overflow:auto}
+    .codebox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;background:#081027;padding:12px;border-radius:12px;color:#bfe9ff;max-height:150px;overflow:auto;font-size:12px}
+    .leaderboard{display:grid;gap:12px;margin-top:18px}
+    .rank{display:grid;grid-template-columns:46px 1fr auto;gap:12px;align-items:center;background:rgba(255,255,255,.06);padding:14px;border-radius:16px}
+    .rank:first-child{background:linear-gradient(135deg,rgba(255,209,102,.18),rgba(255,255,255,.06));border:1px solid rgba(255,209,102,.35)}
+    .medal{font-size:30px;text-align:center}
+    .ending{color:var(--muted);font-size:13px;margin-top:5px}
+    .final-score{font-size:25px;font-weight:950;color:var(--gold)}
+    .achievement{display:inline-block;margin:4px 4px 0 0;padding:5px 8px;border-radius:9px;background:rgba(139,124,255,.14);color:#cfc8ff;font-size:11px}
+    .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+    .confetti i{position:absolute;top:-20px;width:10px;height:18px;background:hsl(var(--h),80%,60%);animation:fall var(--d) linear forwards;transform:rotate(var(--r))}
+    @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+    .footer{text-align:center;color:#7280a7;font-size:12px;margin-top:22px}
+    .pass-screen{text-align:center;padding:30px}
+    .pass-avatar{font-size:85px;margin:10px 0}
+    .hide{display:none!important}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">🎲 随机人生<span>模拟器</span></div>
+    <div class="pill">多人派对版 · 单机同屏</div>
+  </div>
+
+  <section id="home" class="screen active">
+    <div class="card hero">
+      <div class="hero-emoji">🧬</div>
+      <h1>你的人生，<br>可能比小说还离谱</h1>
+      <p class="sub">从 18 岁开始，在工作、爱情、健康、财富和各种荒唐事件里做选择。支持 2–6 人轮流玩，最后比谁的人生最精彩。</p>
+      <div class="actions">
+        <button class="btn green" onclick="showScreen('setup')">开始新人生</button>
+        <button class="btn secondary" onclick="openLoad()">导入房间码</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="rules">
+        <div class="rule"><span>🎭</span><div><b>随机但不无聊</b><br><span class="tiny">每回合会遇到工作、恋爱、金钱、社交和“这也行？”事件。</span></div></div>
+        <div class="rule"><span>👥</span><div><b>适合朋友一起玩</b><br><span class="tiny">2–6 人同屏轮流，每个人都有自己的属性、职业、关系和结局。</span></div></div>
+        <div class="rule"><span>💾</span><div><b>随时保存继续</b><br><span class="tiny">导出房间码，换设备也能接着玩。</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="setup" class="screen">
+    <div class="setup-grid">
+      <div class="card">
+        <h2>创建玩家</h2>
+        <p class="sub" style="margin-left:0">至少 2 人，最多 6 人。名字越离谱，代入感越强。</p>
+        <div id="playerInputs"></div>
+        <div class="actions" style="justify-content:flex-start;margin-top:10px">
+          <button class="btn secondary small" onclick="addPlayerInput()">＋ 添加玩家</button>
+          <button class="btn secondary small" onclick="randomizeNames()">🎲 随机名字</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>游戏设置</h3>
+        <label>游戏长度</label>
+        <select id="gameLength">
+          <option value="10">快速局 · 10 回合</option>
+          <option value="16" selected>标准局 · 16 回合</option>
+          <option value="24">史诗局 · 24 回合</option>
+        </select>
+        <label>疯狂程度</label>
+        <select id="chaosLevel">
+          <option value="0.8">轻松人生</option>
+          <option value="1" selected>正常离谱</option>
+          <option value="1.35">全面失控</option>
+        </select>
+        <label>开局年龄</label>
+        <select id="startAge">
+          <option value="18" selected>18 岁 · 刚成年</option>
+          <option value="22">22 岁 · 毕业季</option>
+          <option value="30">30 岁 · 已经不年轻</option>
+        </select>
+        <div style="margin-top:18px">
+          <button class="btn green" style="width:100%" onclick="startGame()">投胎并开始</button>
+        </div>
+        <button class="btn secondary" style="width:100%;margin-top:9px" onclick="showScreen('home')">返回</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="pass" class="screen">
+    <div class="card pass-screen">
+      <div class="pass-avatar" id="passAvatar">🙈</div>
+      <h2>请把设备交给 <span id="passName"></span></h2>
+      <p class="sub">其他人先别偷看，人生选择最怕被朋友指挥。</p>
+      <button class="btn green" onclick="revealTurn()">我准备好了</button>
+    </div>
+  </section>
+
+  <section id="game" class="screen">
+    <div class="game-layout">
+      <aside class="card sidebar">
+        <div class="player-head">
+          <h3 style="margin:0">人生榜</h3>
+          <div class="score-mini" id="roundInfo"></div>
+        </div>
+        <div id="playersList" class="players"></div>
+        <div class="news" id="newsLog"></div>
+      </aside>
+      <main>
+        <div class="card event-card">
+          <div class="event-inner">
+            <div class="turn-head">
+              <div>
+                <div class="turn-title" id="currentPlayerTitle"></div>
+                <div class="meta" id="currentMeta"></div>
+              </div>
+              <div class="top-actions">
+                <button class="btn secondary small" onclick="openSave()">保存</button>
+                <button class="btn secondary small" onclick="confirmQuit()">退出</button>
+              </div>
+            </div>
+            <div id="eventArea">
+              <div class="event-tag" id="eventTag"></div>
+              <div class="event-icon" id="eventIcon"></div>
+              <div class="event-title" id="eventTitle"></div>
+              <div class="event-desc" id="eventDesc"></div>
+              <div id="targetWrap" class="hide">
+                <label>选择一名玩家</label>
+                <select id="targetSelect"></select>
+              </div>
+              <div class="choices" id="choices"></div>
+              <div class="result" id="resultBox">
+                <div class="result-title" id="resultTitle"></div>
+                <div id="resultText" class="event-desc"></div>
+                <div class="effects" id="effects"></div>
+                <button class="btn green" style="width:100%;margin-top:8px" id="nextBtn" onclick="nextTurn()">下一位玩家</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="end" class="screen">
+    <div class="card hero">
+      <div class="hero-emoji">🏆</div>
+      <h2>人生结算大会</h2>
+      <p class="sub">人生没有统一答案，但游戏必须有排名。</p>
+      <div id="leaderboard" class="leaderboard"></div>
+      <div class="actions" style="margin-top:22px">
+        <button class="btn green" onclick="rematch()">原班人马再来一局</button>
+        <button class="btn secondary" onclick="resetToHome()">回到首页</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="saveModal" class="modal">
+  <div class="card modal-box">
+    <h3>房间码</h3>
+    <p class="tiny">复制下面的代码发给朋友，对方点击“导入房间码”即可继续。</p>
+    <div id="saveCode" class="codebox"></div>
+    <div class="actions" style="justify-content:flex-start;margin-top:12px">
+      <button class="btn green small" onclick="copySaveCode()">复制</button>
+      <button class="btn secondary small" onclick="closeModal('saveModal')">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div id="loadModal" class="modal">
+  <div class="card modal-box">
+    <h3>导入房间码</h3>
+    <textarea id="loadCode" style="width:100%;min-height:150px;background:#081027;color:white;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;resize:vertical" placeholder="把房间码粘贴到这里"></textarea>
+    <div id="loadError" class="tiny" style="color:#ff9bad;margin-top:8px"></div>
+    <div class="actions" style="justify-content:flex-start;margin-top:12px">
+      <button class="btn green small" onclick="loadGame()">导入并继续</button>
+      <button class="btn secondary small" onclick="closeModal('loadModal')">取消</button>
+    </div>
+  </div>
+</div>
+
+<div id="confetti" class="confetti"></div>
+<div class="footer">随机人生模拟器 · 适合聚会、宿舍、朋友局</div>
+
+<script>
+const emojis = ["🦊","🐼","🐸","🦁","🐙","🦄","🐯","🐧","🐵","🐰","🐻","🦖"];
+const randomNames = ["暴富小王","宇宙靓仔","熬夜冠军","摆烂艺术家","社恐战神","人间锦鲤","工资刺客","恋爱脑袋","赛博包租公","奶茶股神","周一逃犯","灵魂富翁"];
+const statLabels = {health:"健康",happy:"快乐",smart:"智慧",charm:"魅力",money:"金钱",luck:"运气"};
+const statIcons = {health:"❤️",happy:"😄",smart:"🧠",charm:"✨",money:"💰",luck:"🍀"};
+
+let state = null;
+let currentEvent = null;
+let inputCount = 0;
+
+const events = [
+ {cat:"学业",icon:"📚",title:"凌晨三点的选择题",desc:"明天有场决定命运的考试，而你到现在只复习了目录。",choices:[
+  {t:"通宵硬学",hint:"健康换知识",fx:{smart:[7,12],health:[-10,-5],happy:[-4,1]},r:["你在咖啡因和意志力的夹缝中看见了答案。","你学会了知识，也学会了心悸。"]},
+  {t:"相信直觉，直接睡",hint:"运气决定一切",fx:{health:[3,7],luck:[-3,5],smart:[-2,4]},r:["你睡得很香，考试时也很香。","神奇的是，你蒙对了不少。"]},
+  {t:"组建临时互助群",hint:"魅力与智慧双修",fx:{charm:[3,8],smart:[3,8],money:[-3,0]},r:["你们互相拯救，顺便建立了革命友谊。"]}
+ ]},
+ {cat:"工作",icon:"💼",title:"老板说“简单改一下”",desc:"下班前五分钟，老板发来一份 48 页的修改意见。",choices:[
+  {t:"今晚就肝完",hint:"钱可能更多，人可能没了",fx:{money:[6,12],health:[-9,-4],happy:[-8,-3]},r:["你完成了奇迹，也失去了今晚。"]},
+  {t:"认真谈排期",hint:"智慧型职场人",fx:{smart:[4,8],charm:[1,5],money:[-2,4]},r:["老板沉默了十秒，然后第一次把你当成年人。"]},
+  {t:"假装网络断了",hint:"高风险摸鱼",fx:{luck:[-8,8],happy:[4,9],money:[-8,3]},r:["你关掉 Wi‑Fi，也关掉了责任感。","老板真的没发现，你赢得了一个晚上。"]}
+ ]},
+ {cat:"财富",icon:"📈",title:"朋友推荐“稳赚项目”",desc:"他说只差最后一个合伙人，而且特意强调绝对不是拉人头。",choices:[
+  {t:"梭哈！富贵险中求",hint:"大起大落",fx:{money:[-18,22],luck:[-4,4]},r:["你体验了一次财富过山车。"]},
+  {t:"先查资料再决定",hint:"稳健派",fx:{smart:[4,8],money:[0,7]},r:["你发现这个项目最大的产品，是合伙人本人。"]},
+  {t:"拉另一个朋友进来",hint:"缺德但可能有用",fx:{charm:[-8,4],money:[-4,10],happy:[-3,4]},target:true,r:["友情经受了一次不必要的压力测试。"]}
+ ]},
+ {cat:"爱情",icon:"💘",title:"心动对象发来：“睡了吗？”",desc:"现在是凌晨 1:47。你的理智睡了，但手还醒着。",choices:[
+  {t:"秒回：没睡",hint:"直接进攻",fx:{charm:[4,10],happy:[-2,10],health:[-3,0]},rel:[0,2],r:["聊天持续到天亮，你的黑眼圈有了爱情的形状。"]},
+  {t:"等十分钟再回",hint:"故作从容",fx:{smart:[1,4],charm:[-2,8],happy:[-2,5]},rel:[-1,1],r:["你精准拿捏了‘我刚好看到’的虚假从容。"]},
+  {t:"明早再说",hint:"健康第一",fx:{health:[4,8],happy:[-4,4],charm:[-3,2]},rel:[-1,0],r:["你保住了睡眠，也可能错过了剧情。"]}
+ ]},
+ {cat:"社交",icon:"🥳",title:"同学聚会突然点名",desc:"大家让你讲讲这些年混得怎么样，全桌目光瞬间锁定你。",choices:[
+  {t:"实话实说",hint:"稳定发挥",fx:{charm:[1,5],happy:[1,5]},r:["你的坦诚让现场少了攀比，多了两分钟真诚。"]},
+  {t:"适度包装",hint:"魅力挑战",fx:{charm:[3,9],money:[-2,2],luck:[-2,2]},r:["你把普通生活讲出了上市发布会的气势。"]},
+  {t:"反问最爱炫耀的人",hint:"转移火力",fx:{smart:[2,6],charm:[-4,5]},target:true,r:["你成功把聚光灯扔给了别人。"]}
+ ]},
+ {cat:"健康",icon:"🏥",title:"体检报告出现小箭头",desc:"医生说问题不大，但建议你别再把身体当充电宝用。",choices:[
+  {t:"立刻健身养生",hint:"长期收益",fx:{health:[10,16],money:[-5,-1],happy:[-3,3]},r:["你买了装备、办了卡，还真的去了两次。"]},
+  {t:"先搜索一下",hint:"互联网自诊",fx:{smart:[-3,3],health:[-5,2],happy:[-8,-2]},r:["十分钟后，你怀疑自己只剩三天。"]},
+  {t:"装没看见",hint:"快乐但危险",fx:{happy:[3,7],health:[-10,-4]},r:["你关闭报告，报告却没有关闭你。"]}
+ ]},
+ {cat:"奇遇",icon:"🧳",title:"突然获得一张免费机票",desc:"目的地随机，日期是明天，同行者未知。",choices:[
+  {t:"马上出发",hint:"高随机收益",fx:{happy:[6,14],money:[-8,2],luck:[2,8],charm:[1,5]},r:["你遇见了新风景，也遇见了机场泡面。"]},
+  {t:"卖给别人",hint:"现实主义",fx:{money:[7,13],happy:[-2,3]},r:["旅行变成了现金，浪漫完成了折现。"]},
+  {t:"邀请一位玩家同行",hint:"双人事件",fx:{happy:[4,9],charm:[2,6],money:[-5,-1]},target:true,targetFx:{happy:[3,8],money:[-5,-1]},r:["你们一起出发，回来后多了三百张照片和一个梗。"]}
+ ]},
+ {cat:"家庭",icon:"🏠",title:"家里催你做人生大决定",desc:"亲戚们已经替你规划了工作、对象、房子和孩子的名字。",choices:[
+  {t:"认真沟通边界",hint:"成熟但费脑",fx:{smart:[3,7],charm:[1,4],happy:[-2,4]},r:["你第一次把‘为你好’翻译成了可讨论的语言。"]},
+  {t:"点头但不执行",hint:"东方智慧",fx:{happy:[2,6],smart:[1,4],luck:[-2,2]},r:["你熟练掌握了‘嗯嗯好的’这门非物质文化遗产。"]},
+  {t:"当场反向催婚亲戚",hint:"伤敌一千",fx:{charm:[-6,4],happy:[3,8]},r:["饭桌安静了。你赢了，但下次聚餐可能没你。"]}
+ ]},
+ {cat:"网络",icon:"📱",title:"你的视频突然火了",desc:"一夜之间十万人关注你，但评论区已经开始研究你的童年。",choices:[
+  {t:"趁热做博主",hint:"魅力与金钱",fx:{charm:[7,13],money:[5,14],health:[-6,-2]},career:"自由博主",r:["你学会了流量密码，也开始被流量绑架。"]},
+  {t:"低调删除",hint:"平静生活",fx:{happy:[2,8],charm:[-2,2]},r:["互联网忘了你，至少暂时忘了。"]},
+  {t:"让朋友帮忙运营",hint:"多人合作",fx:{money:[3,9],charm:[4,8]},target:true,targetFx:{money:[2,6],smart:[2,5]},r:["你们成立了草台班子，居然还接到了广告。"]}
+ ]},
+ {cat:"工作",icon:"🚀",title:"收到一家神秘公司的 offer",desc:"工资翻倍，但职位名称是“首席不确定性处理官”。",choices:[
+  {t:"接受挑战",hint:"换职业，大波动",fx:{money:[8,16],smart:[3,8],health:[-7,-2]},career:"首席不确定性处理官",r:["没人知道你在做什么，包括你自己，但工资准时到账。"]},
+  {t:"拒绝，继续稳定",hint:"快乐小涨",fx:{happy:[2,7],luck:[-1,3]},r:["你保住了稳定，也保留了一点‘万一呢’。"]},
+  {t:"拿 offer 去谈加薪",hint:"魅力检定",fx:{money:[-2,11],charm:[2,7]},r:["你把人生变成了一场谈判。"]}
+ ]},
+ {cat:"财富",icon:"🏠",title:"房东突然说要涨租",desc:"理由是附近新开了一家精品咖啡店，虽然你从来没喝过。",choices:[
+  {t:"搬家",hint:"花钱换自由",fx:{money:[-10,-4],happy:[2,8],health:[-2,3]},r:["你用十二个纸箱重新理解了人生。"]},
+  {t:"据理力争",hint:"智慧与魅力",fx:{smart:[2,6],charm:[1,6],money:[-4,4]},r:["你引用了合同，房东引用了市场。"]},
+  {t:"找玩家合租",hint:"双人省钱",fx:{money:[3,8],happy:[-3,5]},target:true,targetFx:{money:[2,7],happy:[-3,5]},r:["你们省下了房租，也开始争论谁没倒垃圾。"]}
+ ]},
+ {cat:"荒唐",icon:"🛸",title:"你疑似被外星人选中",desc:"半夜窗外出现强光，手机弹出通知：是否接受跨星系实习？",choices:[
+  {t:"接受",hint:"极度随机",fx:{smart:[5,15],luck:[-8,12],health:[-8,5],money:[-5,14]},career:"跨星系实习生",r:["你见识了宇宙文明，发现他们也要写周报。"]},
+  {t:"拒绝并拉窗帘",hint:"平稳保命",fx:{health:[2,6],happy:[-2,4]},r:["宇宙错过了你，你错过了宇宙。"]},
+  {t:"推荐另一名玩家",hint:"损友专属",fx:{happy:[2,6],charm:[-5,1]},target:true,targetFx:{luck:[-10,10],smart:[2,10]},r:["你把朋友的联系方式交给了银河系猎头。"]}
+ ]},
+ {cat:"爱情",icon:"💍",title:"一场过于完美的相亲",desc:"对方条件好、情绪稳、会做饭，唯一的问题是自称来自未来。",choices:[
+  {t:"继续了解",hint:"恋爱剧情",fx:{happy:[5,12],charm:[2,7],luck:[-3,6]},rel:[1,2],r:["你决定先不管时间悖论，毕竟会做饭是真的。"]},
+  {t:"礼貌离开",hint:"理智选择",fx:{smart:[2,5],happy:[-1,4]},r:["你逃过一段可能跨越时空的感情。"]},
+  {t:"问未来彩票号码",hint:"赚钱优先",fx:{money:[-4,16],charm:[-5,2],luck:[-5,5]},r:["对方只告诉你：未来的人也不记得彩票号码。"]}
+ ]},
+ {cat:"社交",icon:"🎤",title:"朋友婚礼临时让你致辞",desc:"你手里只有一杯饮料和三十秒准备时间。",choices:[
+  {t:"真诚发挥",hint:"魅力提升",fx:{charm:[5,11],happy:[2,7]},r:["你讲得不完美，但有人偷偷抹了眼泪。"]},
+  {t:"讲一个危险的旧事",hint:"全场爆笑或翻车",fx:{charm:[-8,12],happy:[2,8],luck:[-4,4]},r:["现场很热闹，新人笑得有点勉强。"]},
+  {t:"拉玩家一起上台",hint:"双人社死",fx:{charm:[1,7],happy:[3,8]},target:true,targetFx:{charm:[1,7],happy:[3,8]},r:["你们合力完成了一场毫无准备但很有气氛的表演。"]}
+ ]},
+ {cat:"健康",icon:"🧘",title:"你决定尝试冥想",desc:"课程说十分钟就能改变人生，你坐下两分钟开始想晚饭。",choices:[
+  {t:"坚持 30 天",hint:"健康快乐",fx:{health:[5,10],happy:[5,10],smart:[1,4]},r:["你没变成大师，但至少学会了别急着回消息。"]},
+  {t:"买完课程就算参与",hint:"消费型自律",fx:{money:[-6,-2],happy:[-2,2]},r:["你的账户完成了精神成长。"]},
+  {t:"改练高强度运动",hint:"健康换疲劳",fx:{health:[7,13],happy:[-3,5]},r:["你找到了新的痛苦方式。"]}
+ ]},
+ {cat:"奇遇",icon:"🐕",title:"一只狗叼着钱包跟你回家",desc:"钱包里有现金、证件，以及一张写着“别打开夹层”的纸条。",choices:[
+  {t:"找到失主归还",hint:"善良路线",fx:{charm:[4,9],luck:[3,8],money:[0,5]},r:["失主很感动，狗更感动，因为终于能回家吃饭。"]},
+  {t:"打开夹层",hint:"好奇心路线",fx:{money:[-6,12],smart:[-3,8],luck:[-6,6]},r:["你发现了一张过期优惠券和更大的谜团。"]},
+  {t:"交给另一名玩家处理",hint:"责任转移",fx:{happy:[1,4]},target:true,targetFx:{smart:[1,5],luck:[-4,6]},r:["你成功把剧情任务转交给了朋友。"]}
+ ]},
+ {cat:"工作",icon:"🤖",title:"公司引入 AI 同事",desc:"它不迟到、不请假、会写周报，还在会议上夸你有“独特人类价值”。",choices:[
+  {t:"和它合作",hint:"智慧与金钱",fx:{smart:[5,10],money:[3,9],charm:[-1,3]},r:["你们配合默契，直到它开始提醒你别摸鱼。"]},
+  {t:"证明人类更强",hint:"高风险竞争",fx:{smart:[-4,10],health:[-6,-2],money:[-4,8]},r:["你赢得了尊严，或者赢得了一份加班。"]},
+  {t:"教它办公室八卦",hint:"快乐路线",fx:{happy:[4,9],charm:[2,5]},r:["它学会了人类社会最重要的数据：谁和谁不对付。"]}
+ ]},
+ {cat:"财富",icon:"🪙",title:"你挖到一枚疑似古董的硬币",desc:"专家说可能价值连城，也可能只是某家火锅店的代币。",choices:[
+  {t:"送去鉴定",hint:"稳健随机",fx:{money:[-2,15],smart:[1,4]},r:["等待鉴定的三天里，你已经想好退休生活。"]},
+  {t:"网上拍卖",hint:"魅力交易",fx:{money:[-5,18],charm:[-2,5]},r:["买家比专家更有想象力。"]},
+  {t:"送给玩家当护身符",hint:"友情加成",fx:{charm:[3,8],money:[-2,0]},target:true,targetFx:{luck:[4,9],happy:[2,5]},r:["它的价值尚未确定，但友情暂时升值。"]}
+ ]},
+ {cat:"荒唐",icon:"👑",title:"小国邀请你当荣誉公爵",desc:"没有工资，但有一顶帽子、一个虚拟城堡和每年一次线上舞会。",choices:[
+  {t:"接受封爵",hint:"魅力暴涨",fx:{charm:[8,15],money:[-4,1],happy:[3,8]},career:"荣誉公爵",r:["你从此有了一个没什么用但很好听的头衔。"]},
+  {t:"要求改成顾问",hint:"现实路线",fx:{smart:[3,7],money:[2,8]},career:"小国荣誉顾问",r:["你把浪漫谈成了兼职。"]},
+  {t:"把爵位让给玩家",hint:"送礼或恶作剧",fx:{charm:[2,6]},target:true,targetFx:{charm:[5,12],money:[-3,1]},r:["朋友一觉醒来，多了顶帽子和外交义务。"]}
+ ]},
+ {cat:"人生",icon:"🛤️",title:"你突然想换一种活法",desc:"没有具体原因，只是某个普通下午，你觉得不能再自动播放了。",choices:[
+  {t:"辞职重新开始",hint:"高风险转职",fx:{happy:[5,13],money:[-14,-5],smart:[3,8],luck:[-4,6]},career:"自由探索者",r:["你失去了稳定，但重新获得了星期一的定义权。"]},
+  {t:"先做一个小改变",hint:"均衡成长",fx:{happy:[3,8],health:[2,6],smart:[1,4]},r:["你没掀桌，但悄悄把人生方向盘握紧了一点。"]},
+  {t:"约玩家一起创业",hint:"双人豪赌",fx:{money:[-10,15],smart:[3,8],health:[-6,-1]},target:true,targetFx:{money:[-10,15],smart:[3,8],health:[-6,-1]},career:"联合创始人",targetCareer:"联合创始人",r:["你们从一张餐巾纸开始，差点改变世界，也差点拉黑彼此。"]}
+ ]}
+];
+
+function clamp(v,min=0,max=100){ return Math.max(min,Math.min(max,v)); }
+function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function addPlayerInput(name=""){
+  if(inputCount>=6) return;
+  inputCount++;
+  const wrap=document.createElement('div');
+  wrap.className='player-input';
+  wrap.dataset.index=inputCount;
+  wrap.innerHTML=`<input maxlength="10" placeholder="玩家 ${inputCount} 的名字" value="${escapeHtml(name)}">
+    <button class="btn danger small" onclick="removePlayerInput(this)">删</button>`;
+  document.getElementById('playerInputs').appendChild(wrap);
+}
+function removePlayerInput(btn){
+  if(document.querySelectorAll('.player-input').length<=2) return alert('至少需要 2 名玩家');
+  btn.parentElement.remove();
+}
+function randomizeNames(){
+  const pool=[...randomNames].sort(()=>Math.random()-.5);
+  document.querySelectorAll('.player-input input').forEach((el,i)=>el.value=pool[i]||`玩家${i+1}`);
+}
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));
+}
+function initInputs(){
+  document.getElementById('playerInputs').innerHTML=''; inputCount=0;
+  addPlayerInput(); addPlayerInput(); addPlayerInput();
+}
+function makePlayer(name,i){
+  return {
+    id:Date.now()+i,
+    name,
+    avatar:emojis[i%emojis.length],
+    age:+document.getElementById('startAge').value,
+    health:rand(55,85), happy:rand(50,85), smart:rand(45,80), charm:rand(40,80),
+    money:rand(25,55), luck:rand(35,75),
+    career:pick(["待业青年","实习生","普通上班族","自由职业者","店员","学生"]),
+    relationship:0,
+    score:0,
+    history:[],
+    achievements:[]
+  };
+}
+function startGame(){
+  const names=[...document.querySelectorAll('.player-input input')].map((e,i)=>e.value.trim()||`玩家${i+1}`);
+  if(names.length<2) return alert('至少需要 2 名玩家');
+  state={
+    version:1,
+    players:names.map(makePlayer),
+    current:0,
+    round:1,
+    maxRounds:+document.getElementById('gameLength').value,
+    chaos:+document.getElementById('chaosLevel').value,
+    startAge:+document.getElementById('startAge').value,
+    usedEvents:[],
+    logs:["🎬 新的人生已经开始。"],
+    waiting:true
+  };
+  preparePass();
+}
+function preparePass(){
+  const p=state.players[state.current];
+  document.getElementById('passName').textContent=p.name;
+  document.getElementById('passAvatar').textContent=p.avatar;
+  showScreen('pass');
+}
+function revealTurn(){
+  state.waiting=false;
+  showScreen('game');
+  renderPlayers();
+  drawEvent();
+}
+function drawEvent(){
+  const available=events.map((_,i)=>i).filter(i=>!state.usedEvents.includes(i));
+  if(available.length===0) state.usedEvents=[];
+  const pool=events.map((_,i)=>i).filter(i=>!state.usedEvents.includes(i));
+  const idx=pick(pool);
+  state.usedEvents.push(idx);
+  currentEvent=events[idx];
+  renderEvent();
+}
+function renderPlayers(){
+  const box=document.getElementById('playersList');
+  box.innerHTML='';
+  state.players.forEach((p,i)=>{
+    updateScore(p);
+    const el=document.createElement('div');
+    el.className='player-card'+(i===state.current?' active':'');
+    el.innerHTML=`
+      <div class="player-head">
+        <div class="player-name">${p.avatar} ${escapeHtml(p.name)}</div>
+        <div class="score-mini">${p.score} 分</div>
+      </div>
+      <div class="bars">
+        ${miniBar("健康",p.health)}
+        ${miniBar("快乐",p.happy)}
+        ${miniBar("金钱",p.money)}
+      </div>`;
+    box.appendChild(el);
+  });
+  document.getElementById('roundInfo').textContent=`第 ${state.round}/${state.maxRounds} 回合`;
+  document.getElementById('newsLog').innerHTML=state.logs.slice(-8).reverse().map(x=>`<div>${escapeHtml(x)}</div>`).join('');
+}
+function miniBar(label,val){
+  return `<div class="bar-row"><span>${label}</span><div class="bar"><i style="width:${clamp(val)}%"></i></div><b>${Math.round(val)}</b></div>`;
+}
+function renderEvent(){
+  const p=state.players[state.current];
+  document.getElementById('currentPlayerTitle').textContent=`${p.avatar} ${p.name} 的回合`;
+  document.getElementById('currentMeta').innerHTML=`${p.age} 岁 · ${escapeHtml(p.career)} · ${relationshipText(p.relationship)}<br>
+    ❤️${p.health}　😄${p.happy}　🧠${p.smart}　✨${p.charm}　💰${p.money}　🍀${p.luck}`;
+  document.getElementById('eventTag').textContent=currentEvent.cat;
+  document.getElementById('eventIcon').textContent=currentEvent.icon;
+  document.getElementById('eventTitle').textContent=currentEvent.title;
+  document.getElementById('eventDesc').textContent=currentEvent.desc;
+  document.getElementById('resultBox').classList.remove('show');
+  document.getElementById('choices').innerHTML='';
+  document.getElementById('targetWrap').classList.toggle('hide',!currentEvent.choices.some(c=>c.target));
+  const sel=document.getElementById('targetSelect');
+  sel.innerHTML=state.players.map((x,i)=>i!==state.current?`<option value="${i}">${escapeHtml(x.name)}</option>`:'').join('');
+  currentEvent.choices.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='choice';
+    b.innerHTML=`<b>${String.fromCharCode(65+i)}. ${escapeHtml(c.t)}</b><span>${escapeHtml(c.hint)}</span>`;
+    b.onclick=()=>choose(i);
+    document.getElementById('choices').appendChild(b);
+  });
+}
+function choose(i){
+  const c=currentEvent.choices[i];
+  const p=state.players[state.current];
+  let target=null;
+  if(c.target){
+    const ti=+document.getElementById('targetSelect').value;
+    target=state.players[ti];
+  }
+  document.querySelectorAll('.choice').forEach(b=>b.disabled=true);
+  const changes=[];
+  applyFx(p,c.fx,changes,p.name);
+  if(c.targetFx && target) applyFx(target,c.targetFx,changes,target.name);
+  if(c.rel){
+    const v=rand(c.rel[0],c.rel[1]); p.relationship=clamp(p.relationship+v,-2,3);
+    changes.push({label:`${p.name} 关系`,value:v});
+  }
+  if(c.career){ p.career=c.career; changes.push({label:"职业",text:c.career}); }
+  if(c.targetCareer && target){ target.career=c.targetCareer; changes.push({label:`${target.name}职业`,text:c.targetCareer}); }
+
+  // luck surprise
+  const luckRoll=Math.random()*100;
+  let bonusText="";
+  if(luckRoll < p.luck*0.08*state.chaos){
+    const bonus=rand(3,8);
+    p.money=clamp(p.money+bonus);
+    p.happy=clamp(p.happy+2);
+    changes.push({label:"幸运暴击",value:bonus});
+    bonusText=" 另外，你触发了幸运暴击。";
+  } else if(luckRoll > 98-(100-p.luck)*0.04*state.chaos){
+    const loss=rand(2,6);
+    p.money=clamp(p.money-loss);
+    changes.push({label:"倒霉税",value:-loss});
+    bonusText=" 可惜，命运顺手收了一笔倒霉税。";
+  }
+
+  const result=pick(c.r)+bonusText;
+  p.history.push(`${currentEvent.title}：${c.t}`);
+  p.age += rand(1,3);
+  updateScore(p);
+  if(target) updateScore(target);
+  state.logs.push(`${p.avatar}${p.name}：${currentEvent.title} → ${c.t}${target?`（与 ${target.name}）`:""}`);
+
+  document.getElementById('resultTitle').textContent=changes.some(x=>x.value>7)?"命运发生了大转弯":"选择已生效";
+  document.getElementById('resultText').textContent=result;
+  document.getElementById('effects').innerHTML=changes.map(ch=>{
+    if(ch.text) return `<span class="effect neutral">${escapeHtml(ch.label)}：${escapeHtml(ch.text)}</span>`;
+    const cls=ch.value>0?'good':ch.value<0?'bad':'neutral';
+    const sign=ch.value>0?'+':'';
+    return `<span class="effect ${cls}">${escapeHtml(ch.label)} ${sign}${ch.value}</span>`;
+  }).join('');
+  document.getElementById('resultBox').classList.add('show');
+  document.getElementById('nextBtn').textContent=(state.current===state.players.length-1&&state.round>=state.maxRounds)?"查看人生结局":"下一位玩家";
+  renderPlayers();
+}
+function applyFx(player,fx,changes,prefix){
+  if(!fx) return;
+  for(const [k,range] of Object.entries(fx)){
+    let value=rand(range[0],range[1]);
+    if(state.chaos!==1) value=Math.round(value*state.chaos);
+    player[k]=clamp(player[k]+value);
+    changes.push({label:`${prefix} ${statIcons[k]||""}${statLabels[k]||k}`,value});
+  }
+}
+function nextTurn(){
+  if(state.current<state.players.length-1){
+    state.current++;
+  }else{
+    if(state.round>=state.maxRounds) return finishGame();
+    state.current=0;
+    state.round++;
+  }
+  preparePass();
+}
+function updateScore(p){
+  p.score=Math.round(
+    p.health*.16+p.happy*.22+p.smart*.17+p.charm*.12+p.money*.18+p.luck*.08+
+    Math.max(0,p.relationship)*5 + p.history.length*1.5
+  );
+}
+function relationshipText(v){
+  return v>=3?"灵魂伴侣":v===2?"热恋中":v===1?"有点心动":v===0?"感情随缘":v===-1?"刚失恋":v<=-2?"封心锁爱":"感情随缘";
+}
+function getEnding(p){
+  const pairs=[
+    ["money","财富自由但手机消息很多","💸"],
+    ["happy","快乐星球常住居民","🌈"],
+    ["smart","人类高质量大脑","🧠"],
+    ["charm","行走的人气磁铁","✨"],
+    ["health","活力永动机","🏃"],
+    ["luck","命运亲生的锦鲤","🍀"]
+  ];
+  const best=pairs.sort((a,b)=>p[b[0]]-p[a[0]])[0];
+  let text=best[1];
+  if(p.money>80&&p.happy<35) text="有钱，但笑容需要预约";
+  if(p.happy>80&&p.money<30) text="钱包很轻，灵魂很富";
+  if(p.health<25) text="人生精彩，体检更精彩";
+  if(p.smart>80&&p.charm<35) text="聪明绝顶，聊天绝境";
+  if(p.relationship>=3) text="把随机人生玩成了爱情主线";
+  return `${best[2]} ${text}`;
+}
+function achievements(p){
+  const arr=[];
+  if(p.money>=85) arr.push("财富自由");
+  if(p.happy>=85) arr.push("快乐冠军");
+  if(p.health>=85) arr.push("钢铁之躯");
+  if(p.smart>=85) arr.push("智慧超频");
+  if(p.charm>=85) arr.push("万人迷");
+  if(p.luck>=85) arr.push("天选之子");
+  if(p.money<=15) arr.push("轻资产人生");
+  if(p.relationship>=3) arr.push("爱情赢家");
+  if(p.history.length>=20) arr.push("经历丰富");
+  return arr.length?arr:["普通但独一无二"];
+}
+function finishGame(){
+  state.players.forEach(updateScore);
+  const sorted=[...state.players].sort((a,b)=>b.score-a.score);
+  const medals=["🥇","🥈","🥉","4️⃣","5️⃣","6️⃣"];
+  document.getElementById('leaderboard').innerHTML=sorted.map((p,i)=>`
+    <div class="rank">
+      <div class="medal">${medals[i]}</div>
+      <div>
+        <div style="font-weight:900;font-size:18px">${p.avatar} ${escapeHtml(p.name)}</div>
+        <div class="ending">${escapeHtml(getEnding(p))} · 最终职业：${escapeHtml(p.career)} · ${p.age} 岁</div>
+        <div>${achievements(p).map(a=>`<span class="achievement">${escapeHtml(a)}</span>`).join('')}</div>
+      </div>
+      <div class="final-score">${p.score}</div>
+    </div>`).join('');
+  showScreen('end');
+  confetti();
+}
+function confetti(){
+  const box=document.getElementById('confetti'); box.innerHTML='';
+  for(let i=0;i<80;i++){
+    const e=document.createElement('i');
+    e.style.left=Math.random()*100+'vw';
+    e.style.setProperty('--h',Math.floor(Math.random()*360));
+    e.style.setProperty('--d',(2.5+Math.random()*3)+'s');
+    e.style.setProperty('--r',Math.floor(Math.random()*360)+'deg');
+    e.style.animationDelay=(Math.random()*.8)+'s';
+    box.appendChild(e);
+  }
+  setTimeout(()=>box.innerHTML='',6500);
+}
+function openSave(){
+  const raw=JSON.stringify(state);
+  const code=btoa(unescape(encodeURIComponent(raw)));
+  document.getElementById('saveCode').textContent=code;
+  document.getElementById('saveModal').classList.add('show');
+}
+function copySaveCode(){
+  const text=document.getElementById('saveCode').textContent;
+  navigator.clipboard?.writeText(text).then(()=>alert('房间码已复制')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();alert('房间码已复制');
+  });
+}
+function openLoad(){
+  document.getElementById('loadError').textContent='';
+  document.getElementById('loadCode').value='';
+  document.getElementById('loadModal').classList.add('show');
+}
+function loadGame(){
+  try{
+    const raw=decodeURIComponent(escape(atob(document.getElementById('loadCode').value.trim())));
+    const obj=JSON.parse(raw);
+    if(!obj.players||!Array.isArray(obj.players)||obj.players.length<2) throw new Error("invalid");
+    state=obj;
+    state.waiting=true;
+    closeModal('loadModal');
+    preparePass();
+  }catch(e){
+    document.getElementById('loadError').textContent='房间码无法识别，请确认复制完整。';
+  }
+}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function confirmQuit(){
+  if(confirm('退出前建议先保存房间码。确定回到首页吗？')) resetToHome();
+}
+function resetToHome(){state=null;currentEvent=null;initInputs();showScreen('home')}
+function rematch(){
+  const names=state.players.map(p=>p.name);
+  document.getElementById('playerInputs').innerHTML='';inputCount=0;
+  names.forEach(addPlayerInput);
+  showScreen('setup');
+}
+window.addEventListener('click',e=>{
+  if(e.target.classList.contains('modal')) e.target.classList.remove('show');
+});
+initInputs();
+</script>
+</body>
+</html>
