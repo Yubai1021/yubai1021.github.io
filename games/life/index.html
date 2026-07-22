@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · 机械降神宏大支线版</title>
+<title>随机人生模拟器 · 无限属性与世界阶段修正版</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -295,7 +295,7 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">机械降神宏大支线版</div>
+    <div class="badge">无限属性·世界阶段修正版</div>
   </div>
 
   <section id="home" class="screen on">
@@ -1312,10 +1312,11 @@ const eventBank={
   {text:"彻底封存机械核心",hint:"拒绝开启旧时代",need:"family",fx:{family:[-3,0],body:[0,2]},setLifeFlagsSuccess:{machineSealed:true},setLifeFlagsFail:{machineMarked:true},success:"封印暂时稳定，但核心在地下持续向星空发送信号。",fail:"封印激活了自动求救程序，太阳系外出现回应。"}
  ]}
 ],
-"修炼":[{title:"你第一次在现实中看见灵气潮汐",desc:"只有你和少数修士能感知到这场灵气潮汐。普通城市仍在照常运转，路人甚至没有抬头。",choices:[
-  {text:"闭关尝试引气入体",hint:"依赖体质与智力",need:"body",fx:{body:[0,3],mind:[1,3]},success:"你在丹田中捕捉到第一缕灵气，从此真正踏上修行路。",fail:"灵气在经脉中失控，你花了很久才恢复。"},
-  {text:"记录并研究灵气规律",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,1]},success:"你整理出最早的一批现代修行理论。",fail:"数据相互矛盾，但你确定旧科学并没有错，只是不完整。"},
-  {text:"寻找民间古法",hint:"依赖魅力与家境",need:"charm",fx:{charm:[1,3],family:[-2,2],mind:[0,2]},success:"一位沉默多年的老人向你展示了真正的吐纳法。",fail:"你遇到了很多骗子，只得到几页真假难辨的残卷。"}
+"修炼":[{id:"local_spirit_tide",title:"城市地下灵脉出现周期性潮汐",desc:"这不是地球第一次出现灵气。隐藏灵脉一直存在，只是这一轮局部波动强于往年。你的境界越高，越能看清它对低阶修士、普通城市和阵法网络的影响。",choices:[
+  {text:"进入灵脉节点稳定潮汐",hint:"依赖体质与修为",need:"body",fx:{body:[-2,4],mind:[1,3]},cultivationGain:{success:16,fail:4},success:"你把失控灵气重新导回地下脉络，附近城市只经历了一次短暂电力波动。",fail:"灵脉反冲让你的经脉受到震荡，但没有改变世界原有的修真历史。"},
+  {text:"记录波动并修正现代灵气模型",hint:"依赖智力",need:"mind",fx:{mind:[2,5],family:[-1,1]},cultivationGain:{success:12,fail:5},success:"你建立了更准确的灵脉周期模型，证明修真体系早已在现代文明背后稳定存在。",fail:"地下节点彼此干扰，数据仍需要多年积累。"},
+  {text:"组织低阶修士有序借潮修炼",hint:"依赖魅力与管理",need:"charm",fx:{charm:[2,4],family:[-2,2],mind:[0,2]},cultivationGain:{success:10,fail:3},success:"许多低阶修士安全完成积累，你也建立了可靠的修行网络。",fail:"参与者过多导致节点拥堵，你不得不提前关闭入口。"},
+  {text:"封锁波动区域，避免普通人被卷入",hint:"稳健路线，依赖家境",need:"family",fx:{family:[-2,1],body:[0,2],charm:[0,2]},cultivationGain:{success:7,fail:2},success:"潮汐在无人受伤的情况下自然退去。",fail:"封锁引发外界猜测，但真正的灵脉结构仍未暴露。"}
  ]},
  {id:"realm_bottleneck",title:"你抵达当前境界的修炼瓶颈",desc:"这次选择会影响修为积累和破境准备。只有修为达到下一境界阈值，并通过破境判定后，境界才会真正提升。",choices:[
   {text:"强行冲击瓶颈",hint:"高风险，依赖体质",need:"body",fx:{body:[-3,4],mind:[0,2]},cultivationGain:{success:18,fail:4},success:"经脉承受住冲击，瓶颈明显松动。",fail:"冲击失败，根基出现裂痕，但你仍积累了少量经验。"},
@@ -1421,9 +1422,10 @@ const eventBank={
   {text:"只保护自己在意的人",hint:"依赖家境与体质",need:"family",fx:{family:[1,3],body:[0,2],charm:[-2,0]},success:"你守住了自己的小世界。",fail:"外部动荡最终仍然波及家人。"},
   {text:"退出城市，建立隐居地",hint:"依赖体质",need:"body",fx:{body:[1,3],family:[-3,1],mind:[0,2]},success:"你建立了一处远离争斗的修行聚落。",fail:"隐居地的资源很快耗尽。"}
  ]},
- {title:"第一所面向普通人的修行学院公开招生",desc:"现代大学依然存在，但修行课程首次被公开纳入体系。两个世界开始缓慢接触，而非一夜之间互相取代。",choices:[
-  {text:"保存旧时代知识",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,1]},success:"你建立的档案馆后来被称为‘凡人文明火种库’。",fail:"大部分数据在灵能风暴中损毁。"},
-  {text:"全面拥抱新时代",hint:"依赖魅力与适应力",need:"charm",fx:{charm:[1,3],mind:[1,2]},success:"你成为连接两个时代的重要人物。",fail:"变化太快，你仍错过了许多东西。"}
+ {id:"public_cultivation_college",title:"第一所面向普通人的修行学院公开招生",desc:"隐藏修行体系此前一直存在。这一次改变的不是灵气突然出现，而是部分修行知识第一次被合法公开，现代社会开始与隐世宗门建立正式接口。",choices:[
+  {text:"保存现代科学与旧时代知识",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,1]},setLifeFlags:{cultivationPublic:true},success:"你建立的档案馆后来被称为‘凡人文明火种库’。",fail:"资料保存困难，但公开接触已经无法逆转。"},
+  {text:"成为两个教育体系的连接者",hint:"依赖魅力与适应力",need:"charm",fx:{charm:[1,4],mind:[1,3]},setLifeFlags:{cultivationPublic:true},success:"你帮助普通学生理解修行，也让修士重新认识现代教育。",fail:"两套体系的价值观冲突比预想更深。"},
+  {text:"推动修行教育接受公共监督",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],charm:[1,3]},setLifeFlags:{cultivationPublic:true},success:"招生、伤害责任和资源分配第一次被写进公开制度。",fail:"隐世宗门只接受有限监督。"}
  ]},
 {id:"mortal_spirit_child",title:"一个普通家庭的孩子突然能够看见灵气",desc:"孩子没有修行背景，学校和医院都无法解释。宗门愿意接走培养，家长则担心从此失去正常生活。",choices:[
   {text:"先进行完整身体与心理评估",hint:"需要医疗常识",need:"mind",requiresLegacy:"medical_legacy",fx:{mind:[1,3],body:[0,2],family:[-2,0]},setLifeFlags:{ordinaryCultivatorFamily:true},lifeTrack:{stability:2,bonds:1},success:"评估排除了疾病，也帮助孩子逐步适应感知。",fail:"现代评估能排除危险，却无法解释灵气本身。"},
@@ -1578,6 +1580,24 @@ const yearlyEventPools={
 function cultivationPathById(id){
   return cultivationPaths.find(x=>x.id===id);
 }
+function refreshWorldSpiritStage(){
+  if(!state)return 0;
+  let stage=state.worldSpiritStage||0;
+  if(state.era==="awakening" || state.era==="dao_choice")stage=Math.max(stage,1);
+  if(state.era==="cultivation")stage=Math.max(stage,2);
+  if(state.lifeFlags?.cultivationPublic)stage=Math.max(stage,3);
+  state.worldSpiritStage=stage;
+  return stage;
+}
+function worldSpiritStageText(){
+  const stage=refreshWorldSpiritStage();
+  return [
+    "灵气仍处于隐匿低潮，现代社会几乎无人察觉",
+    "局部异象增多，隐世组织开始确认灵气活动",
+    "隐藏灵脉稳定运行，修士一直存在但尚未全面公开",
+    "修行知识部分公开，现代社会与修真体系开始制度化接触"
+  ][Math.min(3,stage)]||"灵气状态未知";
+}
 function cultivationCategoriesForState(){
   const index=Math.max(1,Math.min(state.realmIndex||1,realmConfigs.length-1));
   const config=realmConfigs[index];
@@ -1655,6 +1675,7 @@ function cultivationThresholdReached(){
 }
 function enterAwakening(){
   state.era="awakening";
+  state.worldSpiritStage=Math.max(state.worldSpiritStage||0,1);
   state.awakeningClues=Math.max(1,state.awakeningClues||0);
   state.targetMajor=Math.max(state.targetMajor,6);
   state.extraChecked=true;
@@ -1692,6 +1713,7 @@ function beginDaoDraw(){
 }
 function enterCultivation(path){
   state.era="cultivation";
+  state.worldSpiritStage=Math.max(state.worldSpiritStage||0,2);
   state.pendingDaoChoice=false;
   state.daoChosen=true;
   state.cultivationPath=path.id;
@@ -1797,7 +1819,10 @@ function renderWheelLabels(){
 
 function go(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("on"));document.getElementById(id).classList.add("on");window.scrollTo(0,0);}
 function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
-function clamp(v){return Math.max(0,Math.min(20,v))}
+function clamp(v){
+  const n=Number(v);
+  return Number.isFinite(n)?Math.max(0,n):0;
+}
 function totalPoints(){return Object.values(allocation).reduce((a,b)=>a+b,0)}
 
 function defaultMeta(){
@@ -1854,7 +1879,7 @@ function renderMetaSummary(){
 }
 function changePoint(k,d){
   const next=allocation[k]+d;
-  if(next<0||next>10)return;
+  if(next<0)return;
   if(d>0&&totalPoints()>=20)return;
   allocation[k]=next;
   renderAllocation();
@@ -1876,8 +1901,7 @@ function randomAllocate(){
   allocation={body:0,mind:0,charm:0,family:0};
   const keys=Object.keys(allocation);
   for(let i=0;i<20;i++){
-    const available=keys.filter(k=>allocation[k]<10);
-    allocation[available[rand(0,available.length-1)]]++;
+    allocation[keys[rand(0,keys.length-1)]]++;
   }
   renderAllocation();
 }
@@ -2001,6 +2025,7 @@ function startLife(){
     age:18, majorDone:0, targetMajor:3, legend:(m.startLegend||0),
     era:"modern",realmIndex:0,cultivationExp:(m.cultivationExpBonus||0),worldsUnlocked:false,hiddenTruth:false,
     cultivationAffinity:(m.worldEcho||0),awakeningClues:0,lastWorldTransition:null,
+    worldSpiritStage:0,
     pendingDaoChoice:false,daoChosen:false,daoOffers:[],cultivationPath:null,lifePotentialRoll:rand(-4,12),
     occultFlags:{},creatureRelations:{},occultDanger:0,occultKnowledge:0,recentEventIds:[],eventSeenCounts:{},eventLastAges:{},yearlyEventSeen:{},forceCreatureEncounter:false,creatureEncounterCount:0,
     lifeFlags:{},lifeTracks:{career:0,bonds:0,stability:0,reputation:0},
@@ -2037,6 +2062,11 @@ function normalizeLife(){
   if(state.awakeningClues===undefined)state.awakeningClues=0;
   if(state.cultivationAffinity===undefined)state.cultivationAffinity=(metaState?.worldEcho||0)+(state.abilities||[]).reduce((s,id)=>s+(abilityById(id)?.cultivationAffinity||0),0);
   if(state.lastWorldTransition===undefined)state.lastWorldTransition=null;
+  if(state.worldSpiritStage===undefined){
+    state.worldSpiritStage=state.era==="cultivation"?2:
+      (state.era==="awakening"||state.era==="dao_choice"?1:0);
+  }
+  if(state.lifeFlags?.cultivationPublic)state.worldSpiritStage=Math.max(state.worldSpiritStage,3);
   if(state.pendingDaoChoice===undefined)state.pendingDaoChoice=state.era==="dao_choice";
   if(state.daoChosen===undefined)state.daoChosen=state.era==="cultivation";
   if(!Array.isArray(state.daoOffers))state.daoOffers=[];
@@ -2190,14 +2220,14 @@ function renderAll(){
       :lifeFlag("machineTreaty")?" · 机械神有限合作"
       :lifeFlag("machineHeavenKnown")?" · 已知天道机械真相"
       :"";
-    eraStatus.innerHTML=`🌌 <b>隐藏修真界</b> · 当前境界：${currentRealm()} · 道途：${path?path.icon+" "+path.name:"散修"} · ${cultivationText}${state.worldsUnlocked?' · 已开启界门':''}${machineState}<div class="realmLine">本境界预计寿元上限约 ${lifeTarget} 岁；当前轮盘可出现：${available}。</div>`;
+    eraStatus.innerHTML=`🌌 <b>隐藏修真界</b> · 当前境界：${currentRealm()} · 道途：${path?path.icon+" "+path.name:"散修"} · ${cultivationText}${state.worldsUnlocked?' · 已开启界门':''}${machineState}<div class="realmLine">世界灵气阶段：${worldSpiritStageText()}。</div><div class="realmLine">本境界预计寿元上限约 ${lifeTarget} 岁；当前轮盘可出现：${available}。</div>`;
   }else if(state.era==="dao_choice"){
     eraStatus.className="eraStatus cultivation";
     eraStatus.innerHTML=`🪷 <b>入道门前</b> · 你已经完成寻道，但还没有修为。请从三张入道卡中选择一条修行道路。`;
   }else if(state.era==="awakening"){
     eraStatus.className="eraStatus cultivation";
     const metCreatures=Object.values(state.creatureRelations||{}).filter(v=>v!==0).length;
-    eraStatus.innerHTML=`🌙 <b>寻道阶段</b> · 线索 ${state.awakeningClues||0}/4 · 诡异知识 ${state.occultKnowledge||0} · 危险 ${state.occultDanger||0} · 已接触生物 ${metCreatures} 种${state.forceCreatureEncounter?" · 下一次轮盘保证出现异类相遇":""}`;
+    eraStatus.innerHTML=`🌙 <b>寻道阶段</b> · 线索 ${state.awakeningClues||0}/4 · 诡异知识 ${state.occultKnowledge||0} · 危险 ${state.occultDanger||0} · 已接触生物 ${metCreatures} 种<div class="realmLine">世界灵气阶段：${worldSpiritStageText()}。</div>`;
   }else{
     eraStatus.className="eraStatus";
     const branchKeys=["law_legacy","medical_legacy","network_legacy","craft_legacy","public_voice","wanderer_legacy","family_archive","empathy_legacy"].filter(id=>hasLegacy(id)).length;
@@ -2546,6 +2576,7 @@ function applyBranchConsequences(choice,success,age){
     state.deathCause=deathRule.cause;
     notes.push("特殊死亡判定触发");
   }
+  refreshWorldSpiritStage();
   return notes;
 }
 
@@ -3084,12 +3115,54 @@ function determineDeathCause(){
   if(state.deathCause)return state.deathCause;
   const age=state.age;
   const flags=state.occultFlags||{};
+  const life=state.lifeFlags||{};
+
+  // 机械降神支线优先于普通修真死因，避免被随机结算为“解体仙躯”
+  if(life.machineAscension){
+    return "完成与机械天道的融合后，原有肉身在漫长岁月中自然停止活动；你的意识并未消失，而是继续作为新天道的情感核心运行";
+  }
+  if(life.machineWarBeyond){
+    return "在对现实之外的高层战争中维持诸天时间线，最终个体意识因承载过量因果与历史改写而耗尽";
+  }
+  if(life.machineArk){
+    return "在诸天方舟穿越现实层级的漫长航程中寿元走到终点，并在多文明共同纪念舱中平静离世";
+  }
+  if(life.machineDeleted){
+    return "亲手关闭机械神后继续生活了漫长岁月，最终因自身寿元自然耗尽而离世";
+  }
+  if(life.machineFederation){
+    return "在诸天公共天道建立并稳定运行后寿元耗尽，你的制度记录被各文明节点永久保存";
+  }
+  if(life.machineDormant){
+    return "确认机械神进入安全休眠后，经历漫长而平静的时代，最终因寿元耗尽而离世";
+  }
+  if(life.machineFreeWill){
+    return "把最终选择权交还亿万生命后，你在诸天分流完成的年代寿元耗尽，未让任何系统替你决定死亡之后的去向";
+  }
+  if(life.machineMerge){
+    return "参与文明意识迁移后，原有肉身停止生命活动；你的记忆与人格被保存在机械神建立的新世界中";
+  }
+  if(life.machineManaged){
+    return "在机械神全面托管的和平文明中自然寿终，系统依照你的生前授权保存了完整记忆副本";
+  }
+  if(life.machineConcord){
+    return "完成人类、修真界与机械神之间的长期文明协定后寿元耗尽，在多方代表共同见证下离世";
+  }
+  if(life.machineRebellion){
+    return "在争取文明自主权的漫长斗争后，旧伤与寿元共同走到尽头；机械神依照协议没有干预你的最终选择";
+  }
+  if(life.machineTreaty){
+    return "在机械神有限合作协议维持的时代中自然寿终，死亡过程没有被系统强制改写";
+  }
+  if(life.machineArchitectKnown || life.machineContact || life.deusSignal){
+    return "在见证机械神与远古建造者真相后走完自然寿命，临终记录被收入文明保全档案";
+  }
 
   if(state.era==="cultivation"){
     if(state.realmIndex>=7){
       const causes=[
         "经历漫长仙寿后遭遇天人五衰，最终将一身修为散入天地",
-        "为修补界海裂隙主动解体仙躯，只留下跨世传承",
+        "修补界海裂隙时受到无法逆转的法则损伤，最终在完成封印后寿元耗尽",
         "在诸天远行中失去归途，仙魂最终寂灭于未知世界",
         "放弃继续维持肉身，以真灵形式进入无法记录的更高层世界"
       ];
@@ -3336,7 +3409,7 @@ function endingData(){
   if(state.era==="cultivation" && state.realmIndex>=3 && state.family<=2)
     return ["cultivation","🗡️","散修末路","你拥有远超凡人的力量，却始终缺少资源与归属，最后独自坐化。","bad"];
   if(state.era!=="cultivation" && state.mind>=17 && state.legend>=7)
-    return ["secret","🚪","看见世界背面的人","你没有等到灵气复苏，却已经确认现代文明只是巨大真相的表层。你死后，某些机构封存了全部研究。","neutral"];
+    return ["secret","🚪","看见世界背面的人","你没有真正踏入修真界，却已经确认灵气与隐世文明始终存在于现代社会背后。你死后，某些机构封存了全部研究。","neutral"];
 
   if(state.body<=0 || state.age<45)
     return ["bad","🕯️","英年早逝","这一生还没有走到真正成熟，身体或灾难就提前终止了旅程。","bad"];
