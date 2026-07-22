@@ -54,6 +54,45 @@ input:focus{border-color:var(--purple)}
 .stepper button{width:34px;height:34px;border-radius:11px;border:1px solid var(--line);color:white;background:rgba(255,255,255,.08);font-size:20px;font-weight:900}
 .value{width:24px;text-align:center;font-size:20px;font-weight:950}
 .metaCard{margin-top:14px;text-align:left}
+.abilityStage{display:none}
+.abilityHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.abilityCount{padding:7px 10px;border-radius:999px;background:rgba(139,124,255,.14);color:#cfc8ff;font-size:12px;font-weight:900}
+.abilityGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+@media(max-width:560px){.abilityGrid{grid-template-columns:1fr}}
+.abilityCard{
+  position:relative;text-align:left;padding:13px;border-radius:15px;color:white;
+  border:1px solid var(--line);background:rgba(255,255,255,.05)
+}
+.abilityCard.selected{
+  border-color:rgba(66,215,170,.72);background:rgba(66,215,170,.12);
+  box-shadow:inset 0 0 0 1px rgba(66,215,170,.18)
+}
+.abilityCard.locked{opacity:.48}
+.abilityIcon{font-size:25px;margin-bottom:6px}
+.abilityName{font-weight:950;font-size:15px}
+.abilityDesc{font-size:11px;color:var(--muted);line-height:1.55;margin-top:4px}
+.abilityPick{position:absolute;right:10px;top:10px;font-size:12px;color:#91efd3;font-weight:950}
+.abilityCard.tone-good{border-left:4px solid #42d7aa}
+.abilityCard.tone-mixed{border-left:4px solid #ffd166}
+.abilityCard.tone-danger{border-left:4px solid #ff6e8a}
+.abilityTone{display:inline-block;margin-top:7px;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:900}
+.abilityTone.good{background:rgba(66,215,170,.12);color:#91efd3}
+.abilityTone.mixed{background:rgba(255,209,102,.12);color:#ffe19a}
+.abilityTone.danger{background:rgba(255,110,138,.12);color:#ff9aae}
+.abilityMods{font-size:11px;margin-top:7px;line-height:1.55;color:#dce4fa}
+
+.mechanicNote{
+  margin-top:12px;padding:11px 12px;border-radius:13px;background:rgba(255,209,102,.08);
+  border:1px solid rgba(255,209,102,.18);font-size:11px;color:#e8dfbd;line-height:1.7
+}
+.abilityBar{display:flex;gap:7px;overflow-x:auto;padding:0 0 12px}
+.abilityPill{
+  flex:0 0 auto;padding:7px 9px;border-radius:999px;background:rgba(139,124,255,.12);
+  border:1px solid rgba(139,124,255,.22);font-size:11px;color:#ddd9ff
+}
+.chanceLine{display:block;margin-top:5px;color:#91efd3!important;font-weight:800}
+.attributeUse{font-size:10px;color:#bfc8e5;margin-top:3px}
+
 .metaGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 @media(max-width:520px){.metaGrid{grid-template-columns:1fr}}
 .metaItem{padding:11px;border-radius:14px;background:rgba(255,255,255,.05);font-size:12px;border:1px solid rgba(255,255,255,.07)}
@@ -154,24 +193,45 @@ input:focus{border-color:var(--purple)}
   <section id="home" class="screen on">
     <div class="card">
       <div id="newBlock">
-        <h2>创建人生</h2>
-        <div class="setupName"><input id="playerName" maxlength="10" placeholder="输入你的名字"></div>
+        <div id="pointStage">
+          <h2>创建人生</h2>
+          <div class="setupName"><input id="playerName" maxlength="10" placeholder="输入你的名字"></div>
 
-        <div class="pointsHead">
-          <b>分配开局属性</b>
-          <div class="remaining">剩余 <span id="remaining">20</span> 点</div>
+          <div class="pointsHead">
+            <b>分配开局属性</b>
+            <div class="remaining">剩余 <span id="remaining">20</span> 点</div>
+          </div>
+
+          <div class="allocGrid">
+            <div class="alloc"><div class="allocTop"><div><div class="allocName">💪 体质</div><div class="allocDesc">每点提高健康、天灾判定；约延长 2 岁寿命</div></div><div class="stepper"><button onclick="changePoint('body',-1)">−</button><div id="bodyValue" class="value">0</div><button onclick="changePoint('body',1)">＋</button></div></div></div>
+            <div class="alloc"><div class="allocTop"><div><div class="allocName">🧠 智力</div><div class="allocDesc">每点提高学业、事业、时代与人祸判断</div></div><div class="stepper"><button onclick="changePoint('mind',-1)">−</button><div id="mindValue" class="value">0</div><button onclick="changePoint('mind',1)">＋</button></div></div></div>
+            <div class="alloc"><div class="allocTop"><div><div class="allocName">✨ 魅力</div><div class="allocDesc">每点提高爱情、友情、名望与求助成功率</div></div><div class="stepper"><button onclick="changePoint('charm',-1)">−</button><div id="charmValue" class="value">0</div><button onclick="changePoint('charm',1)">＋</button></div></div></div>
+            <div class="alloc"><div class="allocTop"><div><div class="allocName">🏠 家境</div><div class="allocDesc">每点提高财富、资源与灾后恢复能力</div></div><div class="stepper"><button onclick="changePoint('family',-1)">−</button><div id="familyValue" class="value">0</div><button onclick="changePoint('family',1)">＋</button></div></div></div>
+          </div>
+
+          <div class="mechanicNote">
+            判定并非装饰：相关属性每提高 1 点，重大选择的成功率通常提高约 4%；高体质会延长寿命，高家境会减少灾难造成的资源损失。
+          </div>
+
+          <div class="actions" style="margin-top:18px">
+            <button id="startBtn" class="btn green" disabled onclick="openAbilitySelection()">必须分完 20 点</button>
+            <button class="btn gray" onclick="randomAllocate()">随机分配</button>
+          </div>
         </div>
 
-        <div class="allocGrid">
-          <div class="alloc"><div class="allocTop"><div><div class="allocName">💪 体质</div><div class="allocDesc">健康、抗压和寿命</div></div><div class="stepper"><button onclick="changePoint('body',-1)">−</button><div id="bodyValue" class="value">0</div><button onclick="changePoint('body',1)">＋</button></div></div></div>
-          <div class="alloc"><div class="allocTop"><div><div class="allocName">🧠 智力</div><div class="allocDesc">学业、事业和判断</div></div><div class="stepper"><button onclick="changePoint('mind',-1)">−</button><div id="mindValue" class="value">0</div><button onclick="changePoint('mind',1)">＋</button></div></div></div>
-          <div class="alloc"><div class="allocTop"><div><div class="allocName">✨ 魅力</div><div class="allocDesc">爱情、社交和人脉</div></div><div class="stepper"><button onclick="changePoint('charm',-1)">−</button><div id="charmValue" class="value">0</div><button onclick="changePoint('charm',1)">＋</button></div></div></div>
-          <div class="alloc"><div class="allocTop"><div><div class="allocName">🏠 家境</div><div class="allocDesc">资源、起点和财富</div></div><div class="stepper"><button onclick="changePoint('family',-1)">−</button><div id="familyValue" class="value">0</div><button onclick="changePoint('family',1)">＋</button></div></div></div>
-        </div>
-
-        <div class="actions" style="margin-top:18px">
-          <button id="startBtn" class="btn green" disabled onclick="startLife()">必须分完 20 点</button>
-          <button class="btn gray" onclick="randomAllocate()">随机分配</button>
+        <div id="abilityStage" class="abilityStage">
+          <div class="abilityHead">
+            <div>
+              <h2 style="margin-bottom:4px">从十种候选中选择三种能力</h2>
+              <div class="muted" style="font-size:12px">能力池共有 50 种。本世随机出现 10 种，从中选择 3 种。</div>
+            </div>
+            <div class="abilityCount">已选 <span id="abilityCount">0</span>/3</div>
+          </div>
+          <div id="abilityGrid" class="abilityGrid"></div>
+          <div class="actions" style="margin-top:16px">
+            <button class="btn gray" onclick="backToPoints()">返回属性</button>
+            <button id="confirmAbilityBtn" class="btn green" disabled onclick="startLife()">选择 3 个能力</button>
+          </div>
         </div>
       </div>
 
@@ -205,6 +265,7 @@ input:focus{border-color:var(--purple)}
       </div>
 
       <div id="stats" class="stats"></div>
+      <div id="abilityBar" class="abilityBar"></div>
       <div class="progress"><span id="majorProgress">重大抉择：0 / 3</span><span id="legendText">精彩度：0</span></div>
       <div id="daily" class="daily">18 岁，你站在这一生的入口。</div>
 
@@ -287,12 +348,54 @@ input:focus{border-color:var(--purple)}
 <script>
 const SAVE_KEY="random_life_legacy_save_v1";
 const META_KEY="random_life_legacy_meta_v1";
-const categories=["学业","事业","财富","爱情","健康","家庭","迁徙","友情","名望","奇遇","时代","危机"];
+const categories=["学业","事业","财富","爱情","健康","家庭","迁徙","友情","名望","奇遇","时代","危机","天灾","人祸"];
 const statNames={body:"体质",mind:"智力",charm:"魅力",family:"家境"};
 const statIcons={body:"💪",mind:"🧠",charm:"✨",family:"🏠"};
 const avatars=["🦊","🐼","🐸","🦁","🐙","🦄","🐧","🐰"];
 let allocation={body:0,mind:0,charm:0,family:0};
-let state=null, metaState=null, currentEvent=null, wheelRotation=0, spinning=false, pointerIndex=0, rerollUsedThisStage=false;
+let selectedAbilities=[];
+let offeredAbilityIds=[];
+let state=null, metaState=null, currentEvent=null, wheelRotation=0, spinning=false, pointerIndex=0, rerollCountThisStage=0;
+
+
+const abilities=[{"id":"iron","icon":"🦾","name":"钢筋铁骨","tone":"good","desc":"身体像耐用零件一样可靠。","start":{"body":1},"chanceStats":{"body":12},"lossProtect":{"body":1},"lifespan":4},{"id":"memory","icon":"🧠","name":"过目不忘","tone":"good","desc":"学习效率极高，知识很难从脑中消失。","start":{"mind":1},"chanceStats":{"mind":12}},{"id":"charmer","icon":"🌟","name":"人见人爱","tone":"good","desc":"社交判定更强，部分社交失败有机会翻盘。","start":{"charm":1},"chanceStats":{"charm":12}},{"id":"resource","icon":"💰","name":"家里真有矿","tone":"good","desc":"资源充足，财富成长和灾后恢复都更容易。","start":{"family":2},"chanceStats":{"family":12}},{"id":"sense","icon":"🔮","name":"第六感","tone":"good","desc":"面对天灾人祸时更容易提前察觉危险，并获得一次免费灾祸重抽。","chanceCats":{"天灾":18,"人祸":18}},{"id":"comeback","icon":"🔥","name":"绝处逢生","tone":"good","desc":"一生第一次重大判定失败，会自动变成收益较低的险胜。"},{"id":"lucky","icon":"🍀","name":"幸运星","tone":"good","desc":"所有重大判定提高，且每次重大事件多一次重新抽取。","chanceAll":7,"rerolls":1},{"id":"time","icon":"⏳","name":"时间管理大师","tone":"good","desc":"有概率避开负面日常；每逢整十岁，体质额外增加。"},{"id":"explorer","icon":"🧭","name":"冒险家","tone":"good","desc":"迁徙和奇遇更容易成功，成功时还能增加精彩度。","chanceCats":{"奇遇":18,"迁徙":18},"legendCats":{"奇遇":1,"迁徙":1}},{"id":"healer","icon":"🩺","name":"自愈体质","tone":"good","desc":"开局更健康，健康事件也更容易平安渡过。","start":{"body":1,"charm":1},"chanceCats":{"健康":15},"lossProtect":{"body":1}},{"id":"mentor","icon":"📚","name":"贵人相助","tone":"good","desc":"人生关键阶段更容易得到指导和机会。","start":{"mind":1,"charm":1},"chanceCats":{"学业":7,"事业":7,"家庭":5}},{"id":"athlete","icon":"🏅","name":"运动天才","tone":"good","desc":"身体素质突出，危机与健康判定更稳定。","start":{"body":2},"chanceCats":{"健康":10,"危机":8,"天灾":6},"lifespan":2},{"id":"silver_tongue","icon":"🗣️","name":"能说会道","tone":"good","desc":"语言表达极有感染力，社会关系更容易打开。","start":{"charm":2},"chanceCats":{"爱情":8,"友情":8,"名望":8}},{"id":"frugal","icon":"🐷","name":"理财本能","tone":"good","desc":"更懂得保存资源，财富与家庭资产不容易失控。","start":{"family":2},"chanceCats":{"财富":8},"lossProtect":{"family":1}},{"id":"guardian","icon":"🛡️","name":"守护者","tone":"good","desc":"面对事故和灾祸时更冷静，也更容易保护身边的人。","start":{"body":1,"charm":1},"chanceCats":{"天灾":10,"人祸":10,"危机":8}},{"id":"gambler","icon":"🎲","name":"赌徒本能","tone":"mixed","desc":"事业和财富成功时收益暴增，失败时损失也更严重。"},{"id":"sickly_genius","icon":"🧪","name":"病弱天才","tone":"mixed","desc":"头脑异常敏锐，但身体先天虚弱。","start":{"mind":4,"body":-4},"chanceStats":{"mind":8},"lifespan":-8},{"id":"beauty_curse","icon":"🪞","name":"美貌诅咒","tone":"mixed","desc":"魅力惊人，却更容易被误解和卷入关系麻烦。","start":{"charm":4,"mind":-1},"chanceCats":{"爱情":14,"名望":10,"人祸":-8}},{"id":"night_owl","icon":"🦉","name":"夜猫子","tone":"mixed","desc":"深夜效率极高，长期却会透支身体。","start":{"mind":3,"body":-2},"chanceCats":{"学业":8,"事业":5},"annual":[{"every":8,"stat":"body","delta":-1,"text":"长期熬夜留下了代价，体质 -1。"}]},{"id":"lone_wolf","icon":"🐺","name":"独行者","tone":"mixed","desc":"独处时判断清晰，但很难建立稳定关系。","start":{"mind":2,"body":1,"charm":-3},"chanceCats":{"危机":8,"奇遇":5,"友情":-12,"爱情":-8}},{"id":"perfectionist","icon":"📐","name":"完美主义","tone":"mixed","desc":"做事质量很高，但长期精神紧绷。","start":{"mind":3,"body":-2},"chanceAll":4,"annual":[{"every":7,"stat":"body","delta":-1,"text":"长期追求完美让你筋疲力尽，体质 -1。"}]},{"id":"easygoing","icon":"🌿","name":"随遇而安","tone":"mixed","desc":"身体与人际更轻松，但缺少强烈进取心。","start":{"body":2,"charm":2,"mind":-2},"chanceCats":{"健康":6,"友情":6,"事业":-7}},{"id":"risk_averse","icon":"🐢","name":"谨慎过头","tone":"mixed","desc":"更容易躲开风险，但财富和精彩机会也会减少。","start":{"body":1,"family":2},"chanceCats":{"天灾":8,"人祸":8,"危机":8,"财富":-8,"奇遇":-8}},{"id":"adrenaline","icon":"🏍️","name":"极限爱好者","tone":"mixed","desc":"危急时反应出色，却经常主动靠近危险。","start":{"body":3,"charm":1,"family":-2},"chanceCats":{"危机":12,"奇遇":8,"天灾":-5},"lifespan":-3},{"id":"inheritance","icon":"🏛️","name":"巨额继承","tone":"mixed","desc":"开局资源极多，但家庭关系从一开始就很复杂。","start":{"family":5,"charm":-3},"chanceCats":{"财富":10,"家庭":-15,"人祸":-5}},{"id":"cosmopolitan","icon":"🌍","name":"世界公民","tone":"mixed","desc":"适应陌生环境很快，但原生根基较弱。","start":{"mind":2,"charm":2,"family":-2},"chanceCats":{"迁徙":14,"奇遇":8,"家庭":-5}},{"id":"old_soul","icon":"🕯️","name":"少年老成","tone":"mixed","desc":"判断成熟稳重，却不太容易享受年轻人的热闹。","start":{"mind":2,"family":2,"charm":-1},"chanceCats":{"事业":7,"家庭":7,"爱情":-5}},{"id":"artist","icon":"🎨","name":"艺术家气质","tone":"mixed","desc":"创造力和感染力突出，但收入长期不够稳定。","start":{"mind":2,"charm":3,"family":-3},"chanceCats":{"名望":15,"奇遇":8,"财富":-10}},{"id":"workaholic","icon":"💼","name":"工作狂","tone":"mixed","desc":"事业与财富成长很快，身体会持续偿还代价。","start":{"mind":2,"family":2,"body":-3},"chanceCats":{"事业":13,"财富":8},"annual":[{"every":6,"stat":"body","delta":-1,"text":"连续多年过度工作，体质 -1。"}]},{"id":"debt_born","icon":"🧾","name":"负债开局","tone":"mixed","desc":"一开始背负债务，却因此比同龄人更早学会现实规则。","start":{"mind":2,"family":-4},"chanceCats":{"财富":12,"事业":6}},{"id":"survivor","icon":"🧰","name":"灾后幸存者","tone":"mixed","desc":"曾经的伤痕削弱了资源，却让你特别擅长处理灾祸。","start":{"body":2,"mind":1,"family":-2},"chanceCats":{"天灾":15,"人祸":10,"危机":10}},{"id":"spoiled","icon":"🧸","name":"被宠坏的孩子","tone":"mixed","desc":"资源优越，但独立判断和抗压能力不足。","start":{"family":4,"mind":-2,"body":-1},"chanceCats":{"财富":7,"危机":-12,"迁徙":-7}},{"id":"helper","icon":"🤝","name":"热心过度","tone":"mixed","desc":"更容易获得信任，但经常为了别人消耗自己的资源。","start":{"charm":3,"family":-2},"chanceCats":{"友情":12,"家庭":8,"人祸":6},"annual":[{"every":9,"stat":"family","delta":-1,"text":"你又替别人承担了一笔开销，家境 -1。"}]},{"id":"procrastinator","icon":"🛋️","name":"拖延大师","tone":"mixed","desc":"平时松弛讨喜，关键时刻却经常准备不足。","start":{"charm":2,"mind":-2},"chanceCats":{"友情":6,"爱情":5,"学业":-10,"事业":-8}},{"id":"small_town","icon":"🏘️","name":"小城根基","tone":"mixed","desc":"家庭和身体基础稳定，离开熟悉环境时却更困难。","start":{"body":2,"family":2,"charm":-1},"chanceCats":{"家庭":8,"迁徙":-14}},{"id":"celebrity_child","icon":"📸","name":"名人之后","tone":"mixed","desc":"资源与关注从小不缺，但隐私和信任都更脆弱。","start":{"family":4,"charm":2,"mind":-2},"chanceCats":{"名望":12,"人祸":-12,"友情":-6}},{"id":"dreamer","icon":"☁️","name":"理想主义者","tone":"mixed","desc":"想象力与感染力很强，现实资源管理却较弱。","start":{"mind":2,"charm":3,"family":-3},"chanceCats":{"奇遇":14,"名望":8,"财富":-10}},{"id":"stoic","icon":"🗿","name":"沉默坚忍","tone":"mixed","desc":"抗压和判断都很强，但别人很难真正靠近你。","start":{"body":3,"mind":2,"charm":-3},"chanceCats":{"危机":12,"健康":8,"爱情":-10,"友情":-8}},{"id":"family_burden","icon":"🧳","name":"家庭重担","tone":"mixed","desc":"你更懂责任和人情，却要长期承担家庭成本。","start":{"charm":2,"family":-3},"chanceCats":{"家庭":12,"友情":5},"annual":[{"every":7,"stat":"family","delta":-1,"text":"家庭责任再次增加，家境 -1。"}]},{"id":"miracle_child","icon":"🌈","name":"奇迹之子","tone":"mixed","desc":"四项天赋都略高，却像提前透支了生命。","start":{"body":2,"mind":2,"charm":2,"family":2},"chanceAll":3,"lifespan":-10},{"id":"cursed_luck","icon":"🌀","name":"厄运缠身","tone":"danger","desc":"所有判定下降，但每次重大事件多两次重抽；成功后精彩度更高。","chanceAll":-10,"rerolls":2,"legendOnSuccess":2},{"id":"doom_clock","icon":"⏰","name":"天妒英才","tone":"danger","desc":"智力与魅力大幅增加，但寿命明显缩短。","start":{"mind":3,"charm":3,"body":-4},"lifespan":-14,"annual":[{"every":10,"stat":"body","delta":-1,"text":"身体中的倒计时再次推进，体质 -1。"}]},{"id":"unlucky_love","icon":"💔","name":"情路坎坷","tone":"danger","desc":"事业头脑和资源不错，但爱情几乎总会出现波折。","start":{"mind":2,"family":2,"charm":-4},"chanceCats":{"爱情":-20,"事业":5}},{"id":"money_pit","icon":"🕳️","name":"漏财体质","tone":"danger","desc":"身体和社交不错，却总有意外开支吞噬积累。","start":{"body":2,"charm":2,"family":-5},"chanceCats":{"财富":-14},"annual":[{"every":6,"stat":"family","delta":-1,"text":"又一笔意外支出出现，家境 -1。"}]},{"id":"disaster_magnet","icon":"🌩️","name":"灾星体质","tone":"danger","desc":"危急时反应敏捷，却格外容易在灾难中判断失误。","start":{"body":2,"mind":1,"family":-2},"chanceCats":{"天灾":-22,"人祸":-15,"危机":5}},{"id":"glass_heart","icon":"🫧","name":"玻璃心","tone":"danger","desc":"感受力和魅力很强，但压力会直接伤害身体。","start":{"charm":3,"body":-4},"chanceCats":{"爱情":8,"名望":8,"危机":-14},"lifespan":-4},{"id":"chronic_illness","icon":"🩹","name":"顽疾缠身","tone":"danger","desc":"疾病迫使你更聪明地生活，但体质会持续下降。","start":{"mind":3,"body":-5},"chanceCats":{"学业":6,"健康":-16},"lifespan":-8,"annual":[{"every":7,"stat":"body","delta":-1,"text":"旧疾再次发作，体质 -1。"}]},{"id":"troublemaker","icon":"🧨","name":"麻烦制造者","tone":"danger","desc":"极有存在感，却经常把自己卷入冲突。","start":{"charm":3,"mind":-2,"family":-2},"chanceCats":{"名望":10,"人祸":-18,"友情":-8}},{"id":"bad_temper","icon":"🌋","name":"暴脾气","tone":"danger","desc":"体魄与行动力很强，但人际关系容易被自己烧毁。","start":{"body":3,"charm":-5},"chanceCats":{"危机":8,"人祸":-8,"友情":-15,"爱情":-15}},{"id":"black_sheep","icon":"🐈‍⬛","name":"家族异类","tone":"danger","desc":"思维和个性都很突出，却几乎得不到家庭支持。","start":{"mind":2,"charm":2,"family":-5},"chanceCats":{"奇遇":12,"家庭":-18,"迁徙":8}}];
+
+const categoryStats={
+  "学业":["mind"],"事业":["mind","family"],"财富":["family","mind"],"爱情":["charm"],
+  "健康":["body"],"家庭":["family","charm"],"迁徙":["mind","family"],"友情":["charm"],
+  "名望":["charm","mind"],"奇遇":["mind","charm"],"时代":["mind"],"危机":["body","mind"],
+  "天灾":["body","family"],"人祸":["mind","charm"]
+};
+
+function hasAbility(id){return !!state && Array.isArray(state.abilities) && state.abilities.includes(id)}
+function abilityById(id){return abilities.find(a=>a.id===id)}
+function primaryStatsFor(choice){
+  const arr=[...(categoryStats[currentEvent?.category]||[])];
+  if(choice?.need){
+    const filtered=arr.filter(x=>x!==choice.need);
+    return [choice.need,...filtered];
+  }
+  return arr.length?arr:["mind"];
+}
+function calculateChance(choice){
+  const keys=primaryStatsFor(choice);
+  let chance=26+(state[keys[0]]||0)*4;
+  if(keys[1])chance+=(state[keys[1]]||0)*1.5;
+
+  (state.abilities||[]).forEach(id=>{
+    const a=abilityById(id);
+    if(!a)return;
+    chance += a.chanceAll||0;
+    chance += (a.chanceStats?.[keys[0]]||0);
+    if(keys[1])chance += (a.chanceStats?.[keys[1]]||0)*0.5;
+    chance += (a.chanceCats?.[currentEvent?.category]||0);
+  });
+
+  return Math.max(5,Math.min(95,Math.round(chance)));
+}
+function statRelationText(choice){
+  return primaryStatsFor(choice).map(k=>statNames[k]).join("＋");
+}
 
 const rewardPool=[
   {id:"body_plus", name:"强体传承", desc:"下一世开局体质 +1", apply:m=>m.bonus.body++},
@@ -382,6 +485,42 @@ const eventBank={
  {title:"信任危机",desc:"你发现身边有人隐瞒了非常重要的事实。",choices:[
   {text:"当面对质",hint:"依赖魅力",need:"charm",fx:{charm:[-1,3],mind:[1,2]},success:"真相被摊开，关系重新建立边界。",fail:"对话彻底失控，你失去了一段关系。"},
   {text:"暗中调查",hint:"依赖智力",need:"mind",fx:{mind:[1,3],charm:[-2,0]},success:"你掌握了完整事实，再决定如何处理。",fail:"你调查得越深，就越难相信任何人。"}
+ ]}
+],
+"天灾":[
+ {title:"地震在凌晨发生",desc:"楼体剧烈晃动，电力中断，楼道里充满呼喊声。你只有很短时间判断下一步。",choices:[
+  {text:"立刻沿安全通道撤离",hint:"主要依赖体质与判断",need:"body",fx:{body:[-2,2],mind:[0,2],family:[-2,0]},success:"你避开了最危险的区域，并帮助身边的人撤出。",fail:"撤离途中受了伤，住所也遭到破坏。"},
+  {text:"先叫醒邻居再一起走",hint:"依赖魅力与体质",need:"charm",fx:{charm:[1,4],body:[-3,1],family:[-2,0]},success:"你救下了几个人，后来很多年他们仍记得你。",fail:"组织撤离耽误了时间，你付出了更大的身体代价。"},
+  {text:"返回屋内抢救重要财物",hint:"依赖家境与风险承受",need:"family",fx:{family:[-4,3],body:[-4,-1]},success:"你保住了关键物品，并在余震前离开。",fail:"财物没有救回，你还在余震中受伤。"},
+  {text:"躲在坚固家具旁等待",hint:"稳健路线，依赖智力",need:"mind",fx:{body:[-2,1],mind:[0,2]},success:"你选择的位置足够安全，顺利等到救援。",fail:"建筑损伤比预想严重，等待变成了危险。"}
+ ]},
+ {title:"百年一遇的洪水逼近",desc:"水位上涨速度超过预报，交通正在中断，附近的人开始恐慌。",choices:[
+  {text:"立即前往高处",hint:"体质决定撤离效率",need:"body",fx:{body:[-1,2],family:[-2,0]},success:"你在道路被淹前抵达安全地带。",fail:"撤离太晚，你在水中耗尽了大量体力。"},
+  {text:"组织附近居民共同撤离",hint:"魅力与判断共同作用",need:"charm",fx:{charm:[2,4],mind:[1,2],body:[-2,0]},success:"你组织出一条有效撤离路线，很多人因此获救。",fail:"人群混乱，你无法让所有人听从安排。"},
+  {text:"开车穿过积水区",hint:"高风险，依赖智力",need:"mind",fx:{family:[-4,1],body:[-3,0]},success:"你准确判断了水深，在道路封闭前冲了出去。",fail:"车辆熄火，情况迅速恶化。"}
+ ]},
+ {title:"山火越过了防火线",desc:"浓烟遮住天空，撤离通知不断响起，你还能带走的东西非常有限。",choices:[
+  {text:"什么都不拿，立即走",hint:"生存优先",need:"body",fx:{body:[0,3],family:[-4,-1]},success:"你安全撤离，虽然损失财物，但人平安无事。",fail:"烟雾让撤离变得艰难，你吸入了大量浓烟。"},
+  {text:"带上证件和应急物资",hint:"依赖智力",need:"mind",fx:{mind:[1,2],body:[-1,2],family:[-2,0]},success:"你的准备让灾后的生活恢复得更快。",fail:"寻找物资耽误了宝贵时间。"},
+  {text:"留下协助消防与救援",hint:"极高风险，回报精彩度",need:"body",fx:{body:[-4,1],charm:[2,5]},success:"你的行动帮助守住了几户人家。",fail:"火势变化太快，你受了严重伤害。"}
+ ]}
+],
+"人祸":[
+ {title:"你被卷入一场精心设计的骗局",desc:"对方掌握了你的部分信息，并制造出极强的紧迫感。",choices:[
+  {text:"立即停止转账并核验信息",hint:"主要依赖智力",need:"mind",fx:{mind:[1,3],family:[-1,1]},success:"你及时识破骗局，还保留了完整证据。",fail:"你反应得稍晚，仍损失了一部分资源。"},
+  {text:"联系熟人帮忙判断",hint:"依赖魅力与人脉",need:"charm",fx:{charm:[1,2],family:[-2,1]},success:"朋友发现了关键漏洞，帮你避免损失。",fail:"熟人的错误判断反而让你更相信骗子。"},
+  {text:"反过来套取对方信息",hint:"高风险智力路线",need:"mind",fx:{mind:[1,4],family:[-3,2],charm:[0,2]},success:"你拿到了关键线索，并协助阻止了更多受害者。",fail:"你低估了对方，损失继续扩大。"}
+ ]},
+ {title:"公共场所发生严重事故",desc:"现场混乱，有人受伤，出口处出现拥堵。",choices:[
+  {text:"迅速离开危险区域",hint:"依赖体质",need:"body",fx:{body:[-2,2],mind:[0,1]},success:"你判断出正确方向，及时脱离现场。",fail:"拥堵让你受了伤。"},
+  {text:"留下救助伤者",hint:"依赖体质与魅力",need:"body",fx:{body:[-4,0],charm:[2,5]},success:"你帮助几名伤者撑到救援到来。",fail:"你缺乏专业条件，自己也陷入危险。"},
+  {text:"冷静组织人群疏散",hint:"依赖魅力与智力",need:"charm",fx:{charm:[2,4],mind:[1,3],body:[-2,0]},success:"混乱逐渐恢复秩序，更多人顺利离开。",fail:"人群没有听从指挥，局面一度失控。"},
+  {text:"记录现场并保留证据",hint:"依赖智力",need:"mind",fx:{mind:[1,3],charm:[-1,2]},success:"你的记录后来成为厘清责任的关键。",fail:"你过于专注记录，差点错过撤离时机。"}
+ ]},
+ {title:"合作伙伴突然卷款失联",desc:"账户异常、电话关机，所有迹象都说明这不是普通失联。",choices:[
+  {text:"立刻冻结账户并报警",hint:"依赖智力",need:"mind",fx:{mind:[1,3],family:[-4,2]},success:"行动足够快，你追回了大部分损失。",fail:"关键资金已被转走，只追回少量。"},
+  {text:"动用人脉寻找对方",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],family:[-5,3]},success:"你的关系网找到了重要线索。",fail:"消息真假混杂，反而浪费了时间。"},
+  {text:"承担损失，重新开始",hint:"依赖家境与抗压",need:"family",fx:{family:[-4,-1],body:[-1,2],mind:[1,2]},success:"你保住了剩余生活，没有被这件事彻底拖垮。",fail:"损失远超承受范围，生活结构被迫改变。"}
  ]}
 ]
 };
@@ -483,7 +622,7 @@ function renderAllocation(){
   const left=20-totalPoints();
   remaining.textContent=left;
   startBtn.disabled=left!==0;
-  startBtn.textContent=left===0?"开始这一生":"必须分完 20 点";
+  startBtn.textContent=left===0?"下一步：选择能力":"必须分完 20 点";
 }
 function randomAllocate(){
   allocation={body:0,mind:0,charm:0,family:0};
@@ -495,13 +634,78 @@ function randomAllocate(){
   renderAllocation();
 }
 
-function startLife(){
+
+function shuffleArray(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function generateAbilityOffer(){
+  const good=shuffleArray(abilities.filter(a=>a.tone==="good")).slice(0,4);
+  const mixed=shuffleArray(abilities.filter(a=>a.tone==="mixed")).slice(0,4);
+  const danger=shuffleArray(abilities.filter(a=>a.tone==="danger")).slice(0,2);
+  offeredAbilityIds=shuffleArray([...good,...mixed,...danger]).map(a=>a.id);
+  selectedAbilities=[];
+}
+function openAbilitySelection(){
   if(totalPoints()!==20)return;
+  if(offeredAbilityIds.length!==10)generateAbilityOffer();
+  pointStage.style.display="none";
+  abilityStage.style.display="block";
+  renderAbilitySelection();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function backToPoints(){
+  abilityStage.style.display="none";
+  pointStage.style.display="block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function toggleAbility(id){
+  if(selectedAbilities.includes(id)){
+    selectedAbilities=selectedAbilities.filter(x=>x!==id);
+  }else if(selectedAbilities.length<3){
+    selectedAbilities.push(id);
+  }
+  renderAbilitySelection();
+}
+function toneText(tone){
+  return tone==="good"?"稳定增益":tone==="danger"?"危险天赋":"增益与代价";
+}
+function formatStartMods(a){
+  const entries=Object.entries(a.start||{});
+  if(!entries.length)return "开局属性不直接变化";
+  return "开局："+entries.map(([k,v])=>`${statNames[k]} ${v>0?"+":""}${v}`).join(" · ");
+}
+function renderAbilitySelection(){
+  abilityCount.textContent=selectedAbilities.length;
+  confirmAbilityBtn.disabled=selectedAbilities.length!==3;
+  confirmAbilityBtn.textContent=selectedAbilities.length===3?"带着这三个能力出生":`还需选择 ${3-selectedAbilities.length} 个`;
+  const offered=offeredAbilityIds.map(id=>abilityById(id)).filter(Boolean);
+  abilityGrid.innerHTML=offered.map(a=>{
+    const chosen=selectedAbilities.includes(a.id);
+    const locked=!chosen && selectedAbilities.length>=3;
+    return `<button class="abilityCard tone-${a.tone} ${chosen?"selected":""} ${locked?"locked":""}" ${locked?"disabled":""} onclick="toggleAbility('${a.id}')">
+      <div class="abilityIcon">${a.icon}</div>
+      <div class="abilityName">${a.name}</div>
+      <div class="abilityDesc">${a.desc}</div>
+      <div class="abilityMods">${formatStartMods(a)}</div>
+      <span class="abilityTone ${a.tone}">${toneText(a.tone)}</span>
+      ${chosen?'<div class="abilityPick">✓ 已选择</div>':""}
+    </button>`;
+  }).join("");
+}
+
+function startLife(){
+  if(totalPoints()!==20 || selectedAbilities.length!==3)return;
   const m=metaState||defaultMeta();
   state={
     name:playerName.value.trim()||"无名旅人",
     avatar:avatars[rand(0,avatars.length-1)],
     age:18, majorDone:0, targetMajor:3, legend:0,
+    abilities:[...selectedAbilities], comebackUsed:false, sixthSenseUsed:false,
     body:clamp(allocation.body+(m.bonus.body||0)),
     mind:clamp(allocation.mind+(m.bonus.mind||0)),
     charm:clamp(allocation.charm+(m.bonus.charm||0)),
@@ -509,11 +713,22 @@ function startLife(){
     history:[], yearlyLog:[], ended:false, currentDaily:"18 岁，你站在这一生的入口。第一次重大抉择还没到来。",
     rewardOptions:null, rewardClaimed:null, lifeCounted:false, extraChecked:false, lifeCompleted:false
   };
-  recordYear(18,"你正式成年，第一次拥有了独立决定人生方向的权利。","start");
+
+  state.abilities.forEach(id=>{
+    const a=abilityById(id);
+    Object.entries(a?.start||{}).forEach(([k,v])=>state[k]=clamp(state[k]+v));
+  });
+  state.initialStats={body:state.body,mind:state.mind,charm:state.charm,family:state.family};
+
+  const talentNames=state.abilities.map(id=>abilityById(id)?.name).filter(Boolean).join("、");
+  recordYear(18,`你正式成年，并带着三种天赋开始人生：${talentNames}。`,"start");
   saveLife();
   enterGame();
 }
 function normalizeLife(){
+  if(!Array.isArray(state.abilities))state.abilities=[];
+  if(state.comebackUsed===undefined)state.comebackUsed=false;
+  if(state.sixthSenseUsed===undefined)state.sixthSenseUsed=false;
   if(!state.yearlyLog){
     state.yearlyLog=[];
     const lastAge=Math.max(18,state.age||18);
@@ -546,6 +761,9 @@ function renderAll(){
   meta.textContent=`${state.age} 岁 · 重大抉择 ${state.majorDone}/${state.targetMajor}`;
   stats.innerHTML=["body","mind","charm","family"].map(k=>`
     <div class="stat"><div class="statName">${statIcons[k]} ${statNames[k]}</div><div class="statValue">${state[k]}</div></div>`).join("");
+  abilityBar.innerHTML=(state.abilities||[]).map(id=>{
+    const a=abilityById(id); return a?`<span class="abilityPill">${a.icon} ${a.name}</span>`:"";
+  }).join("");
   majorProgress.textContent=`重大抉择：${state.majorDone} / ${state.targetMajor}`;
   legendText.textContent=`精彩度：${state.legend}`;
   daily.textContent=state.currentDaily;
@@ -554,13 +772,27 @@ function renderAll(){
     <div class="logItem"><b>${x.age} 岁 · ${x.category}</b>　${x.title}<br><span class="muted">选择：${x.choice}</span></div>
   `).join("") : `<div class="muted">这一生的关键节点还没有出现。</div>`;
 }
+function getRerollLimit(){
+  return 1+(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.rerolls||0),0);
+}
+function hasFreeDisasterReroll(){
+  return hasAbility("sense") && !state.sixthSenseUsed && currentEvent && ["天灾","人祸"].includes(currentEvent.category);
+}
+function updateRerollButton(){
+  const free=hasFreeDisasterReroll();
+  const remain=getRerollLimit()-rerollCountThisStage;
+  const available=free || remain>0;
+  rerollBtn.style.display=available?"inline-block":"none";
+  rerollBtn.disabled=!available;
+  rerollBtn.textContent=free?"🔮 第六感：免费重抽":`重新抽取（剩余 ${Math.max(0,remain)} 次）`;
+}
 function resetWheelUI(){
   eventPanel.classList.remove("on");
   result.classList.remove("on");
   spinBtn.disabled=false;
   spinBtn.textContent="转动命运轮盘";
   rerollBtn.style.display="none";
-  rerollUsedThisStage=false;
+  rerollCountThisStage=0;
   spinCurrent.textContent="等待转动";
   spinTrail.innerHTML="";
 }
@@ -614,8 +846,14 @@ function spinWheel(isReroll=false){
   runStep();
 }
 function rerollEvent(){
-  if(spinning||rerollUsedThisStage)return;
-  rerollUsedThisStage=true;
+  if(spinning)return;
+  if(hasFreeDisasterReroll()){
+    state.sixthSenseUsed=true;
+  }else{
+    if(rerollCountThisStage>=getRerollLimit())return;
+    rerollCountThisStage++;
+  }
+  saveLife();
   spinWheel(true);
 }
 function showEvent(){
@@ -626,12 +864,14 @@ function showEvent(){
   currentEvent.choices.forEach((c,i)=>{
     const b=document.createElement("button");
     b.className="choice";
-    b.innerHTML=`<b>${String.fromCharCode(65+i)}. ${c.text}</b><span>${c.hint}</span>`;
+    const chance=calculateChance(c);
+    b.innerHTML=`<b>${String.fromCharCode(65+i)}. ${c.text}</b>
+      <span>${c.hint}</span>
+      <span class="chanceLine">成功率 ${chance}% · 受 ${statRelationText(c)} 影响</span>`;
     b.onclick=()=>chooseEvent(i);
     choices.appendChild(b);
   });
-  rerollBtn.style.display=rerollUsedThisStage?"none":"inline-block";
-  rerollBtn.disabled=rerollUsedThisStage;
+  updateRerollButton();
   eventPanel.classList.add("on");
   eventPanel.scrollIntoView({behavior:"smooth",block:"start"});
 }
@@ -640,30 +880,77 @@ function chooseEvent(i){
   document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
   const c=currentEvent.choices[i];
   const changes=[];
-  let success=true;
+  const chance=calculateChance(c);
+  let success=rand(1,100)<=chance;
+  let comebackTriggered=false;
+  let charmFlip=false;
 
-  if(c.need){
-    const chance=Math.min(88,38+state[c.need]*4);
-    success=rand(1,100)<=chance;
-  }else{
-    success=rand(1,100)<=72;
+  if(!success && hasAbility("charmer") && ["爱情","友情","名望"].includes(currentEvent.category) && rand(1,100)<=25){
+    success=true;
+    charmFlip=true;
   }
+  if(!success && hasAbility("comeback") && !state.comebackUsed){
+    success=true;
+    comebackTriggered=true;
+    state.comebackUsed=true;
+  }
+
+  const relevant=primaryStatsFor(c)[0];
 
   Object.entries(c.fx||{}).forEach(([k,range])=>{
     let d=rand(range[0],range[1]);
+
     if(!success && d>1)d=Math.floor(d/2);
+
+    // 四项属性会直接减轻对应类型损失
+    if(d<0){
+      const protection=Math.floor((state[k]||0)/8);
+      d=Math.min(0,d+protection);
+      if(k==="body" && hasAbility("iron"))d=Math.min(0,d+1);
+      if(k==="family" && hasAbility("resource") && ["天灾","人祸"].includes(currentEvent.category))d=Math.min(0,d+1);
+      if(hasAbility("gambler") && ["事业","财富"].includes(currentEvent.category))d-=1;
+      (state.abilities||[]).forEach(id=>{
+        const a=abilityById(id);
+        d=Math.min(0,d+(a?.lossProtect?.[k]||0));
+      });
+    }
+
+    // 能力与高相关属性会放大正面回报
+    if(d>0 && success){
+      if(k==="mind" && hasAbility("memory") && ["学业","时代"].includes(currentEvent.category))d+=1;
+      if(k==="family" && hasAbility("resource") && currentEvent.category==="财富")d+=1;
+      if(hasAbility("gambler") && ["事业","财富"].includes(currentEvent.category))d+=2;
+      if(k===relevant && (state[relevant]||0)>=12)d+=1;
+      if(comebackTriggered)d=Math.max(1,Math.ceil(d/2));
+    }
+
     state[k]=clamp(state[k]+d);
     changes.push({k,value:d});
   });
 
-  const gainedLegend = success ? rand(1,2)+((metaState.legendBonus||0)>0 ? 1:0) : 0;
+  let gainedLegend = success ? rand(1,2)+((metaState.legendBonus||0)>0 ? 1:0) : 0;
+  if(success && hasAbility("explorer") && ["奇遇","迁徙"].includes(currentEvent.category))gainedLegend+=1;
+  if(success){
+    (state.abilities||[]).forEach(id=>{
+      const a=abilityById(id);
+      gainedLegend += a?.legendOnSuccess||0;
+      gainedLegend += a?.legendCats?.[currentEvent.category]||0;
+    });
+  }
   state.legend += gainedLegend;
+
   const ageAtEvent=state.age;
   state.majorDone++;
-  state.history.push({age:ageAtEvent, category:currentEvent.category, title:currentEvent.title, choice:c.text, success});
-  recordYear(ageAtEvent,`${currentEvent.title}。你选择了“${c.text}”。${success?c.success:c.fail}`,"major");
-  resultTitle.textContent=success?"你抓住了这次命运转折":"这次命运没有完全站在你这边";
-  resultText.textContent=(success?c.success:c.fail)+(gainedLegend?` 你的精彩度 +${gainedLegend}。`:"");
+  state.history.push({
+    age:ageAtEvent,category:currentEvent.category,title:currentEvent.title,choice:c.text,success,
+    chance,abilities:[...(state.abilities||[])]
+  });
+
+  const specialText=charmFlip?" “人见人爱”让局面意外反转。":comebackTriggered?" “绝处逢生”在最后一刻生效。":"";
+  recordYear(ageAtEvent,`${currentEvent.title}。你选择了“${c.text}”（判定成功率 ${chance}%）。${success?c.success:c.fail}${specialText}`,"major");
+
+  resultTitle.textContent=success?(comebackTriggered?"你在绝境中翻盘":"你抓住了这次命运转折"):"这次命运没有完全站在你这边";
+  resultText.textContent=(success?c.success:c.fail)+specialText+(gainedLegend?` 精彩度 +${gainedLegend}。`:"");
   effects.innerHTML=(changes.map(x=>`<span class="effect ${x.value>0?"good":x.value<0?"bad":"neutral"}">${statIcons[x.k]}${statNames[x.k]} ${x.value>0?"+":""}${x.value}</span>`).join("") || `<span class="effect neutral">属性没有变化</span>`);
   result.classList.add("on");
   nextBtn.textContent=shouldEndNow()?"查看人生结局":"进入下一阶段";
@@ -692,8 +979,41 @@ function yearlyPool(age){
 function generateOneYear(age){
   const pool=yearlyPool(age);
   const d=pool[rand(0,pool.length-1)];
-  Object.entries(d.fx||{}).forEach(([k,v])=>state[k]=clamp(state[k]+v));
-  recordYear(age,d.text,"normal");
+  const entries=Object.entries(d.fx||{});
+  const hasNegative=entries.some(([,v])=>v<0);
+
+  if(hasNegative && hasAbility("time") && rand(1,100)<=35){
+    recordYear(age,`原本可能出现一段消耗，但“时间管理大师”让你提前避开了它。`,"normal");
+  }else{
+    entries.forEach(([k,v])=>{
+      let change=v;
+      if(change<0){
+        // 对应属性越高，平时生活越不容易在该方面失控
+        const avoidChance=Math.min(55,(state[k]||0)*3);
+        if(rand(1,100)<=avoidChance)change=0;
+        if(change<0 && k==="body" && hasAbility("iron"))change=Math.min(0,change+1);
+      }
+      state[k]=clamp(state[k]+change);
+    });
+    recordYear(age,d.text,"normal");
+  }
+
+  if(hasAbility("time") && age%10===0){
+    state.body=clamp(state.body+1);
+    recordYear(age,"你在整十岁的节点重新整理生活，体质因此 +1。","normal");
+  }
+
+  (state.abilities||[]).forEach(id=>{
+    const a=abilityById(id);
+    (a?.annual||[]).forEach(rule=>{
+      const hitEvery=!rule.every || age%rule.every===0;
+      const hitChance=!rule.chance || rand(1,100)<=rule.chance;
+      if(hitEvery && hitChance){
+        state[rule.stat]=clamp(state[rule.stat]+rule.delta);
+        recordYear(age,rule.text,"normal");
+      }
+    });
+  });
 }
 function advanceYears(years){
   const startAge=state.age;
@@ -753,7 +1073,8 @@ function completeRemainingLife(){
     state.lifeCompleted=true;
     return;
   }
-  const lifespan=Math.max(state.age,Math.min(98,58+state.body*2+rand(-4,12)));
+  const lifespanBonus=(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.lifespan||0),0);
+  const lifespan=Math.max(state.age,Math.min(108,58+state.body*2+lifespanBonus+rand(-4,12)));
   if(lifespan>state.age)advanceYears(lifespan-state.age);
   recordYear(state.age,"你在这一年走完了这一生，留下了属于自己的轨迹。","end");
   state.lifeCompleted=true;
@@ -774,17 +1095,57 @@ function finishLife(){
   showEnding();
 }
 function endingData(){
-  let d=[["body","🏃","强健而长久的人生","你最珍贵的资产一直是还能继续前进的身体。"],
-         ["mind","🧠","靠头脑改变命运","你一次次用判断和学习，把随机变成了选择。"],
-         ["charm","✨","被许多人记住的人生","你留下来的不仅是结果，还有关系和温度。"],
-         ["family","🏠","稳固而有根基的人生","你把资源、积累与支撑，慢慢变成了真正的安全感。"]]
-         .sort((a,b)=>state[b[0]]-state[a[0]])[0];
-  if(state.body<=0)d=["body","🕯️","燃烧得太快的人生","你经历了很多，只是身体先一步要求停下。"];
-  if(state.majorDone>=4)d=["legend","🌠","波澜壮阔的人生","这一生的重大转折比别人更多，你确实活得不平凡。"];
-  if(Object.values({body:state.body,mind:state.mind,charm:state.charm,family:state.family}).every(v=>v>=12)){
-    d=["all","👑","几乎没有短板的人生","命运给过你考验，而你把每条路都走得不错。"];
-  }
-  return d;
+  const values=[state.body,state.mind,state.charm,state.family];
+  const sum=values.reduce((a,b)=>a+b,0);
+  const successes=(state.history||[]).filter(x=>x.success).length;
+  const failures=(state.history||[]).filter(x=>!x.success).length;
+  const allHigh=values.every(v=>v>=15);
+  const allLow=values.every(v=>v<=5);
+
+  if(state.body<=0 || state.age<45)
+    return ["bad","🕯️","英年早逝","这一生还没有走到真正成熟，身体或灾难就提前终止了旅程。","bad"];
+  if(allLow || sum<=14)
+    return ["bad","🌑","被生活彻底耗尽","资源、健康、关系和判断同时跌入低谷，最后只剩下勉强维持。","bad"];
+  if(state.family<=1 && state.charm<=3)
+    return ["bad","🥀","穷困而孤独的晚年","缺少资源，也没有足够稳定的关系替你托底。","bad"];
+  if(failures>=3 && successes===0)
+    return ["bad","🌀","命运连续失控","每次重大转折都滑向了更坏的方向，你始终没能重新掌握主动权。","bad"];
+  if(state.charm<=2 && state.age>=68)
+    return ["bad","🚪","孤独终老","你走了很远，但身边能真正说话的人越来越少。","bad"];
+  if(state.family<=2 && state.age>=65)
+    return ["bad","🧾","债务缠身的晚年","漫长人生没有留下足够资源，晚年始终被现实追赶。","bad"];
+  if(hasAbility("doom_clock") && state.age<62)
+    return ["bad","⏳","天妒英才","你拥有耀眼天赋，却没能换来同样漫长的生命。","bad"];
+
+  if(state.age>=100 && state.body>=8)
+    return ["good","🎂","百岁传奇","你跨过一个世纪，见证时代变化，也保留了足够清醒和健康。","good"];
+  if(allHigh)
+    return ["good","👑","天选人生","健康、智慧、关系与资源几乎没有明显短板。","good"];
+  if(state.legend>=10)
+    return ["good","🌠","时代传奇","你的人生充满罕见转折，许多年后仍有人讲述你的故事。","good"];
+  if(state.family>=18)
+    return ["good","🏦","财富帝国","你把资源变成了真正庞大的积累，并影响了下一代的起点。","good"];
+  if(state.mind>=18 && successes>=2)
+    return ["good","🧠","智慧巅峰","你依靠判断、学习和长期积累，成为很多人眼中的答案。","good"];
+  if(state.charm>=18 && successes>=2)
+    return ["good","🌟","众望所归","你建立了广泛而真实的关系，离开后仍被很多人怀念。","good"];
+  if(successes===(state.history||[]).length && successes>=3)
+    return ["good","🚀","一路开挂","几次真正改变命运的抉择，你全部站在了正确的一边。","good"];
+  if(sum>=48)
+    return ["good","🏆","丰盛人生","这辈子并不完美，但你最终拥有了足够多值得珍惜的东西。","good"];
+
+  if(state.age>=88)
+    return ["neutral","🍵","安稳长寿","你没有成为传奇，却拥有了一段足够漫长而完整的人生。","neutral"];
+  if(state.majorDone>=4)
+    return ["neutral","🎢","跌宕起伏的一生","你经历的转折比普通人更多，有高峰，也留下了明显的伤痕。","neutral"];
+
+  const ranked=[
+    ["body","🏃","坚韧人生","你最大的本钱是一次次扛过身体和现实的消耗。"],
+    ["mind","📘","思考者的一生","你更擅长理解世界，而不是被世界推着走。"],
+    ["charm","🫂","被人记住的一生","你留下最深的痕迹，存在于人与人的关系里。"],
+    ["family","🏠","守成者的一生","你最终保住了资源、家庭与生活的基本秩序。"]
+  ].sort((a,b)=>state[b[0]]-state[a[0]])[0];
+  return [ranked[0],ranked[1],ranked[2],ranked[3],"neutral"];
 }
 function renderOverview(){
   const logs=[...(state.yearlyLog||[])].sort((a,b)=>a.age-b.age);
@@ -861,7 +1222,9 @@ function showEnding(){
   const d=endingData();
   endIcon.textContent=d[1];
   endTitle.textContent=d[2];
-  endText.textContent=`${state.name} 的人生在 ${state.age} 岁完成结算。${d[3]}`;
+  endTitle.style.color=d[4]==="good"?"#91efd3":d[4]==="bad"?"#ff9aae":"#ffe19a";
+  const talentText=(state.abilities||[]).map(id=>abilityById(id)?.name).filter(Boolean).join("、");
+  endText.textContent=`${state.name} 的人生在 ${state.age} 岁完成结算。${d[3]} 本世能力：${talentText||"无"}。`;
   finalGrid.innerHTML=["body","mind","charm","family"].map(k=>`<div class="finalBox">${statIcons[k]} ${statNames[k]}<br><b style="font-size:25px">${state[k]}</b></div>`).join("");
   renderOverview();
   renderYearReview();
