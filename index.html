@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · 传承总览版</title>
+<title>随机人生模拟器</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -75,7 +75,7 @@ input:focus{border-color:var(--purple)}
 .pointer{position:absolute;left:50%;top:-8px;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:31px solid var(--gold);filter:drop-shadow(0 4px 4px rgba(0,0,0,.4))}
 .wheel{width:100%;height:100%;border-radius:50%;background:conic-gradient(#745df0 0 45deg,#2dbd93 45deg 90deg,#f1a63c 90deg 135deg,#ef6685 135deg 180deg,#4aa8e9 180deg 225deg,#ad6be8 225deg 270deg,#5bc46e 270deg 315deg,#d85e5e 315deg 360deg);border:8px solid rgba(255,255,255,.14);box-shadow:0 16px 45px rgba(0,0,0,.42),inset 0 0 0 4px rgba(0,0,0,.12);transition:transform 4.1s cubic-bezier(.12,.72,.08,1);position:relative}
 .wheelCenter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:#10182d;border:5px solid rgba(255,255,255,.16);font-size:28px;font-weight:950;z-index:3}
-.wheelLabel{position:absolute;left:50%;top:50%;width:72px;text-align:center;font-size:13px;font-weight:950;text-shadow:0 2px 4px rgba(0,0,0,.45)}
+.wheelLabel{position:absolute;left:50%;top:50%;width:58px;text-align:center;font-size:11px;font-weight:950;text-shadow:0 2px 4px rgba(0,0,0,.55)}
 .l1{transform:translate(-50%,-50%) rotate(22.5deg) translateY(-102px) rotate(-22.5deg)}
 .l2{transform:translate(-50%,-50%) rotate(67.5deg) translateY(-102px) rotate(-67.5deg)}
 .l3{transform:translate(-50%,-50%) rotate(112.5deg) translateY(-102px) rotate(-112.5deg)}
@@ -85,6 +85,24 @@ input:focus{border-color:var(--purple)}
 .l7{transform:translate(-50%,-50%) rotate(292.5deg) translateY(-102px) rotate(-292.5deg)}
 .l8{transform:translate(-50%,-50%) rotate(337.5deg) translateY(-102px) rotate(-337.5deg)}
 .spinHint{font-size:12px;color:var(--muted);margin-top:8px}
+.spinCurrent{
+  min-height:38px;margin:10px auto 8px;padding:8px 12px;border-radius:13px;
+  background:rgba(255,255,255,.06);font-size:18px;font-weight:950;color:var(--gold)
+}
+.spinTrail{
+  display:flex;gap:6px;overflow-x:auto;padding:8px 2px 10px;min-height:43px;
+  scroll-behavior:smooth;-webkit-overflow-scrolling:touch
+}
+.trailChip{
+  flex:0 0 auto;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.08);font-size:11px;color:var(--muted)
+}
+.trailChip.active{
+  color:white;background:rgba(139,124,255,.25);border-color:rgba(139,124,255,.55)
+}
+.wheelActions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.rerollNote{font-size:11px;color:var(--muted);margin-top:7px}
+
 .eventPanel{display:none;text-align:left;margin-top:18px;padding:16px;border-radius:18px;background:rgba(0,0,0,.20);border:1px solid var(--line)}
 .eventPanel.on{display:block;animation:fade .25s ease}
 .eventTag{display:inline-block;font-size:11px;color:#91efd3;border:1px solid rgba(66,215,170,.28);background:rgba(66,215,170,.10);padding:5px 8px;border-radius:999px}
@@ -107,6 +125,17 @@ input:focus{border-color:var(--purple)}
 .finalBox{padding:12px;border-radius:14px;background:rgba(255,255,255,.06)}
 .overview{margin-top:18px;text-align:left}
 .svgWrap{width:100%;overflow:auto;background:rgba(255,255,255,.04);border-radius:16px;padding:10px;border:1px solid rgba(255,255,255,.07)}
+.chartLegend{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 0;font-size:11px;color:var(--muted)}
+.legendDot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+.yearReview{margin-top:18px;text-align:left}
+.yearList{max-height:520px;overflow:auto;padding-right:4px}
+.yearItem{display:grid;grid-template-columns:58px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.yearItem:last-child{border-bottom:0}
+.yearAge{font-size:15px;font-weight:950;color:var(--gold)}
+.yearText{font-size:13px;line-height:1.65;color:#d8e0f6}
+.yearItem.major{margin:7px 0;padding:12px 10px;border:1px solid rgba(139,124,255,.35);border-radius:13px;background:rgba(139,124,255,.10)}
+.yearItem.end{margin-top:7px;padding:12px 10px;border:1px solid rgba(255,209,102,.35);border-radius:13px;background:rgba(255,209,102,.08)}
+.yearStats{font-size:10px;color:var(--muted);margin-top:4px}
 .rewardGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 @media(max-width:620px){.rewardGrid{grid-template-columns:1fr}}
 .rewardBtn{padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white;text-align:left}
@@ -119,16 +148,13 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">传承总览版</div>
+    <div class="badge">人生模拟器</div>
   </div>
 
   <section id="home" class="screen on">
-    <div class="card hero">
-      <div class="heroIcon">🧬</div>
-      <h1>决定这辈子的起点<br>再把结果留给命运</h1>
-      <p class="muted">一生通常只有 3 次重大抉择。活得足够精彩，才可能迎来第 4 次。每一世结束后，都能给下一世留下传承。</p>
-
+    <div class="card">
       <div id="newBlock">
+        <h2>创建人生</h2>
         <div class="setupName"><input id="playerName" maxlength="10" placeholder="输入你的名字"></div>
 
         <div class="pointsHead">
@@ -187,14 +213,17 @@ input:focus{border-color:var(--purple)}
         <p class="muted">重大事件只会到来少数几次。每次选择，都会决定接下来很多年的走向。</p>
         <div class="wheelWrap">
           <div class="pointer"></div>
-          <div id="wheel" class="wheel">
-            <div class="wheelLabel l1">学业</div><div class="wheelLabel l2">事业</div><div class="wheelLabel l3">财富</div><div class="wheelLabel l4">爱情</div>
-            <div class="wheelLabel l5">健康</div><div class="wheelLabel l6">家庭</div><div class="wheelLabel l7">奇遇</div><div class="wheelLabel l8">危机</div>
-          </div>
+          <div id="wheel" class="wheel"></div>
           <div class="wheelCenter">命</div>
         </div>
-        <button id="spinBtn" class="btn green" onclick="spinWheel()">转动命运轮盘</button>
-        <div class="spinHint">通常一生只有 3 次轮盘机会</div>
+        <div id="spinCurrent" class="spinCurrent">等待转动</div>
+        <div id="spinTrail" class="spinTrail"></div>
+        <div class="wheelActions">
+          <button id="spinBtn" class="btn green" onclick="spinWheel()">转动命运轮盘</button>
+          <button id="rerollBtn" class="btn gray" style="display:none" onclick="rerollEvent()">重新抽取</button>
+        </div>
+        <div class="spinHint">转动时会显示经过的每一个选项</div>
+        <div class="rerollNote">每次重大抉择可以重新抽取一次</div>
 
         <div id="eventPanel" class="eventPanel">
           <span id="eventTag" class="eventTag"></span>
@@ -226,10 +255,16 @@ input:focus{border-color:var(--purple)}
       <div id="finalGrid" class="finalGrid"></div>
 
       <div class="card overview">
-        <h3>人生总览图</h3>
+        <h3>人生属性总览图</h3>
         <div class="svgWrap">
           <div id="overviewSvg"></div>
         </div>
+      </div>
+
+      <div class="card yearReview">
+        <h3>逐年人生回顾</h3>
+        <p class="muted">从 18 岁开始，每一岁都会留下记录；紫色条目代表重大抉择。</p>
+        <div id="yearList" class="yearList"></div>
       </div>
 
       <div class="card overview" id="rewardSection">
@@ -246,18 +281,18 @@ input:focus{border-color:var(--purple)}
     </div>
   </section>
 
-  <div class="footer">随机人生模拟器 · 单人自动存档 · 传承成长</div>
+  <div class="footer">随机人生模拟器</div>
 </div>
 
 <script>
 const SAVE_KEY="random_life_legacy_save_v1";
 const META_KEY="random_life_legacy_meta_v1";
-const categories=["学业","事业","财富","爱情","健康","家庭","奇遇","危机"];
+const categories=["学业","事业","财富","爱情","健康","家庭","迁徙","友情","名望","奇遇","时代","危机"];
 const statNames={body:"体质",mind:"智力",charm:"魅力",family:"家境"};
 const statIcons={body:"💪",mind:"🧠",charm:"✨",family:"🏠"};
 const avatars=["🦊","🐼","🐸","🦁","🐙","🦄","🐧","🐰"];
 let allocation={body:0,mind:0,charm:0,family:0};
-let state=null, metaState=null, currentEvent=null, wheelRotation=0, spinning=false;
+let state=null, metaState=null, currentEvent=null, wheelRotation=0, spinning=false, pointerIndex=0, rerollUsedThisStage=false;
 
 const rewardPool=[
   {id:"body_plus", name:"强体传承", desc:"下一世开局体质 +1", apply:m=>m.bonus.body++},
@@ -351,17 +386,69 @@ const eventBank={
 ]
 };
 
-const dailyEvents=[
-  {text:"你把日子过得很规律，身体慢慢变稳。",fx:{body:1}},
-  {text:"你偷偷长了见识，判断比从前更准。",fx:{mind:1}},
-  {text:"你结识了一些重要的人。",fx:{charm:1}},
-  {text:"家里替你托住了一部分压力。",fx:{family:1}},
-  {text:"你有一阵子过得很疲惫。",fx:{body:-1}},
-  {text:"一次冲动决定让资源减少。",fx:{family:-1}},
-  {text:"这一阶段波澜不大，但很扎实。",fx:{}},
-  {text:"你学会了拒绝一些无谓消耗。",fx:{mind:1}},
-  {text:"你与某些人渐行渐远。",fx:{charm:-1}}
-];
+const yearlyEventPools={
+  young:[
+    {text:"你开始适应成年后的自由，也第一次意识到自由需要自己负责。",fx:{}},
+    {text:"你认识了一位后来仍会偶尔联系的朋友。",fx:{charm:1}},
+    {text:"你认真学会了一项实用技能。",fx:{mind:1}},
+    {text:"你为一次冲动消费后悔了很久。",fx:{family:-1}},
+    {text:"你连续熬夜，第一次感到身体不再无限耐用。",fx:{body:-1}},
+    {text:"你独自完成了一件原本觉得做不到的事。",fx:{mind:1}},
+    {text:"你短暂喜欢过一个人，最后没有说出口。",fx:{}},
+    {text:"你换了一个环境，生活节奏也随之改变。",fx:{charm:1}},
+    {text:"你得到家人的一次关键帮助。",fx:{family:1}},
+    {text:"这一年没有大事，但你比去年更清楚自己想要什么。",fx:{}}
+  ],
+  adult:[
+    {text:"你的工作逐渐熟练，开始有人愿意听取你的意见。",fx:{mind:1}},
+    {text:"你承担了更多责任，休息时间明显变少。",fx:{body:-1}},
+    {text:"你存下了一笔让自己更安心的钱。",fx:{family:1}},
+    {text:"你结束了一段消耗很大的关系。",fx:{charm:-1}},
+    {text:"你与旧友重逢，发现彼此已经走上不同道路。",fx:{}},
+    {text:"你开始规律运动，精神状态比从前稳定。",fx:{body:1}},
+    {text:"你在一次公开表达中表现不错。",fx:{charm:1}},
+    {text:"你做了一个看似普通、后来却很重要的决定。",fx:{mind:1}},
+    {text:"家里出现了一笔计划外开支。",fx:{family:-1}},
+    {text:"你度过了忙碌但没有明显转折的一年。",fx:{}}
+  ],
+  middle:[
+    {text:"你开始成为别人遇到问题时会主动询问的人。",fx:{mind:1}},
+    {text:"你更重视身体发出的信号，主动减少了无意义的消耗。",fx:{body:1}},
+    {text:"你与一位重要的人重新建立了联系。",fx:{charm:1}},
+    {text:"家庭责任增加，你可自由支配的资源变少。",fx:{family:-1}},
+    {text:"你处理了一次棘手的家庭事务。",fx:{family:1}},
+    {text:"你发现有些曾经执着的东西，已经没有那么重要。",fx:{}},
+    {text:"你的身体恢复速度不如从前。",fx:{body:-1}},
+    {text:"你把多年经验整理成了真正有用的方法。",fx:{mind:1}},
+    {text:"你与某位旧识彻底告别。",fx:{charm:-1}},
+    {text:"这一年平稳地过去，你守住了生活的大部分秩序。",fx:{}}
+  ],
+  senior:[
+    {text:"你开始更频繁地回忆年轻时没有察觉的重要瞬间。",fx:{}},
+    {text:"你把一件珍贵的东西交给了晚辈。",fx:{family:1}},
+    {text:"一次小病让你认真调整了生活节奏。",fx:{body:-1}},
+    {text:"你重新联系了一位多年未见的人。",fx:{charm:1}},
+    {text:"你学会了接受有些事情无法再亲自完成。",fx:{mind:1}},
+    {text:"家人陪你度过了一段安稳的时间。",fx:{family:1}},
+    {text:"你身体尚可，仍然保持着自己的日常习惯。",fx:{body:1}},
+    {text:"你送别了一位旧友，沉默了很久。",fx:{charm:-1}},
+    {text:"你把过去的一次遗憾讲给了别人听。",fx:{}},
+    {text:"这一年很慢，也很安静。",fx:{}}
+  ]
+};
+
+function renderWheelLabels(){
+  wheel.innerHTML="";
+  const step=360/categories.length;
+  categories.forEach((cat,i)=>{
+    const angle=i*step+step/2;
+    const label=document.createElement("div");
+    label.className="wheelLabel";
+    label.textContent=cat;
+    label.style.transform=`translate(-50%,-50%) rotate(${angle}deg) translateY(-105px) rotate(${-angle}deg)`;
+    wheel.appendChild(label);
+  });
+}
 
 function go(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("on"));document.getElementById(id).classList.add("on");window.scrollTo(0,0);}
 function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
@@ -419,15 +506,36 @@ function startLife(){
     mind:clamp(allocation.mind+(m.bonus.mind||0)),
     charm:clamp(allocation.charm+(m.bonus.charm||0)),
     family:clamp(allocation.family+(m.bonus.family||0)),
-    history:[], ended:false, currentDaily:"18 岁，你站在这一生的入口。第一次重大抉择还没到来。",
-    rewardOptions:null, rewardClaimed:null, lifeCounted:false, extraChecked:false
+    history:[], yearlyLog:[], ended:false, currentDaily:"18 岁，你站在这一生的入口。第一次重大抉择还没到来。",
+    rewardOptions:null, rewardClaimed:null, lifeCounted:false, extraChecked:false, lifeCompleted:false
   };
+  recordYear(18,"你正式成年，第一次拥有了独立决定人生方向的权利。","start");
   saveLife();
   enterGame();
+}
+function normalizeLife(){
+  if(!state.yearlyLog){
+    state.yearlyLog=[];
+    const lastAge=Math.max(18,state.age||18);
+    for(let age=18;age<=lastAge;age++){
+      const pool=yearlyPool(age);
+      const d=pool[(age*7+lastAge)%pool.length];
+      state.yearlyLog.push({
+        age,
+        text:age===18?"你正式成年，开始独立面对这个世界。":d.text,
+        type:age===18?"start":"normal",
+        stats:{body:state.body,mind:state.mind,charm:state.charm,family:state.family}
+      });
+    }
+    (state.history||[]).forEach(h=>recordYear(h.age,`${h.title}；你选择了“${h.choice}”。`,"major"));
+    if(state.ended)recordYear(lastAge,"你在这一年走完了这一生。","end");
+  }
+  if(state.lifeCompleted===undefined)state.lifeCompleted=!!state.ended;
 }
 function continueLife(){
   state=loadLife();
   if(!state)return;
+  normalizeLife();
   if(state.ended){showEnding(); return;}
   enterGame();
 }
@@ -451,30 +559,64 @@ function resetWheelUI(){
   result.classList.remove("on");
   spinBtn.disabled=false;
   spinBtn.textContent="转动命运轮盘";
+  rerollBtn.style.display="none";
+  rerollUsedThisStage=false;
+  spinCurrent.textContent="等待转动";
+  spinTrail.innerHTML="";
 }
-function spinWheel(){
+function appendTrail(category){
+  const chip=document.createElement("span");
+  chip.className="trailChip active";
+  chip.textContent=category;
+  spinTrail.querySelectorAll(".trailChip").forEach(x=>x.classList.remove("active"));
+  spinTrail.appendChild(chip);
+  spinTrail.scrollLeft=spinTrail.scrollWidth;
+  spinCurrent.textContent="经过："+category;
+}
+function spinWheel(isReroll=false){
   if(spinning||state.ended)return;
   spinning=true;
   spinBtn.disabled=true;
-  spinBtn.textContent="命运正在转动…";
+  rerollBtn.style.display="none";
+  spinBtn.textContent=isReroll?"重新抽取中…":"命运正在转动…";
   eventPanel.classList.remove("on");
   result.classList.remove("on");
+  spinTrail.innerHTML="";
 
-  const index=rand(0,7);
-  const segmentCenter=index*45+22.5;
-  const extra=360*rand(5,8);
-  const target=extra+(360-segmentCenter);
-  wheelRotation+=target;
-  wheel.style.transform=`rotate(${wheelRotation}deg)`;
+  const count=categories.length;
+  const steps=count*rand(3,5)+rand(3,count+2);
+  let stepNo=0;
 
-  setTimeout(()=>{
-    const category=categories[index];
-    const pool=eventBank[category];
-    currentEvent=JSON.parse(JSON.stringify(pool[rand(0,pool.length-1)]));
-    currentEvent.category=category;
-    showEvent();
-    spinning=false;
-  },4200);
+  function runStep(){
+    pointerIndex=(pointerIndex+1)%count;
+    wheelRotation-=360/count;
+    const progress=stepNo/steps;
+    const delay=Math.round(45+Math.pow(progress,2)*190);
+    wheel.style.transition=`transform ${Math.max(45,delay-8)}ms linear`;
+    wheel.style.transform=`rotate(${wheelRotation}deg)`;
+    appendTrail(categories[pointerIndex]);
+    stepNo++;
+
+    if(stepNo<steps){
+      setTimeout(runStep,delay);
+    }else{
+      setTimeout(()=>{
+        const category=categories[pointerIndex];
+        spinCurrent.textContent="抽中："+category;
+        const pool=eventBank[category];
+        currentEvent=JSON.parse(JSON.stringify(pool[rand(0,pool.length-1)]));
+        currentEvent.category=category;
+        showEvent();
+        spinning=false;
+      },220);
+    }
+  }
+  runStep();
+}
+function rerollEvent(){
+  if(spinning||rerollUsedThisStage)return;
+  rerollUsedThisStage=true;
+  spinWheel(true);
 }
 function showEvent(){
   eventTag.textContent=currentEvent.category+"重大抉择";
@@ -488,10 +630,13 @@ function showEvent(){
     b.onclick=()=>chooseEvent(i);
     choices.appendChild(b);
   });
+  rerollBtn.style.display=rerollUsedThisStage?"none":"inline-block";
+  rerollBtn.disabled=rerollUsedThisStage;
   eventPanel.classList.add("on");
   eventPanel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function chooseEvent(i){
+  rerollBtn.style.display="none";
   document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
   const c=currentEvent.choices[i];
   const changes=[];
@@ -511,11 +656,12 @@ function chooseEvent(i){
     changes.push({k,value:d});
   });
 
-  const gainedLegend = success ? rand(1,2)+(metaState.legendBonus||0>0 ? 1:0) : 0;
+  const gainedLegend = success ? rand(1,2)+((metaState.legendBonus||0)>0 ? 1:0) : 0;
   state.legend += gainedLegend;
   const ageAtEvent=state.age;
   state.majorDone++;
   state.history.push({age:ageAtEvent, category:currentEvent.category, title:currentEvent.title, choice:c.text, success});
+  recordYear(ageAtEvent,`${currentEvent.title}。你选择了“${c.text}”。${success?c.success:c.fail}`,"major");
   resultTitle.textContent=success?"你抓住了这次命运转折":"这次命运没有完全站在你这边";
   resultText.textContent=(success?c.success:c.fail)+(gainedLegend?` 你的精彩度 +${gainedLegend}。`:"");
   effects.innerHTML=(changes.map(x=>`<span class="effect ${x.value>0?"good":x.value<0?"bad":"neutral"}">${statIcons[x.k]}${statNames[x.k]} ${x.value>0?"+":""}${x.value}</span>`).join("") || `<span class="effect neutral">属性没有变化</span>`);
@@ -524,11 +670,42 @@ function chooseEvent(i){
   renderAll();
   saveLife();
 }
+function recordYear(age,text,type="normal"){
+  if(!state.yearlyLog)state.yearlyLog=[];
+  const existing=state.yearlyLog.find(x=>x.age===age);
+  const snapshot={body:state.body,mind:state.mind,charm:state.charm,family:state.family};
+  if(existing){
+    if(text && !existing.text.includes(text))existing.text += "；"+text;
+    if(type==="major" || type==="end")existing.type=type;
+    existing.stats=snapshot;
+  }else{
+    state.yearlyLog.push({age,text,type,stats:snapshot});
+    state.yearlyLog.sort((a,b)=>a.age-b.age);
+  }
+}
+function yearlyPool(age){
+  if(age<30)return yearlyEventPools.young;
+  if(age<50)return yearlyEventPools.adult;
+  if(age<68)return yearlyEventPools.middle;
+  return yearlyEventPools.senior;
+}
+function generateOneYear(age){
+  const pool=yearlyPool(age);
+  const d=pool[rand(0,pool.length-1)];
+  Object.entries(d.fx||{}).forEach(([k,v])=>state[k]=clamp(state[k]+v));
+  recordYear(age,d.text,"normal");
+}
+function advanceYears(years){
+  const startAge=state.age;
+  for(let i=0;i<years;i++){
+    state.age++;
+    generateOneYear(state.age);
+    if(state.body<=0)break;
+  }
+  state.currentDaily=`从 ${startAge+1} 岁到 ${state.age} 岁，每一年都已经写入人生档案。`;
+}
 function applyDaily(){
-  const d=dailyEvents[rand(0,dailyEvents.length-1)];
-  state.currentDaily=d.text;
-  Object.entries(d.fx).forEach(([k,v])=>state[k]=clamp(state[k]+v));
-  state.age += rand(10,18);
+  advanceYears(rand(10,18));
 }
 function maybeExtraEvent(){
   if(state.extraChecked)return false;
@@ -536,7 +713,8 @@ function maybeExtraEvent(){
   const chance = Math.min(85, 10 + state.legend*12 + (metaState.extraEventChance||0)*12);
   if(state.legend>=4 || rand(1,100)<=chance){
     state.targetMajor=4;
-    state.currentDaily="你这一生过得过于精彩，命运决定再给你一次真正的大抉择。";
+    advanceYears(rand(8,14));
+    state.currentDaily=`你一路走到 ${state.age} 岁。因为这一生足够精彩，命运决定再给你一次真正的大抉择。`;
     return true;
   }
   return false;
@@ -568,7 +746,20 @@ function nextStage(){
   resetWheelUI();
   window.scrollTo({top:0,behavior:"smooth"});
 }
+function completeRemainingLife(){
+  if(state.lifeCompleted)return;
+  if(state.body<=0){
+    recordYear(state.age,"身体已经无法继续支撑，你在这一年走完了这一生。","end");
+    state.lifeCompleted=true;
+    return;
+  }
+  const lifespan=Math.max(state.age,Math.min(98,58+state.body*2+rand(-4,12)));
+  if(lifespan>state.age)advanceYears(lifespan-state.age);
+  recordYear(state.age,"你在这一年走完了这一生，留下了属于自己的轨迹。","end");
+  state.lifeCompleted=true;
+}
 function finishLife(){
+  completeRemainingLife();
   state.ended=true;
   if(!state.lifeCounted){
     metaState.lives += 1;
@@ -596,25 +787,51 @@ function endingData(){
   return d;
 }
 function renderOverview(){
-  const nodes=[{age:18,label:"起点",cat:"出生"}].concat(state.history.map(h=>({age:h.age,label:h.title,cat:h.category,success:h.success})));
-  nodes.push({age:state.age,label:"结局",cat:"人生结束"});
-  const w=700,h=180, y=90;
-  const gap=(w-80)/(nodes.length-1);
-  const points=nodes.map((n,i)=>({x:40+i*gap, y: y + ((i%2===0)?-18:18)}));
+  const logs=[...(state.yearlyLog||[])].sort((a,b)=>a.age-b.age);
+  if(!logs.length){overviewSvg.innerHTML='<div class="muted">暂无逐年数据。</div>';return;}
+  const minAge=logs[0].age,maxAge=logs[logs.length-1].age;
+  const w=Math.max(700,(maxAge-minAge+1)*17),h=250,padL=42,padR=22,padT=26,padB=42;
+  const plotW=w-padL-padR,plotH=h-padT-padB;
+  const x=age=>padL+(age-minAge)/Math.max(1,maxAge-minAge)*plotW;
+  const y=v=>padT+(20-v)/20*plotH;
+  const colors={body:"#42d7aa",mind:"#8b7cff",charm:"#ff7fab",family:"#ffd166"};
   let svg=`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
-  svg+=`<line x1="40" y1="${y}" x2="${w-40}" y2="${y}" stroke="rgba(255,255,255,.18)" stroke-width="4" stroke-linecap="round"/>`;
-  for(let i=0;i<points.length-1;i++){
-    svg+=`<line x1="${points[i].x}" y1="${points[i].y}" x2="${points[i+1].x}" y2="${points[i+1].y}" stroke="#8b7cff" stroke-width="3" stroke-linecap="round"/>`;
+  [0,5,10,15,20].forEach(v=>{
+    svg+=`<line x1="${padL}" y1="${y(v)}" x2="${w-padR}" y2="${y(v)}" stroke="rgba(255,255,255,.08)" stroke-width="1"/>`;
+    svg+=`<text x="${padL-8}" y="${y(v)+4}" fill="#8995b8" font-size="10" text-anchor="end">${v}</text>`;
+  });
+  for(let age=Math.ceil(minAge/5)*5;age<=maxAge;age+=5){
+    svg+=`<line x1="${x(age)}" y1="${padT}" x2="${x(age)}" y2="${h-padB}" stroke="rgba(255,255,255,.045)" stroke-width="1"/>`;
+    svg+=`<text x="${x(age)}" y="${h-15}" fill="#8995b8" font-size="10" text-anchor="middle">${age}岁</text>`;
   }
-  nodes.forEach((n,i)=>{
-    const p=points[i];
-    const fill = n.cat==="人生结束" ? "#ffd166" : n.cat==="出生" ? "#42d7aa" : (n.success===false?"#ff6e8a":"#8b7cff");
-    svg+=`<circle cx="${p.x}" cy="${p.y}" r="8" fill="${fill}" />`;
-    svg+=`<text x="${p.x}" y="${p.y-16}" fill="#ffffff" font-size="12" text-anchor="middle">${n.age}岁</text>`;
-    svg+=`<text x="${p.x}" y="${p.y+28}" fill="#d6ddf5" font-size="11" text-anchor="middle">${escapeHtml(n.cat)}</text>`;
+  ["body","mind","charm","family"].forEach(k=>{
+    const pts=logs.map(l=>`${x(l.age)},${y((l.stats||{})[k]??state[k])}`).join(" ");
+    svg+=`<polyline points="${pts}" fill="none" stroke="${colors[k]}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+  });
+  logs.filter(l=>l.type==="major").forEach(l=>{
+    svg+=`<line x1="${x(l.age)}" y1="${padT}" x2="${x(l.age)}" y2="${h-padB}" stroke="rgba(255,255,255,.22)" stroke-width="1" stroke-dasharray="4 5"/>`;
+    svg+=`<circle cx="${x(l.age)}" cy="${padT+8}" r="5" fill="#ffffff"/>`;
   });
   svg+=`</svg>`;
-  overviewSvg.innerHTML=svg;
+  overviewSvg.innerHTML=svg+`
+    <div class="chartLegend">
+      <span><i class="legendDot" style="background:${colors.body}"></i>体质</span>
+      <span><i class="legendDot" style="background:${colors.mind}"></i>智力</span>
+      <span><i class="legendDot" style="background:${colors.charm}"></i>魅力</span>
+      <span><i class="legendDot" style="background:${colors.family}"></i>家境</span>
+      <span>白色虚线：重大抉择</span>
+    </div>`;
+}
+function renderYearReview(){
+  const logs=[...(state.yearlyLog||[])].sort((a,b)=>a.age-b.age);
+  yearList.innerHTML=logs.map(l=>`
+    <div class="yearItem ${l.type==="major"?"major":l.type==="end"?"end":""}">
+      <div class="yearAge">${l.age} 岁</div>
+      <div>
+        <div class="yearText">${escapeHtml(l.text)}</div>
+        <div class="yearStats">💪${l.stats?.body??"-"}　🧠${l.stats?.mind??"-"}　✨${l.stats?.charm??"-"}　🏠${l.stats?.family??"-"}</div>
+      </div>
+    </div>`).join("");
 }
 function renderRewards(){
   if(state.rewardClaimed){
@@ -647,6 +864,7 @@ function showEnding(){
   endText.textContent=`${state.name} 的人生在 ${state.age} 岁完成结算。${d[3]}`;
   finalGrid.innerHTML=["body","mind","charm","family"].map(k=>`<div class="finalBox">${statIcons[k]} ${statNames[k]}<br><b style="font-size:25px">${state[k]}</b></div>`).join("");
   renderOverview();
+  renderYearReview();
   renderRewards();
 }
 function goHome(){saveLife(); location.reload();}
@@ -655,11 +873,15 @@ function restart(){localStorage.removeItem(SAVE_KEY); location.reload();}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 
 (function init(){
+  renderWheelLabels();
   metaState = loadMeta();
   renderMetaSummary();
   renderAllocation();
   const s=loadLife();
   if(s){
+    state=s;
+    normalizeLife();
+    saveLife();
     newBlock.style.display="none";
     continueBlock.style.display="block";
     saveInfo.textContent=`已有存档：${s.avatar} ${s.name}，${s.age} 岁，已发生 ${s.majorDone} 次重大抉择。`;
