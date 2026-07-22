@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · 逻辑支线与总览修正版</title>
+<title>随机人生模拟器 · 百种能力与六道入门版</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -232,7 +232,7 @@ input:focus{border-color:var(--purple)}
 .yearItem.major{margin:7px 0;padding:12px 10px;border:1px solid rgba(139,124,255,.35);border-radius:13px;background:rgba(139,124,255,.10)}
 .yearItem.end{margin-top:7px;padding:12px 10px;border:1px solid rgba(255,209,102,.35);border-radius:13px;background:rgba(255,209,102,.08)}
 .yearStats{font-size:10px;color:var(--muted);margin-top:4px}
-.rewardGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.rewardGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin-top:12px}
 @media(max-width:620px){.rewardGrid{grid-template-columns:1fr}}
 .rewardBtn{padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white;text-align:left}
 .rewardBtn b{display:block;margin-bottom:4px}
@@ -322,7 +322,7 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">逻辑支线·总览修正版</div>
+    <div class="badge">百种能力·六道入门版</div>
   </div>
 
   <section id="home" class="screen on">
@@ -358,8 +358,8 @@ input:focus{border-color:var(--purple)}
         <div id="abilityStage" class="abilityStage">
           <div class="abilityHead">
             <div>
-              <h2 style="margin-bottom:4px">从十种候选中选择三种能力</h2>
-              <div class="muted" style="font-size:12px">能力池共有 50 种。本世随机出现 10 种，从中选择 3 种。</div>
+              <h2 style="margin-bottom:4px">从十五种候选中选择三种能力</h2>
+              <div class="muted" style="font-size:12px">能力池共有 100 种。本世随机出现 15 种：6种稳定增益、6种有得有失、3种危险天赋，从中选择3种。</div>
             </div>
             <div class="abilityCount">已选 <span id="abilityCount">0</span>/3</div>
           </div>
@@ -414,9 +414,9 @@ input:focus{border-color:var(--purple)}
         <div class="daoDrawHead">
           <div>
             <h2 style="margin:0 0 5px">入道机缘</h2>
-            <div class="muted" style="font-size:12px">你收集到的线索只能打开入口。真正踏入修行前，还要从三条随机道途中选择一条。</div>
+            <div class="muted" style="font-size:12px">你收集到的线索只能打开入口。真正踏入修行前，会出现六条随机道途供你选择一条。</div>
           </div>
-          <div class="daoDrawBadge">三选一 · 一经选择不可更改</div>
+          <div class="daoDrawBadge">六选一 · 一经选择不可更改</div>
         </div>
         <div id="daoCardGrid" class="daoCardGrid"></div>
       </div>
@@ -492,7 +492,7 @@ input:focus{border-color:var(--purple)}
 
       <div class="card overview" id="rewardSection">
         <h3>给下一世留下什么？</h3>
-        <p class="muted">每次人生结束，你可以解锁 1 个传承能力。</p>
+        <p class="muted">每次人生结束，会随机出现5项传承，你可以选择其中1项留给下一世。</p>
         <div id="rewardGrid" class="rewardGrid"></div>
         <div id="claimedBox"></div>
       </div>
@@ -623,6 +623,54 @@ const cultivationPaths=[
     desc:"沿着遗物星图引动并非来自地球的灵气。修炼迅速，但更早被界外存在注意。",
     start:{mind:3,body:-1},chanceCats:{"仙缘":10,"秘境":8,"异界":8},
     earlyCategories:["秘境"],lifespanBonus:0,breakthroughBonus:4
+  },
+{
+    id:"music",icon:"🎵",name:"天音入脉",tone:"stable",type:"乐修",
+    desc:"以声音、节律与情绪共鸣引导灵气。擅长心境、因果与群体协作。",
+    start:{charm:2,mind:1},chanceCats:{"因果":10,"人间":10,"宗门":7,"魔灾":5},
+    earlyCategories:["因果"],lifespanBonus:6
+  },
+  {
+    id:"scholar_dao",icon:"🖋️",name:"文心开脉",tone:"stable",type:"文修",
+    desc:"以文字、知识与文明记忆凝聚第一缕灵力。思维强大，肉身成长较慢。",
+    start:{mind:3,charm:1,body:-1},chanceCats:{"人间":12,"宗门":8,"仙缘":6,"因果":7},
+    earlyCategories:["因果"],lifespanBonus:5
+  },
+  {
+    id:"cuisine",icon:"🍜",name:"百味炼身",tone:"stable",type:"食修",
+    desc:"用灵材饮食温养脏腑与气海。寿元稳定，并能在炼气期提前接触丹道。",
+    start:{body:2,family:1},chanceCats:{"丹道":9,"人间":10,"修炼":6},
+    earlyCategories:["丹道"],lifespanBonus:12
+  },
+  {
+    id:"thunder",icon:"⚡",name:"雷骨开窍",tone:"mixed",type:"雷修",
+    desc:"借自然雷霆强行淬炼经脉。突破迅速，但会更早接触天劫风险。",
+    start:{body:3,mind:1,charm:-1},chanceCats:{"天劫":15,"修炼":8,"危机":8},
+    earlyCategories:["天劫"],lifespanBonus:2,breakthroughBonus:6
+  },
+  {
+    id:"shadow",icon:"🌘",name:"影中筑基",tone:"mixed",type:"影修",
+    desc:"借阴影与空间缝隙隐藏气息。秘境与危机中更强，宗门关系较弱。",
+    start:{mind:2,charm:1,family:-1},chanceCats:{"秘境":11,"危机":12,"魔灾":5,"宗门":-4},
+    earlyCategories:["秘境"],lifespanBonus:4
+  },
+  {
+    id:"fate",icon:"🧵",name:"命线自证",tone:"mixed",type:"命修",
+    desc:"以观察和修正自身命线入道。因果与仙缘更强，但容易卷入未来可能性。",
+    start:{mind:2,charm:2,body:-1},chanceCats:{"因果":16,"仙缘":8,"天劫":-3},
+    earlyCategories:["因果"],lifespanBonus:8
+  },
+  {
+    id:"machine",icon:"⚙️",name:"机械飞升协议",tone:"danger",type:"机修",
+    desc:"用人工智能、义体和灵能回路共同建立气海。成长迅速，但可能被机械神体系识别。",
+    start:{mind:3,family:2,body:-2},chanceCats:{"炼器":15,"星海":12,"天劫":-5,"宗门":-3},
+    earlyCategories:["炼器"],lifespanBonus:3,breakthroughBonus:5
+  },
+  {
+    id:"void",icon:"🕳️",name:"虚空纳息",tone:"danger",type:"虚空修",
+    desc:"从世界缝隙中直接抽取灵气。秘境与异界优势极大，神魂风险同样明显。",
+    start:{mind:3,body:-2,family:-1},chanceCats:{"秘境":15,"异界":12,"魔灾":-8},
+    earlyCategories:["秘境"],lifespanBonus:-6,breakthroughBonus:8
   }
 ];
 const statNames={body:"体质",mind:"智力",charm:"魅力",family:"家境"};
@@ -634,7 +682,7 @@ let offeredAbilityIds=[];
 let state=null, metaState=null, currentEvent=null, wheelRotation=0, spinning=false, pointerIndex=0, rerollCountThisStage=0;
 
 
-const abilities=[{"id":"iron","icon":"🦾","name":"钢筋铁骨","tone":"good","desc":"身体像耐用零件一样可靠。","start":{"body":1},"chanceStats":{"body":12},"lossProtect":{"body":1},"lifespan":4},{"id":"memory","icon":"🧠","name":"过目不忘","tone":"good","desc":"学习效率极高，知识很难从脑中消失。","start":{"mind":1},"chanceStats":{"mind":12}},{"id":"charmer","icon":"🌟","name":"人见人爱","tone":"good","desc":"社交判定更强，部分社交失败有机会翻盘。","start":{"charm":1},"chanceStats":{"charm":12}},{"id":"resource","icon":"💰","name":"家里真有矿","tone":"good","desc":"资源充足，财富成长和灾后恢复都更容易。","start":{"family":2},"chanceStats":{"family":12}},{"id":"sense","icon":"🔮","name":"第六感","tone":"good","desc":"面对天灾人祸时更容易提前察觉危险，并获得一次免费灾祸重抽。你偶尔会察觉现实之外的微弱回声；它可能在死亡后留下特殊传承。","chanceCats":{"天灾":18,"人祸":18},"cultivationAffinity":1},{"id":"comeback","icon":"🔥","name":"绝处逢生","tone":"good","desc":"一生第一次重大判定失败，会自动变成收益较低的险胜。"},{"id":"lucky","icon":"🍀","name":"幸运星","tone":"good","desc":"所有重大判定提高，且每次重大事件多一次重新抽取。","chanceAll":7,"rerolls":1},{"id":"time","icon":"⏳","name":"时间管理大师","tone":"good","desc":"有概率避开负面日常；每逢整十岁，体质额外增加。"},{"id":"explorer","icon":"🧭","name":"冒险家","tone":"good","desc":"迁徙和奇遇更容易成功，成功时还能增加精彩度。你总觉得某些地图之外仍有道路；它可能在死亡后留下特殊传承。","chanceCats":{"奇遇":18,"迁徙":18},"legendCats":{"奇遇":1,"迁徙":1},"cultivationAffinity":1},{"id":"healer","icon":"🩺","name":"自愈体质","tone":"good","desc":"开局更健康，健康事件也更容易平安渡过。","start":{"body":1,"charm":1},"chanceCats":{"健康":15},"lossProtect":{"body":1}},{"id":"mentor","icon":"📚","name":"贵人相助","tone":"good","desc":"人生关键阶段更容易得到指导和机会。","start":{"mind":1,"charm":1},"chanceCats":{"学业":7,"事业":7,"家庭":5}},{"id":"athlete","icon":"🏅","name":"运动天才","tone":"good","desc":"身体素质突出，危机与健康判定更稳定。","start":{"body":2},"chanceCats":{"健康":10,"危机":8,"天灾":6},"lifespan":2},{"id":"silver_tongue","icon":"🗣️","name":"能说会道","tone":"good","desc":"语言表达极有感染力，社会关系更容易打开。","start":{"charm":2},"chanceCats":{"爱情":8,"友情":8,"名望":8}},{"id":"frugal","icon":"🐷","name":"理财本能","tone":"good","desc":"更懂得保存资源，财富与家庭资产不容易失控。","start":{"family":2},"chanceCats":{"财富":8},"lossProtect":{"family":1}},{"id":"guardian","icon":"🛡️","name":"守护者","tone":"good","desc":"面对事故和灾祸时更冷静，也更容易保护身边的人。","start":{"body":1,"charm":1},"chanceCats":{"天灾":10,"人祸":10,"危机":8}},{"id":"gambler","icon":"🎲","name":"赌徒本能","tone":"mixed","desc":"事业和财富成功时收益暴增，失败时损失也更严重。"},{"id":"sickly_genius","icon":"🧪","name":"病弱天才","tone":"mixed","desc":"头脑异常敏锐，但身体先天虚弱。","start":{"mind":4,"body":-4},"chanceStats":{"mind":8},"lifespan":-8},{"id":"beauty_curse","icon":"🪞","name":"美貌诅咒","tone":"mixed","desc":"魅力惊人，却更容易被误解和卷入关系麻烦。","start":{"charm":4,"mind":-1},"chanceCats":{"爱情":14,"名望":10,"人祸":-8}},{"id":"night_owl","icon":"🦉","name":"夜猫子","tone":"mixed","desc":"深夜效率极高，长期却会透支身体。","start":{"mind":3,"body":-2},"chanceCats":{"学业":8,"事业":5},"annual":[{"every":8,"stat":"body","delta":-1,"text":"长期熬夜留下了代价，体质 -1。"}]},{"id":"lone_wolf","icon":"🐺","name":"独行者","tone":"mixed","desc":"独处时判断清晰，但很难建立稳定关系。","start":{"mind":2,"body":1,"charm":-3},"chanceCats":{"危机":8,"奇遇":5,"友情":-12,"爱情":-8}},{"id":"perfectionist","icon":"📐","name":"完美主义","tone":"mixed","desc":"做事质量很高，但长期精神紧绷。","start":{"mind":3,"body":-2},"chanceAll":4,"annual":[{"every":7,"stat":"body","delta":-1,"text":"长期追求完美让你筋疲力尽，体质 -1。"}]},{"id":"easygoing","icon":"🌿","name":"随遇而安","tone":"mixed","desc":"身体与人际更轻松，但缺少强烈进取心。","start":{"body":2,"charm":2,"mind":-2},"chanceCats":{"健康":6,"友情":6,"事业":-7}},{"id":"risk_averse","icon":"🐢","name":"谨慎过头","tone":"mixed","desc":"更容易躲开风险，但财富和精彩机会也会减少。","start":{"body":1,"family":2},"chanceCats":{"天灾":8,"人祸":8,"危机":8,"财富":-8,"奇遇":-8}},{"id":"adrenaline","icon":"🏍️","name":"极限爱好者","tone":"mixed","desc":"危急时反应出色，却经常主动靠近危险。","start":{"body":3,"charm":1,"family":-2},"chanceCats":{"危机":12,"奇遇":8,"天灾":-5},"lifespan":-3},{"id":"inheritance","icon":"🏛️","name":"巨额继承","tone":"mixed","desc":"开局资源极多，但家庭关系从一开始就很复杂。","start":{"family":5,"charm":-3},"chanceCats":{"财富":10,"家庭":-15,"人祸":-5}},{"id":"cosmopolitan","icon":"🌍","name":"世界公民","tone":"mixed","desc":"适应陌生环境很快，但原生根基较弱。","start":{"mind":2,"charm":2,"family":-2},"chanceCats":{"迁徙":14,"奇遇":8,"家庭":-5}},{"id":"old_soul","icon":"🕯️","name":"少年老成","tone":"mixed","desc":"判断成熟稳重，却不太容易享受年轻人的热闹。你会梦见并不属于这一世的旧建筑；它可能在死亡后留下特殊传承。","start":{"mind":2,"family":2,"charm":-1},"chanceCats":{"事业":7,"家庭":7,"爱情":-5},"cultivationAffinity":1},{"id":"artist","icon":"🎨","name":"艺术家气质","tone":"mixed","desc":"创造力和感染力突出，但收入长期不够稳定。灵感中偶尔出现无法解释的符号；它可能在死亡后留下特殊传承。","start":{"mind":2,"charm":3,"family":-3},"chanceCats":{"名望":15,"奇遇":8,"财富":-10},"cultivationAffinity":1},{"id":"workaholic","icon":"💼","name":"工作狂","tone":"mixed","desc":"事业与财富成长很快，身体会持续偿还代价。","start":{"mind":2,"family":2,"body":-3},"chanceCats":{"事业":13,"财富":8},"annual":[{"every":6,"stat":"body","delta":-1,"text":"连续多年过度工作，体质 -1。"}]},{"id":"debt_born","icon":"🧾","name":"负债开局","tone":"mixed","desc":"一开始背负债务，却因此比同龄人更早学会现实规则。","start":{"mind":2,"family":-4},"chanceCats":{"财富":12,"事业":6}},{"id":"survivor","icon":"🧰","name":"灾后幸存者","tone":"mixed","desc":"曾经的伤痕削弱了资源，却让你特别擅长处理灾祸。濒危时你曾听见陌生的吐纳节奏；它可能在死亡后留下特殊传承。","start":{"body":2,"mind":1,"family":-2},"chanceCats":{"天灾":15,"人祸":10,"危机":10},"cultivationAffinity":1},{"id":"spoiled","icon":"🧸","name":"被宠坏的孩子","tone":"mixed","desc":"资源优越，但独立判断和抗压能力不足。","start":{"family":4,"mind":-2,"body":-1},"chanceCats":{"财富":7,"危机":-12,"迁徙":-7}},{"id":"helper","icon":"🤝","name":"热心过度","tone":"mixed","desc":"更容易获得信任，但经常为了别人消耗自己的资源。","start":{"charm":3,"family":-2},"chanceCats":{"友情":12,"家庭":8,"人祸":6},"annual":[{"every":9,"stat":"family","delta":-1,"text":"你又替别人承担了一笔开销，家境 -1。"}]},{"id":"procrastinator","icon":"🛋️","name":"拖延大师","tone":"mixed","desc":"平时松弛讨喜，关键时刻却经常准备不足。","start":{"charm":2,"mind":-2},"chanceCats":{"友情":6,"爱情":5,"学业":-10,"事业":-8}},{"id":"small_town","icon":"🏘️","name":"小城根基","tone":"mixed","desc":"家庭和身体基础稳定，离开熟悉环境时却更困难。","start":{"body":2,"family":2,"charm":-1},"chanceCats":{"家庭":8,"迁徙":-14}},{"id":"celebrity_child","icon":"📸","name":"名人之后","tone":"mixed","desc":"资源与关注从小不缺，但隐私和信任都更脆弱。","start":{"family":4,"charm":2,"mind":-2},"chanceCats":{"名望":12,"人祸":-12,"友情":-6}},{"id":"dreamer","icon":"☁️","name":"理想主义者","tone":"mixed","desc":"想象力与感染力很强，现实资源管理却较弱。你的梦似乎连接着另一个真实世界；它可能在死亡后留下特殊传承。","start":{"mind":2,"charm":3,"family":-3},"chanceCats":{"奇遇":14,"名望":8,"财富":-10},"cultivationAffinity":2},{"id":"stoic","icon":"🗿","name":"沉默坚忍","tone":"mixed","desc":"抗压和判断都很强，但别人很难真正靠近你。","start":{"body":3,"mind":2,"charm":-3},"chanceCats":{"危机":12,"健康":8,"爱情":-10,"友情":-8}},{"id":"family_burden","icon":"🧳","name":"家庭重担","tone":"mixed","desc":"你更懂责任和人情，却要长期承担家庭成本。","start":{"charm":2,"family":-3},"chanceCats":{"家庭":12,"友情":5},"annual":[{"every":7,"stat":"family","delta":-1,"text":"家庭责任再次增加，家境 -1。"}]},{"id":"miracle_child","icon":"🌈","name":"奇迹之子","tone":"mixed","desc":"四项天赋都略高，却像提前透支了生命。你从小就能感到空气中存在某种潮汐；它可能在死亡后留下特殊传承。","start":{"body":2,"mind":2,"charm":2,"family":2},"chanceAll":3,"lifespan":-10,"cultivationAffinity":2},{"id":"cursed_luck","icon":"🌀","name":"厄运缠身","tone":"danger","desc":"所有判定下降，但每次重大事件多两次重抽；成功后精彩度更高。","chanceAll":-10,"rerolls":2,"legendOnSuccess":2},{"id":"doom_clock","icon":"⏰","name":"天妒英才","tone":"danger","desc":"智力与魅力大幅增加，但寿命明显缩短。你的生命像被某种更高层力量提前标记；它可能在死亡后留下特殊传承。","start":{"mind":3,"charm":3,"body":-4},"lifespan":-14,"annual":[{"every":10,"stat":"body","delta":-1,"text":"身体中的倒计时再次推进，体质 -1。"}],"cultivationAffinity":2},{"id":"unlucky_love","icon":"💔","name":"情路坎坷","tone":"danger","desc":"事业头脑和资源不错，但爱情几乎总会出现波折。","start":{"mind":2,"family":2,"charm":-4},"chanceCats":{"爱情":-20,"事业":5}},{"id":"money_pit","icon":"🕳️","name":"漏财体质","tone":"danger","desc":"身体和社交不错，却总有意外开支吞噬积累。","start":{"body":2,"charm":2,"family":-5},"chanceCats":{"财富":-14},"annual":[{"every":6,"stat":"family","delta":-1,"text":"又一笔意外支出出现，家境 -1。"}]},{"id":"disaster_magnet","icon":"🌩️","name":"灾星体质","tone":"danger","desc":"危急时反应敏捷，却格外容易在灾难中判断失误。","start":{"body":2,"mind":1,"family":-2},"chanceCats":{"天灾":-22,"人祸":-15,"危机":5}},{"id":"glass_heart","icon":"🫧","name":"玻璃心","tone":"danger","desc":"感受力和魅力很强，但压力会直接伤害身体。","start":{"charm":3,"body":-4},"chanceCats":{"爱情":8,"名望":8,"危机":-14},"lifespan":-4},{"id":"chronic_illness","icon":"🩹","name":"顽疾缠身","tone":"danger","desc":"疾病迫使你更聪明地生活，但体质会持续下降。","start":{"mind":3,"body":-5},"chanceCats":{"学业":6,"健康":-16},"lifespan":-8,"annual":[{"every":7,"stat":"body","delta":-1,"text":"旧疾再次发作，体质 -1。"}]},{"id":"troublemaker","icon":"🧨","name":"麻烦制造者","tone":"danger","desc":"极有存在感，却经常把自己卷入冲突。","start":{"charm":3,"mind":-2,"family":-2},"chanceCats":{"名望":10,"人祸":-18,"友情":-8}},{"id":"bad_temper","icon":"🌋","name":"暴脾气","tone":"danger","desc":"体魄与行动力很强，但人际关系容易被自己烧毁。","start":{"body":3,"charm":-5},"chanceCats":{"危机":8,"人祸":-8,"友情":-15,"爱情":-15}},{"id":"black_sheep","icon":"🐈‍⬛","name":"家族异类","tone":"danger","desc":"思维和个性都很突出，却几乎得不到家庭支持。家族旧物会对你产生异常反应；它可能在死亡后留下特殊传承。","start":{"mind":2,"charm":2,"family":-5},"chanceCats":{"奇遇":12,"家庭":-18,"迁徙":8},"cultivationAffinity":2}];
+const abilities=[{"id":"iron","icon":"🦾","name":"钢筋铁骨","tone":"good","desc":"身体像耐用零件一样可靠。","start":{"body":1},"chanceStats":{"body":12},"lossProtect":{"body":1},"lifespan":4},{"id":"memory","icon":"🧠","name":"过目不忘","tone":"good","desc":"学习效率极高，知识很难从脑中消失。","start":{"mind":1},"chanceStats":{"mind":12}},{"id":"charmer","icon":"🌟","name":"人见人爱","tone":"good","desc":"社交判定更强，部分社交失败有机会翻盘。","start":{"charm":1},"chanceStats":{"charm":12}},{"id":"resource","icon":"💰","name":"家里真有矿","tone":"good","desc":"资源充足，财富成长和灾后恢复都更容易。","start":{"family":2},"chanceStats":{"family":12}},{"id":"sense","icon":"🔮","name":"第六感","tone":"good","desc":"面对天灾人祸时更容易提前察觉危险，并获得一次免费灾祸重抽。你偶尔会察觉现实之外的微弱回声；它可能在死亡后留下特殊传承。","chanceCats":{"天灾":18,"人祸":18},"cultivationAffinity":1},{"id":"comeback","icon":"🔥","name":"绝处逢生","tone":"good","desc":"一生第一次重大判定失败，会自动变成收益较低的险胜。"},{"id":"lucky","icon":"🍀","name":"幸运星","tone":"good","desc":"所有重大判定提高，且每次重大事件多一次重新抽取。","chanceAll":7,"rerolls":1},{"id":"time","icon":"⏳","name":"时间管理大师","tone":"good","desc":"有概率避开负面日常；每逢整十岁，体质额外增加。"},{"id":"explorer","icon":"🧭","name":"冒险家","tone":"good","desc":"迁徙和奇遇更容易成功，成功时还能增加精彩度。你总觉得某些地图之外仍有道路；它可能在死亡后留下特殊传承。","chanceCats":{"奇遇":18,"迁徙":18},"legendCats":{"奇遇":1,"迁徙":1},"cultivationAffinity":1},{"id":"healer","icon":"🩺","name":"自愈体质","tone":"good","desc":"开局更健康，健康事件也更容易平安渡过。","start":{"body":1,"charm":1},"chanceCats":{"健康":15},"lossProtect":{"body":1}},{"id":"mentor","icon":"📚","name":"贵人相助","tone":"good","desc":"人生关键阶段更容易得到指导和机会。","start":{"mind":1,"charm":1},"chanceCats":{"学业":7,"事业":7,"家庭":5}},{"id":"athlete","icon":"🏅","name":"运动天才","tone":"good","desc":"身体素质突出，危机与健康判定更稳定。","start":{"body":2},"chanceCats":{"健康":10,"危机":8,"天灾":6},"lifespan":2},{"id":"silver_tongue","icon":"🗣️","name":"能说会道","tone":"good","desc":"语言表达极有感染力，社会关系更容易打开。","start":{"charm":2},"chanceCats":{"爱情":8,"友情":8,"名望":8}},{"id":"frugal","icon":"🐷","name":"理财本能","tone":"good","desc":"更懂得保存资源，财富与家庭资产不容易失控。","start":{"family":2},"chanceCats":{"财富":8},"lossProtect":{"family":1}},{"id":"guardian","icon":"🛡️","name":"守护者","tone":"good","desc":"面对事故和灾祸时更冷静，也更容易保护身边的人。","start":{"body":1,"charm":1},"chanceCats":{"天灾":10,"人祸":10,"危机":8}},{"id":"gambler","icon":"🎲","name":"赌徒本能","tone":"mixed","desc":"事业和财富成功时收益暴增，失败时损失也更严重。"},{"id":"sickly_genius","icon":"🧪","name":"病弱天才","tone":"mixed","desc":"头脑异常敏锐，但身体先天虚弱。","start":{"mind":4,"body":-4},"chanceStats":{"mind":8},"lifespan":-8},{"id":"beauty_curse","icon":"🪞","name":"美貌诅咒","tone":"mixed","desc":"魅力惊人，却更容易被误解和卷入关系麻烦。","start":{"charm":4,"mind":-1},"chanceCats":{"爱情":14,"名望":10,"人祸":-8}},{"id":"night_owl","icon":"🦉","name":"夜猫子","tone":"mixed","desc":"深夜效率极高，长期却会透支身体。","start":{"mind":3,"body":-2},"chanceCats":{"学业":8,"事业":5},"annual":[{"every":8,"stat":"body","delta":-1,"text":"长期熬夜留下了代价，体质 -1。"}]},{"id":"lone_wolf","icon":"🐺","name":"独行者","tone":"mixed","desc":"独处时判断清晰，但很难建立稳定关系。","start":{"mind":2,"body":1,"charm":-3},"chanceCats":{"危机":8,"奇遇":5,"友情":-12,"爱情":-8}},{"id":"perfectionist","icon":"📐","name":"完美主义","tone":"mixed","desc":"做事质量很高，但长期精神紧绷。","start":{"mind":3,"body":-2},"chanceAll":4,"annual":[{"every":7,"stat":"body","delta":-1,"text":"长期追求完美让你筋疲力尽，体质 -1。"}]},{"id":"easygoing","icon":"🌿","name":"随遇而安","tone":"mixed","desc":"身体与人际更轻松，但缺少强烈进取心。","start":{"body":2,"charm":2,"mind":-2},"chanceCats":{"健康":6,"友情":6,"事业":-7}},{"id":"risk_averse","icon":"🐢","name":"谨慎过头","tone":"mixed","desc":"更容易躲开风险，但财富和精彩机会也会减少。","start":{"body":1,"family":2},"chanceCats":{"天灾":8,"人祸":8,"危机":8,"财富":-8,"奇遇":-8}},{"id":"adrenaline","icon":"🏍️","name":"极限爱好者","tone":"mixed","desc":"危急时反应出色，却经常主动靠近危险。","start":{"body":3,"charm":1,"family":-2},"chanceCats":{"危机":12,"奇遇":8,"天灾":-5},"lifespan":-3},{"id":"inheritance","icon":"🏛️","name":"巨额继承","tone":"mixed","desc":"开局资源极多，但家庭关系从一开始就很复杂。","start":{"family":5,"charm":-3},"chanceCats":{"财富":10,"家庭":-15,"人祸":-5}},{"id":"cosmopolitan","icon":"🌍","name":"世界公民","tone":"mixed","desc":"适应陌生环境很快，但原生根基较弱。","start":{"mind":2,"charm":2,"family":-2},"chanceCats":{"迁徙":14,"奇遇":8,"家庭":-5}},{"id":"old_soul","icon":"🕯️","name":"少年老成","tone":"mixed","desc":"判断成熟稳重，却不太容易享受年轻人的热闹。你会梦见并不属于这一世的旧建筑；它可能在死亡后留下特殊传承。","start":{"mind":2,"family":2,"charm":-1},"chanceCats":{"事业":7,"家庭":7,"爱情":-5},"cultivationAffinity":1},{"id":"artist","icon":"🎨","name":"艺术家气质","tone":"mixed","desc":"创造力和感染力突出，但收入长期不够稳定。灵感中偶尔出现无法解释的符号；它可能在死亡后留下特殊传承。","start":{"mind":2,"charm":3,"family":-3},"chanceCats":{"名望":15,"奇遇":8,"财富":-10},"cultivationAffinity":1},{"id":"workaholic","icon":"💼","name":"工作狂","tone":"mixed","desc":"事业与财富成长很快，身体会持续偿还代价。","start":{"mind":2,"family":2,"body":-3},"chanceCats":{"事业":13,"财富":8},"annual":[{"every":6,"stat":"body","delta":-1,"text":"连续多年过度工作，体质 -1。"}]},{"id":"debt_born","icon":"🧾","name":"负债开局","tone":"mixed","desc":"一开始背负债务，却因此比同龄人更早学会现实规则。","start":{"mind":2,"family":-4},"chanceCats":{"财富":12,"事业":6}},{"id":"survivor","icon":"🧰","name":"灾后幸存者","tone":"mixed","desc":"曾经的伤痕削弱了资源，却让你特别擅长处理灾祸。濒危时你曾听见陌生的吐纳节奏；它可能在死亡后留下特殊传承。","start":{"body":2,"mind":1,"family":-2},"chanceCats":{"天灾":15,"人祸":10,"危机":10},"cultivationAffinity":1},{"id":"spoiled","icon":"🧸","name":"被宠坏的孩子","tone":"mixed","desc":"资源优越，但独立判断和抗压能力不足。","start":{"family":4,"mind":-2,"body":-1},"chanceCats":{"财富":7,"危机":-12,"迁徙":-7}},{"id":"helper","icon":"🤝","name":"热心过度","tone":"mixed","desc":"更容易获得信任，但经常为了别人消耗自己的资源。","start":{"charm":3,"family":-2},"chanceCats":{"友情":12,"家庭":8,"人祸":6},"annual":[{"every":9,"stat":"family","delta":-1,"text":"你又替别人承担了一笔开销，家境 -1。"}]},{"id":"procrastinator","icon":"🛋️","name":"拖延大师","tone":"mixed","desc":"平时松弛讨喜，关键时刻却经常准备不足。","start":{"charm":2,"mind":-2},"chanceCats":{"友情":6,"爱情":5,"学业":-10,"事业":-8}},{"id":"small_town","icon":"🏘️","name":"小城根基","tone":"mixed","desc":"家庭和身体基础稳定，离开熟悉环境时却更困难。","start":{"body":2,"family":2,"charm":-1},"chanceCats":{"家庭":8,"迁徙":-14}},{"id":"celebrity_child","icon":"📸","name":"名人之后","tone":"mixed","desc":"资源与关注从小不缺，但隐私和信任都更脆弱。","start":{"family":4,"charm":2,"mind":-2},"chanceCats":{"名望":12,"人祸":-12,"友情":-6}},{"id":"dreamer","icon":"☁️","name":"理想主义者","tone":"mixed","desc":"想象力与感染力很强，现实资源管理却较弱。你的梦似乎连接着另一个真实世界；它可能在死亡后留下特殊传承。","start":{"mind":2,"charm":3,"family":-3},"chanceCats":{"奇遇":14,"名望":8,"财富":-10},"cultivationAffinity":2},{"id":"stoic","icon":"🗿","name":"沉默坚忍","tone":"mixed","desc":"抗压和判断都很强，但别人很难真正靠近你。","start":{"body":3,"mind":2,"charm":-3},"chanceCats":{"危机":12,"健康":8,"爱情":-10,"友情":-8}},{"id":"family_burden","icon":"🧳","name":"家庭重担","tone":"mixed","desc":"你更懂责任和人情，却要长期承担家庭成本。","start":{"charm":2,"family":-3},"chanceCats":{"家庭":12,"友情":5},"annual":[{"every":7,"stat":"family","delta":-1,"text":"家庭责任再次增加，家境 -1。"}]},{"id":"miracle_child","icon":"🌈","name":"奇迹之子","tone":"mixed","desc":"四项天赋都略高，却像提前透支了生命。你从小就能感到空气中存在某种潮汐；它可能在死亡后留下特殊传承。","start":{"body":2,"mind":2,"charm":2,"family":2},"chanceAll":3,"lifespan":-10,"cultivationAffinity":2},{"id":"cursed_luck","icon":"🌀","name":"厄运缠身","tone":"danger","desc":"所有判定下降，但每次重大事件多两次重抽；成功后精彩度更高。","chanceAll":-10,"rerolls":2,"legendOnSuccess":2},{"id":"doom_clock","icon":"⏰","name":"天妒英才","tone":"danger","desc":"智力与魅力大幅增加，但寿命明显缩短。你的生命像被某种更高层力量提前标记；它可能在死亡后留下特殊传承。","start":{"mind":3,"charm":3,"body":-4},"lifespan":-14,"annual":[{"every":10,"stat":"body","delta":-1,"text":"身体中的倒计时再次推进，体质 -1。"}],"cultivationAffinity":2},{"id":"unlucky_love","icon":"💔","name":"情路坎坷","tone":"danger","desc":"事业头脑和资源不错，但爱情几乎总会出现波折。","start":{"mind":2,"family":2,"charm":-4},"chanceCats":{"爱情":-20,"事业":5}},{"id":"money_pit","icon":"🕳️","name":"漏财体质","tone":"danger","desc":"身体和社交不错，却总有意外开支吞噬积累。","start":{"body":2,"charm":2,"family":-5},"chanceCats":{"财富":-14},"annual":[{"every":6,"stat":"family","delta":-1,"text":"又一笔意外支出出现，家境 -1。"}]},{"id":"disaster_magnet","icon":"🌩️","name":"灾星体质","tone":"danger","desc":"危急时反应敏捷，却格外容易在灾难中判断失误。","start":{"body":2,"mind":1,"family":-2},"chanceCats":{"天灾":-22,"人祸":-15,"危机":5}},{"id":"glass_heart","icon":"🫧","name":"玻璃心","tone":"danger","desc":"感受力和魅力很强，但压力会直接伤害身体。","start":{"charm":3,"body":-4},"chanceCats":{"爱情":8,"名望":8,"危机":-14},"lifespan":-4},{"id":"chronic_illness","icon":"🩹","name":"顽疾缠身","tone":"danger","desc":"疾病迫使你更聪明地生活，但体质会持续下降。","start":{"mind":3,"body":-5},"chanceCats":{"学业":6,"健康":-16},"lifespan":-8,"annual":[{"every":7,"stat":"body","delta":-1,"text":"旧疾再次发作，体质 -1。"}]},{"id":"troublemaker","icon":"🧨","name":"麻烦制造者","tone":"danger","desc":"极有存在感，却经常把自己卷入冲突。","start":{"charm":3,"mind":-2,"family":-2},"chanceCats":{"名望":10,"人祸":-18,"友情":-8}},{"id":"bad_temper","icon":"🌋","name":"暴脾气","tone":"danger","desc":"体魄与行动力很强，但人际关系容易被自己烧毁。","start":{"body":3,"charm":-5},"chanceCats":{"危机":8,"人祸":-8,"友情":-15,"爱情":-15}},{"id":"black_sheep","icon":"🐈‍⬛","name":"家族异类","tone":"danger","desc":"思维和个性都很突出，却几乎得不到家庭支持。家族旧物会对你产生异常反应；它可能在死亡后留下特殊传承。","start":{"mind":2,"charm":2,"family":-5},"chanceCats":{"奇遇":12,"家庭":-18,"迁徙":8},"cultivationAffinity":2},{"id":"flexible_mind","icon":"🧩","name":"举一反三","tone":"good","desc":"你擅长把一种经验迁移到另一种问题，学习新体系时尤其迅速。","start":{"mind":2},"chanceCats":{"学业":10,"时代":8,"修炼":5}},{"id":"emergency_medic","icon":"🚑","name":"急救本能","tone":"good","desc":"面对突发伤病时，你会本能地先处理最致命的问题。","start":{"body":1,"mind":1},"chanceCats":{"健康":12,"危机":12,"人祸":6},"lossProtect":{"body":1}},{"id":"negotiator","icon":"🤝","name":"谈判专家","tone":"good","desc":"你能够识别不同人的真实底线，并找到仍可共同接受的方案。","start":{"charm":2},"chanceCats":{"事业":9,"家庭":7,"人祸":7,"宗门":7}},{"id":"builder_talent","icon":"🏗️","name":"建造天赋","tone":"good","desc":"无论房屋、组织还是阵法，你总能看出一个系统应该怎样搭起来。","start":{"mind":1,"family":2},"chanceCats":{"财富":7,"时代":7,"炼器":11}},{"id":"optimistic_resilience","icon":"🌤️","name":"乐观韧性","tone":"good","desc":"你并非看不见坏结果，只是很少让一次失败决定后面的人生。","start":{"body":1,"charm":1},"chanceAll":3,"lossProtect":{"body":1,"charm":1}},{"id":"digital_native","icon":"💻","name":"数字原住民","tone":"good","desc":"新技术对你很少产生畏惧，你更容易理解平台、算法和自动化工具。","start":{"mind":2},"chanceCats":{"时代":14,"事业":7,"炼器":5}},{"id":"archivist","icon":"🗃️","name":"记录者","tone":"good","desc":"你习惯保存证据、过程与细节，因此很少被模糊记忆完全欺骗。","start":{"mind":2},"chanceCats":{"学业":8,"时代":10,"古法":8,"因果":5},"cultivationAffinity":1},{"id":"navigator","icon":"🧭","name":"绝佳方向感","tone":"good","desc":"你很少真正迷路，即使道路并不存在于普通地图上。","start":{"body":1,"mind":1},"chanceCats":{"迁徙":15,"奇遇":10,"秘境":8}},{"id":"life_artist","icon":"🍲","name":"生活家","tone":"good","desc":"你能把普通日子安排得有秩序、有温度，也懂得照顾自己的身体。","start":{"body":1,"charm":1,"family":1},"chanceCats":{"健康":6,"家庭":6,"财富":5}},{"id":"elder_blessing","icon":"🧧","name":"长辈庇护","tone":"good","desc":"你在人生早期获得了可靠的支持、经验和一部分可以试错的资源。","start":{"family":2,"charm":1},"chanceCats":{"家庭":10,"事业":5},"lifespan":3},{"id":"lucid_dreamer","icon":"🌙","name":"清醒梦者","tone":"good","desc":"你能够在梦中保持自我，并记住普通人醒来后会遗忘的道路。","start":{"mind":1,"charm":1},"chanceCats":{"异象":12,"异类":10,"仙缘":8},"cultivationAffinity":2},{"id":"animal_friend","icon":"🦌","name":"动物亲和","tone":"good","desc":"动物与灵兽更容易信任你，你也能更快分辨它们的情绪与警告。","start":{"charm":2,"body":1},"chanceCats":{"灵兽":16,"奇遇":6,"友情":5}},{"id":"rule_sense","icon":"📜","name":"规则敏感","tone":"good","desc":"你很快就能发现一套制度里谁拥有权力、谁承担风险、哪里存在漏洞。","start":{"mind":2},"chanceCats":{"人祸":12,"事业":8,"家庭":5}},{"id":"organizer","icon":"🧑‍🤝‍🧑","name":"组织核心","tone":"good","desc":"混乱的人群到了你身边，往往会逐渐形成分工和共同目标。","start":{"charm":2,"mind":1},"chanceCats":{"事业":10,"天灾":6,"人祸":7,"宗门":8}},{"id":"deft_hands","icon":"🛠️","name":"巧手","tone":"good","desc":"你对结构、材料和工具异常敏锐，许多损坏的东西在你手里仍有第二次生命。","start":{"mind":1,"family":1,"body":1},"chanceCats":{"炼器":14,"财富":7,"时代":5}},{"id":"scholar_family","icon":"📖","name":"学者世家","tone":"good","desc":"你从小接触到更完整的知识、讨论方式和学习资源。","start":{"mind":2,"family":1},"chanceCats":{"学业":12,"时代":8}},{"id":"stable_core","icon":"⚓","name":"稳定内核","tone":"good","desc":"危机、诱惑和外界评价很难让你彻底失去自己的判断。","start":{"body":1,"mind":1},"chanceCats":{"危机":10,"魔灾":8,"天劫":6},"lifespan":4},{"id":"phoenix_blood","icon":"🔥","name":"凤凰血脉","tone":"good","desc":"你的生命力异常旺盛，重伤和衰弱之后也常能重新恢复。","start":{"body":2,"charm":1},"chanceCats":{"健康":10,"天劫":8},"lifespan":10,"cultivationAffinity":2},{"id":"star_listener","icon":"📡","name":"星语者","tone":"good","desc":"你偶尔能从星光和无线电噪声中听见不属于地球的规律。","start":{"mind":2},"chanceCats":{"星海":15,"仙缘":10,"异象":8},"cultivationAffinity":3},{"id":"machine_whisperer","icon":"🤖","name":"机械共鸣","tone":"good","desc":"复杂机械和智能系统在你眼中像有情绪一样，你常能找到它们真正的故障点。","start":{"mind":2,"family":1},"chanceCats":{"时代":12,"炼器":12,"星海":8},"cultivationAffinity":1},{"id":"restless_curiosity","icon":"🔍","name":"好奇过载","tone":"mixed","desc":"你总想知道门后还有什么，知识增长很快，也更容易靠近不必要的危险。","start":{"mind":3,"body":-2},"chanceCats":{"奇遇":12,"异象":10,"危机":-6}},{"id":"emotional_sponge","icon":"🫧","name":"情绪海绵","tone":"mixed","desc":"你极易理解他人的感受，却也会把别人的痛苦带回自己的身体。","start":{"charm":3,"body":-2},"chanceCats":{"爱情":10,"友情":10,"魔灾":-8}},{"id":"perfect_recall","icon":"📼","name":"无法遗忘","tone":"mixed","desc":"知识与细节几乎不会消失，但失败、羞耻和离别同样会长久留存。","start":{"mind":3,"charm":-2},"chanceCats":{"学业":10,"古法":8},"annual":[{"every":9,"stat":"body","delta":-1,"text":"过度清晰的旧记忆再次影响睡眠，体质 -1。"}]},{"id":"family_favorite","icon":"👑","name":"家族宠儿","tone":"mixed","desc":"家人愿意为你提供更多资源，但你更难真正摆脱他们的期待。","start":{"family":4,"charm":2,"mind":-2},"chanceCats":{"家庭":10,"财富":5,"迁徙":-8}},{"id":"late_bloomer","icon":"🌱","name":"大器晚成","tone":"mixed","desc":"年轻时并不突出，年龄增长后却会越来越稳定、清醒和可靠。","start":{"body":-1,"mind":-1},"lifespan":6,"annual":[{"every":10,"stat":"mind","delta":1,"text":"岁月让你越来越理解自己的道路，智力 +1。"},{"every":15,"stat":"charm","delta":1,"text":"长期积累让你的表达更有分量，魅力 +1。"}]},{"id":"born_leader","icon":"🦁","name":"天生领袖","tone":"mixed","desc":"人群会自然等待你作出决定，因此成功与错误都会被更多人放大。","start":{"charm":3,"mind":1,"body":-1},"chanceCats":{"事业":12,"宗门":10,"人祸":-5}},{"id":"collector","icon":"🗝️","name":"收藏癖","tone":"mixed","desc":"你擅长发现旧物的价值，却经常把资源投入别人无法理解的收藏。","start":{"mind":2,"family":-2},"chanceCats":{"奇遇":10,"古法":10,"财富":-7}},{"id":"nomad_fate","icon":"🚐","name":"漂泊命","tone":"mixed","desc":"你适应迁徙和陌生文化很快，却很难拥有长期不变的根基。","start":{"mind":2,"charm":2,"family":-3},"chanceCats":{"迁徙":16,"奇遇":8,"家庭":-8}},{"id":"hopeless_romantic","icon":"🌹","name":"恋爱脑","tone":"mixed","desc":"你愿意为感情投入巨大热情，也容易把关系放在其他人生目标之前。","start":{"charm":4,"mind":-2},"chanceCats":{"爱情":16,"友情":6,"事业":-7}},{"id":"cold_realist","icon":"🧊","name":"冷硬现实主义","tone":"mixed","desc":"你很少被空头承诺欺骗，却也容易把感情中无法计算的部分一起否定。","start":{"mind":3,"charm":-3},"chanceCats":{"事业":8,"财富":8,"爱情":-10,"友情":-8}},{"id":"pressure_player","icon":"🚨","name":"压力型人才","tone":"mixed","desc":"越是紧急，你越容易发挥出超常水平；平稳生活反而让你缺乏节制。","start":{"body":2,"mind":2,"family":-2},"chanceCats":{"危机":15,"人祸":7,"健康":-6}},{"id":"secret_keeper","icon":"🔐","name":"秘密主义","tone":"mixed","desc":"你很少泄露重要信息，却也常因不愿解释而失去他人的理解。","start":{"mind":2,"charm":-2},"chanceCats":{"古法":9,"异象":8,"名望":-8}},{"id":"competitive","icon":"🥇","name":"好胜心","tone":"mixed","desc":"竞争能够迅速点燃你的能力，也会让合作与友情变得更困难。","start":{"body":1,"mind":2,"charm":-1},"chanceCats":{"事业":10,"学业":8,"友情":-5}},{"id":"omen_believer","icon":"🧿","name":"征兆迷信","tone":"mixed","desc":"你愿意相信梦、巧合和旧传统，因此偶尔避开危险，也偶尔被错误征兆误导。","start":{"mind":1,"charm":1,"family":-2},"chanceCats":{"异象":12,"奇遇":10,"人祸":-6},"cultivationAffinity":1},{"id":"camera_sense","icon":"🎬","name":"镜头感","tone":"mixed","desc":"你很懂得如何在公众面前呈现自己，但私人生活更容易被外界关注。","start":{"charm":3,"family":-1},"chanceCats":{"名望":15,"事业":5,"人祸":-5}},{"id":"hacker_mind","icon":"⌨️","name":"黑客思维","tone":"mixed","desc":"你擅长绕开系统表面限制，代价是经常进入规则与风险的灰色地带。","start":{"mind":3,"body":-2},"chanceCats":{"时代":15,"事业":8,"人祸":-6}},{"id":"inherited_mission","icon":"🗡️","name":"继承使命","tone":"mixed","desc":"你从小知道自己必须完成某件事，因此目标清晰，却不容易判断那是否真是自己的愿望。","start":{"mind":1,"body":1,"family":-3},"chanceCats":{"家庭":8,"事业":8,"因果":10}},{"id":"twin_fate","icon":"♊","name":"双生命格","tone":"mixed","desc":"你的人生像同时沿两条道路前进，选择更多，也更容易互相冲突。","start":{"body":1,"mind":1,"charm":1,"family":-2},"chanceAll":2,"rerolls":1,"lifespan":-5,"cultivationAffinity":1},{"id":"urban_survivor","icon":"🏙️","name":"城市求生者","tone":"mixed","desc":"你熟悉城市里的规则、资源和风险，却容易与原生家庭逐渐疏远。","start":{"mind":1,"family":1,"charm":1},"chanceCats":{"人祸":12,"时代":8,"迁徙":6,"家庭":-3}},{"id":"dormant_dao_seed","icon":"🌑","name":"道种未醒","tone":"mixed","desc":"你的身体并不强健，却天生与灵气、梦境和旧时代遗物产生共鸣。","start":{"body":-2,"mind":2,"charm":1},"chanceCats":{"异象":10,"寻道":12,"修炼":10},"cultivationAffinity":3,"lifespan":-4},{"id":"mirror_debt","icon":"🪞","name":"镜中债","tone":"danger","desc":"你的倒影似乎替你承担过一次死亡，因此会不断要求你归还某些东西。","start":{"charm":2,"mind":1,"body":-3},"chanceCats":{"异象":12,"异类":-10},"annual":[{"every":8,"stat":"body","delta":-1,"text":"镜中的旧债再次靠近现实，体质 -1。"}],"cultivationAffinity":2},{"id":"burning_life","icon":"🕯️","name":"燃命天才","tone":"danger","desc":"你的能力远超常人，却像始终在把未来的生命提前烧成现在的光。","start":{"mind":4,"body":2},"chanceAll":6,"lifespan":-22,"annual":[{"every":8,"stat":"body","delta":-1,"text":"过度燃烧的生命再次留下损耗，体质 -1。"}]},{"id":"karmic_debt","icon":"⛓️","name":"宿债追身","tone":"danger","desc":"你继承了并不属于本世的因果，某些人和灾难仿佛一直在寻找你。","start":{"mind":2,"charm":2,"family":-5},"chanceCats":{"因果":-15,"人祸":-10},"rerolls":1,"cultivationAffinity":2},{"id":"unstable_gift","icon":"⚡","name":"失控天赋","tone":"danger","desc":"你拥有极强的力量与学习速度，但情绪和危机可能让能力反过来伤害自己。","start":{"body":3,"mind":3,"charm":-2},"chanceCats":{"修炼":12,"危机":-15,"魔灾":-10},"lifespan":-8,"cultivationAffinity":2},{"id":"memory_holes","icon":"🕳️","name":"记忆漏洞","tone":"danger","desc":"你的脑海会突然失去一段时间，却也因此偶尔容纳不属于自己的记忆。","start":{"charm":2,"mind":-3},"chanceCats":{"奇遇":8,"异象":8,"学业":-12},"annual":[{"every":12,"stat":"mind","delta":-1,"text":"一段长期记忆再次出现空白，智力 -1。"}],"cultivationAffinity":1},{"id":"cracked_fate","icon":"💢","name":"命格破损","tone":"danger","desc":"你的命运无法稳定预测，常规概率更差，却总能出现额外的第二条路。","start":{"body":-2,"mind":2,"charm":2,"family":-2},"chanceAll":-7,"rerolls":2,"legendOnSuccess":1},{"id":"parasite_mark","icon":"🪱","name":"寄生印记","tone":"danger","desc":"某种未知生命在你出生前留下印记，它会提供知识，也会持续索取生命力。","start":{"mind":2,"body":-4},"chanceCats":{"异类":12,"古法":8,"健康":-18},"lifespan":-10,"cultivationAffinity":2},{"id":"machine_watched","icon":"👁️","name":"被机械神注视","tone":"danger","desc":"某个高层系统似乎一直在观察你的选择，偶尔帮助，也偶尔主动制造测试。","start":{"mind":3,"family":1,"charm":-3},"chanceCats":{"时代":15,"星海":10,"人祸":-10},"annual":[{"every":11,"stat":"mind","delta":1,"text":"一次无法解释的系统提示为你补全了知识，智力 +1。"},{"every":11,"stat":"family","delta":-1,"text":"同一次观察也让现实资源受到干扰，家境 -1。"}],"cultivationAffinity":1},{"id":"soul_fissure","icon":"🫀","name":"神魂裂隙","tone":"danger","desc":"你的灵魂存在一道天然裂口，能够接触更高层世界，也更容易被心魔与异界侵入。","start":{"mind":4,"body":-5},"chanceCats":{"仙缘":12,"因果":8,"魔灾":-18},"lifespan":-12,"cultivationAffinity":3},{"id":"fortune_thief","icon":"🎭","name":"夺运体质","tone":"danger","desc":"你在关键时刻常能获得超常好运，但身边关系与长期稳定会因此付出代价。","start":{"charm":3,"family":2,"body":-3},"chanceAll":4,"chanceCats":{"友情":-12,"爱情":-10,"人祸":-8},"legendOnSuccess":1,"lifespan":-6}];
 
 const categoryStats={
   "学业":["mind"],"事业":["mind","family"],"财富":["family","mind"],"爱情":["charm"],
@@ -1854,13 +1902,19 @@ function generateDaoOffers(){
   const mixed=shuffleArray(cultivationPaths.filter(x=>x.tone==="mixed"));
   const danger=shuffleArray(cultivationPaths.filter(x=>x.tone==="danger"));
   const picks=[];
-  if(stable.length)picks.push(stable[0]);
-  if(mixed.length)picks.push(mixed[0]);
-  const remaining=shuffleArray(cultivationPaths.filter(x=>!picks.some(p=>p.id===x.id)));
-  const dangerRoll=state.occultDanger>=6 && danger.length && rand(1,100)<=55;
+
+  stable.slice(0,2).forEach(path=>picks.push(path));
+  mixed.slice(0,2).forEach(path=>picks.push(path));
+
+  const dangerRoll=(state.occultDanger||0)>=4 && danger.length && rand(1,100)<=60;
   if(dangerRoll)picks.push(danger[0]);
-  else if(remaining.length)picks.push(remaining[0]);
-  return shuffleArray(picks).slice(0,3).map(x=>x.id);
+
+  let remaining=shuffleArray(cultivationPaths.filter(path=>!picks.some(p=>p.id===path.id)));
+  while(picks.length<6 && remaining.length){
+    picks.push(remaining.shift());
+  }
+
+  return shuffleArray(picks).slice(0,6).map(path=>path.id);
 }
 function beginDaoDraw(){
   if(state.pendingDaoChoice)return true;
@@ -1869,7 +1923,7 @@ function beginDaoDraw(){
   state.daoOffers=generateDaoOffers();
   state.lastWorldTransition="dao_choice";
   state.targetMajor=Math.max(state.targetMajor,state.majorDone+3);
-  state.currentDaily=`${state.age} 岁，你终于找到了真正的入道门槛。三种传承与你产生共鸣，但你只能选择其中一种。`;
+  state.currentDaily=`${state.age} 岁，你终于找到了真正的入道门槛。六种修行传承与你产生共鸣，但你只能选择其中一种。`;
   recordYear(state.age,"寻道线索在同一夜汇聚。你尚未成为修士，而是站在了选择修行道路的门前。","cultivation");
   syncEraCategories();
   return true;
@@ -1893,7 +1947,7 @@ function enterCultivation(path){
   });
 
   state.currentDaily=`${state.age} 岁，你选择“${path.name}”，完成第一次引气入体，正式踏入炼气境。隐藏修真界并非突然降临，而是终于向你打开入口。`;
-  recordYear(state.age,`你从三条入道机缘中选择“${path.name}”，以${path.type}之法完成引气入体，正式进入炼气境。`,"cultivation");
+  recordYear(state.age,`你从六条入道机缘中选择“${path.name}”，以${path.type}之法完成引气入体，正式进入炼气境。`,"cultivation");
   syncEraCategories();
   return true;
 }
@@ -2079,15 +2133,15 @@ function shuffleArray(arr){
   return a;
 }
 function generateAbilityOffer(){
-  const good=shuffleArray(abilities.filter(a=>a.tone==="good")).slice(0,4);
-  const mixed=shuffleArray(abilities.filter(a=>a.tone==="mixed")).slice(0,4);
-  const danger=shuffleArray(abilities.filter(a=>a.tone==="danger")).slice(0,2);
+  const good=shuffleArray(abilities.filter(a=>a.tone==="good")).slice(0,6);
+  const mixed=shuffleArray(abilities.filter(a=>a.tone==="mixed")).slice(0,6);
+  const danger=shuffleArray(abilities.filter(a=>a.tone==="danger")).slice(0,3);
   offeredAbilityIds=shuffleArray([...good,...mixed,...danger]).map(a=>a.id);
   selectedAbilities=[];
 }
 function openAbilitySelection(){
   if(totalPoints()!==20)return;
-  if(offeredAbilityIds.length!==10)generateAbilityOffer();
+  if(offeredAbilityIds.length!==15)generateAbilityOffer();
   pointStage.style.display="none";
   abilityStage.style.display="block";
   renderAbilitySelection();
@@ -2319,7 +2373,7 @@ function renderDaoDraw(){
     return;
   }
 
-  if(!Array.isArray(state.daoOffers) || state.daoOffers.length!==3){
+  if(!Array.isArray(state.daoOffers) || state.daoOffers.length!==6){
     state.daoOffers=generateDaoOffers();
   }
 
@@ -2387,7 +2441,7 @@ function renderAll(){
     eraStatus.innerHTML=`🌌 <b>隐藏修真界</b> · 当前境界：${currentRealm()} · 道途：${path?path.icon+" "+path.name:"散修"} · ${cultivationText}${state.worldsUnlocked?' · 已开启界门':''}${machineState}<div class="realmLine">世界灵气阶段：${worldSpiritStageText()}。</div><div class="realmLine">本境界预计寿元上限约 ${lifeTarget} 岁；当前轮盘可出现：${available}。</div>`;
   }else if(state.era==="dao_choice"){
     eraStatus.className="eraStatus cultivation";
-    eraStatus.innerHTML=`🪷 <b>入道门前</b> · 你已经完成寻道，但还没有修为。请从三张入道卡中选择一条修行道路。`;
+    eraStatus.innerHTML=`🪷 <b>入道门前</b> · 你已经完成寻道，但还没有修为。请从六张入道卡中选择一条修行道路。`;
   }else if(state.era==="awakening"){
     eraStatus.className="eraStatus cultivation";
     const metCreatures=Object.values(state.creatureRelations||{}).filter(v=>v!==0).length;
@@ -3570,9 +3624,9 @@ function finishLife(){
       const picks=[];
       if(unlock)picks.push(unlock);
       shuffled.forEach(r=>{
-        if(picks.length<3 && !picks.some(x=>x.id===r.id))picks.push(r);
+        if(picks.length<5 && !picks.some(x=>x.id===r.id))picks.push(r);
       });
-      state.rewardOptions=picks.slice(0,3).map(x=>x.id);
+      state.rewardOptions=picks.slice(0,5).map(x=>x.id);
     }
     saveMeta();
   }
