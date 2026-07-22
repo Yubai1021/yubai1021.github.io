@@ -245,7 +245,7 @@ input:focus{border-color:var(--purple)}
           </div>
 
           <div class="mechanicNote">
-            判定并非装饰：相关属性每提高 1 点，重大选择的成功率通常提高约 4%。属性 ≤2 或 ≥18 时可能触发极端事件；隐藏修真世界必须先在上一世获得相关传承，下一世才会逐步开启。
+            判定并非装饰：相关属性每提高 1 点，重大选择的成功率通常提高约 4%。属性 ≤2 或 ≥18 时可能触发极端事件；普通人生同样拥有连续支线。规则底牌、医疗常识、旧识人脉、手艺火种、公众表达、远行地图、家族档案和共情余温会解锁原本不可选择的路线；修真与诡异世界仍需跨世传承逐步开启。
           </div>
 
           <div class="actions" style="margin-top:18px">
@@ -414,43 +414,7 @@ const categoryStats={
   "名望":["charm","mind"],"奇遇":["mind","charm"],"时代":["mind"],"危机":["body","mind"],
   "天灾":["body","family"],"人祸":["mind","charm"],
   "异象":["mind","charm"],"古法":["mind","body"],"寻道":["mind","family"],
-  "异象":[
- {title:"你连续梦见同一座不存在的车站",desc:"站牌写着陌生文字，但你每次醒来都能记住更多。候车的人似乎全都认识你。",choices:[
-  {text:"醒来后完整记录梦境",hint:"依赖智力",need:"mind",fx:{mind:[1,3],body:[-1,0]},success:"你发现梦境地图与城市地下废弃结构部分重合。",fail:"文字在写下后迅速变形，只留下几段无法识别的线条。"},
-  {text:"尝试在梦里与候车人交谈",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],mind:[0,2],body:[-2,0]},success:"其中一人告诉你：‘你终于把那一页带回来了。’",fail:"所有人同时转头看你，梦境随即崩塌。"},
-  {text:"服药阻止自己做梦",hint:"暂时远离异常",need:"body",fx:{body:[0,2],mind:[-1,0]},success:"梦境停止，你恢复了平静。",fail:"你不再做梦，却开始在清醒时听见列车声。"}
- ]},
- {title:"旧照片中的背景发生了变化",desc:"同一张童年照片里，远处原本没有门。现在门缝中似乎站着一个人。",choices:[
-  {text:"调查照片拍摄地点",hint:"依赖智力与家境",need:"mind",fx:{mind:[1,3],family:[-2,1]},success:"你在原址找到一块被新墙覆盖的旧石碑。",fail:"地点已经完全改建，但施工档案存在十七年空白。"},
-  {text:"寻找当年的摄影者",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],mind:[0,2]},success:"摄影者说，按下快门前曾有人问过你的名字。",fail:"摄影者已经去世，只留下一个没有底片的胶卷盒。"},
-  {text:"把照片锁起来",hint:"谨慎路线",need:"family",fx:{family:[0,1],body:[0,1]},success:"异常暂时没有继续扩大。",fail:"照片第二天重新出现在你的枕头下面。"}
- ]}
-],
-"古法":[
- {title:"传承记忆中的呼吸节奏再次出现",desc:"你无意间按照梦中的节奏呼吸，心跳、体温和周围电子设备同时发生变化。",choices:[
-  {text:"每天秘密练习",hint:"依赖体质与智力",need:"body",fx:{body:[1,3],mind:[1,2]},success:"数月后，你第一次清楚感到体内存在不属于血液循环的流动。",fail:"节奏稍有错误就会带来剧烈头痛。"},
-  {text:"用仪器监测全过程",hint:"依赖智力与资源",need:"mind",fx:{mind:[2,4],family:[-2,0]},success:"数据证明这不是心理暗示，而是一种稳定的未知能量交换。",fail:"所有设备在关键时刻同时丢失数据。"},
-  {text:"寻找懂得旧法的人",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],family:[-2,1]},success:"一位老人听完节奏后沉默许久，只问你从哪一世学来的。",fail:"你遇到的多数人只是利用你的疑惑牟利。"}
- ]},
- {title:"家族旧物在你手中发热",desc:"别人触碰时它只是普通玉石，只有你能看见内部缓慢移动的细线。",choices:[
-  {text:"滴血验证传说",hint:"高风险，依赖体质",need:"body",fx:{body:[-2,2],mind:[1,3]},success:"玉石展开一道极淡的文字投影，第一句是‘后世若见，灵脉尚存’。",fail:"玉石没有反应，你却连续高烧数日。"},
-  {text:"交给实验室检测",hint:"依赖智力与家境",need:"mind",fx:{mind:[1,3],family:[-2,1]},success:"样本年龄比家族历史早数千年，内部结构无法人工制造。",fail:"检测结束后，玉石内部的细线全部消失。"},
-  {text:"继续贴身佩戴",hint:"缓慢积累线索",need:"charm",fx:{body:[0,2],charm:[0,2]},success:"此后每当靠近异常地点，玉石都会提前升温。",fail:"它有时在完全普通的地方突然发热，让你无法判断规律。"}
- ]}
-],
-"寻道":[
- {title:"你找到一家只在雨夜营业的旧书店",desc:"店主没有问你想买什么，直接从柜台下取出一本缺少封面的书。",choices:[
-  {text:"买下无名古书",hint:"依赖家境与智力",need:"family",fx:{family:[-3,-1],mind:[2,4]},success:"书中记载的经络图与现代医学不同，却与你练习呼吸时的感受完全吻合。",fail:"书页大多空白，只有在特定月光下才出现模糊文字。"},
-  {text:"追问店主身份",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],mind:[0,2]},success:"店主承认自己在等‘带着前世残页回来的人’。",fail:"你只眨了一次眼，柜台后就再也没有人。"},
-  {text:"记住地址后离开",hint:"谨慎路线",need:"mind",fx:{mind:[0,2],body:[0,1]},success:"第二天店铺仍在，但招牌已经换成普通文具店。",fail:"你回头时，整条巷子都不存在了。"}
- ]},
- {title:"山中废弃气象站发出规律信号",desc:"信号每隔七十二分钟重复一次，内容不是无线电，而像某种直接作用于意识的呼唤。",choices:[
-  {text:"独自进入气象站",hint:"依赖体质和智力",need:"body",fx:{body:[-2,2],mind:[1,4]},success:"地下室里没有设备，只有一座仍在运转的古老阵盘。",fail:"你在站内失去数小时记忆，醒来时已在山脚。"},
-  {text:"带可信的人同行",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],family:[-1,1],mind:[0,2]},success:"同行者也看见了阵盘，证明一切并非幻觉。",fail:"进入地下室后，只有你能看见那些异常结构。"},
-  {text:"远程分析信号",hint:"依赖智力与资源",need:"mind",fx:{mind:[2,4],family:[-2,0]},success:"你发现信号是一份重复发送了数百年的‘接引许可’。",fail:"每次接近破译结果，信号编码都会自动变化。"}
- ]}
-],
-"修炼":["body","mind"],"宗门":["charm","mind"],"秘境":["body","mind"],"灵兽":["charm","body"],
+  "修炼":["body","mind"],"宗门":["charm","mind"],"秘境":["body","mind"],"灵兽":["charm","body"],
   "仙缘":["mind","charm"],"因果":["charm","mind"],"丹道":["mind","family"],"炼器":["mind","family"],
   "天劫":["body","mind"],"魔灾":["body","charm"],"人间":["charm","family"],
   "异界":["body","mind"],"星海":["mind","family"]
@@ -538,92 +502,262 @@ const rewardPool=[
   {id:"cultivation_life",icon:"🧬",tag:"修真传承",name:"长生种子",desc:"进入修真后，预期寿命额外 +25 年。",maxLevel:4,requiresCultivation:true,apply:m=>m.cultivationLifespan=(m.cultivationLifespan||0)+25},
   {id:"world_coordinate",icon:"🧭",tag:"诸天传承",name:"界门坐标",desc:"更早发现异界入口，并降低开启界门的条件。",maxLevel:3,requiresCultivation:true,apply:m=>m.worldGateBonus=(m.worldGateBonus||0)+1},
   {id:"soul_shelter",icon:"🔷",tag:"修真传承",name:"护魂玉影",desc:"修炼失败造成的体质损失减少 1。",maxLevel:3,requiresCultivation:true,apply:m=>m.cultivationGuard=(m.cultivationGuard||0)+1},
-  {id:"ancestral_library",icon:"🏯",tag:"诸天传承",name:"祖界书库",desc:"异象、古法、寻道事件成功率永久 +5%。",maxLevel:3,requiresCultivation:true,apply:m=>{["异象","古法","寻道"].forEach(k=>m.categoryBonus[k]=(m.categoryBonus[k]||0)+5)}}
+  {id:"ancestral_library",icon:"🏯",tag:"诸天传承",name:"祖界书库",desc:"异象、古法、寻道事件成功率永久 +5%。",maxLevel:3,requiresCultivation:true,apply:m=>{["异象","古法","寻道"].forEach(k=>m.categoryBonus[k]=(m.categoryBonus[k]||0)+5)}},
+{id:"law_legacy",icon:"⚖️",tag:"支线钥匙",name:"规则底牌",desc:"解锁合同审查、维权、谈判和制度路线；事业、人祸判定略微提高。",unique:true,apply:m=>{m.categoryBonus["事业"]=(m.categoryBonus["事业"]||0)+2;m.categoryBonus["人祸"]=(m.categoryBonus["人祸"]||0)+2}},
+  {id:"medical_legacy",icon:"🩺",tag:"支线钥匙",name:"医疗常识",desc:"解锁复诊、急救、康复和医疗决策路线；健康判定略微提高。",unique:true,apply:m=>m.categoryBonus["健康"]=(m.categoryBonus["健康"]||0)+3},
+  {id:"network_legacy",icon:"☎️",tag:"支线钥匙",name:"旧识人脉",desc:"解锁熟人介绍、资源协调和跨城市落脚路线。",unique:true,apply:m=>{m.categoryBonus["事业"]=(m.categoryBonus["事业"]||0)+1;m.categoryBonus["迁徙"]=(m.categoryBonus["迁徙"]||0)+2}},
+  {id:"craft_legacy",icon:"🛠️",tag:"支线钥匙",name:"手艺火种",desc:"解锁修理、独立工作室、小店经营和技术转型路线。",unique:true,apply:m=>{m.categoryBonus["财富"]=(m.categoryBonus["财富"]||0)+1;m.categoryBonus["时代"]=(m.categoryBonus["时代"]||0)+2}},
+  {id:"public_voice",icon:"📣",tag:"支线钥匙",name:"公众表达",desc:"解锁公开发声、危机公关、舆论动员和公益路线。",unique:true,apply:m=>m.categoryBonus["名望"]=(m.categoryBonus["名望"]||0)+3},
+  {id:"wanderer_legacy",icon:"🧳",tag:"支线钥匙",name:"远行地图",desc:"解锁海外、异地生活、迁徙试错和远距离关系路线。",unique:true,apply:m=>m.categoryBonus["迁徙"]=(m.categoryBonus["迁徙"]||0)+3},
+  {id:"family_archive",icon:"📦",tag:"支线钥匙",name:"家族档案",desc:"解锁旧信、遗产、身世、家族债务与隐藏关系路线。",unique:true,apply:m=>m.categoryBonus["家庭"]=(m.categoryBonus["家庭"]||0)+3},
+  {id:"empathy_legacy",icon:"🫂",tag:"支线钥匙",name:"共情余温",desc:"解锁关系修复、伴侣沟通、照护和不伤害彼此的选择。",unique:true,apply:m=>{m.categoryBonus["爱情"]=(m.categoryBonus["爱情"]||0)+2;m.categoryBonus["友情"]=(m.categoryBonus["友情"]||0)+2}}
 ];
+
+
+function hasLegacy(id,level=1){
+  return legacyLevel(metaState||defaultMeta(),id)>=level;
+}
+function legacyDisplayName(id){
+  return rewardPool.find(r=>r.id===id)?.name||id;
+}
+const lifeFlagNames={
+  researchPath:"研究路线",startupFounder:"创业者路线",craftShop:"手艺小店",
+  longDistance:"异地关系",sharedDebt:"共同偿债",rehabPath:"康复路线",
+  familySecretOpened:"家族秘密",movedCity:"新城市生活",friendAlliance:"深度友情",
+  publicFigure:"公众人物",whistleblower:"吹哨者",communityLeader:"社区代表",
+  caregiverPath:"家庭照护",independentWorker:"独立职业",ordinaryCultivatorFamily:"修真家庭"
+};
+function lifeFlag(key){return !!state?.lifeFlags?.[key]}
+function lifeFlagDisplayName(key){return lifeFlagNames[key]||key}
 
 const eventBank={
 "学业":[
- {title:"改变命运的考试",desc:"这是一次足以决定方向的考试，但你无法两头兼顾。",choices:[
+{title:"改变命运的考试",desc:"这是一次足以决定方向的考试，但你无法两头兼顾。",choices:[
   {text:"全力冲刺",hint:"更依赖智力",need:"mind",fx:{mind:[1,3],body:[-1,0]},success:"你抓住了这次跃迁的机会。",fail:"你尽力了，但只是勉强过关。"},
   {text:"稳住节奏",hint:"更加稳妥",fx:{body:[0,1],mind:[0,1]},success:"你稳稳通过，没有大起大落。",fail:"你没翻车，但也没有真正突破。"}
  ]},
  {title:"重要导师向你伸手",desc:"有人愿意带你去更远的地方，但代价是离开熟悉的一切。",choices:[
   {text:"跟着走",hint:"依赖智力和勇气",need:"mind",fx:{mind:[1,3],family:[-1,1]},success:"你的世界一下被打开了。",fail:"这条路很难，但它确实让你长大。"},
   {text:"留在原地",hint:"保守但安稳",fx:{family:[1,2],body:[0,1]},success:"你守住了自己的节奏。",fail:"多年后你偶尔还会想起这次邀请。"}
+ ]},
+{id:"human_scholarship_choice",title:"一份远方奖学金改变了原有计划",desc:"奖学金足以覆盖学费，却无法承担全部生活成本。家里此时也需要你提供帮助。",choices:[
+  {text:"接受奖学金，边读书边兼职",hint:"辛苦但可能改变阶层",need:"mind",fx:{mind:[2,4],body:[-3,0],family:[-1,1]},setLifeFlagsSuccess:{researchPath:true},lifeTrack:{success:{career:2,stability:-1},fail:{career:1,stability:-2}},success:"你在疲惫中完成学业，也建立了新的专业道路。",fail:"兼职和学业同时压来，你差点两边都失去。"},
+  {text:"申请延期入学并重新安排家庭责任",hint:"需要规则与谈判经验",need:"charm",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[0,2],charm:[1,2]},lifeTrack:{career:1,stability:2},success:"学校接受了你的方案，你保住了机会，也没有抛下家庭。",fail:"规则没有你想得灵活，但你争取到了部分缓冲。"},
+  {text:"组织互助学习与合租小组",hint:"需要学业传承",need:"charm",requiresLegacy:"study_legacy",fx:{mind:[1,3],charm:[2,4],family:[0,2]},setLifeFlagsSuccess:{studyCommunity:true},lifeTrack:{career:1,bonds:2},success:"你们互相分担成本，几个人都因此完成了学业。",fail:"组织比学习更消耗时间，关系也出现摩擦。"},
+  {text:"放弃远方机会，留在家附近",hint:"稳住家庭生活",need:"family",fx:{family:[1,3],body:[0,2],mind:[-1,1]},lifeTrack:{stability:2,career:-1},success:"你找到另一条较慢但可持续的成长路线。",fail:"生活稳定下来，遗憾却一直存在。"}
+ ]},
+ {id:"human_research_ethics",title:"研究项目的数据被悄悄修改",desc:"负责人暗示这是行业惯例。保持沉默能换来推荐和职位，揭露问题可能让你失去整个圈子的机会。",choices:[
+  {text:"重新做一遍关键实验",hint:"依赖智力与耐力",need:"mind",fx:{mind:[2,5],body:[-2,0],family:[-1,0]},setLifeFlagsSuccess:{researchPath:true},lifeTrack:{success:{career:2,reputation:1},fail:{career:0,stability:-1}},success:"复现结果证明数据确有问题，你掌握了真正有分量的证据。",fail:"实验成本和时间超出承受范围，项目仍按原方向推进。"},
+  {text:"依据程序实名举报",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],charm:[-2,3],family:[-2,1]},setLifeFlags:{whistleblower:true},lifeTrack:{success:{reputation:3,career:1},fail:{reputation:1,career:-2}},success:"调查确认问题，你的名字一度成为行业争议中心。",fail:"程序保护并不完善，你先承受了来自圈内的压力。"},
+  {text:"公开全部原始数据",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[1,5],mind:[1,3],family:[-2,0]},setLifeFlags:{publicFigure:true},lifeTrack:{success:{reputation:4,career:1},fail:{reputation:-2,career:-1}},success:"公众和同行共同核验数据，项目无法继续掩盖。",fail:"信息过于复杂，舆论先把你塑造成了另一个故事。"},
+  {text:"保持沉默，换取推荐",hint:"短期收益明显",need:"family",fx:{family:[2,4],mind:[-2,0],charm:[-1,1]},lifeTrack:{career:2,reputation:-2},success:"你得到推荐并进入更好的平台，但一直知道代价是什么。",fail:"承诺的推荐没有兑现，你却已经错过揭露问题的时机。"}
+ ]},
+ {id:"human_research_credit",requiresLife:{researchPath:true},title:"你的研究成果被更有资历的人拿走署名",desc:"成果已经接近发表，名单里却没有你。对方认为年轻人以后还有机会。",choices:[
+  {text:"拿出过程记录要求重新署名",hint:"依赖智力",need:"mind",fx:{mind:[1,4],charm:[-1,3]},lifeTrack:{success:{career:3,reputation:1},fail:{career:-1,reputation:0}},success:"完整记录让对方无法否认你的贡献。",fail:"证据不足以改变最终名单。"},
+  {text:"通过正式制度申诉",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[-1,1],charm:[-2,2]},lifeTrack:{success:{career:2,reputation:2},fail:{career:-2,reputation:1}},success:"委员会重审贡献，署名顺序得到纠正。",fail:"程序漫长，你失去了一部分合作关系。"},
+  {text:"独立公开自己的完整工作",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[1,4],mind:[1,3]},setLifeFlags:{publicFigure:true},lifeTrack:{success:{reputation:4,career:1},fail:{reputation:-1,career:-1}},success:"同行看见了真正的工作量，你建立了独立声誉。",fail:"公开行为被解释成破坏团队规则。"},
+  {text:"忍下这次，离开团队",hint:"保留精力重新开始",need:"body",fx:{body:[1,3],mind:[0,2],charm:[-1,0]},lifeTrack:{stability:1,career:-1},success:"你带着经验离开，后来没有再犯同样的错误。",fail:"离开团队后，你花了很久才重新找到位置。"}
  ]}
 ],
 "事业":[
- {title:"升职机会突然砸到你头上",desc:"更高的位置伴随着更多责任，也意味着没有那么多退路。",choices:[
+{title:"升职机会突然砸到你头上",desc:"更高的位置伴随着更多责任，也意味着没有那么多退路。",choices:[
   {text:"接下它",hint:"依赖智力",need:"mind",fx:{mind:[1,2],family:[1,3],body:[-2,0]},success:"你走到了更高的位置上。",fail:"你扛住了职位，却失去了不少轻松。"},
   {text:"先稳住生活",hint:"更加均衡",fx:{body:[1,2],family:[0,2]},success:"你保住了生活质量。",fail:"机会离开后，你短暂地怀疑过自己。"}
  ]},
  {title:"创业伙伴找上门",desc:"对方有想法、有野心，也很缺现实条件。",choices:[
   {text:"一起试试",hint:"依赖家境和智力",need:"family",fx:{family:[-3,5],mind:[1,2],body:[-1,0]},success:"项目活了下来，你的人生被加速。",fail:"项目没成，但你见过了更大的风。"},
   {text:"继续原本道路",hint:"风险更小",fx:{family:[1,2],body:[0,1]},success:"你慢慢积累，稳得像一条长线。",fail:"你错过了风口，也躲过了暴雷。"}
+ ]},
+{id:"human_industry_restructure",title:"公司宣布大规模重组，你的岗位可能被自动化取代",desc:"留下意味着接受完全不同的工作方式，离开则要重新寻找收入。",choices:[
+  {text:"集中学习新工具，争取转岗",hint:"依赖智力",need:"mind",fx:{mind:[2,4],body:[-2,0],family:[-1,2]},lifeTrack:{success:{career:3,stability:1},fail:{career:0,stability:-1}},success:"你进入新团队，旧经验和新工具形成了独特优势。",fail:"你学会了工具，却没有赶上内部名额。"},
+  {text:"通过旧识寻找内部机会",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,3],family:[0,3]},lifeTrack:{success:{career:2,bonds:1},fail:{career:-1,bonds:-1}},success:"一位旧同事帮你找到更适合的部门。",fail:"人情没有直接换来职位，却让你看清了真实机会。"},
+  {text:"离职开一家小型工作室",hint:"需要手艺火种",need:"family",requiresLegacy:"craft_legacy",fx:{family:[-4,5],mind:[1,3],body:[-1,1]},setLifeFlagsSuccess:{craftShop:true,independentWorker:true},lifeTrack:{success:{career:4,stability:-1},fail:{career:-1,stability:-2}},success:"规模不大，但客户真正认可你的手艺。",fail:"收入比预想更不稳定，你必须重新调整方向。"},
+  {text:"接受补偿，给自己半年空窗期",hint:"依赖家境",need:"family",fx:{family:[0,3],body:[1,3],mind:[0,2]},lifeTrack:{stability:2,career:-1},success:"休整让你重新选择方向，而不是仓促进入下一份工作。",fail:"空窗期比预计更长，资源开始下降。"}
+ ]},
+ {id:"human_gray_assignment",title:"上级要求你完成一项明显不合规的任务",desc:"完成任务能换来升职，拒绝可能被边缘化。对方没有留下任何书面指令。",choices:[
+  {text:"要求把指令写进正式流程",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],charm:[-1,2]},lifeTrack:{success:{career:1,reputation:2},fail:{career:-1,reputation:1}},success:"对方不敢留下记录，任务被悄悄取消。",fail:"流程没有保护你，但至少留下了完整证据。"},
+  {text:"表面配合，暗中保存证据",hint:"依赖智力",need:"mind",fx:{mind:[1,4],body:[-2,0],charm:[-1,1]},setLifeFlags:{whistleblower:true},lifeTrack:{success:{reputation:2,career:1},fail:{stability:-2,career:-1}},success:"证据在关键时刻保护了你，也揭开了更大的问题。",fail:"保存证据的行为被提前发现。"},
+  {text:"公开拒绝并说明理由",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[1,4],family:[-2,1]},setLifeFlags:{publicFigure:true},lifeTrack:{success:{reputation:3,career:0},fail:{reputation:0,career:-2}},success:"其他员工开始支持你，公司不得不重新审查任务。",fail:"你被塑造成不服从管理的人。"},
+  {text:"完成任务换取升职",hint:"短期事业收益，长期风险",need:"family",fx:{family:[2,5],mind:[-2,0],charm:[-2,0]},lifeTrack:{career:3,reputation:-3},success:"你得到职位和收入，却被卷入越来越深的灰色事务。",fail:"升职没有兑现，风险却留在了你的名字下。"}
+ ]},
+ {id:"human_startup_cashflow",requiresLife:{startupFounder:true},title:"你创办的项目只剩三个月现金",desc:"团队仍相信方向，但继续烧钱可能拖垮你个人的生活。",choices:[
+  {text:"砍掉大部分业务，只保留核心产品",hint:"需要经营手札",need:"mind",requiresLegacy:"career_legacy",fx:{mind:[1,4],family:[-3,5],charm:[-1,2]},lifeTrack:{success:{career:4,stability:1},fail:{career:-2,stability:-2}},success:"团队缩小了，但产品终于找到真正愿意付费的人。",fail:"收缩太晚，现金仍然见底。"},
+  {text:"向旧客户和熟人募集过桥资金",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[-3,5]},lifeTrack:{success:{career:3,bonds:1},fail:{career:-1,bonds:-2}},success:"几名信任你的人帮项目撑过最危险的阶段。",fail:"人情和商业混在一起，关系开始承受压力。"},
+  {text:"公开产品故事进行众筹",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[1,5],family:[-2,5]},setLifeFlags:{publicFigure:true},lifeTrack:{success:{reputation:3,career:3},fail:{reputation:-2,career:-1}},success:"大量小额支持让项目活了下来。",fail:"关注很多，真正愿意付费的人却不够。"},
+  {text:"主动关闭项目，结清团队费用",hint:"保护底线",need:"family",fx:{family:[-3,0],body:[1,3],charm:[0,2]},lifeTrack:{stability:2,career:-2,reputation:1},success:"你失去公司，却保住了信用和重新开始的能力。",fail:"关停过程比预计更复杂，仍留下部分债务。"}
  ]}
 ],
 "财富":[
- {title:"一笔意外之财",desc:"天降一笔钱，你必须决定它去向哪里。",choices:[
+{title:"一笔意外之财",desc:"天降一笔钱，你必须决定它去向哪里。",choices:[
   {text:"投资自己",hint:"长期路线",fx:{mind:[2,3],family:[-1,1]},success:"钱没有立刻翻倍，但它慢慢变成了能力。",fail:"效果没有想象中大，不过至少没有白花。"},
   {text:"放手投资",hint:"依赖家境",need:"family",fx:{family:[-3,6]},success:"你踩中了风口，资源开始滚动。",fail:"市场给你上了一堂昂贵的课。"}
  ]},
  {title:"资产抉择",desc:"有人劝你上车，有人劝你观望，而选择只能你自己做。",choices:[
   {text:"果断下注",hint:"依赖家境与胆量",need:"family",fx:{family:[-2,5],body:[-1,0]},success:"多年后，这成了你很重要的一笔积累。",fail:"你背上了沉重压力，但并没有彻底失败。"},
   {text:"先保持灵活",hint:"更稳",fx:{body:[0,2],family:[-1,2]},success:"你保留了选择权。",fail:"机会从身边滑过去时，你还是有点心痒。"}
+ ]},
+{id:"human_old_house_auction",title:"你发现一套价格异常低的老房子",desc:"位置不错，但房屋状况、产权和邻里关系都存在未知问题。",choices:[
+  {text:"自己检查结构并估算修缮成本",hint:"需要手艺火种",need:"mind",requiresLegacy:"craft_legacy",fx:{mind:[1,3],family:[-2,4]},setLifeFlagsSuccess:{craftShop:true},lifeTrack:{success:{stability:2,career:1},fail:{stability:-2}},success:"你发现问题可控，修缮后房屋价值明显提升。",fail:"隐藏损坏远超经验范围，修缮不断追加预算。"},
+  {text:"先核查产权、抵押和历史纠纷",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[0,2]},lifeTrack:{stability:2},success:"你发现了一项关键限制，避免了长期纠纷。",fail:"纸面记录没有问题，真正麻烦来自无法写进档案的邻里矛盾。"},
+  {text:"直接买下，赌区域升值",hint:"高风险财富路线",need:"family",fx:{family:[-5,8],mind:[-1,1]},lifeTrack:{success:{stability:2,career:1},fail:{stability:-3}},success:"区域改善带动价格上涨，你押中了长期趋势。",fail:"房屋问题和市场变化同时出现，资源被长期锁住。"},
+  {text:"放弃房子，继续积累现金",hint:"稳健路线",need:"family",fx:{family:[1,3],body:[0,1]},lifeTrack:{stability:1},success:"你错过一次可能的机会，也避开了无法判断的风险。",fail:"后来价格上涨，你短暂怀疑自己的选择。"}
+ ]},
+ {id:"human_family_asset_dispute",requiresLegacy:"family_archive",title:"一份旧家族账本引发了资产争议",desc:"账本显示某位亲属多年前替整个家庭承担过一笔巨大损失，而现在的分配完全没有体现这件事。",choices:[
+  {text:"按照账本重新计算每个人的贡献",hint:"依赖智力与家境",need:"mind",fx:{mind:[1,4],family:[-2,3],charm:[-2,2]},setLifeFlags:{familySecretOpened:true},lifeTrack:{success:{stability:2,bonds:1},fail:{stability:-2,bonds:-2}},success:"重新核算虽然复杂，却让分配更接近真实历史。",fail:"旧账无法完全证明，争议反而更大。"},
+  {text:"邀请家族成员共同核对记忆",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],family:[-1,2]},lifeTrack:{success:{bonds:3,stability:1},fail:{bonds:-2}},success:"几段长期被压住的委屈终于被说出来。",fail:"共同回忆变成了互相指责。"},
+  {text:"依据现有法律文件处理",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{family:[-1,3],charm:[-2,1]},lifeTrack:{success:{stability:3,reputation:1},fail:{bonds:-2}},success:"结果不一定完美，但争议获得了明确终点。",fail:"法律解决了资产，却没有解决家庭关系。"},
+  {text:"放弃自己的部分份额换取和解",hint:"资源换关系",need:"charm",fx:{family:[-4,-1],charm:[2,5]},lifeTrack:{bonds:3,stability:-1},success:"你的让步让争议停止，家庭关系逐渐恢复。",fail:"有人把让步理解成默认自己理亏。"}
  ]}
 ],
 "爱情":[
- {title:"真正心动的人出现了",desc:"你知道再等等会更安全，但有些故事错过就没有了。",choices:[
+{title:"真正心动的人出现了",desc:"你知道再等等会更安全，但有些故事错过就没有了。",choices:[
   {text:"主动靠近",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],body:[-1,1]},success:"你们真的走进了彼此的人生。",fail:"你被婉拒，但至少没有遗憾。"},
   {text:"先观察",hint:"避免受伤",fx:{mind:[0,2],charm:[-1,1]},success:"你看清了自己的需要。",fail:"故事还没开始，就已经散了。"}
  ]},
  {title:"关系走到岔路口",desc:"继续意味着承诺，结束意味着告别。",choices:[
   {text:"认真经营下去",hint:"依赖魅力",need:"charm",fx:{charm:[1,2],body:[-1,1]},success:"这段关系穿过现实，变得更稳。",fail:"你努力过，但还是各自走向了不同方向。"},
   {text:"体面结束",hint:"短痛换长安",fx:{body:[1,2],charm:[-1,0]},success:"你们没有互相拖累，人生继续向前。",fail:"你花了很久，才真正放下。"}
+ ]},
+{id:"human_long_distance_offer",title:"伴侣得到一份必须长期异地的机会",desc:"这是对方等待多年的发展机会，也可能改变你们的关系结构。",choices:[
+  {text:"一起制定清晰的异地计划",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],mind:[1,2],body:[-1,1]},setLifeFlags:{longDistance:true},lifeTrack:{bonds:3,stability:0},success:"你们没有假装距离不存在，而是建立了可执行的相处方式。",fail:"计划很完整，真实情绪仍然不断变化。"},
+  {text:"跟随对方一起迁徙",hint:"需要远行地图",need:"body",requiresLegacy:"wanderer_legacy",fx:{body:[-2,2],charm:[1,3],family:[-3,2]},setLifeFlags:{movedCity:true},lifeTrack:{bonds:2,stability:-1,career:-1},success:"新环境艰难，但你们共同建立了新的生活。",fail:"你放弃太多自己的东西，关系开始承受隐形压力。"},
+  {text:"暂时暂停关系，各自发展",hint:"依赖智力与边界感",need:"mind",fx:{mind:[1,3],charm:[-2,2],body:[0,1]},setLifeFlags:{longDistance:true},lifeTrack:{career:1,bonds:-1,stability:1},success:"你们保留尊重，没有用承诺困住彼此。",fail:"暂停逐渐变成了没有说出口的结束。"},
+  {text:"要求对方放弃机会",hint:"保住眼前稳定",need:"charm",fx:{charm:[-4,2],family:[0,2]},lifeTrack:{stability:2,bonds:-2},success:"对方留下了，但这项决定需要很久才能真正消化。",fail:"争执让关系迅速出现裂痕。"}
+ ]},
+ {id:"human_partner_hidden_debt",title:"你发现伴侣隐瞒了一笔不小的债务",desc:"债务并非奢侈消费，而是来自过去的家庭责任。隐瞒本身仍然让你难以信任。",choices:[
+  {text:"一起建立透明的偿债计划",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[1,4],family:[-3,1],mind:[1,2]},setLifeFlags:{sharedDebt:true},lifeTrack:{bonds:3,stability:-1},success:"债务没有立即消失，但关系第一次真正透明。",fail:"计划反复被现实打断，信任恢复得很慢。"},
+  {text:"核查债务责任和法律风险",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],family:[-2,2],charm:[-1,2]},lifeTrack:{stability:2,bonds:0},success:"你们区分出真实责任和不必要承担的部分。",fail:"债务结构比预计更复杂。"},
+  {text:"替对方一次性清偿",hint:"依赖家境",need:"family",fx:{family:[-6,-2],charm:[1,4]},lifeTrack:{bonds:2,stability:-2},success:"压力迅速下降，但你们必须重新讨论金钱边界。",fail:"还清旧债后，又出现了新的家庭支出。"},
+  {text:"结束关系",hint:"保护自身边界",need:"mind",fx:{mind:[0,2],charm:[-3,-1],family:[0,2]},lifeTrack:{stability:1,bonds:-3},success:"你离开了无法接受的关系结构。",fail:"理性决定并没有让失去变得轻松。"}
+ ]},
+ {id:"human_long_distance_return",requiresLife:{longDistance:true},title:"多年异地后，你们终于有机会生活在同一座城市",desc:"等待结束了，但两个人已经形成完全不同的生活习惯。",choices:[
+  {text:"先试着共同生活三个月",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],body:[-1,1]},lifeTrack:{success:{bonds:3,stability:2},fail:{bonds:-1,stability:-1}},success:"你们重新认识彼此，而不是假装回到从前。",fail:"距离消失后，长期被忽略的问题全部出现。"},
+  {text:"直接结婚或建立长期家庭",hint:"依赖家境与承诺",need:"family",fx:{family:[-2,3],charm:[-2,4]},lifeTrack:{success:{bonds:3,stability:3},fail:{bonds:-2,stability:-2}},success:"共同生活逐渐稳定，你们把等待变成了真正的日常。",fail:"决定过快，现实磨合远比想象更困难。"},
+  {text:"承认已经不再适合，和平结束",hint:"依赖智力",need:"mind",fx:{mind:[1,3],charm:[-2,0],body:[0,1]},lifeTrack:{stability:1,bonds:-1},success:"你们没有否定过去，也没有继续消耗未来。",fail:"结束仍然带来很长的空白期。"}
  ]}
 ],
 "健康":[
- {title:"身体发出正式警告",desc:"这一次已经不是简单的疲惫，而是必须改变。",choices:[
+{title:"身体发出正式警告",desc:"这一次已经不是简单的疲惫，而是必须改变。",choices:[
   {text:"立刻调整生活",hint:"依赖体质",need:"body",fx:{body:[2,4],family:[-1,0]},success:"你的状态慢慢被拉了回来。",fail:"改变并不轻松，但至少阻止了继续恶化。"},
   {text:"先把事情做完",hint:"短期没事，长期危险",fx:{body:[-4,-1],family:[1,2]},success:"你暂时挺了过去。",fail:"身体用更大的代价提醒了你。"}
  ]},
  {title:"一次突发意外",desc:"事情来得很快，你只能在有限时间里做决定。",choices:[
   {text:"自己冷静处理",hint:"依赖体质和判断",need:"body",fx:{body:[-2,2],mind:[0,2]},success:"你处理得很稳，损失被压到了最低。",fail:"你恢复了很久，人生节奏被迫改变。"},
   {text:"立刻求助外界",hint:"依赖家境与支持",need:"family",fx:{family:[-1,1],body:[-2,1]},success:"你得到及时帮助，顺利渡过难关。",fail:"帮助来得太慢，还是留下了损耗。"}
+ ]},
+{id:"human_uncertain_diagnosis",title:"体检发现一个无法立即定性的异常",desc:"医生给出几种可能性：大多数并不严重，但也存在需要尽快处理的情况。",choices:[
+  {text:"整理全部资料并寻求多学科复诊",hint:"需要医疗常识",need:"mind",requiresLegacy:"medical_legacy",fx:{mind:[1,3],body:[0,3],family:[-2,0]},lifeTrack:{stability:2},success:"复诊厘清了风险，你没有过度治疗，也没有延误。",fail:"不同意见仍然存在，但你掌握了更完整的信息。"},
+  {text:"立即接受最积极的治疗",hint:"高成本、降低不确定性",need:"family",fx:{family:[-5,-1],body:[-3,4],mind:[-1,1]},lifeTrack:{success:{stability:2},fail:{stability:-2}},success:"治疗及时，身体逐渐恢复。",fail:"治疗副作用很重，而异常最终可能并不危险。",deathOnFail:{chance:7,cause:"在未经充分评估的高风险治疗中出现严重并发症，抢救无效"}},
+  {text:"观察一段时间再复查",hint:"依赖体质与判断",need:"body",fx:{body:[-3,2],mind:[0,2]},lifeTrack:{stability:0},success:"复查显示异常没有发展，你避免了不必要干预。",fail:"等待期间病情发生变化，治疗难度明显增加。",deathOnFail:{chance:10,cause:"对潜在重病长期观察后病情突然恶化，错过最佳救治时间"}},
+  {text:"彻底调整作息、饮食和运动",hint:"保守改善路线",need:"body",fx:{body:[1,4],mind:[0,1]},lifeTrack:{stability:2},success:"生活方式改善让多项指标恢复正常。",fail:"调整有益，但无法解决异常的根本原因。"}
+ ]},
+ {id:"human_caregiver_burnout",title:"家人长期患病，你成为主要照护者",desc:"照护需要时间、金钱和情绪稳定。你自己的生活正在逐渐停滞。",choices:[
+  {text:"建立轮班和专业照护计划",hint:"需要医疗常识",need:"mind",requiresLegacy:"medical_legacy",fx:{mind:[1,3],family:[-3,0],body:[0,2]},setLifeFlags:{caregiverPath:true},lifeTrack:{bonds:2,stability:1},success:"照护质量提高，你也保留了最低限度的生活。",fail:"专业资源有限，计划仍然经常失效。"},
+  {text:"召集亲属明确分工",hint:"需要人情旧账",need:"charm",requiresLegacy:"social_legacy",fx:{charm:[1,4],family:[-2,1]},setLifeFlags:{caregiverPath:true},lifeTrack:{success:{bonds:3,stability:1},fail:{bonds:-2,stability:-1}},success:"责任不再集中在你一个人身上。",fail:"讨论变成了谁付出更多的争吵。"},
+  {text:"亲自承担大部分照护",hint:"关系收益，身体承压",need:"body",fx:{body:[-5,-1],charm:[2,5],family:[-2,0]},lifeTrack:{bonds:4,stability:-3},success:"家人得到细致照顾，你也成为他们最信任的人。",fail:"你自己的身体和工作同时出现问题。",deathOnFail:{chance:6,cause:"长期高强度照护导致严重过劳和心脑血管意外"}},
+  {text:"承认能力有限，选择机构照护",hint:"依赖家境与边界",need:"family",fx:{family:[-4,-1],body:[1,3],charm:[-2,2]},lifeTrack:{stability:2,bonds:0},success:"专业机构承担主要工作，你能够恢复正常生活。",fail:"你长期被内疚感困扰，家人也需要适应新环境。"}
+ ]},
+ {id:"human_rehabilitation",requiresLife:{rehabPath:true},title:"事故后的康复进入平台期",desc:"你已经恢复基本生活，但继续训练非常痛苦，结果也不确定。",choices:[
+  {text:"按照循证方案长期康复",hint:"需要医疗常识",need:"body",requiresLegacy:"medical_legacy",fx:{body:[2,5],mind:[1,2],family:[-2,0]},lifeTrack:{stability:2},success:"恢复虽慢，却持续而稳定。",fail:"进展有限，但你避免了二次损伤。"},
+  {text:"尝试高强度突破训练",hint:"高风险体质路线",need:"body",fx:{body:[-4,5],mind:[0,2]},lifeTrack:{success:{stability:2},fail:{stability:-2}},success:"你突破平台期，重新获得一部分失去的能力。",fail:"过度训练导致伤情反复。",deathOnFail:{chance:5,cause:"康复期进行高强度训练时发生严重心肺意外"}},
+  {text:"调整目标，学习与限制共处",hint:"依赖智力与关系支持",need:"mind",fx:{mind:[2,4],charm:[1,3],body:[0,1]},lifeTrack:{stability:3,bonds:1},success:"你没有完全恢复从前，却建立了新的完整生活。",fail:"接受现实比说出来更困难。"}
  ]}
 ],
 "家庭":[
- {title:"家人需要你做选择",desc:"工作与家庭第一次正面碰撞，没有完美答案。",choices:[
+{title:"家人需要你做选择",desc:"工作与家庭第一次正面碰撞，没有完美答案。",choices:[
   {text:"先照顾家人",hint:"关系更近，代价也更明显",fx:{family:[2,3],body:[-1,1],mind:[-1,0]},success:"你们的联系变得更紧密了。",fail:"你付出了很多，但仍没能让所有人满意。"},
   {text:"坚持自己的路",hint:"更偏向自我实现",fx:{mind:[1,3],family:[-2,0]},success:"你守住了人生方向。",fail:"你赢得了选择，却失去了一段理解。"}
  ]},
  {title:"家庭资源重新分配",desc:"一笔共同资源摆在面前，怎么分都有人会不高兴。",choices:[
   {text:"尽量公平",hint:"稳定路线",fx:{family:[1,2],charm:[1,2]},success:"没有人暴富，但关系保住了。",fail:"你尽量公平，仍然有人不满。"},
   {text:"为自己争取更多",hint:"依赖魅力",need:"charm",fx:{family:[-2,4],charm:[-1,1]},success:"你争取到了更多资源。",fail:"你得到了一些利益，也失去了一些信任。"}
+ ]},
+{id:"human_family_letter",title:"整理旧物时发现一封从未寄出的家书",desc:"信中暗示家族里有一段被所有长辈刻意避开的往事，也涉及你的出生。",choices:[
+  {text:"按照家族档案逐条调查",hint:"需要家族档案",need:"mind",requiresLegacy:"family_archive",fx:{mind:[2,4],charm:[-1,2],family:[-2,1]},setLifeFlags:{familySecretOpened:true},lifeTrack:{success:{bonds:1,reputation:1},fail:{bonds:-2}},success:"你拼出一段被沉默掩盖的真实历史。",fail:"不同人的说法互相矛盾，旧伤先被重新打开。"},
+  {text:"与最年长的家人坦诚谈一次",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],mind:[0,2]},setLifeFlags:{familySecretOpened:true},lifeTrack:{bonds:3},success:"长辈终于说出当年不敢面对的选择。",fail:"对方拒绝继续谈，并要求你销毁信件。"},
+  {text:"把信件交给所有家庭成员",hint:"公开真相",need:"charm",fx:{charm:[-3,4],family:[-2,2]},setLifeFlags:{familySecretOpened:true},lifeTrack:{success:{reputation:2,bonds:1},fail:{bonds:-3,stability:-1}},success:"真相虽然震动家庭，却结束了多年的暗示和猜测。",fail:"每个人只选择相信对自己有利的部分。"},
+  {text:"不再追查，保存信件",hint:"保护现有秩序",need:"family",fx:{family:[1,2],body:[0,1]},lifeTrack:{stability:2},success:"你接受有些真相不一定需要立刻打开。",fail:"信里的问题仍然影响你理解自己的方式。"}
+ ]},
+ {id:"human_eldercare_decision",title:"年迈家人开始无法独立生活",desc:"继续居家、共同生活或选择照护机构，每一种方案都会改变整个家庭。",choices:[
+  {text:"改造住房并安排居家照护",hint:"需要医疗常识或根基",need:"family",requiresAnyLegacy:["medical_legacy","family_plus"],fx:{family:[-4,-1],body:[0,2],charm:[1,3]},setLifeFlags:{caregiverPath:true},lifeTrack:{bonds:3,stability:1},success:"环境改造降低了风险，家人保留了熟悉生活。",fail:"照护需求增长太快，居家方案逐渐超出能力。"},
+  {text:"召开家庭会议分配责任",hint:"需要人情旧账",need:"charm",requiresLegacy:"social_legacy",fx:{charm:[1,4],family:[-2,1]},lifeTrack:{success:{bonds:3,stability:2},fail:{bonds:-3,stability:-1}},success:"责任和费用得到相对公平的分担。",fail:"会议让长期不平衡彻底爆发。"},
+  {text:"让老人搬来与你同住",hint:"高关系、高消耗",need:"body",fx:{body:[-3,0],charm:[2,5],family:[-2,1]},setLifeFlags:{caregiverPath:true},lifeTrack:{bonds:4,stability:-2},success:"共同生活有摩擦，也留下了许多珍贵时间。",fail:"空间、习惯和照护压力让每个人都筋疲力尽。"},
+  {text:"选择专业照护机构",hint:"资源换稳定",need:"family",fx:{family:[-5,-2],body:[1,3],charm:[-2,2]},lifeTrack:{stability:3,bonds:0},success:"专业服务减少了危险，你也能维持探望和陪伴。",fail:"家人难以适应，你长期承受内疚和外界评价。"}
+ ]},
+ {id:"human_child_education",title:"孩子在学校表现普通，却对一项冷门兴趣极度投入",desc:"继续投入可能没有现实回报，强行转向主流路线又可能消磨长期热情。",choices:[
+  {text:"帮助孩子建立系统学习计划",hint:"需要学海传灯",need:"mind",requiresLegacy:"study_legacy",fx:{mind:[1,3],family:[-2,1],charm:[1,3]},lifeTrack:{bonds:2,career:1},success:"兴趣逐渐发展成真正扎实的能力。",fail:"计划太像另一套功课，热情反而下降。"},
+  {text:"先理解孩子为什么喜欢它",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],mind:[0,2]},lifeTrack:{bonds:3},success:"你们找到了兴趣背后的需要，也建立了更真实的信任。",fail:"理解没有立刻解决资源和未来的问题。"},
+  {text:"要求优先完成主流学业",hint:"强调稳定",need:"family",fx:{family:[1,2],charm:[-3,0],mind:[0,1]},lifeTrack:{stability:2,bonds:-2},success:"孩子保持了基本成绩，同时有限保留兴趣。",fail:"兴趣逐渐消失，关系也变得更疏远。"},
+  {text:"投入资源让孩子全力尝试",hint:"高风险家庭路线",need:"family",fx:{family:[-5,3],charm:[1,4]},lifeTrack:{success:{bonds:3,reputation:1},fail:{stability:-2,bonds:0}},success:"孩子在冷门领域获得罕见机会。",fail:"投入没有得到结果，家庭需要重新承担成本。"}
  ]}
 ],
 "奇遇":[
- {title:"陌生人留下一把钥匙",desc:"钥匙上只有地址和一句话：‘到了你就会明白。’",choices:[
+{title:"陌生人留下一把钥匙",desc:"钥匙上只有地址和一句话：‘到了你就会明白。’",choices:[
   {text:"按地址前往",hint:"高随机收益",need:"mind",fx:{mind:[1,3],family:[-2,4],charm:[0,2]},success:"门后真的藏着改变人生的东西。",fail:"你只找到一间空屋和更大的谜团。"},
   {text:"把钥匙交出去",hint:"安全路线",fx:{body:[0,1],mind:[0,1]},success:"你避开了潜在麻烦。",fail:"你后来总会想，门后到底是什么。"}
  ]},
  {title:"来自远方的邀请函",desc:"一份陌生计划向你伸手，它也许会彻底改写你的轨迹。",choices:[
   {text:"立刻出发",hint:"更精彩的人生",fx:{mind:[1,3],charm:[1,3],family:[-2,2]},success:"你的世界从此不再只有眼前这些街道。",fail:"旅途不算圆满，但你已经不是原来的自己。"},
   {text:"选择拒绝",hint:"保住现在",fx:{body:[1,2],family:[0,2]},success:"你守住了当前的生活。",fail:"那封邀请消失后，再也没有回来。"}
+ ]},
+{id:"succubus_ally_event",requires:{succubusAlly:true},title:"魅魔在现实中短暂拥有了身体",desc:"她只能停留到日出。第一次真正看见城市后，她表现得比你想象中更像一个从未自由生活过的人。",choices:[
+  {text:"带她体验普通人的一晚",hint:"依赖魅力",need:"charm",fx:{charm:[2,5],body:[-1,1]},relation:{creature:"succubus",success:3,fail:0},success:"她第一次理解不依靠吞食梦境也能获得情绪，并成为可靠盟友。",fail:"现实感官令她失控，附近人群同时陷入混乱梦境。"},
+  {text:"利用机会询问异界情报",hint:"依赖智力",need:"mind",fx:{mind:[2,5],charm:[0,2]},addClues:{success:3,fail:1},success:"她承认自己的种族来自一个以梦境连接世界的层面。",fail:"她给出的坐标在每次记录后都会改变。"},
+  {text:"帮助她永久留在现实",hint:"极高风险，依赖家境",need:"family",fx:{family:[-4,2],body:[-3,1],charm:[1,4]},setFlagsSuccess:{succubusIncarnated:true},setFlagsFail:{succubusHostile:true},success:"仪式成功，她获得稳定身体，也失去了大部分超自然能力。",fail:"身体没有稳定，反而开始从周围人身上抽取生命力。",deathOnFail:{chance:12,cause:"帮助魅魔凝聚现实身体时成为仪式核心，生命力被未完成的躯体吸干"}}
+ ]},
+{id:"mirror_guardian_event",requires:{mirrorChildSaved:true},title:"镜中孩子提前向你展示了一场未来灾难",desc:"镜面中出现你尚未经历的一天。画面里，某个选择会让整座街区消失。",choices:[
+  {text:"完全相信镜中未来",hint:"依赖智力",need:"mind",fx:{mind:[1,4],family:[-2,2]},success:"你改变行动后，灾难没有发生，但镜中孩子因此衰弱。",fail:"你避开了画面中的选择，却触发了另一条更危险的路径。"},
+  {text:"只把它作为参考",hint:"平衡路线",need:"mind",fx:{mind:[1,3],body:[0,2]},success:"你既避免盲信，也抓住了真正的警告。",fail:"你低估了未来画面的准确程度。"},
+  {text:"尝试进入镜中查看完整未来",hint:"高风险，依赖体质",need:"body",fx:{body:[-3,2],mind:[2,4]},setFlagsSuccess:{mirrorTraveler:true},setFlagsFail:{mirrorHostile:true},success:"你短暂进入未来镜面，带回了尚未发生的线索。",fail:"镜面关闭时，你的一部分身体仍留在另一侧。",deathOnFail:{chance:16,cause:"穿越未来镜面时空间闭合，身体被镜面分割并逐渐透明化死亡"}}
+ ]},
+{id:"hound_guardian_event",requires:{houndTamed:true},title:"无皮黑犬守在一扇突然出现的门前",desc:"门后传来熟悉亲友的呼救声，但黑犬无论如何都不让你靠近。",choices:[
+  {text:"相信黑犬，远离门",hint:"依赖魅力与关系",need:"charm",fx:{charm:[1,3],body:[0,2]},success:"日出后门消失，你的亲友确认从未遇险。黑犬替你挡住了一次诱捕。",fail:"你虽然离开，却始终无法确认门后究竟是什么。"},
+  {text:"命令黑犬让开",hint:"依赖体质",need:"body",fx:{body:[-3,2],mind:[1,2]},setFlagsFail:{houndHostile:true},success:"门后只是模拟亲友声音的捕食生物，你及时将其关闭。",fail:"黑犬不再承认你，门后的东西也记住了你的声音。"},
+  {text:"让黑犬先进入",hint:"依赖智力",need:"mind",fx:{mind:[1,4],charm:[-2,1]},relation:{creature:"hound",success:1,fail:-3},success:"黑犬拖出一团会模仿声音的黑色组织。",fail:"门在黑犬进入后关闭，你失去了最可靠的非人盟友。"}
+ ]},
+{id:"moth_guardian_event",requires:{mothGuardian:true},title:"食梦蛾女把一枚尚未发生的噩梦交给你",desc:"噩梦像一枚白色茧，内部正在重复你未来死亡的画面。她说你可以烧掉、吞下或交给别人。",choices:[
+  {text:"烧掉噩梦之茧",hint:"依赖体质",need:"body",fx:{body:[-2,3],mind:[0,2]},success:"未来死亡画面消失，但灰烬组成了另一种结局。",fail:"茧在火中孵化出大量微小食梦蛾。"},
+  {text:"亲自吞下噩梦",hint:"依赖智力与心志",need:"mind",fx:{mind:[2,5],body:[-4,0]},setFlagsSuccess:{deathVision:true},success:"你完整经历了一次未来死亡，并找到避免它的方法。",fail:"噩梦在体内反复发生，你的身体开始相信自己已经死去。",deathOnFail:{chance:20,cause:"吞下未来噩梦后身体反复体验死亡，最终因神经系统自我关闭而真正死亡"}},
+  {text:"拒绝使用预知",hint:"稳健路线",need:"charm",fx:{charm:[1,2],body:[0,1]},success:"蛾女尊重你的选择，将梦茧收藏起来。",fail:"梦茧自行裂开，死亡画面进入了你的普通睡眠。"}
  ]}
 ],
 "危机":[
- {title:"事业突然崩塌",desc:"原本稳定的一切，在很短时间里失去了支点。",choices:[
+{title:"事业突然崩塌",desc:"原本稳定的一切，在很短时间里失去了支点。",choices:[
   {text:"立刻重建",hint:"依赖智力",need:"mind",fx:{mind:[1,3],family:[-4,2],body:[-2,0]},success:"你在废墟里找到新方向，恢复得比想象快。",fail:"重建很慢，但你没有彻底倒下。"},
   {text:"先停下来休息",hint:"保住体质",fx:{body:[2,3],family:[-3,-1]},success:"休息让你恢复判断力。",fail:"你休息得太久，也错过了一些机会。"}
  ]},
  {title:"信任危机",desc:"你发现身边有人隐瞒了非常重要的事实。",choices:[
   {text:"当面对质",hint:"依赖魅力",need:"charm",fx:{charm:[-1,3],mind:[1,2]},success:"真相被摊开，关系重新建立边界。",fail:"对话彻底失控，你失去了一段关系。"},
   {text:"暗中调查",hint:"依赖智力",need:"mind",fx:{mind:[1,3],charm:[-2,0]},success:"你掌握了完整事实，再决定如何处理。",fail:"你调查得越深，就越难相信任何人。"}
+ ]},
+{id:"succubus_final_collection",requires:{succubusPact:true},excludes:["succubusResolved","succubusAlly"],title:"魅魔契约进入最终收取阶段",desc:"她不再索要记忆，而是要求你在死亡后把全部梦境留给她。拒绝会立即触发契约反噬。",choices:[
+  {text:"接受死后契约",hint:"保住当前生命",need:"charm",fx:{charm:[1,3],body:[1,2]},setFlags:{succubusAfterlife:true},success:"契约完成，你暂时安全，却不知道死亡后还能否进入轮回。",fail:"她认为你的承诺并不真诚，提前开始收取。"},
+  {text:"强行撕毁契约",hint:"依赖体质与智力",need:"body",fx:{body:[-5,2],mind:[1,4]},setFlagsSuccess:{succubusResolved:true},setFlagsFail:{succubusHostile:true},success:"契约被撕开，你失去了部分梦境能力，却恢复了自由。",fail:"契约文字沿着血管浮现，开始吞噬心跳。",deathOnFail:{chance:36,cause:"强行撕毁魅魔契约时被契约文字吞噬心脏，死后梦境仍被带走"}},
+  {text:"请求异常机构执行隔离",hint:"依赖家境",need:"family",fx:{family:[-4,0],mind:[0,2]},setFlagsSuccess:{succubusContained:true},setFlagsFail:{agencyHostile:true,succubusHostile:true},success:"你在无梦隔离室中度过数月，契约最终失去定位。",fail:"隔离设备被内部人员关闭，魅魔直接出现在病房。"}
+ ]},
+{id:"mirror_takeover_crisis",requires:{mirrorHostile:true},title:"所有反光表面开始出现你的替身",desc:"替身们拥有不同的表情，却同时要求你承认其中一个才是真正的人。",choices:[
+  {text:"逐一指出它们记忆中的错误",hint:"依赖智力",need:"mind",fx:{mind:[2,5],body:[-2,0]},setFlagsSuccess:{mirrorSealed:true},success:"替身无法承受矛盾，镜面中的世界逐渐崩解。",fail:"你的真实记忆也出现漏洞，连你自己都无法确认身份。"},
+  {text:"接受其中一个替身",hint:"依赖魅力",need:"charm",fx:{charm:[-3,4],mind:[-2,2]},setFlagsSuccess:{mirrorMerged:true},setFlagsFail:{mirrorReplaced:true},success:"你与替身融合，获得另一条人生的部分经验。",fail:"融合完成后，活下来的意识不是现在的你。",deathOnFail:{chance:40,cause:"被镜中替身完整取代，原本意识被封存在倒影深处并逐渐消散"}},
+  {text:"摧毁附近所有反光物",hint:"依赖体质",need:"body",fx:{body:[-4,1],family:[-3,0]},setFlagsSuccess:{mirrorSealed:true},success:"你暂时切断了替身进入现实的通道。",fail:"最后一块碎片映出你的后脑，而你身后没有任何镜子。",deathOnFail:{chance:24,cause:"摧毁镜面时被背后的无形替身割断生命线，尸体不再产生倒影"}}
+ ]},
+{id:"hound_hunt_crisis",requires:{houndHostile:true},title:"无皮黑犬带着整支猎群包围你的住所",desc:"它们不攻击门窗，而是在一口口咬掉房屋的影子。影子完全消失时，建筑也会从现实中消失。",choices:[
+  {text:"吹响骨哨争夺控制权",hint:"依赖体质",need:"body",fx:{body:[-4,3],charm:[0,3]},setFlagsSuccess:{houndTamed:true},setFlagsFail:{houndMasterAlerted:true},success:"猎群停止攻击，最初那只黑犬重新伏在你面前。",fail:"骨哨回应了更远处的主人，猎群同时抬头。",deathOnFail:{chance:32,cause:"住所影子被无皮猎犬群吞噬后连同建筑一起从现实中消失"}},
+  {text:"用强光制造新的影子",hint:"依赖智力与家境",need:"mind",fx:{mind:[1,4],family:[-4,0]},setFlagsSuccess:{houndRepelled:true},success:"不断变化的影子让猎群无法完成吞噬。",fail:"强光只让你的影子变得更加清晰，也更加可口。"},
+  {text:"主动走出住所面对猎群",hint:"极高风险，依赖魅力",need:"charm",fx:{charm:[-3,5],body:[-4,1]},setFlagsSuccess:{houndTamed:true},success:"最初那只黑犬认出了你身上的铜牌，阻止了猎群。",fail:"猎群没有撕咬身体，而是一口口吃掉了你的存在。",deathOnFail:{chance:38,cause:"被无皮猎犬群吞噬存在痕迹，亲友和社会记录逐渐忘记你曾经出生"}}
+ ]},
+{id:"dream_swarm_crisis",requiresAny:["dreamSwarm","dreamParasite","mothHostile"],title:"大量食梦生物涌入现实",desc:"城市里越来越多人无法做梦，随后失去创造力、情绪和长期记忆。你的住所成为它们聚集的中心。",choices:[
+  {text:"请蛾女成为诱饵",hint:"需要关系，依赖魅力",need:"charm",fx:{charm:[-2,4],body:[-2,1]},setFlagsSuccess:{dreamSwarmResolved:true,mothGuardian:true},setFlagsFail:{mothLost:true},success:"她引走大部分食梦生物，并在天亮前疲惫返回。",fail:"她被更庞大的同类吞没，只剩下一片翅粉。"},
+  {text:"点燃全部食梦香",hint:"依赖智力与家境",need:"mind",fx:{mind:[1,4],family:[-4,0],body:[-2,1]},setFlagsSuccess:{dreamSwarmResolved:true},success:"香气迫使食梦生物显形，异常机构完成了清理。",fail:"香气浓度过高，整片街区同时陷入无法醒来的梦境。",deathOnFail:{chance:26,cause:"在食梦生物造成的集体沉睡中脑功能逐渐停止，最终于梦中死亡"}},
+  {text:"切断自己的睡眠",hint:"依赖体质",need:"body",fx:{body:[-5,0],mind:[-2,1]},setFlagsSuccess:{dreamSwarmStarved:true},success:"失去主要目标后，食梦生物逐渐散去。",fail:"长期不眠首先摧毁了你的身体和判断。",deathOnFail:{chance:30,cause:"为躲避食梦生物长期拒绝睡眠，最终因心律失常与器官衰竭死亡"}}
+ ]},
+{id:"faceless_identity_crisis",requiresAny:["facelessMarked","facelessSutra"],excludes:["facelessResolved"],title:"你的面孔开始从他人记忆中消失",desc:"熟人仍知道你的名字，却无法在看到你时确认身份。证件照片也在逐渐变成空白。",choices:[
+  {text:"重新诵读空白经寻找逆法",hint:"依赖智力",need:"mind",fx:{mind:[2,5],charm:[-4,0]},setFlagsSuccess:{facelessResolved:true},success:"你找到逆向经文，重新将名字和面孔绑定。",fail:"经文最后一页写着：无面者不需要名字。",deathOnFail:{chance:25,cause:"身份与面孔被空白经完全抹除后失去自我意识，身体仍存活数日后死亡"}},
+  {text:"依靠最亲近的人重新确认身份",hint:"依赖魅力",need:"charm",fx:{charm:[-2,4],family:[-2,1]},setFlagsSuccess:{facelessResolved:true},success:"亲近之人的记忆成为锚点，让你重新被现实承认。",fail:"即使最熟悉的人也开始询问你是谁。"},
+  {text:"接受无面身份进入隐藏社会",hint:"危险支线，依赖体质",need:"body",fx:{body:[0,3],charm:[-5,-2],mind:[1,3]},setFlagsSuccess:{facelessAscended:true},success:"你失去普通社会身份，却能进入只有无面者知道的道路。",fail:"失去面孔后，你也无法维持完整的人类形态。",deathOnFail:{chance:18,cause:"主动放弃人类身份后无法维持肉身结构，最终化作没有面孔的空壳"}}
  ]}
 ],
 "迁徙":[
- {title:"陌生城市的长期工作邀请",desc:"新的城市收入更高、机会更多，但你在那里没有熟人，也没有退路。",choices:[
+{title:"陌生城市的长期工作邀请",desc:"新的城市收入更高、机会更多，但你在那里没有熟人，也没有退路。",choices:[
   {text:"立即搬过去",hint:"依赖智力与适应能力",need:"mind",fx:{mind:[1,3],charm:[0,2],body:[-2,0]},success:"你很快适应新城市，并找到真正适合自己的位置。",fail:"陌生环境和压力让你很长时间都无法站稳。"},
   {text:"先试住半年",hint:"稳健路线，依赖家境",need:"family",fx:{family:[-2,1],mind:[0,2],charm:[0,1]},success:"半年足够让你看清机会和代价。",fail:"你花费了不少资源，仍然无法作出明确判断。"},
   {text:"留在原来的城市",hint:"保留现有生活",need:"family",fx:{family:[1,2],body:[0,1]},success:"你把熟悉的资源经营得更加稳固。",fail:"机会消失后，你偶尔会想起另一种人生。"}
@@ -632,10 +766,28 @@ const eventBank={
   {text:"说服所有人一起走",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],family:[-2,3],body:[-1,1]},success:"迁徙虽然辛苦，但家庭最终建立了新的根基。",fail:"环境改变放大了原本隐藏的家庭矛盾。"},
   {text:"自己先去打前站",hint:"依赖体质与智力",need:"body",fx:{body:[-2,2],mind:[1,2],family:[-2,1]},success:"你提前解决了大部分风险，家人随后顺利迁入。",fail:"你独自承受了全部压力，身体和资源都受到损耗。"},
   {text:"放弃迁徙",hint:"避免短期风险",need:"family",fx:{family:[0,2],charm:[-1,1]},success:"你守住了当前生活的稳定。",fail:"家庭成员对这个决定留下了长期遗憾。"}
+ ]},
+{id:"human_overseas_offer",title:"一份海外工作邀请要求你在一个月内决定",desc:"收入和平台更好，但语言、身份、家庭与伴侣都需要重新安排。",choices:[
+  {text:"按照远行经验直接出发",hint:"需要远行地图",need:"body",requiresLegacy:"wanderer_legacy",fx:{body:[-2,2],mind:[1,3],family:[-3,4]},setLifeFlags:{movedCity:true},lifeTrack:{career:3,stability:-1},success:"你较快适应制度和生活差异，打开了新的职业空间。",fail:"现实成本高于预估，你很长时间都处于不稳定状态。"},
+  {text:"通过旧识提前建立落脚网络",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[-2,3]},setLifeFlags:{movedCity:true},lifeTrack:{career:2,bonds:1,stability:1},success:"住处、工作信息和基本关系网让过渡顺利很多。",fail:"熟人能提供帮助，却无法代替你适应新环境。"},
+  {text:"先争取远程或短期派驻",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[0,2],charm:[0,2]},lifeTrack:{career:1,stability:2},success:"你获得试运行时间，最终作出更稳妥的决定。",fail:"公司拒绝调整条件，机会窗口迅速关闭。"},
+  {text:"拒绝邀请，保留当前生活",hint:"稳住家庭和关系",need:"family",fx:{family:[1,3],body:[0,2]},lifeTrack:{stability:3,career:-1},success:"你继续经营现有生活，并找到本地的新机会。",fail:"多年后，你仍会想象另一种人生。"}
+ ]},
+ {id:"human_redevelopment_move",title:"居住多年的街区进入整体改造",desc:"补偿方案看似合理，但邻里、工作距离、孩子上学和生活成本都会发生变化。",choices:[
+  {text:"逐条核对补偿和安置条款",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],family:[0,4]},setLifeFlagsSuccess:{movedCity:true},lifeTrack:{stability:2,reputation:1},success:"你发现一项被忽略的权益，争取到更合适的方案。",fail:"条款合规，但现实生活成本仍然上升。"},
+  {text:"组织邻里共同协商",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],family:[-2,3]},setLifeFlags:{communityLeader:true},lifeTrack:{reputation:3,bonds:2},success:"居民形成统一诉求，改造方案得到部分调整。",fail:"不同家庭的利益差异让协商陷入争执。"},
+  {text:"利用手艺改造临时住所",hint:"需要手艺火种",need:"mind",requiresLegacy:"craft_legacy",fx:{family:[-2,2],body:[0,2],mind:[1,2]},setLifeFlags:{craftShop:true},lifeTrack:{stability:2,career:1},success:"低成本改造让过渡期比预计舒适。",fail:"临时住所的问题超出个人能力。"},
+  {text:"拿补偿搬到更远的地方",hint:"依赖家境与适应力",need:"family",fx:{family:[-2,4],charm:[-1,2],body:[-1,1]},setLifeFlags:{movedCity:true},lifeTrack:{stability:0,bonds:-1},success:"你在新区域建立起新的生活节奏。",fail:"通勤和关系断裂让迁徙代价持续扩大。"}
+ ]},
+ {id:"human_new_city_roots",requiresLife:{movedCity:true},title:"搬到新城市后，你始终没有真正建立归属感",desc:"工作已经稳定，但生活仍像临时停留。你需要决定是否真正扎根。",choices:[
+  {text:"通过社区和兴趣建立新关系",hint:"需要人情旧账或共情余温",need:"charm",requiresAnyLegacy:["social_legacy","empathy_legacy"],fx:{charm:[2,4],body:[0,1]},lifeTrack:{bonds:3,stability:2},success:"新城市逐渐从地址变成了生活。",fail:"参加了很多活动，深层关系仍然需要时间。"},
+  {text:"用旧识人脉拓展职业和生活圈",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,3],family:[0,3]},lifeTrack:{career:2,bonds:1},success:"一段旧关系为你连接出整个新网络。",fail:"工作关系增加了，生活中的孤独并没有完全消失。"},
+  {text:"买房或签长期租约",hint:"用资源换确定感",need:"family",fx:{family:[-5,2],body:[0,1]},lifeTrack:{stability:3},success:"固定住所让生活开始有了长期结构。",fail:"住所稳定了，内心仍然把这里视为过渡。"},
+  {text:"承认不适合，再次离开",hint:"依赖体质与决断",need:"body",fx:{body:[-2,2],mind:[1,3],family:[-2,1]},lifeTrack:{career:0,stability:-1},success:"你没有把沉没成本误认为归属。",fail:"连续迁徙消耗了更多资源和关系。"}
  ]}
 ],
 "友情":[
- {title:"最好的朋友陷入巨大困境",desc:"帮助对方会改变你的计划，不帮助则可能失去这段关系。",choices:[
+{title:"最好的朋友陷入巨大困境",desc:"帮助对方会改变你的计划，不帮助则可能失去这段关系。",choices:[
   {text:"全力帮助",hint:"魅力提高，资源承压",need:"charm",fx:{charm:[2,4],family:[-3,-1]},success:"你们的友情真正经受住了现实。",fail:"你付出了很多，却没有解决根本问题。"},
   {text:"提供有限帮助",hint:"保持边界，依赖智力",need:"mind",fx:{mind:[1,2],charm:[0,2],family:[-1,0]},success:"你既没有抛弃朋友，也守住了自己的生活。",fail:"对方认为你在最需要的时候退缩了。"},
   {text:"拒绝卷入",hint:"保住资源，损失关系",need:"family",fx:{family:[1,2],charm:[-3,-1]},success:"你避开了一个无法填满的无底洞。",fail:"这段友情从此再也没有恢复。"}
@@ -644,10 +796,22 @@ const eventBank={
   {text:"成为真正的合伙人",hint:"依赖魅力与智力",need:"charm",fx:{mind:[1,2],family:[-2,4],charm:[-1,2]},success:"友情和共同事业罕见地同时保住了。",fail:"事情失败后，你们很久没有再联系。"},
   {text:"只提供资金支持",hint:"依赖家境",need:"family",fx:{family:[-3,4],mind:[0,1]},success:"你获得了回报，也避免了日常摩擦。",fail:"钱没有回来，关系也变得尴尬。"},
   {text:"婉拒合作",hint:"优先保护友情",need:"charm",fx:{charm:[1,2],family:[0,1]},success:"你们继续做朋友，没有把关系放上赌桌。",fail:"对方把拒绝理解成了不信任。"}
+ ]},
+{id:"human_friend_accused",title:"一位多年好友被卷入严重争议",desc:"证据不完整，舆论却已经给出结论。朋友请求你公开支持他。",choices:[
+  {text:"先帮助核查证据和程序",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],family:[-1,1],charm:[-1,2]},setLifeFlagsSuccess:{friendAlliance:true},lifeTrack:{success:{bonds:3,reputation:1},fail:{bonds:0,reputation:-1}},success:"你们厘清事实，并找到合适的回应方式。",fail:"事实比预想更复杂，你无法给出明确支持。"},
+  {text:"私下陪伴，但不公开表态",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,4],body:[0,1]},setLifeFlags:{friendAlliance:true},lifeTrack:{bonds:3,reputation:0},success:"朋友理解你的边界，你们一起面对最难的一段时间。",fail:"对方把沉默理解成了不信任。"},
+  {text:"公开为朋友发声",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[-2,5],family:[-2,1]},setLifeFlags:{publicFigure:true,friendAlliance:true},lifeTrack:{success:{bonds:3,reputation:3},fail:{bonds:0,reputation:-3}},success:"更多人开始等待事实，朋友获得了喘息空间。",fail:"后续事实与你的表态不完全一致，你也被卷入争议。"},
+  {text:"暂时与朋友保持距离",hint:"保护自身生活",need:"family",fx:{family:[1,2],charm:[-3,-1]},lifeTrack:{stability:2,bonds:-3},success:"你避开了风险，却失去了一段重要关系。",fail:"即使保持距离，争议仍然波及你。"}
+ ]},
+ {id:"human_friend_loan",title:"旧友请求借一笔足以影响你生活的钱",desc:"对方确实遇到困难，但偿还计划非常模糊。",choices:[
+  {text:"一起核算问题并制定还款计划",hint:"需要经营手札",need:"mind",requiresLegacy:"career_legacy",fx:{mind:[1,3],family:[-2,2],charm:[1,3]},setLifeFlagsSuccess:{friendAlliance:true},lifeTrack:{bonds:2,stability:1},success:"你们找到真正需要解决的现金流问题，而不是只填一个洞。",fail:"问题远比一笔借款复杂。"},
+  {text:"签署清晰借款协议",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{family:[-3,2],charm:[-1,2]},lifeTrack:{stability:1,bonds:0},success:"边界清楚反而保护了友情。",fail:"对方认为协议意味着不信任。"},
+  {text:"只提供自己承受得起的小额帮助",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{family:[-2,-1],charm:[2,4]},setLifeFlags:{friendAlliance:true},lifeTrack:{bonds:3,stability:0},success:"你提供了真实帮助，也没有把自己拖入困境。",fail:"小额帮助无法解决对方的核心问题。"},
+  {text:"直接拒绝",hint:"保护资源",need:"family",fx:{family:[1,2],charm:[-3,0]},lifeTrack:{stability:2,bonds:-2},success:"你守住了边界，关系经过一段时间后恢复。",fail:"这段友情从此变得疏远。"}
  ]}
 ],
 "名望":[
- {title:"一次公开表现让你突然走红",desc:"陌生人开始讨论你，关注既可能成为机会，也可能吞噬私人生活。",choices:[
+{title:"一次公开表现让你突然走红",desc:"陌生人开始讨论你，关注既可能成为机会，也可能吞噬私人生活。",choices:[
   {text:"主动经营名气",hint:"依赖魅力",need:"charm",fx:{charm:[2,4],family:[1,3],body:[-2,0]},success:"你把短暂关注转化成了长期影响力。",fail:"热度耗尽了你的精力，却没有留下真正成果。"},
   {text:"保持低调",hint:"保护身体和隐私",need:"body",fx:{body:[1,2],charm:[-1,1]},success:"你保住了自己的私人生活。",fail:"机会退潮后，你还是有一点遗憾。"},
   {text:"利用影响力帮助他人",hint:"魅力与资源共同作用",need:"charm",fx:{charm:[1,4],family:[-2,1],mind:[0,2]},success:"很多人因为你真正得到帮助。",fail:"善意被误解，你承受了额外压力。"}
@@ -656,10 +820,28 @@ const eventBank={
   {text:"立即公开回应",hint:"依赖魅力",need:"charm",fx:{charm:[-3,4],mind:[1,2]},success:"完整事实逐渐被更多人看见。",fail:"回应反而引发了第二轮争议。"},
   {text:"收集证据后回应",hint:"依赖智力",need:"mind",fx:{mind:[1,3],charm:[-2,2]},success:"你用事实结束了风波。",fail:"等待期间，误解已经扩散得更远。"},
   {text:"退出公众视野",hint:"恢复体质，失去名望",need:"body",fx:{body:[2,4],charm:[-4,-2]},success:"你重新获得了安静。",fail:"你离开了舞台，争议却没有立刻消失。"}
+ ]},
+{id:"human_viral_attention",title:"一段普通视频让你一夜之间被大量关注",desc:"品牌、媒体和陌生人同时涌来。你并没有准备好成为公众人物。",choices:[
+  {text:"建立清晰的公众表达边界",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[1,2],body:[-1,1]},setLifeFlags:{publicFigure:true},lifeTrack:{reputation:4,stability:1},success:"你把关注转化成稳定影响力，同时保留私人生活。",fail:"边界不断被试探，你仍然承受了很大压力。"},
+  {text:"找熟悉行业的人组成小团队",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,3],family:[-2,4]},setLifeFlags:{publicFigure:true},lifeTrack:{reputation:3,career:2},success:"团队帮你过滤机会，避免了大部分明显陷阱。",fail:"团队内部也开始围绕利益产生冲突。"},
+  {text:"迅速接下所有商业机会",hint:"短期财富极高",need:"family",fx:{family:[2,7],body:[-4,-1],charm:[-2,3]},setLifeFlags:{publicFigure:true},lifeTrack:{career:3,reputation:-1,stability:-2},success:"你在热度期积累了大量资源。",fail:"透支和口碑反噬让热度很快结束。"},
+  {text:"停止更新，回到普通生活",hint:"恢复稳定",need:"body",fx:{body:[2,4],charm:[-2,0]},lifeTrack:{stability:3,reputation:-2},success:"关注逐渐散去，你重新拥有自己的时间。",fail:"即使不再公开，过去内容仍不断被重新传播。"}
+ ]},
+ {id:"human_reputation_crisis",title:"一段断章取义的内容让你陷入舆论危机",desc:"真实情况需要较长解释，而情绪化内容传播得更快。",choices:[
+  {text:"保留证据并发出正式交涉",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],family:[-2,1],charm:[-1,3]},lifeTrack:{success:{reputation:3,stability:1},fail:{reputation:-2,stability:-1}},success:"平台和相关方更正了部分信息。",fail:"正式流程很慢，误解仍然扩散。"},
+  {text:"用易懂的方式完整说明",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[1,5],mind:[1,2]},setLifeFlags:{publicFigure:true},lifeTrack:{success:{reputation:4},fail:{reputation:-3}},success:"更多人理解了事件全貌，舆论开始逆转。",fail:"每一句解释都被拆成新的争议片段。"},
+  {text:"请可信的熟人和合作方作证",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[-1,1]},lifeTrack:{success:{reputation:3,bonds:1},fail:{reputation:-1,bonds:-1}},success:"长期合作记录成为最有说服力的证明。",fail:"有人担心被牵连，不愿公开支持。"},
+  {text:"暂时离开公众视野",hint:"保护身体与情绪",need:"body",fx:{body:[2,4],charm:[-3,-1]},lifeTrack:{stability:2,reputation:-2},success:"时间让情绪降温，你保住了自己的生活。",fail:"沉默被部分人理解成默认。"}
+ ]},
+ {id:"human_public_fundraiser",requiresLife:{publicFigure:true},title:"有人希望你利用影响力为一场公共事件募款",desc:"项目确实需要帮助，但资金管理、信息核实和后续责任都可能落在你身上。",choices:[
+  {text:"建立公开透明的筹款流程",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],charm:[1,3],family:[-1,1]},lifeTrack:{reputation:4,stability:1},success:"资金流向清楚，项目真正解决了一部分问题。",fail:"流程成本很高，项目推进速度受到影响。"},
+  {text:"亲自讲述并动员公众",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],body:[-2,0]},lifeTrack:{success:{reputation:5,bonds:1},fail:{reputation:-2}},success:"大量人愿意提供小额帮助，影响远超预期。",fail:"情绪动员很成功，后续执行却没有跟上。"},
+  {text:"只转发，不承担管理责任",hint:"降低个人风险",need:"mind",fx:{charm:[0,2],family:[0,1]},lifeTrack:{reputation:1,stability:1},success:"信息得到传播，你没有越过自己的能力边界。",fail:"项目方仍把你的转发当成了背书。"},
+  {text:"拒绝参与",hint:"保护个人生活",need:"family",fx:{body:[0,2],charm:[-2,0]},lifeTrack:{stability:2,reputation:-1},success:"你避免承担无法核实的责任。",fail:"部分关注者认为你只享受名望，不愿承担公共责任。"}
  ]}
 ],
 "时代":[
- {title:"新技术开始重写整个行业",desc:"过去积累的经验正在迅速贬值，你必须决定怎样面对变化。",choices:[
+{title:"新技术开始重写整个行业",desc:"过去积累的经验正在迅速贬值，你必须决定怎样面对变化。",choices:[
   {text:"彻底转向新技术",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,3],body:[-1,0]},success:"你成为最早适应变化的一批人。",fail:"学习成本很高，但你至少没有被彻底淘汰。"},
   {text:"把新旧方法结合",hint:"平衡路线",need:"mind",fx:{mind:[1,3],family:[0,2]},success:"你找到了别人难以复制的位置。",fail:"两边都学了一些，却暂时都不够深入。"},
   {text:"坚持原有道路",hint:"短期稳定，长期危险",need:"family",fx:{family:[0,2],mind:[-1,0]},success:"旧经验仍然为你创造了价值。",fail:"时代变化最终迫使你从头开始。"}
@@ -669,6 +851,18 @@ const eventBank={
   {text:"逆势寻找机会",hint:"高风险，依赖家境",need:"family",fx:{family:[-4,6],mind:[1,2]},success:"别人收缩时，你找到了罕见机会。",fail:"你高估了自己的承受能力。"},
   {text:"更换一种低成本生活",hint:"依赖体质和适应能力",need:"body",fx:{body:[1,3],family:[-1,1],charm:[0,1]},success:"你发现生活质量并不完全由花费决定。",fail:"改变生活方式比想象中困难。"},
   {text:"向亲友求助",hint:"依赖魅力",need:"charm",fx:{family:[-1,3],charm:[-1,2]},success:"你得到了一张可靠的安全网。",fail:"求助让一些关系变得微妙。"}
+ ]},
+{id:"human_automation_wave",title:"自动化工具让整个行业的工作方式改变",desc:"一些旧岗位正在消失，新的岗位尚未形成稳定规则。",choices:[
+  {text:"系统学习新知识并转型",hint:"需要学海传灯",need:"mind",requiresLegacy:"study_legacy",fx:{mind:[2,4],body:[-2,0],family:[-1,2]},lifeTrack:{career:3,stability:0},success:"你不仅学会工具，也理解了如何重新设计工作。",fail:"技术变化太快，你仍需要继续追赶。"},
+  {text:"把工具与自己的手艺结合",hint:"需要手艺火种",need:"mind",requiresLegacy:"craft_legacy",fx:{mind:[1,3],family:[0,4],charm:[0,2]},setLifeFlagsSuccess:{independentWorker:true},lifeTrack:{career:3,reputation:1},success:"你的经验变成别人难以复制的产品和服务。",fail:"组合方向不错，但市场还不成熟。"},
+  {text:"通过人脉进入新兴团队",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[0,3]},lifeTrack:{career:2,bonds:1},success:"你提前进入一个正在成长的新领域。",fail:"团队方向变化频繁，稳定性很低。"},
+  {text:"坚持原来的工作方式",hint:"短期稳定",need:"family",fx:{family:[0,2],mind:[-2,0]},lifeTrack:{stability:1,career:-2},success:"旧需求仍然存在，你守住了一部分客户。",fail:"市场变化最终让原有工作难以维持。"}
+ ]},
+ {id:"human_platform_shutdown",title:"你长期依赖的平台突然宣布停止服务",desc:"工作资料、客户关系、作品和收入都绑定在平台上，迁移窗口只有很短时间。",choices:[
+  {text:"依据规则要求导出全部数据",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],family:[0,2]},lifeTrack:{career:1,stability:2},success:"你及时取回数据，并保留了关键交易记录。",fail:"平台提供的数据不完整，仍有重要内容丢失。"},
+  {text:"公开组织用户共同迁移",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[0,2]},setLifeFlags:{communityLeader:true},lifeTrack:{reputation:3,bonds:2},success:"用户建立了替代社区，你也获得新的影响力。",fail:"组织成本很高，大多数人仍然各自离开。"},
+  {text:"用技术和手艺自建独立空间",hint:"需要手艺火种",need:"mind",requiresLegacy:"craft_legacy",fx:{mind:[1,4],family:[-3,2]},setLifeFlags:{independentWorker:true},lifeTrack:{career:3,stability:1},success:"你不再完全依赖单一平台。",fail:"维护独立系统消耗了大量时间和资源。"},
+  {text:"接受损失，从头开始",hint:"依赖体质和适应力",need:"body",fx:{body:[-1,2],mind:[1,2],family:[-2,0]},lifeTrack:{career:0,stability:-1},success:"失去积累很痛，但你重新建立了更健康的结构。",fail:"重新开始比预想更慢。"}
  ]}
 ],
 "天灾":[
@@ -690,7 +884,7 @@ const eventBank={
  ]}
 ],
 "人祸":[
- {title:"你被卷入一场精心设计的骗局",desc:"对方掌握了你的部分信息，并制造出极强的紧迫感。",choices:[
+{title:"你被卷入一场精心设计的骗局",desc:"对方掌握了你的部分信息，并制造出极强的紧迫感。",choices:[
   {text:"立即停止转账并核验信息",hint:"主要依赖智力",need:"mind",fx:{mind:[1,3],family:[-1,1]},success:"你及时识破骗局，还保留了完整证据。",fail:"你反应得稍晚，仍损失了一部分资源。"},
   {text:"联系熟人帮忙判断",hint:"依赖魅力与人脉",need:"charm",fx:{charm:[1,2],family:[-2,1]},success:"朋友发现了关键漏洞，帮你避免损失。",fail:"熟人的错误判断反而让你更相信骗子。"},
   {text:"反过来套取对方信息",hint:"高风险智力路线",need:"mind",fx:{mind:[1,4],family:[-3,2],charm:[0,2]},success:"你拿到了关键线索，并协助阻止了更多受害者。",fail:"你低估了对方，损失继续扩大。"}
@@ -705,6 +899,127 @@ const eventBank={
   {text:"立刻冻结账户并报警",hint:"依赖智力",need:"mind",fx:{mind:[1,3],family:[-4,2]},success:"行动足够快，你追回了大部分损失。",fail:"关键资金已被转走，只追回少量。"},
   {text:"动用人脉寻找对方",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],family:[-5,3]},success:"你的关系网找到了重要线索。",fail:"消息真假混杂，反而浪费了时间。"},
   {text:"承担损失，重新开始",hint:"依赖家境与抗压",need:"family",fx:{family:[-4,-1],body:[-1,2],mind:[1,2]},success:"你保住了剩余生活，没有被这件事彻底拖垮。",fail:"损失远超承受范围，生活结构被迫改变。"}
+ ]},
+{id:"occult_smuggling",title:"有人在网上贩卖被捕获的诡异生物",desc:"交易目录中出现幼年食梦生物、镜后寄生物，甚至一名被锁在梦境容器中的魅魔。",choices:[
+  {text:"联系异常机构举报",hint:"依赖智力与魅力",need:"mind",fx:{mind:[1,3],charm:[0,2]},setFlagsSuccess:{smugglingStopped:true,agencyContact:true},setFlagsFail:{smugglersHostile:true},success:"交易网络被摧毁，部分可交流生物得到释放。",fail:"交易者发现了你的真实身份，并把你列入下一批商品目录。"},
+  {text:"假装买家潜入交易",hint:"高风险，依赖魅力",need:"charm",fx:{charm:[-2,4],family:[-3,1]},setFlagsSuccess:{creaturesFreed:true},setFlagsFail:{smugglersHostile:true},success:"你释放了多只生物，其中一只在离开前留下寻道线索。",fail:"身份暴露后，交易者决定把你改造成更有价值的异常个体。",deathOnFail:{chance:18,cause:"潜入诡异生物交易网络时身份暴露，被非法仪式改造成失去人类意识的实验体"}},
+  {text:"购买一个收容物研究",hint:"危险灰色路线，依赖家境",need:"family",fx:{family:[-4,0],mind:[1,4]},setFlagsSuccess:{ownedCreature:true},setFlagsFail:{ownedCreatureEscaped:true},occultDanger:{success:3,fail:5},success:"你获得重要资料，但也成为异常交易链的一部分。",fail:"收容物在运输途中逃脱，并记住了你的地址。"}
+ ]},
+{id:"cult_of_dream",title:"一个崇拜梦境生物的组织邀请你参加仪式",desc:"成员相信魅魔与食梦生物并非怪物，而是帮助人类离开现实牢笼的引路者。",choices:[
+  {text:"潜入并调查",hint:"依赖智力",need:"mind",fx:{mind:[2,4],charm:[-1,2]},setFlagsSuccess:{dreamCultKnown:true},setFlagsFail:{dreamCultMarked:true},success:"你发现组织核心成员已被某种大型梦境生物共同操控。",fail:"仪式中每个人都梦见了你，组织从此能在梦中追踪你。"},
+  {text:"公开反对并揭露组织",hint:"依赖魅力",need:"charm",fx:{charm:[-3,4],family:[-2,0]},setFlagsSuccess:{dreamCultExposed:true},setFlagsFail:{dreamCultHostile:true},success:"部分成员脱离控制，组织被迫转入地下。",fail:"社会舆论把你视为制造恐慌的人，而组织仍在扩张。"},
+  {text:"加入组织获取力量",hint:"危险路线，依赖魅力",need:"charm",fx:{charm:[2,5],mind:[-3,1],body:[-2,1]},setFlags:{dreamCultMember:true},occultDanger:{success:4,fail:6},success:"你获得进入集体梦境的能力，也必须定期献出个人记忆。",fail:"仪式没有赋予力量，只把你的意识献给了它们。",deathOnFail:{chance:30,cause:"参加梦境崇拜仪式时意识被献给大型梦境生物，肉身在现实中变成无意识空壳"}}
+ ]}
+],
+"异象":[
+{id:"succubus_first",title:"红发女人连续七夜出现在你的梦里",desc:"她自称是以情绪和梦境为食的魅魔。她没有直接伤害你，只是每次离开时，你都会忘记一件令自己幸福的小事。",choices:[
+  {text:"允许她进入更深层梦境",hint:"高风险契约，依赖魅力",need:"charm",fx:{charm:[1,4],body:[-3,0],mind:[-1,2]},setFlags:{succubusMet:true,succubusPact:true},relation:{creature:"succubus",success:2,fail:-1},addClues:{success:2,fail:1},occultDanger:{success:2,fail:4},success:"她遵守约定，只取走部分梦境，并教你辨认梦境中的门。",fail:"她突破了你设下的边界，醒来后你连续数日无法分清现实。",deathOnFail:{chance:18,cause:"在连续七夜的魅魔梦境中精神枯竭，最终于睡眠中停止呼吸"}},
+  {text:"要求她先说出真名",hint:"依赖智力与魅力",need:"mind",fx:{mind:[1,4],charm:[0,3]},setFlagsSuccess:{succubusMet:true,succubusName:true},setFlagsFail:{succubusMet:true,succubusHostile:true},relation:{creature:"succubus",success:1,fail:-2},addClues:{success:3,fail:1},success:"她只说出了真名的一部分，房间里的镜子全部出现裂纹。",fail:"她笑着叫出了你的全名，而你从未告诉过她。"},
+  {text:"强行让自己醒来",hint:"依赖体质",need:"body",fx:{body:[-2,2],mind:[0,2]},setFlagsSuccess:{succubusRejected:true},setFlagsFail:{succubusMet:true,succubusHostile:true},occultDanger:{success:-1,fail:3},success:"你挣脱了梦境，但枕边留下了一根温热的黑色羽毛。",fail:"你以为自己醒了三次，直到第四次才发现前三次仍在梦里。",deathOnFail:{chance:10,cause:"意识被困在魅魔制造的多层梦境中，现实肉身因长期昏迷衰竭"}}
+ ]},
+{id:"mirror_child_first",title:"镜中出现一个与你童年相同的孩子",desc:"他每天都比前一天长大一岁，却始终隔着镜面。他说自己替你活过一次失败的人生。",choices:[
+  {text:"隔着镜子与他交换记忆",hint:"依赖智力",need:"mind",fx:{mind:[2,4],body:[-2,0]},setFlags:{mirrorMarked:true},relation:{creature:"mirrorChild",success:2,fail:-1},addClues:{success:2,fail:1},success:"你看见一段不属于自己的童年，并得知一处隐藏地点。",fail:"交换中混入了错误记忆，你开始忘记自己真正经历过什么。"},
+  {text:"打碎镜子",hint:"依赖体质",need:"body",fx:{body:[-2,2],family:[-1,0]},setFlagsSuccess:{mirrorSealed:true},setFlagsFail:{mirrorMarked:true,mirrorHostile:true},occultDanger:{success:-1,fail:3},success:"镜面碎裂后，所有碎片都映出了空房间。",fail:"碎片里的孩子没有消失，反而从不同角度同时看向你。",deathOnFail:{chance:12,cause:"被破碎镜面中的替身拖入镜后空间，现实中只留下没有倒影的躯壳"}},
+  {text:"问他为什么替你活过一世",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],mind:[1,2]},setFlags:{mirrorMarked:true,mirrorChildKnown:true},addClues:{success:3,fail:1},success:"他说你们都只是同一个人被分开的两种结局。",fail:"他拒绝回答，只提醒你不要在凌晨照镜子。"}
+ ]},
+{id:"skinless_hound_first",title:"没有皮肤的黑犬在雨夜跟踪你",desc:"它没有留下脚印，只有水面会映出一副完整犬类骨架。它似乎在嗅你身上的前世气味。",choices:[
+  {text:"停下并伸手让它闻",hint:"依赖体质与魅力",need:"body",fx:{body:[-2,2],charm:[1,3]},setFlagsSuccess:{houndMarked:true,houndFriendly:true},setFlagsFail:{houndMarked:true,houndHostile:true},relation:{creature:"hound",success:2,fail:-2},addClues:{success:2,fail:1},success:"它记住了你的气味，此后会在危险出现前低声示警。",fail:"它咬住你的影子，你的腿上随即出现真实伤口。"},
+  {text:"用食物引它进入灯光",hint:"依赖家境与智力",need:"family",fx:{family:[-2,0],mind:[1,3]},setFlagsSuccess:{houndMarked:true,houndStudied:true},setFlagsFail:{houndHostile:true},success:"灯光下它短暂显出完整形态，脖颈挂着一枚刻有宗门文字的铜牌。",fail:"食物腐烂得异常迅速，它转而盯上了你。"},
+  {text:"迅速逃离",hint:"依赖体质",need:"body",fx:{body:[-3,1]},setFlagsFail:{houndHostile:true},occultDanger:{success:0,fail:3},success:"你成功甩开它，却发现它早已出现在家门口。",fail:"它始终保持相同距离，直到你体力耗尽。",deathOnFail:{chance:16,cause:"在雨夜逃避无皮黑犬时体力耗尽，随后被其咬断影子与生命联系"}}
+ ]},
+{id:"moth_woman_first",title:"长着蛾翼的女人停在你家窗外",desc:"她脸上覆盖着细密白粉，翅膀上的纹路像两只闭合的眼睛。她说可以吃掉你的噩梦。",choices:[
+  {text:"让她吃掉最近的噩梦",hint:"依赖魅力",need:"charm",fx:{body:[1,3],charm:[1,2],mind:[-2,1]},setFlags:{mothMark:true,mothBond:true},relation:{creature:"mothWoman",success:2,fail:-1},addClues:{success:2,fail:1},success:"噩梦消失了，但你也忘记了噩梦里那条重要线索。",fail:"她吃得太深，连一部分真实记忆也被吞掉。"},
+  {text:"用灯光观察她",hint:"依赖智力",need:"mind",fx:{mind:[2,4],body:[-1,0]},setFlagsSuccess:{mothMark:true,mothStudied:true},setFlagsFail:{mothHostile:true},success:"她的翅粉在特定频率下组成一张通往旧城区地下的地图。",fail:"灯光让她受到刺激，屋内所有人的梦境开始互相混合。"},
+  {text:"拉上窗帘拒绝接触",hint:"谨慎路线",need:"family",fx:{family:[0,1],body:[0,1]},setFlagsFail:{mothMark:true},success:"她在天亮前离开，只在玻璃上留下几枚白色鳞粉。",fail:"第二天你在肺部影像中看见了类似蛾翼的阴影。",deathOnFail:{chance:8,cause:"吸入食梦蛾女留下的灵性鳞粉后肺部逐渐白化，最终窒息死亡"}}
+ ]},
+{id:"faceless_passenger",title:"末班车上坐着一名没有五官的乘客",desc:"车厢里只有你能看见他。他每经过一站，脸上就会多出一个属于其他乘客的特征。",choices:[
+  {text:"坐到他旁边询问目的地",hint:"依赖魅力",need:"charm",fx:{charm:[-1,3],mind:[1,2]},setFlagsSuccess:{facelessKnown:true},setFlagsFail:{facelessMarked:true},addClues:{success:2,fail:1},success:"他用你的声音回答：终点站在城市建成之前就存在。",fail:"他没有回答，却在下一站拥有了你的眼睛。"},
+  {text:"拍下他的影像",hint:"依赖智力",need:"mind",fx:{mind:[1,4],family:[-1,0]},setFlags:{facelessMarked:true},occultDanger:{success:1,fail:3},success:"照片里没有乘客，只有座位上摆着一张写有你生辰的车票。",fail:"手机相册里出现数百张你从未拍过的无脸自拍。"},
+  {text:"提前下车",hint:"依赖体质",need:"body",fx:{body:[-1,2]},setFlagsFail:{facelessMarked:true},success:"你离开车厢，但末班车在没有轨道的方向继续行驶。",fail:"车门打开后，站台上所有人都没有脸。",deathOnFail:{chance:9,cause:"在不存在的终点站失去身份与面孔，现实档案中所有个人信息同时被抹除"}}
+ ]},
+{id:"succubus_debt",requires:{succubusPact:true},title:"魅魔前来收取契约中的第二份报酬",desc:"她说第一次只取走了普通梦境，这一次要的是你人生中最强烈的一段感情。",choices:[
+  {text:"交出一段感情记忆",hint:"保命但失去关系",need:"charm",fx:{charm:[-4,-1],body:[1,2]},setFlags:{succubusPaid:true},relation:{creature:"succubus",success:1,fail:0},success:"她拿走那段感情后履行承诺，为你指出一条安全的寻道路线。",fail:"记忆被取走后，现实中的关系也开始变得陌生。"},
+  {text:"用其他人的梦境代偿",hint:"危险的人祸路线，依赖魅力",need:"charm",fx:{charm:[-2,3],mind:[-1,2]},setFlagsSuccess:{succubusPaid:true,succubusCorrupt:true},setFlagsFail:{succubusHostile:true},occultDanger:{success:3,fail:5},success:"契约暂时满足，但你清楚自己已经跨过某条界线。",fail:"她拒绝接受偷来的梦境，并宣布契约违约。"},
+  {text:"依据她的真名解除契约",hint:"需要真名线索，依赖智力",need:"mind",fx:{mind:[1,4],body:[-3,1]},requiresChoiceFlag:"succubusName",setFlagsSuccess:{succubusResolved:true},setFlagsFail:{succubusHostile:true},success:"真名使契约失效，她第一次收起笑容，并留下一个跨界坐标。",fail:"你掌握的真名并不完整，反噬沿着梦境回到你的身体。",deathOnFail:{chance:20,cause:"试图用残缺真名解除魅魔契约时遭到反噬，心脏在梦境与现实中同时停止"}}
+ ]},
+{id:"mirror_replacement",requires:{mirrorMarked:true},excludes:["mirrorSealed"],title:"镜中孩子提出替你生活一天",desc:"他说只需要一天，就能帮你处理所有无法面对的问题。作为交换，你必须留在镜后看着他使用你的身体。",choices:[
+  {text:"同意交换一天",hint:"极高风险，依赖智力",need:"mind",fx:{mind:[-2,4],charm:[-2,3]},setFlagsSuccess:{mirrorChildSaved:true},setFlagsFail:{mirrorHostile:true},relation:{creature:"mirrorChild",success:2,fail:-3},success:"他如约归还身体，并替你解决了一件困扰多年的问题。",fail:"一天结束时，他拒绝回到镜子里。",deathOnFail:{chance:28,cause:"与镜中替身交换身体后被永久留在镜后，现实中的替身继续使用你的身份生活"}},
+  {text:"要求先建立双向约束",hint:"依赖智力和家境",need:"mind",fx:{mind:[1,3],family:[-2,0]},setFlagsSuccess:{mirrorBound:true},setFlagsFail:{mirrorHostile:true},success:"你设计的约束生效，双方都无法永久占据对方身体。",fail:"规则只约束了你，镜中的孩子从一开始就在等这个漏洞。"},
+  {text:"拒绝并封住所有镜面",hint:"稳健路线",need:"family",fx:{family:[-2,0],body:[0,1]},setFlagsSuccess:{mirrorSealed:true},setFlagsFail:{mirrorHostile:true},success:"异常逐渐减弱，但你偶尔仍会发现倒影慢半拍。",fail:"封住镜子后，它开始出现在黑色手机屏幕和水面中。"}
+ ]},
+{id:"hound_returns",requires:{houndMarked:true},title:"无皮黑犬再次出现，并带来一只人类手掌",desc:"手掌紧握着一枚你见过的宗门铜牌。黑犬似乎想带你去某个地方。",choices:[
+  {text:"跟随黑犬进入雨幕",hint:"依赖体质",need:"body",fx:{body:[-3,3],mind:[1,3]},setFlagsSuccess:{houndTamed:true},setFlagsFail:{houndHostile:true},relation:{creature:"hound",success:3,fail:-2},addClues:{success:3,fail:1},success:"它带你找到一处被封死的古代入口，并承认你为临时主人。",fail:"它把你带进一条永远回不到原处的街道。",deathOnFail:{chance:14,cause:"跟随无皮黑犬进入循环街道后失踪，多年后只发现仍在行走的影子"}},
+  {text:"取走铜牌，不跟随它",hint:"依赖智力",need:"mind",fx:{mind:[2,4],body:[-1,0]},setFlags:{houndStudied:true},success:"铜牌记录着一条已被现代地图删除的宗门路线。",fail:"铜牌离开黑犬后开始啃食你的影子。"},
+  {text:"报警并联系异常机构",hint:"依赖魅力与家境",need:"charm",fx:{charm:[1,3],family:[-2,1]},setFlagsSuccess:{agencyContact:true},setFlagsFail:{houndHostile:true},success:"机构人员捕获了黑犬，却警告你不要追问那只手掌的主人。",fail:"普通警员看不见黑犬，反而认为你携带人体残肢。"}
+ ]},
+{id:"moth_deeper",requires:{mothMark:true},title:"食梦蛾女说你的梦里寄生着另一种东西",desc:"她愿意替你清除寄生物，但必须进入你最早的一段记忆。",choices:[
+  {text:"允许她进入童年记忆",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],mind:[-2,3]},setFlagsSuccess:{mothGuardian:true},setFlagsFail:{mothHostile:true},relation:{creature:"mothWoman",success:3,fail:-2},success:"她在记忆深处抓出一条细长黑影，并开始把你视作需要保护的巢穴。",fail:"她在记忆中迷路，醒来后开始把你叫成另一个名字。"},
+  {text:"自己寻找梦中寄生物",hint:"依赖智力",need:"mind",fx:{mind:[2,4],body:[-3,0]},setFlagsSuccess:{dreamParasiteKnown:true},setFlagsFail:{dreamParasite:true},occultDanger:{success:1,fail:4},success:"你在清醒梦中捕捉到它，并发现它携带着前世死亡的片段。",fail:"寄生物意识到自己已被发现，开始主动吞噬睡眠。",deathOnFail:{chance:13,cause:"梦中寄生物长期吞噬深度睡眠，最终导致意识和身体机能同步崩溃"}},
+  {text:"拒绝继续接触",hint:"暂时稳定",need:"body",fx:{body:[0,2],mind:[-1,0]},setFlags:{mothRejected:true},success:"她尊重你的决定，却留下了一小瓶能够看见梦境生物的鳞粉。",fail:"她离开后，窗外每晚都会聚集越来越多的飞蛾。"}
+ ]}
+],
+"古法":[
+{id:"faceless_monk_sutra",title:"一名无面僧人把《空白经》放在你门前",desc:"经书每一页都是空白，但当你闭上眼时，文字会直接出现在脑中。诵读者会逐渐失去自己的面孔。",choices:[
+  {text:"诵读第一章",hint:"依赖智力与心志",need:"mind",fx:{mind:[2,5],charm:[-3,0]},setFlagsSuccess:{facelessSutra:true},setFlagsFail:{facelessMarked:true},addClues:{success:3,fail:1},success:"你学会了一段保护意识的古法，镜中的五官却短暂消失。",fail:"经文没有停在第一章，而是在你的脑中自行继续。",deathOnFail:{chance:15,cause:"诵读无面僧的空白经后身份被逐页抹除，最终成为没有自我意识的行尸"}},
+  {text:"用现代设备记录经文",hint:"依赖智力与家境",need:"mind",fx:{mind:[1,4],family:[-2,0]},setFlagsSuccess:{facelessStudied:true},setFlagsFail:{facelessMarked:true},success:"设备无法记录文字，却记录到诵读时大脑出现第二组脑电波。",fail:"所有播放设备开始用你的声音诵读空白内容。"},
+  {text:"把经书送回寺庙",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],body:[-1,1]},setFlagsSuccess:{facelessResolved:true},setFlagsFail:{facelessMarked:true},success:"废弃寺庙中只有一座没有脸的佛像，经书在供桌上自行燃尽。",fail:"寺庙住持说这里从未有过无面僧，但你的背后一直站着一个人。"}
+ ]},
+{id:"paper_double",title:"古法记载可以用纸人替自己承受一次灾祸",desc:"纸人必须写上完整生辰，并放入一根自己的头发。法术成功后，纸人可能逐渐认为自己才是真人。",choices:[
+  {text:"制作替命纸人",hint:"依赖智力与家境",need:"mind",fx:{mind:[1,3],family:[-2,0]},setFlagsSuccess:{paperDouble:true},setFlagsFail:{paperDoubleHostile:true},occultDanger:{success:2,fail:4},success:"纸人吸收了一部分厄运，表情却一天比一天更像你。",fail:"法术没有替你挡灾，纸人却开始在夜里自行移动。"},
+  {text:"只研究，不写生辰",hint:"稳健路线",need:"mind",fx:{mind:[2,4]},setFlags:{paperMethodKnown:true},success:"你理解了替命术的结构，并找到更安全的改写方法。",fail:"空白纸人仍然在第二天出现了你的五官。"},
+  {text:"烧毁古法",hint:"依赖体质",need:"body",fx:{body:[0,2],mind:[-1,0]},setFlagsSuccess:{paperMethodDestroyed:true},setFlagsFail:{paperDoubleHostile:true},success:"纸灰落地后组成一个陌生人的生辰。",fail:"纸人没有燃烧，反而从火中站了起来。",deathOnFail:{chance:11,cause:"焚烧替命纸人时被其夺取生辰与身份，身体在数日内迅速纸化"}}
+ ]},
+{id:"well_guest",title:"古井中的生物提出交换寿命",desc:"井下没有水，只有一张倒着悬浮的人脸。它愿意给你十年寿命，代价是拿走某个与你有血缘关系之人的一年。",choices:[
+  {text:"拒绝并封井",hint:"依赖体质与家境",need:"body",fx:{body:[0,2],family:[-2,0]},setFlagsSuccess:{wellSealed:true},setFlagsFail:{wellMarked:true},success:"你封住井口，但每逢生日仍能听见井下计算年份。",fail:"封印材料一夜腐烂，你的家族成员开始做同一个梦。"},
+  {text:"与它讨价还价，只交换自己的记忆",hint:"依赖魅力",need:"charm",fx:{charm:[1,4],mind:[-3,1],body:[1,3]},setFlags:{wellPact:true},occultDanger:{success:2,fail:5},success:"它接受了部分记忆，你获得额外生命力，却忘记一位重要的人。",fail:"它取走的不是记忆，而是你对时间流逝的感知。"},
+  {text:"顺着井壁下去寻找本体",hint:"极高风险，依赖体质",need:"body",fx:{body:[-4,3],mind:[1,4]},setFlagsSuccess:{wellTruth:true},setFlagsFail:{wellMarked:true},addClues:{success:4,fail:1},success:"井底连接着一座被埋葬的古代祭坛，那张脸只是守门器官。",fail:"你向下爬了很久，却从自己卧室的天花板上掉了下来。",deathOnFail:{chance:22,cause:"进入无底古井后被倒悬生物交换了生命年份，身体在一夜之间衰老死亡"}}
+ ]},
+{id:"succubus_true_name_book",requires:{succubusMet:true},title:"残卷中记载着魅魔真名的构成方式",desc:"真名不是一个词，而是她吃过的全部梦境排列成的顺序。掌握它可以解除契约，也可能让她永远找到你。",choices:[
+  {text:"补全她的真名",hint:"依赖智力",need:"mind",fx:{mind:[2,5],body:[-2,0]},setFlagsSuccess:{succubusName:true},setFlagsFail:{succubusHostile:true},addClues:{success:3,fail:1},success:"你成功推算出真名的核心部分，从此能在梦中约束她。",fail:"你念错一个音节，数百个陌生人的噩梦同时涌入脑海。"},
+  {text:"销毁所有相关记录",hint:"依赖体质",need:"body",fx:{body:[0,2],mind:[-1,0]},setFlagsSuccess:{succubusRecordsDestroyed:true},setFlagsFail:{succubusHostile:true},success:"记录被销毁后，她暂时无法沿文字追踪你。",fail:"墨迹离开纸面，在墙上重新组成她的名字。"},
+  {text:"把真名交给异常机构",hint:"依赖家境与魅力",need:"family",fx:{family:[1,3],charm:[-2,2]},setFlagsSuccess:{agencyContact:true,succubusContained:true},setFlagsFail:{succubusHostile:true},success:"机构建立了梦境隔离室，但拒绝说明此前收容过多少同类生物。",fail:"机构中有人私自使用真名，导致整层人员陷入集体沉睡。"}
+ ]},
+{id:"mirror_sealing_method",requires:{mirrorMarked:true},title:"你找到一套以倒写姓名封印镜中生物的古法",desc:"最后一步要求封印者面对镜子说出自己最不愿承认的秘密。",choices:[
+  {text:"完成完整封印",hint:"依赖魅力与心志",need:"charm",fx:{charm:[-2,3],mind:[1,3]},setFlagsSuccess:{mirrorSealed:true},setFlagsFail:{mirrorHostile:true},success:"秘密被镜面吞下，镜中孩子安静地向你挥手告别。",fail:"镜子拒绝接受你的秘密，因为它认为那不是最真实的一件。"},
+  {text:"修改古法，保留沟通通道",hint:"依赖智力",need:"mind",fx:{mind:[2,4],body:[-1,1]},setFlagsSuccess:{mirrorBound:true},setFlagsFail:{mirrorHostile:true},success:"你能有限地与镜后世界交流，同时避免对方直接跨越。",fail:"通道比预想更宽，有别的东西先从镜后靠近。"},
+  {text:"请他人代为封印",hint:"依赖魅力与家境",need:"charm",fx:{family:[-2,0],charm:[1,2]},setFlagsSuccess:{mirrorSealed:true},setFlagsFail:{mirrorHostile:true},success:"专业人士完成封印，却警告镜中孩子并非真正的敌人。",fail:"封印者第二天失踪，只在镜中留下倒写求救信息。"}
+ ]},
+{id:"bone_whistle",requires:{houndMarked:true},title:"宗门铜牌背面藏着制作驭兽骨哨的方法",desc:"吹响骨哨可以召来无皮黑犬，也可能召来它真正的主人。",choices:[
+  {text:"制作并吹响骨哨",hint:"依赖体质",need:"body",fx:{body:[-2,3],charm:[1,2]},setFlagsSuccess:{houndTamed:true},setFlagsFail:{houndMasterAlerted:true},relation:{creature:"hound",success:3,fail:-2},success:"黑犬伏在你脚边，铜牌上的文字变成了你的名字。",fail:"来的不是黑犬，而是一群披着人皮的猎手。"},
+  {text:"只制作不吹响",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-2,0]},setFlags:{boneWhistle:true},success:"骨哨可以在危机时使用，但每晚都会自行发出微弱声音。",fail:"骨哨完成后，你开始听见别人听不到的犬吠。"},
+  {text:"破坏制作方法",hint:"谨慎路线",need:"family",fx:{family:[-1,1],body:[0,1]},setFlagsSuccess:{houndMethodDestroyed:true},setFlagsFail:{houndMasterAlerted:true},success:"方法被毁后，黑犬仍在远处注视你，却没有继续靠近。",fail:"文字从铜牌上脱落，钻进了你的掌心。"}
+ ]},
+{id:"dream_incense",requires:{mothMark:true},title:"古法中记载着能看见食梦生物的熏香",desc:"点燃后，所有寄生在人类梦境中的生物都会显形，也会同时注意到你。",choices:[
+  {text:"在安全阵法中点燃",hint:"依赖智力与家境",need:"mind",fx:{mind:[2,4],family:[-2,0]},setFlagsSuccess:{dreamSight:true},setFlagsFail:{dreamSwarm:true},addClues:{success:3,fail:1},success:"你看见食梦蛾女只是众多梦境生物中的一种，并发现她一直在替你驱赶更危险的东西。",fail:"阵法出现缺口，数十只黑色小型生物钻入现实。"},
+  {text:"邀请蛾女一起点燃",hint:"依赖魅力",need:"charm",fx:{charm:[1,4],mind:[0,2]},setFlagsSuccess:{mothGuardian:true,dreamSight:true},setFlagsFail:{mothHostile:true},relation:{creature:"mothWoman",success:3,fail:-2},success:"她帮你辨认梦境生态，并承认自己并非人类。",fail:"她误以为你试图捕捉她，翅粉覆盖了整个房间。"},
+  {text:"放弃使用",hint:"避免暴露",need:"body",fx:{body:[0,2]},setFlags:{dreamIncenseStored:true},success:"熏香被妥善封存，仍可在真正危险时使用。",fail:"封存盒内每晚都会传出振翅声。"}
+ ]}
+],
+"寻道":[
+{id:"occult_night_market",title:"你进入一处只对非人存在开放的夜市",desc:"摊主有长着鹿角的人、没有影子的老人，还有用人类语言讨价还价的乌鸦。这里可以买到线索，也可以买到灾难。",choices:[
+  {text:"购买一张通往隐藏街区的地图",hint:"依赖家境",need:"family",fx:{family:[-3,-1],mind:[1,3]},setFlagsSuccess:{hiddenDistrictMap:true},setFlagsFail:{falseMap:true},addClues:{success:3,fail:1},success:"地图会根据月相改变路线，终点标着一座不存在的道观。",fail:"地图把你带回夜市入口，却让你在现实中消失了一整天。"},
+  {text:"与非人摊主交换情报",hint:"依赖魅力",need:"charm",fx:{charm:[1,4],mind:[0,2]},setFlagsSuccess:{nonhumanContacts:true},setFlagsFail:{nightMarketDebt:true},success:"你用一个无关紧要的秘密换到了诡异生物的分类名单。",fail:"摊主认为你的秘密价值不足，要求以后补偿。"},
+  {text:"试图记录夜市位置",hint:"依赖智力",need:"mind",fx:{mind:[2,4],body:[-2,0]},setFlagsSuccess:{nightMarketLocated:true},setFlagsFail:{nightMarketMarked:true},success:"你找到夜市与城市旧排水系统之间的空间规律。",fail:"每次记录都会自动改写成你未来的死亡日期。"}
+ ]},
+{id:"occult_clinic",title:"地下诊所专门治疗被诡异生物影响的人",desc:"候诊室里有人没有影子，有人的倒影会自己说话。医生戴着鸟嘴面具，声称收费方式不是金钱。",choices:[
+  {text:"接受全面检查",hint:"依赖体质与家境",need:"body",fx:{body:[-1,3],family:[-2,0],mind:[1,2]},setFlagsSuccess:{occultDiagnosis:true},setFlagsFail:{clinicDebt:true},success:"医生发现你身上同时存在前世残页与多种非人生物留下的标记。",fail:"检查结束后，医生说你的某个器官并不属于这一世。"},
+  {text:"帮助诊所处理其他患者",hint:"依赖魅力",need:"charm",fx:{charm:[1,4],body:[-2,0]},setFlagsSuccess:{clinicAlly:true},setFlagsFail:{clinicInfected:true},addClues:{success:2,fail:1},success:"你获得诊所信任，并接触到大量被官方隐藏的案例。",fail:"一名患者的异常症状转移到了你身上。"},
+  {text:"偷看诊所档案",hint:"依赖智力",need:"mind",fx:{mind:[2,5],charm:[-2,0]},setFlagsSuccess:{agencyFiles:true},setFlagsFail:{agencyHostile:true},success:"档案显示魅魔、镜童和食梦蛾女都曾被列为‘可交流型生物’。",fail:"档案中的照片开始转头看向镜头外的你。"}
+ ]},
+{id:"creature_shelter",title:"异常机构邀请你参观非人生物收容区",desc:"这里没有传统牢笼。每个房间都按照收容对象的认知方式建造，其中一间门牌写着你的名字。",choices:[
+  {text:"进入写有自己名字的房间",hint:"依赖智力与体质",need:"mind",fx:{mind:[1,4],body:[-3,1]},setFlagsSuccess:{selfContainmentSeen:true},setFlagsFail:{agencyMarked:true},addClues:{success:4,fail:1},success:"房间里保存着多个世界线中死亡的你，以及他们留下的修行笔记。",fail:"门在身后关闭，广播宣布‘目标已自行完成收容’。",deathOnFail:{chance:17,cause:"进入以自己名字命名的异常收容室后被判定为非人实体，最终在循环空间中耗尽生命"}},
+  {text:"只观察其他收容对象",hint:"依赖智力",need:"mind",fx:{mind:[2,4],charm:[-1,1]},setFlags:{creatureArchive:true},success:"你确认多数诡异生物并非纯粹邪恶，只是遵循不同的生存规则。",fail:"一个收容对象隔着三层玻璃叫出了你的前世姓名。"},
+  {text:"要求机构公开真相",hint:"依赖魅力",need:"charm",fx:{charm:[-2,4],family:[-2,1]},setFlagsSuccess:{agencyReform:true},setFlagsFail:{agencyHostile:true},success:"你推动了一次有限公开，少数异常知识进入普通社会。",fail:"机构删除了你的部分社会记录，并开始监视你。"}
+ ]},
+{id:"thirteenth_floor",title:"旧旅馆的电梯出现不存在的第十三层",desc:"楼层里每个房间都住着一种与你有过接触的诡异生物。走廊尽头是一扇写着‘前世住客’的门。",choices:[
+  {text:"进入前世住客房",hint:"依赖智力",need:"mind",fx:{mind:[2,5],body:[-2,0]},setFlagsSuccess:{pastLifeRoom:true},setFlagsFail:{hotelTrapped:true},addClues:{success:4,fail:1},success:"房间里保存着上一世没有来得及继承的手记。",fail:"房间里的日历没有今天，你也找不到回到电梯的门。"},
+  {text:"逐一拜访曾遇到的生物",hint:"依赖魅力",need:"charm",fx:{charm:[1,5],body:[-2,1]},setFlagsSuccess:{creatureAlliance:true},setFlagsFail:{creatureFeast:true},success:"你发现它们彼此认识，并把人类世界称为‘表层’。",fail:"不同生物都认为你欠下了某种报酬。"},
+  {text:"破坏电梯控制系统",hint:"依赖家境与体质",need:"family",fx:{family:[-3,0],body:[-1,2]},setFlagsSuccess:{hotelClosed:true},setFlagsFail:{hotelTrapped:true},success:"第十三层暂时从所有电梯中消失。",fail:"控制系统被破坏后，整栋旅馆都变成了第十三层。",deathOnFail:{chance:15,cause:"被困在无限延伸的旅馆第十三层，最终因食物和时间概念同时耗尽而死亡"}}
+ ]},
+{id:"succubus_hunters",requires:{succubusPact:true},title:"专门猎杀魅魔的修士找到你",desc:"他们认为任何与魅魔签订契约的人都会成为通往现实的锚点，要求立即切断契约。",choices:[
+  {text:"配合猎手切断契约",hint:"依赖体质与智力",need:"body",fx:{body:[-3,2],mind:[1,3]},setFlagsSuccess:{succubusResolved:true,hunterAlly:true},setFlagsFail:{succubusHostile:true},success:"契约被切断，魅魔没有反抗，只在梦中问你是否真的了解猎手。",fail:"切断仪式失败，双方力量同时在你的意识里冲突。",deathOnFail:{chance:18,cause:"魅魔契约与猎魔仪式发生冲突，灵魂被两种力量撕裂"}},
+  {text:"帮助魅魔隐藏",hint:"依赖魅力",need:"charm",fx:{charm:[1,4],family:[-2,0]},setFlagsSuccess:{succubusAlly:true,huntersHostile:true},setFlagsFail:{succubusHostile:true,huntersHostile:true},relation:{creature:"succubus",success:4,fail:-2},success:"她第一次把真实弱点告诉你，并承诺在你寻道时提供帮助。",fail:"她怀疑你同时与猎手合作，双方都不再信任你。"},
+  {text:"试图让双方谈判",hint:"极难，依赖魅力与智力",need:"charm",fx:{charm:[-2,5],mind:[1,3]},setFlagsSuccess:{succubusAlly:true,hunterAlly:true},setFlagsFail:{huntersHostile:true},success:"你建立了第一个人与魅魔之间的有限共存协议。",fail:"谈判破裂，你成为双方共同追踪的对象。"}
  ]}
 ],
 "修炼":[
@@ -783,7 +1098,7 @@ const eventBank={
  ]}
 ],
 "人间":[
- {title:"修士与普通人的矛盾公开爆发",desc:"修行者拥有远超普通人的力量，旧法律正在失去约束力。",choices:[
+{title:"修士与普通人的矛盾公开爆发",desc:"修行者拥有远超普通人的力量，旧法律正在失去约束力。",choices:[
   {text:"推动建立新规则",hint:"依赖魅力与智力",need:"charm",fx:{charm:[2,5],mind:[1,3],family:[-2,1]},success:"你参与建立了第一个修真时代的公共秩序。",fail:"各方势力都认为规则偏向别人。"},
   {text:"只保护自己在意的人",hint:"依赖家境与体质",need:"family",fx:{family:[1,3],body:[0,2],charm:[-2,0]},success:"你守住了自己的小世界。",fail:"外部动荡最终仍然波及家人。"},
   {text:"退出城市，建立隐居地",hint:"依赖体质",need:"body",fx:{body:[1,3],family:[-3,1],mind:[0,2]},success:"你建立了一处远离争斗的修行聚落。",fail:"隐居地的资源很快耗尽。"}
@@ -791,6 +1106,30 @@ const eventBank={
  {title:"旧时代最后一所普通大学关闭",desc:"课程被修行、阵法和异界学取代。你意识到现代社会已经成为历史名词。",choices:[
   {text:"保存旧时代知识",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,1]},success:"你建立的档案馆后来被称为‘凡人文明火种库’。",fail:"大部分数据在灵能风暴中损毁。"},
   {text:"全面拥抱新时代",hint:"依赖魅力与适应力",need:"charm",fx:{charm:[1,3],mind:[1,2]},success:"你成为连接两个时代的重要人物。",fail:"变化太快，你仍错过了许多东西。"}
+ ]},
+{id:"mortal_spirit_child",title:"一个普通家庭的孩子突然能够看见灵气",desc:"孩子没有修行背景，学校和医院都无法解释。宗门愿意接走培养，家长则担心从此失去正常生活。",choices:[
+  {text:"先进行完整身体与心理评估",hint:"需要医疗常识",need:"mind",requiresLegacy:"medical_legacy",fx:{mind:[1,3],body:[0,2],family:[-2,0]},setLifeFlags:{ordinaryCultivatorFamily:true},lifeTrack:{stability:2,bonds:1},success:"评估排除了疾病，也帮助孩子逐步适应感知。",fail:"现代评估能排除危险，却无法解释灵气本身。"},
+  {text:"查阅家族旧档案寻找来源",hint:"需要家族档案",need:"mind",requiresLegacy:"family_archive",fx:{mind:[1,4],charm:[0,2]},setLifeFlags:{familySecretOpened:true,ordinaryCultivatorFamily:true},lifeTrack:{bonds:2,reputation:1},success:"你发现家族中曾出现过被刻意隐去的修士。",fail:"档案里只有几张被烧去姓名的照片。"},
+  {text:"与宗门谈判，保留家庭探视和教育权",hint:"需要规则底牌",need:"charm",requiresLegacy:"law_legacy",fx:{charm:[1,4],family:[-2,2]},lifeTrack:{stability:2,reputation:2},success:"孩子进入修行体系，也没有完全离开普通家庭。",fail:"宗门规则并不承认现代家庭权利。"},
+  {text:"隐藏孩子的能力",hint:"保护当前生活",need:"family",fx:{family:[0,2],body:[-2,0],charm:[-1,1]},lifeTrack:{stability:1,reputation:-1},success:"孩子暂时继续普通生活，但需要长期压制感知。",fail:"异常在公共场合失控，事情反而更难隐藏。"}
+ ]},
+ {id:"mortal_spirit_business",title:"灵气产业冲击了你经营多年的普通小店",desc:"顾客开始追求带灵性的商品，传统产品销量迅速下降。",choices:[
+  {text:"把传统手艺改造成灵材工艺",hint:"需要手艺火种",need:"mind",requiresLegacy:"craft_legacy",fx:{mind:[1,4],family:[-3,5]},setLifeFlags:{craftShop:true},lifeTrack:{career:4,reputation:2},success:"普通手艺和灵材结合，形成了独特市场。",fail:"灵材性质不稳定，试验损耗很大。"},
+  {text:"重新设计经营和现金流",hint:"需要经营手札",need:"mind",requiresLegacy:"career_legacy",fx:{mind:[1,3],family:[-2,4]},lifeTrack:{career:3,stability:2},success:"你缩小品类、稳定客户，店铺重新活下来。",fail:"调整方向正确，但市场变化仍然太快。"},
+  {text:"通过修士与普通人的人脉做中间商",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[-2,5]},lifeTrack:{career:3,bonds:1},success:"你成为两个社会之间可靠的交易节点。",fail:"双方规则差异让你承受了额外纠纷。"},
+  {text:"关闭店铺，退出灵气产业",hint:"保护剩余资源",need:"family",fx:{family:[-2,1],body:[1,3]},lifeTrack:{stability:2,career:-2},success:"你及时止损，保住了重新开始的资源。",fail:"关店仍留下债务和长期遗憾。"}
+ ]},
+ {id:"mortal_sect_property",title:"宗门扩建阵法覆盖了普通居民区",desc:"阵法改善灵气，却让电子设备失灵、房价波动，居民并未被真正征求意见。",choices:[
+  {text:"整理影响证据并提出正式交涉",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],family:[-2,2]},setLifeFlags:{communityLeader:true},lifeTrack:{reputation:3,stability:1},success:"宗门第一次同意按照现代程序补偿居民。",fail:"宗门承认影响，却认为普通制度无权约束阵法。"},
+  {text:"组织居民公开表达诉求",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],family:[-2,1]},setLifeFlags:{publicFigure:true,communityLeader:true},lifeTrack:{reputation:4,bonds:2},success:"舆论迫使多个势力参与谈判。",fail:"修士群体认为居民阻碍新时代发展。"},
+  {text:"学习阵法基础，提出技术改造",hint:"需要学海传灯或手艺火种",need:"mind",requiresAnyLegacy:["study_legacy","craft_legacy"],fx:{mind:[2,4],family:[-2,2]},lifeTrack:{career:2,reputation:2},success:"你找到减少干扰的阵法结构，双方都获得改善。",fail:"阵法知识比想象更深，修改造成新的局部问题。"},
+  {text:"接受补偿搬离",hint:"资源换稳定",need:"family",fx:{family:[-1,4],charm:[-1,1]},setLifeFlags:{movedCity:true},lifeTrack:{stability:2,bonds:-1},success:"你离开争议区域，生活逐渐恢复正常。",fail:"新的区域也很快受到修真产业扩张影响。"}
+ ]},
+ {id:"mortal_cultivator_accident",title:"一名修士斗法造成公共区域严重损坏",desc:"事故没有导致大规模死亡，却让许多普通人失去住所和工作。责任方试图用灵石私下解决。",choices:[
+  {text:"建立受害者名单和统一赔偿标准",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],charm:[1,3]},setLifeFlags:{communityLeader:true},lifeTrack:{reputation:4,bonds:2},success:"赔偿不再取决于个人是否认识修士。",fail:"不同损失难以统一，谈判持续很久。"},
+  {text:"公开记录事故全过程",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],body:[-2,0]},setLifeFlags:{publicFigure:true},lifeTrack:{reputation:5,stability:-1},success:"影像改变了公众讨论，修士第一次面对普通人的持续监督。",fail:"强大势力开始要求你删除记录。"},
+  {text:"组织普通人进行应急救援",hint:"需要求生手册",need:"body",requiresLegacy:"survival_legacy",fx:{body:[-2,3],charm:[2,4],family:[-2,0]},lifeTrack:{bonds:3,reputation:3},success:"你们在修士到场前救出了大量被困者。",fail:"普通装备无法应对灵力残留，多名救援者受伤。",deathOnFail:{chance:8,cause:"在修士斗法后的灵力坍塌区域进行救援时遭到残余术法重创"}},
+  {text:"接受灵石补偿，不再追究",hint:"快速恢复资源",need:"family",fx:{family:[2,6],charm:[-2,0]},lifeTrack:{stability:2,reputation:-2},success:"资源帮助你迅速重建生活。",fail:"灵石价值波动，后续损失仍无人负责。"}
  ]}
 ],
 "异界":[
@@ -816,7 +1155,7 @@ const eventBank={
 
 const yearlyEventPools={
   young:[
-    {text:"你开始适应成年后的自由，也第一次意识到自由需要自己负责。",fx:{}},
+{text:"你开始适应成年后的自由，也第一次意识到自由需要自己负责。",fx:{}},
     {text:"你认识了一位后来仍会偶尔联系的朋友。",fx:{charm:1}},
     {text:"你认真学会了一项实用技能。",fx:{mind:1}},
     {text:"你为一次冲动消费后悔了很久。",fx:{family:-1}},
@@ -825,10 +1164,18 @@ const yearlyEventPools={
     {text:"你短暂喜欢过一个人，最后没有说出口。",fx:{}},
     {text:"你换了一个环境，生活节奏也随之改变。",fx:{charm:1}},
     {text:"你得到家人的一次关键帮助。",fx:{family:1}},
-    {text:"这一年没有大事，但你比去年更清楚自己想要什么。",fx:{}}
-  ],
+    {text:"这一年没有大事，但你比去年更清楚自己想要什么。",fx:{}},
+{text:"你第一次独自处理租房、合同和押金，发现成年世界常常藏在小字里。",fx:{mind:1}},
+    {text:"你为了一个资格考试连续准备数月，结果并不完美，却建立了长期学习习惯。",fx:{mind:1}},
+    {text:"你与一位朋友合租，关系在家务和费用中经受了现实考验。",fx:{charm:1}},
+    {text:"你换过一次工作或专业方向，短期混乱后更了解自己的能力。",fx:{}},
+    {text:"你第一次认真储蓄，也第一次意识到意外开支总会出现。",fx:{family:1}},
+    {text:"一次小病迫使你停止熬夜，身体开始要求你为过去的习惯付账。",fx:{body:-1}},
+    {text:"你参加了一场陌生人的婚礼，突然意识到同龄人的人生已经分出许多方向。",fx:{}},
+    {text:"你在网络上发表的一段普通内容得到很多回应，短暂体验了被陌生人注视的感觉。",fx:{charm:1}}
+],
   adult:[
-    {text:"你的工作逐渐熟练，开始有人愿意听取你的意见。",fx:{mind:1}},
+{text:"你的工作逐渐熟练，开始有人愿意听取你的意见。",fx:{mind:1}},
     {text:"你承担了更多责任，休息时间明显变少。",fx:{body:-1}},
     {text:"你存下了一笔让自己更安心的钱。",fx:{family:1}},
     {text:"你结束了一段消耗很大的关系。",fx:{charm:-1}},
@@ -837,10 +1184,18 @@ const yearlyEventPools={
     {text:"你在一次公开表达中表现不错。",fx:{charm:1}},
     {text:"你做了一个看似普通、后来却很重要的决定。",fx:{mind:1}},
     {text:"家里出现了一笔计划外开支。",fx:{family:-1}},
-    {text:"你度过了忙碌但没有明显转折的一年。",fx:{}}
-  ],
+    {text:"你度过了忙碌但没有明显转折的一年。",fx:{}},
+{text:"你参与了一次重要谈判，第一次知道沉默和记录有时比争辩更有力量。",fx:{mind:1}},
+    {text:"家庭中的一位长辈生病，你开始承担过去由别人承担的责任。",fx:{family:-1}},
+    {text:"你与伴侣或亲近的人认真讨论了金钱、居住和未来安排。",fx:{charm:1}},
+    {text:"行业发生变化，你花了很长时间重新学习一套工作方法。",fx:{mind:1}},
+    {text:"一次维修、搬家或装修耗费了大量精力，也让你学会了实用技能。",fx:{body:-1}},
+    {text:"你主动断开了一段只有消耗、没有尊重的关系。",fx:{charm:-1}},
+    {text:"你为家人解决了一件长期拖延的现实问题，生活因此安稳了一些。",fx:{family:1}},
+    {text:"你发现职位和收入增加后，真正属于自己的时间反而更少。",fx:{body:-1}}
+],
   middle:[
-    {text:"你开始成为别人遇到问题时会主动询问的人。",fx:{mind:1}},
+{text:"你开始成为别人遇到问题时会主动询问的人。",fx:{mind:1}},
     {text:"你更重视身体发出的信号，主动减少了无意义的消耗。",fx:{body:1}},
     {text:"你与一位重要的人重新建立了联系。",fx:{charm:1}},
     {text:"家庭责任增加，你可自由支配的资源变少。",fx:{family:-1}},
@@ -849,10 +1204,18 @@ const yearlyEventPools={
     {text:"你的身体恢复速度不如从前。",fx:{body:-1}},
     {text:"你把多年经验整理成了真正有用的方法。",fx:{mind:1}},
     {text:"你与某位旧识彻底告别。",fx:{charm:-1}},
-    {text:"这一年平稳地过去，你守住了生活的大部分秩序。",fx:{}}
-  ],
+    {text:"这一年平稳地过去，你守住了生活的大部分秩序。",fx:{}},
+{text:"你开始帮助年轻人避免自己曾经犯过的错误。",fx:{mind:1}},
+    {text:"一位旧友突然联系你，你们发现当年的矛盾已经没有想象中重要。",fx:{charm:1}},
+    {text:"你处理了家庭资产、照护或居住安排中的一项复杂决定。",fx:{family:1}},
+    {text:"身体的一项旧问题反复出现，你不得不改变长期习惯。",fx:{body:-1}},
+    {text:"你逐渐减少无效社交，却更珍惜少数稳定关系。",fx:{}},
+    {text:"你重新拾起年轻时放弃的一项兴趣，发现它不再需要证明什么。",fx:{mind:1}},
+    {text:"一次行业震荡让你的多年经验突然变得非常有价值。",fx:{family:1}},
+    {text:"你送别了一位熟悉的长辈，开始重新理解家庭历史。",fx:{charm:-1}}
+],
   senior:[
-    {text:"你开始更频繁地回忆年轻时没有察觉的重要瞬间。",fx:{}},
+{text:"你开始更频繁地回忆年轻时没有察觉的重要瞬间。",fx:{}},
     {text:"你把一件珍贵的东西交给了晚辈。",fx:{family:1}},
     {text:"一次小病让你认真调整了生活节奏。",fx:{body:-1}},
     {text:"你重新联系了一位多年未见的人。",fx:{charm:1}},
@@ -861,8 +1224,16 @@ const yearlyEventPools={
     {text:"你身体尚可，仍然保持着自己的日常习惯。",fx:{body:1}},
     {text:"你送别了一位旧友，沉默了很久。",fx:{charm:-1}},
     {text:"你把过去的一次遗憾讲给了别人听。",fx:{}},
-    {text:"这一年很慢，也很安静。",fx:{}}
-  ]
+    {text:"这一年很慢，也很安静。",fx:{}},
+{text:"你整理了重要账户、文件和遗愿，不希望把混乱留给后来的人。",fx:{mind:1}},
+    {text:"你把一段家族往事讲给晚辈，纠正了流传多年的误解。",fx:{charm:1}},
+    {text:"身体恢复变慢，你开始把每天能完成的小事视为真正的自由。",fx:{body:-1}},
+    {text:"你与家人讨论照护和医疗选择，并明确表达了自己的意愿。",fx:{family:1}},
+    {text:"你再次路过年轻时生活过的地方，很多建筑已经完全改变。",fx:{}},
+    {text:"你学会使用一种新工具，与比自己年轻很多的人保持联系。",fx:{mind:1}},
+    {text:"一位多年未见的人来看你，你们没有谈成功，只谈当年的普通日子。",fx:{charm:1}},
+    {text:"你把一件用了很多年的物品修好，没有购买新的替代品。",fx:{family:1}}
+]
 };
 
 
@@ -1193,6 +1564,8 @@ function startLife(){
     age:18, majorDone:0, targetMajor:3, legend:(m.startLegend||0),
     era:"modern",realmIndex:0,cultivationExp:(m.cultivationExpBonus||0),worldsUnlocked:false,hiddenTruth:false,
     cultivationAffinity:(m.worldEcho||0),awakeningClues:0,lastWorldTransition:null,
+    occultFlags:{},creatureRelations:{},occultDanger:0,occultKnowledge:0,recentEventIds:[],
+    lifeFlags:{},lifeTracks:{career:0,bonds:0,stability:0,reputation:0},
     deathCause:null,deathAge:null,dead:false,extremeCooldowns:{},
     abilities:[...selectedAbilities], comebackUsed:false, sixthSenseUsed:false,
     body:clamp(allocation.body+(m.bonus.body||0)),
@@ -1226,6 +1599,16 @@ function normalizeLife(){
   if(state.awakeningClues===undefined)state.awakeningClues=0;
   if(state.cultivationAffinity===undefined)state.cultivationAffinity=(metaState?.worldEcho||0)+(state.abilities||[]).reduce((s,id)=>s+(abilityById(id)?.cultivationAffinity||0),0);
   if(state.lastWorldTransition===undefined)state.lastWorldTransition=null;
+  if(!state.occultFlags)state.occultFlags={};
+  if(!state.creatureRelations)state.creatureRelations={};
+  if(state.occultDanger===undefined)state.occultDanger=0;
+  if(state.occultKnowledge===undefined)state.occultKnowledge=0;
+  if(!Array.isArray(state.recentEventIds))state.recentEventIds=[];
+  if(!state.lifeFlags)state.lifeFlags={};
+  if(!state.lifeTracks)state.lifeTracks={career:0,bonds:0,stability:0,reputation:0};
+  ["career","bonds","stability","reputation"].forEach(k=>{
+    if(state.lifeTracks[k]===undefined)state.lifeTracks[k]=0;
+  });
   if(state.realmIndex===undefined)state.realmIndex=0;
   if(state.cultivationExp===undefined)state.cultivationExp=0;
   if(state.worldsUnlocked===undefined)state.worldsUnlocked=false;
@@ -1279,12 +1662,14 @@ function renderAll(){
     eraStatus.innerHTML=`🌌 <b>隐藏修真界</b> · 当前境界：${currentRealm()} · 修为积累：${state.cultivationExp}${state.worldsUnlocked?' · 已开启界门':''}`;
   }else if(state.era==="awakening"){
     eraStatus.className="eraStatus cultivation";
-    eraStatus.innerHTML=`🌙 <b>寻道阶段</b> · 已掌握线索 ${state.awakeningClues||0}/4 · 修真世界仍隐藏在现代社会背后`;
+    const metCreatures=Object.values(state.creatureRelations||{}).filter(v=>v!==0).length;
+    eraStatus.innerHTML=`🌙 <b>寻道阶段</b> · 线索 ${state.awakeningClues||0}/4 · 诡异知识 ${state.occultKnowledge||0} · 危险 ${state.occultDanger||0} · 已接触生物 ${metCreatures} 种`;
   }else{
     eraStatus.className="eraStatus";
-    eraStatus.innerHTML=metaState?.cultivationUnlocked
-      ?`🏙️ <b>现代社会</b> · 前世残缺传承正在沉睡，需满足条件后逐步觉醒`
-      :`🏙️ <b>现代社会</b> · 尚未继承能够开启隐藏世界线的传承`;
+    const branchKeys=["law_legacy","medical_legacy","network_legacy","craft_legacy","public_voice","wanderer_legacy","family_archive","empathy_legacy"].filter(id=>hasLegacy(id)).length;
+    const t=state.lifeTracks||{};
+    const cultivationText=metaState?.cultivationUnlocked?" · 前世修真残页正在沉睡":"";
+    eraStatus.innerHTML=`🏙️ <b>现代社会</b> · 支线钥匙 ${branchKeys}/8 · 事业 ${t.career||0} · 关系 ${t.bonds||0} · 稳定 ${t.stability||0} · 声望 ${t.reputation||0}${cultivationText}`;
   }
   stats.innerHTML=["body","mind","charm","family"].map(k=>`
     <div class="stat"><div class="statName">${statIcons[k]} ${statNames[k]}</div><div class="statValue">${state[k]}</div></div>`).join("");
@@ -1333,8 +1718,59 @@ function appendTrail(category){
   spinCurrent.textContent="经过："+category;
 }
 
+function occultFlag(key){return !!state?.occultFlags?.[key]}
+function meetsLifeRequirement(requirement){
+  if(!requirement)return true;
+  if(typeof requirement==="string")return lifeFlag(requirement);
+  return Object.entries(requirement).every(([key,value])=>(state.lifeFlags?.[key])===value);
+}
+function meetsTrackRequirement(requirement){
+  if(!requirement)return true;
+  return Object.entries(requirement).every(([key,value])=>(state.lifeTracks?.[key]||0)>=value);
+}
+function eventAvailable(event){
+  if(!event)return false;
+
+  if(event.requires){
+    for(const [key,value] of Object.entries(event.requires)){
+      if((state.occultFlags?.[key])!==value)return false;
+    }
+  }
+  if(Array.isArray(event.requiresAny) && !event.requiresAny.some(key=>occultFlag(key)))return false;
+  if(Array.isArray(event.excludes) && event.excludes.some(key=>occultFlag(key)))return false;
+
+  if(event.requiresLegacy && !hasLegacy(event.requiresLegacy,event.requiresLegacyLevel||1))return false;
+  if(Array.isArray(event.requiresAnyLegacy) && !event.requiresAnyLegacy.some(id=>hasLegacy(id)))return false;
+  if(event.requiresLife && !meetsLifeRequirement(event.requiresLife))return false;
+  if(Array.isArray(event.requiresAnyLife) && !event.requiresAnyLife.some(key=>lifeFlag(key)))return false;
+  if(Array.isArray(event.excludesLife) && event.excludesLife.some(key=>lifeFlag(key)))return false;
+  if(event.requiresTrack && !meetsTrackRequirement(event.requiresTrack))return false;
+
+  if(event.minClues!==undefined && (state.awakeningClues||0)<event.minClues)return false;
+  if(event.maxClues!==undefined && (state.awakeningClues||0)>event.maxClues)return false;
+  return true;
+}
+function choiceLockReason(choice){
+  if(choice.requiresChoiceFlag && !occultFlag(choice.requiresChoiceFlag))
+    return `需要诡异线索：${choice.requiresChoiceFlag}`;
+
+  if(choice.requiresLifeFlag && !lifeFlag(choice.requiresLifeFlag))
+    return `需要前置分支：${choice.requiresLifeLabel||lifeFlagDisplayName(choice.requiresLifeFlag)}`;
+
+  if(choice.requiresLegacy && !hasLegacy(choice.requiresLegacy,choice.requiresLegacyLevel||1))
+    return `需要传承：${legacyDisplayName(choice.requiresLegacy)}${choice.requiresLegacyLevel>1?` Lv.${choice.requiresLegacyLevel}`:""}`;
+
+  if(Array.isArray(choice.requiresAnyLegacy) && !choice.requiresAnyLegacy.some(id=>hasLegacy(id)))
+    return `需要任一传承：${choice.requiresAnyLegacy.map(legacyDisplayName).join(" / ")}`;
+
+  if(choice.requiresTrack && !meetsTrackRequirement(choice.requiresTrack))
+    return `需要更高的人生轨迹`;
+
+  return "";
+}
 function fallbackEvent(category){
   return {
+    id:`fallback_${category}`,
     title:`命运的空白：${category}`,
     desc:"这一格原本没有被世界记录。你遇到了一次无法归类的转折。",
     choices:[
@@ -1344,10 +1780,32 @@ function fallbackEvent(category){
   };
 }
 function getSafeEventPool(category){
-  const pool=eventBank[category];
-  if(Array.isArray(pool) && pool.length)return pool;
-  console.warn("轮盘事件池缺失，已启用兜底事件：",category);
-  return [fallbackEvent(category)];
+  const base=eventBank[category];
+  if(!Array.isArray(base) || !base.length){
+    console.warn("轮盘事件池缺失，已启用兜底事件：",category);
+    return [fallbackEvent(category)];
+  }
+  const available=base.filter(eventAvailable);
+  return available.length?available:base.filter(e=>!e.requires && !e.requiresAny);
+}
+function weightedEventPick(pool){
+  const weighted=[];
+  pool.forEach(event=>{
+    const weight=Math.max(1,event.weight||1);
+    for(let i=0;i<weight;i++)weighted.push(event);
+  });
+  return weighted[rand(0,weighted.length-1)]||pool[0];
+}
+function pickEvent(category){
+  let pool=getSafeEventPool(category);
+  const recent=new Set(state.recentEventIds||[]);
+  const fresh=pool.filter(event=>!recent.has(event.id||event.title));
+  if(fresh.length)pool=fresh;
+
+  const picked=weightedEventPick(pool)||fallbackEvent(category);
+  const id=picked.id||picked.title;
+  state.recentEventIds=[...(state.recentEventIds||[]),id].slice(-6);
+  return picked;
 }
 
 function spinWheel(isReroll=false){
@@ -1371,8 +1829,7 @@ function spinWheel(isReroll=false){
     try{
       const category=categories[pointerIndex]||"奇遇";
       spinCurrent.textContent="抽中："+category;
-      const pool=getSafeEventPool(category);
-      const picked=pool[rand(0,pool.length-1)]||fallbackEvent(category);
+      const picked=pickEvent(category);
       currentEvent=JSON.parse(JSON.stringify(picked));
       currentEvent.category=category;
       showEvent();
@@ -1439,9 +1896,12 @@ function showEvent(){
     const b=document.createElement("button");
     b.className="choice";
     const chance=calculateChance(c);
+    const lockReason=choiceLockReason(c);
+    const locked=!!lockReason;
     b.innerHTML=`<b>${String.fromCharCode(65+i)}. ${c.text}</b>
       <span>${c.hint}</span>
-      <span class="chanceLine">成功率 ${chance}% · 受 ${statRelationText(c)} 影响</span>`;
+      <span class="chanceLine">${locked?`🔒 ${lockReason}`:`成功率 ${chance}% · 受 ${statRelationText(c)} 影响`}</span>`;
+    b.disabled=locked;
     b.onclick=()=>chooseEvent(i);
     choices.appendChild(b);
   });
@@ -1449,10 +1909,83 @@ function showEvent(){
   eventPanel.classList.add("on");
   eventPanel.scrollIntoView({behavior:"smooth",block:"start"});
 }
+
+function setOccultFlags(flags){
+  Object.entries(flags||{}).forEach(([key,value])=>state.occultFlags[key]=value);
+}
+function setLifeFlags(flags){
+  Object.entries(flags||{}).forEach(([key,value])=>state.lifeFlags[key]=value);
+}
+function changeCreatureRelation(rule,success){
+  if(!rule)return "";
+  const delta=success?(rule.success||0):(rule.fail||0);
+  if(!delta)return "";
+  const key=rule.creature;
+  state.creatureRelations[key]=(state.creatureRelations[key]||0)+delta;
+  return `${key}关系 ${delta>0?"+":""}${delta}`;
+}
+function numericOutcome(rule,success){
+  if(rule===undefined || rule===null)return 0;
+  if(typeof rule==="number")return rule;
+  return success?(rule.success||0):(rule.fail||0);
+}
+function selectedObjectOutcome(rule,success){
+  if(!rule)return null;
+  if(rule.success || rule.fail)return success?(rule.success||{}):(rule.fail||{});
+  return rule;
+}
+function applyLifeTracks(rule,success){
+  const selected=selectedObjectOutcome(rule,success);
+  if(!selected)return [];
+  const labels={career:"事业轨迹",bonds:"关系轨迹",stability:"生活稳定",reputation:"社会声望"};
+  const notes=[];
+  Object.entries(selected).forEach(([key,value])=>{
+    state.lifeTracks[key]=(state.lifeTracks[key]||0)+value;
+    notes.push(`${labels[key]||key} ${value>0?"+":""}${value}`);
+  });
+  return notes;
+}
+function applyBranchConsequences(choice,success,age){
+  const notes=[];
+  setOccultFlags(choice.setFlags);
+  setOccultFlags(success?choice.setFlagsSuccess:choice.setFlagsFail);
+
+  setLifeFlags(choice.setLifeFlags);
+  setLifeFlags(success?choice.setLifeFlagsSuccess:choice.setLifeFlagsFail);
+  notes.push(...applyLifeTracks(choice.lifeTrack,success));
+
+  const clueDelta=numericOutcome(choice.addClues,success);
+  if(clueDelta){
+    state.awakeningClues=Math.max(0,(state.awakeningClues||0)+clueDelta);
+    state.occultKnowledge=Math.max(0,(state.occultKnowledge||0)+clueDelta);
+    notes.push(`寻道线索 ${clueDelta>0?"+":""}${clueDelta}`);
+  }
+
+  const dangerDelta=numericOutcome(choice.occultDanger,success);
+  if(dangerDelta){
+    state.occultDanger=Math.max(0,(state.occultDanger||0)+dangerDelta);
+    notes.push(`诡异危险 ${dangerDelta>0?"+":""}${dangerDelta}`);
+  }
+
+  const relationText=changeCreatureRelation(choice.relation,success);
+  if(relationText)notes.push(relationText);
+
+  const deathRule=success?choice.deathOnSuccess:choice.deathOnFail;
+  if(deathRule && rand(1,100)<=deathRule.chance){
+    state.dead=true;
+    state.deathAge=age;
+    state.deathCause=deathRule.cause;
+    notes.push("特殊死亡判定触发");
+  }
+  return notes;
+}
+
 function chooseEvent(i){
   rerollBtn.style.display="none";
   document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
   const c=currentEvent.choices[i];
+  if(choiceLockReason(c))return;
+
   const changes=[];
   const chance=calculateChance(c);
   let success=rand(1,100)<=chance;
@@ -1476,7 +2009,6 @@ function chooseEvent(i){
 
     if(!success && d>1)d=Math.floor(d/2);
 
-    // 四项属性会直接减轻对应类型损失
     if(d<0){
       const protection=Math.floor((state[k]||0)/8);
       d=Math.min(0,d+protection);
@@ -1489,7 +2021,6 @@ function chooseEvent(i){
       });
     }
 
-    // 能力与高相关属性会放大正面回报
     if(d>0 && success){
       if(k==="mind" && hasAbility("memory") && ["学业","时代"].includes(currentEvent.category))d+=1;
       if(k==="family" && hasAbility("resource") && currentEvent.category==="财富")d+=1;
@@ -1518,18 +2049,23 @@ function chooseEvent(i){
   }
 
   const ageAtEvent=state.age;
+  const branchNotes=applyBranchConsequences(c,success,ageAtEvent);
   state.majorDone++;
   state.history.push({
     age:ageAtEvent,category:currentEvent.category,title:currentEvent.title,choice:c.text,success,
-    chance,abilities:[...(state.abilities||[])]
+    chance,abilities:[...(state.abilities||[])],branchNotes:[...branchNotes]
   });
 
-  const specialText=charmFlip?" “人见人爱”让局面意外反转。":comebackTriggered?" “绝处逢生”在最后一刻生效。":"";
-  recordYear(ageAtEvent,`${currentEvent.title}。你选择了“${c.text}”（判定成功率 ${chance}%）。${success?c.success:c.fail}${specialText}`,"major");
+  const abilityText=charmFlip?" “人见人爱”让局面意外反转。":comebackTriggered?" “绝处逢生”在最后一刻生效。":"";
+  const branchText=branchNotes.length?` ${branchNotes.join("；")}。`:"";
+  recordYear(ageAtEvent,`${currentEvent.title}。你选择了“${c.text}”（判定成功率 ${chance}%）。${success?c.success:c.fail}${abilityText}${branchText}`,"major");
 
-  if(state.body<1){
+  if(state.dead){
+    recordYear(ageAtEvent,`这次选择触发了特殊死亡：${state.deathCause}。`,"end");
+  }else if(state.body<1){
     resolveCriticalBody(deathCauseFromEvent(currentEvent.category,currentEvent.title),state.age);
   }
+
   const eraAwakened=!state.dead && maybeUnlockCultivation();
   if(state.era==="cultivation"){
     maybeBreakthrough(state.age);
@@ -1541,9 +2077,23 @@ function chooseEvent(i){
     :state.lastWorldTransition==="cultivation"
       ?"你终于踏入隐藏修真界"
       :null;
-  resultTitle.textContent=eraAwakened&&transitionTitle?transitionTitle:success?(comebackTriggered?"你在绝境中翻盘":"你抓住了这次命运转折"):"这次命运没有完全站在你这边";
-  resultText.textContent=(success?c.success:c.fail)+specialText+(gainedLegend?` 精彩度 +${gainedLegend}。`:"");
-  effects.innerHTML=(changes.map(x=>`<span class="effect ${x.value>0?"good":x.value<0?"bad":"neutral"}">${statIcons[x.k]}${statNames[x.k]} ${x.value>0?"+":""}${x.value}</span>`).join("") || `<span class="effect neutral">属性没有变化</span>`);
+
+  resultTitle.textContent=state.dead
+    ?"这次选择成为你人生的终点"
+    :eraAwakened&&transitionTitle
+      ?transitionTitle
+      :success
+        ?(comebackTriggered?"你在绝境中翻盘":"你抓住了这次命运转折")
+        :"这次命运没有完全站在你这边";
+
+  resultText.textContent=(success?c.success:c.fail)+abilityText+branchText+
+    (gainedLegend?` 精彩度 +${gainedLegend}。`:"")+
+    (state.dead?` 你最终因${state.deathCause}而死亡。`:"");
+
+  const effectHtml=changes.map(x=>`<span class="effect ${x.value>0?"good":x.value<0?"bad":"neutral"}">${statIcons[x.k]}${statNames[x.k]} ${x.value>0?"+":""}${x.value}</span>`).join("");
+  const branchHtml=branchNotes.map(x=>`<span class="effect neutral">${escapeHtml(x)}</span>`).join("");
+  effects.innerHTML=(effectHtml+branchHtml)||`<span class="effect neutral">属性没有变化</span>`;
+
   result.classList.add("on");
   nextBtn.textContent=shouldEndNow()?"查看人生结局":"进入下一阶段";
   renderAll();
@@ -1861,42 +2411,125 @@ function nextStage(){
 }
 
 function deathCauseFromEvent(category,title){
-  const map={
-    "天灾":`在“${title}”中遭受致命伤害`,
-    "人祸":`在“${title}”造成的事故与冲突中死亡`,
-    "危机":`未能渡过“${title}”带来的致命危机`,
-    "天劫":`渡“${title}”时肉身被天雷摧毁`,
-    "魔灾":`在“${title}”中神魂与肉身同时崩溃`,
-    "秘境":`探索“${title}”时陨落于古老禁制`,
-    "异界":`在异世界经历“${title}”后未能返回`,
-    "星海":`在星海航行“${title}”中失联并确认死亡`
+  const maps={
+    "天灾":[`在“${title}”中遭受致命伤害`,`在“${title}”后的次生灾害中失踪并确认死亡`,`在“${title}”中因救援失败而死亡`],
+    "人祸":[`在“${title}”造成的事故与冲突中死亡`,`在“${title}”后遭到报复性伤害`,`因“${title}”引发的非法实验与暴力事件死亡`],
+    "危机":[`未能渡过“${title}”带来的致命危机`,`在处理“${title}”时身体与精神同时崩溃`,`因“${title}”中的错误选择失去生命`],
+    "异象":[`在“${title}”中意识被异常存在吞噬`,`因“${title}”造成现实认知崩溃后死亡`,`在“${title}”中被不明生物带离现实`],
+    "古法":[`修习“${title}”时遭到古法反噬`,`在“${title}”的仪式中被夺取寿命`,`因错误使用“${title}”导致身体异化并死亡`],
+    "寻道":[`追查“${title}”时在隐藏空间失踪`,`因“${title}”触怒非人存在后遭到猎杀`,`在“${title}”中进入无法返回的道路`],
+    "天劫":[`渡“${title}”时肉身被天雷摧毁`,`在“${title}”中神魂被劫雷磨灭`,`渡劫失败后经脉与生命同时崩断`],
+    "魔灾":[`在“${title}”中神魂与肉身同时崩溃`,`被“${title}”中的心魔夺取身体`,`在“${title}”制造的集体幻境中永远沉睡`],
+    "秘境":[`探索“${title}”时陨落于古老禁制`,`被困在“${title}”的循环空间中耗尽寿元`,`在“${title}”中被守护生物吞噬`],
+    "灵兽":[`在“${title}”中遭灵兽反噬`,`与“${title}”相关的契约失控后死亡`,`在保护灵兽时遭受致命伤害`],
+    "异界":[`在异世界经历“${title}”后未能返回`,`在“${title}”涉及的异界战争中死亡`,`因“${title}”导致世界法则排斥而崩解`],
+    "星海":[`在星海航行“${title}”中失联并确认死亡`,`在“${title}”中被未知文明摧毁`,`界舟在“${title}”途中破裂，神魂散入星海`]
   };
-  return map[category]||`在“${title}”造成的连锁影响中死亡`;
+  const list=maps[category]||[`在“${title}”造成的连锁影响中死亡`];
+  return list[rand(0,list.length-1)];
 }
 function determineDeathCause(){
   if(state.deathCause)return state.deathCause;
   const age=state.age;
+  const flags=state.occultFlags||{};
+
   if(state.era==="cultivation"){
     if(state.worldsUnlocked && state.realmIndex>=5){
       const causes=[
         "在界海深处遭遇无法命名的文明，界舟破碎后神魂熄灭",
         "跨越世界壁垒时空间通道坍塌，肉身留在了两个世界之间",
-        "为关闭失控界门而燃尽修为，最终在陌生星空下坐化"
+        "为关闭失控界门而燃尽修为，最终在陌生星空下坐化",
+        "被异界法则判定为外来存在，身体逐渐从时间中剥离",
+        "与星海巨兽交战时真身破碎，只剩传承返回地球"
       ];
       return causes[rand(0,causes.length-1)];
     }
-    if(state.realmIndex>=6)return "渡最后一场天劫时肉身解体；是否真正死亡，后世始终没有定论";
-    if(state.realmIndex>=4)return "寿元耗尽，在洞府中坐化，元神化作一道短暂星光";
-    return "修行根基长期受损，最终在一次闭关中走火入魔";
+    if(state.realmIndex>=6){
+      const causes=[
+        "渡最后一场天劫时肉身解体；是否真正死亡，后世始终没有定论",
+        "飞升通道在开启时坍塌，元神被困在雷云之外",
+        "以自身封印魔灾后神魂耗尽，只留下一座无名石碑"
+      ];
+      return causes[rand(0,causes.length-1)];
+    }
+    if(state.realmIndex>=4){
+      const causes=[
+        "寿元耗尽，在洞府中坐化，元神化作一道短暂星光",
+        "闭关突破时心魔化为实体，最终与其同归于尽",
+        "为保护宗门燃尽元婴，身体在晨光中化作灵尘"
+      ];
+      return causes[rand(0,causes.length-1)];
+    }
+    return [
+      "修行根基长期受损，最终在一次闭关中走火入魔",
+      "误服冲突丹药后经脉逆转，抢救无效",
+      "在低阶秘境中触发残缺禁制，神魂被困",
+      "驭使灵器失败，器灵反噬并夺走生命"
+    ][rand(0,3)];
   }
-  if(age>=95)return "自然衰老导致的器官功能衰竭，在睡梦中平静离世";
-  if(age>=80 && state.body>=8)return "高龄引发的心肺功能衰退，在家人陪伴下离世";
-  if(state.body<=3)return "长期慢性疾病与身体衰竭";
-  if(state.family<=2 && state.body<=6)return "疾病恶化后缺乏足够治疗资源";
+
+  if(state.era==="awakening" || (state.occultDanger||0)>=5){
+    if(flags.succubusAfterlife)return "自然死亡后梦境未能进入轮回，被魅魔依照契约永久带走";
+    if(flags.succubusHostile && state.charm<=5)return "在睡眠中被敌对魅魔持续抽取情绪与生命力，最终再未醒来";
+    if(flags.mirrorReplaced || (flags.mirrorHostile && state.mind<=5))return "被镜中替身替代，原意识在倒影世界中逐渐消散";
+    if(flags.houndHostile && state.body<=6)return "被无皮黑犬追踪并吞噬影子，身体随影子一同停止活动";
+    if((flags.dreamParasite || flags.dreamSwarm) && state.body<=6)return "长期遭食梦生物寄生，失去睡眠和意识维持能力";
+    if(flags.facelessMarked && state.charm<=5)return "身份、面孔与社会记忆被无面存在逐步抹除，最终失去自我";
+    if(flags.paperDoubleHostile)return "被替命纸人夺走生辰，身体逐渐纸化并停止呼吸";
+    if(flags.wellMarked)return "被古井中的换命生物提前收走剩余寿命";
+    if(flags.hotelTrapped)return "被困在不存在的旅馆楼层中，现实时间继续流逝而无法返回";
+    const occultCauses=[
+      "调查异常地点时误入封闭空间，数年后仅发现没有影子的遗物",
+      "长期接触多种诡异生物后精神与身体边界崩溃",
+      "被未收容的非人存在误认为同类，带入表层世界之外",
+      "在一次失败的驱邪仪式中成为新的承载物",
+      "睡梦中听见不存在的敲门声后失踪，房间内部没有出口痕迹",
+      "身体仍在医院维持生命，但意识被确认留在集体梦境中"
+    ];
+    return occultCauses[rand(0,occultCauses.length-1)];
+  }
+
+  if(age>=95){
+    return [
+      "自然衰老导致器官功能衰竭，在睡梦中平静离世",
+      "高龄后多系统功能逐渐衰退，在家人陪伴下离世",
+      "百岁后身体自然停止工作，生命完整地走到终点"
+    ][rand(0,2)];
+  }
+  if(age>=80 && state.body>=8){
+    return [
+      "高龄引发心肺功能衰退，在家人陪伴下离世",
+      "晚年突发脑卒中，经抢救后仍未能恢复",
+      "一次严重肺部感染最终导致呼吸衰竭"
+    ][rand(0,2)];
+  }
+  if(state.body<=3){
+    return [
+      "长期慢性疾病与身体衰竭",
+      "反复心律失常后发生心搏骤停",
+      "免疫与器官功能持续下降，最终因感染死亡",
+      "长期过劳造成心脑血管意外"
+    ][rand(0,3)];
+  }
+  if(state.family<=2 && state.body<=6){
+    return [
+      "疾病恶化后缺乏足够治疗资源",
+      "长期营养与医疗条件不足导致并发症死亡",
+      "延误治疗后病情失去控制"
+    ][rand(0,2)];
+  }
   const last=[...(state.history||[])].reverse()[0];
-  if(last && ["天灾","人祸","危机"].includes(last.category) && !last.success)
+  if(last && ["天灾","人祸","危机","异象","古法","寻道"].includes(last.category) && !last.success)
     return deathCauseFromEvent(last.category,last.title);
-  return "晚年突发心脑血管事件";
+
+  return [
+    "晚年突发心脑血管事件",
+    "一次未能预料的交通事故",
+    "急性重症感染导致多器官衰竭",
+    "睡眠中突发心搏骤停",
+    "意外跌倒造成严重颅脑损伤",
+    "未被及时发现的恶性疾病在晚期迅速恶化"
+  ][rand(0,5)];
 }
 function secretEndingHint(data){
   if(state.worldsUnlocked){
@@ -1977,8 +2610,17 @@ function endingData(){
   const allHigh=values.every(v=>v>=15);
   const allLow=values.every(v=>v<=5);
 
-  if(state.era==="awakening")
+  if(state.era==="awakening"){
+    if(state.occultFlags?.succubusAlly && (state.creatureRelations?.succubus||0)>=4)
+      return ["secret","🌹","梦境盟约","你没有完成引气入体，却与一名魅魔建立了罕见的平等契约。死亡后，她把你的梦境完整送入下一次轮回。","good"];
+    if(state.occultFlags?.mirrorMerged)
+      return ["secret","🪞","两个人生的同一具身体","你与镜中替身融合，此后很难分清哪些记忆属于自己。结局档案显示，你死后镜子里仍有人睁开眼睛。","neutral"];
+    if(state.occultFlags?.creatureAlliance)
+      return ["secret","🕯️","非人之友","你未成为修士，却建立了人与诡异生物之间的隐秘联系。许多不被历史记录的生命因此记住了你。","good"];
+    if((state.occultDanger||0)>=12)
+      return ["secret","👁️","被世界背面注视的人","你掌握了太多不应被普通人知道的事情。晚年所有照片里，你的身后都站着不同的生物。","bad"];
     return ["secret","🌙","寻道未竟","你已经证明现代世界背后存在另一层秩序，却没能在这一世完成真正的引气入体。前世残页会继续流向下一次人生。","neutral"];
+  }
 
   if(state.worldsUnlocked && state.realmIndex>=6)
     return ["cosmic","🌌","界海飞升者","你离开太阳系，跨越多个世界。地球史只记录了你的前半生，后半生成为异界传说。","good"];
