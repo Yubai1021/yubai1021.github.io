@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>随机人生模拟器 · 传承总览版</title>
+<style>
+:root{
+  --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
+  --purple:#8b7cff; --green:#42d7aa; --red:#ff6e8a; --gold:#ffd166; --line:rgba(255,255,255,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--text)}
+body{
+  background:
+    radial-gradient(circle at 15% 5%,rgba(139,124,255,.25),transparent 30%),
+    radial-gradient(circle at 90% 12%,rgba(66,215,170,.15),transparent 25%),
+    var(--bg);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{width:min(820px,100%);margin:auto;padding:16px 14px 40px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.logo{font-size:21px;font-weight:950}.logo span{color:var(--green)}
+.badge{font-size:11px;color:var(--muted);padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04)}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.35)}
+.screen{display:none}.screen.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{text-align:center;padding:34px 18px}
+.heroIcon{font-size:72px}
+h1{font-size:clamp(34px,8vw,54px);line-height:1.08;margin:12px 0}
+h2{font-size:27px;margin:0 0 10px}
+h3{margin:0 0 10px}
+.muted{color:var(--muted);line-height:1.7}
+.actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
+.btn{border:0;border-radius:14px;padding:13px 17px;color:white;font-weight:900;background:linear-gradient(135deg,var(--purple),#6855f3)}
+.btn.green{background:linear-gradient(135deg,var(--green),#1dac85)}
+.btn.gray{background:rgba(255,255,255,.07);border:1px solid var(--line)}
+.btn.red{background:linear-gradient(135deg,var(--red),#df4565)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:active{transform:scale(.98)}
+input{width:100%;padding:13px;border-radius:13px;border:1px solid var(--line);background:#09122b;color:white;outline:none;text-align:center}
+input:focus{border-color:var(--purple)}
+.setupName{max-width:360px;margin:16px auto}
+.pointsHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 10px}
+.remaining{padding:7px 10px;border-radius:999px;background:rgba(255,209,102,.12);color:var(--gold);font-weight:900;font-size:13px}
+.allocGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:520px){.allocGrid{grid-template-columns:1fr}}
+.alloc{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:16px;padding:13px}
+.allocTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.allocName{font-weight:900}.allocDesc{font-size:11px;color:var(--muted);margin-top:4px}
+.stepper{display:flex;align-items:center;gap:10px}
+.stepper button{width:34px;height:34px;border-radius:11px;border:1px solid var(--line);color:white;background:rgba(255,255,255,.08);font-size:20px;font-weight:900}
+.value{width:24px;text-align:center;font-size:20px;font-weight:950}
+.metaCard{margin-top:14px;text-align:left}
+.metaGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(max-width:520px){.metaGrid{grid-template-columns:1fr}}
+.metaItem{padding:11px;border-radius:14px;background:rgba(255,255,255,.05);font-size:12px;border:1px solid rgba(255,255,255,.07)}
+.gameHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.person{display:flex;align-items:center;gap:11px}
+.avatar{width:56px;height:56px;border-radius:17px;display:grid;place-items:center;background:rgba(255,255,255,.07);font-size:33px}
+.name{font-size:21px;font-weight:950}
+.meta{font-size:12px;color:var(--muted);margin-top:4px}
+.save{font-size:11px;color:#91efd3;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:15px 0}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{padding:11px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
+.statName{font-size:11px;color:var(--muted)} .statValue{font-size:24px;font-weight:950;margin-top:4px}
+.progress{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);margin-bottom:12px;font-size:13px}
+.daily{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);font-size:13px;color:#d9e0f5;margin-bottom:15px}
+.wheelCard{text-align:center;padding-top:20px}
+.wheelWrap{position:relative;width:290px;height:290px;margin:16px auto 20px}
+@media(max-width:360px){.wheelWrap{transform:scale(.88);margin:0 auto 5px}}
+.pointer{position:absolute;left:50%;top:-8px;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:31px solid var(--gold);filter:drop-shadow(0 4px 4px rgba(0,0,0,.4))}
+.wheel{width:100%;height:100%;border-radius:50%;background:conic-gradient(#745df0 0 45deg,#2dbd93 45deg 90deg,#f1a63c 90deg 135deg,#ef6685 135deg 180deg,#4aa8e9 180deg 225deg,#ad6be8 225deg 270deg,#5bc46e 270deg 315deg,#d85e5e 315deg 360deg);border:8px solid rgba(255,255,255,.14);box-shadow:0 16px 45px rgba(0,0,0,.42),inset 0 0 0 4px rgba(0,0,0,.12);transition:transform 4.1s cubic-bezier(.12,.72,.08,1);position:relative}
+.wheelCenter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:#10182d;border:5px solid rgba(255,255,255,.16);font-size:28px;font-weight:950;z-index:3}
+.wheelLabel{position:absolute;left:50%;top:50%;width:72px;text-align:center;font-size:13px;font-weight:950;text-shadow:0 2px 4px rgba(0,0,0,.45)}
+.l1{transform:translate(-50%,-50%) rotate(22.5deg) translateY(-102px) rotate(-22.5deg)}
+.l2{transform:translate(-50%,-50%) rotate(67.5deg) translateY(-102px) rotate(-67.5deg)}
+.l3{transform:translate(-50%,-50%) rotate(112.5deg) translateY(-102px) rotate(-112.5deg)}
+.l4{transform:translate(-50%,-50%) rotate(157.5deg) translateY(-102px) rotate(-157.5deg)}
+.l5{transform:translate(-50%,-50%) rotate(202.5deg) translateY(-102px) rotate(-202.5deg)}
+.l6{transform:translate(-50%,-50%) rotate(247.5deg) translateY(-102px) rotate(-247.5deg)}
+.l7{transform:translate(-50%,-50%) rotate(292.5deg) translateY(-102px) rotate(-292.5deg)}
+.l8{transform:translate(-50%,-50%) rotate(337.5deg) translateY(-102px) rotate(-337.5deg)}
+.spinHint{font-size:12px;color:var(--muted);margin-top:8px}
+.eventPanel{display:none;text-align:left;margin-top:18px;padding:16px;border-radius:18px;background:rgba(0,0,0,.20);border:1px solid var(--line)}
+.eventPanel.on{display:block;animation:fade .25s ease}
+.eventTag{display:inline-block;font-size:11px;color:#91efd3;border:1px solid rgba(66,215,170,.28);background:rgba(66,215,170,.10);padding:5px 8px;border-radius:999px}
+.eventTitle{font-size:25px;font-weight:950;margin:10px 0 8px}
+.eventDesc{line-height:1.75;color:#dfe5f8}
+.choices{display:grid;gap:9px;margin-top:14px}
+.choice{width:100%;text-align:left;padding:13px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white}
+.choice b{display:block;margin-bottom:3px}.choice span{font-size:11px;color:var(--muted)}
+.result{display:none;margin-top:14px;padding:13px;border-radius:14px;background:rgba(255,255,255,.05)}
+.result.on{display:block}
+.effects{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.effect{font-size:11px;padding:6px 8px;border-radius:9px;background:rgba(255,255,255,.07)}
+.good{color:#91efd3}.bad{color:#ff9aae}.neutral{color:#ffe29a}
+.log{margin-top:14px}
+.logItem{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:12px;color:#ccd5ef}
+.logItem:last-child{border-bottom:0}
+.ending{text-align:center}
+.endIcon{font-size:78px}
+.finalGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:18px 0}
+.finalBox{padding:12px;border-radius:14px;background:rgba(255,255,255,.06)}
+.overview{margin-top:18px;text-align:left}
+.svgWrap{width:100%;overflow:auto;background:rgba(255,255,255,.04);border-radius:16px;padding:10px;border:1px solid rgba(255,255,255,.07)}
+.rewardGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+@media(max-width:620px){.rewardGrid{grid-template-columns:1fr}}
+.rewardBtn{padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white;text-align:left}
+.rewardBtn b{display:block;margin-bottom:4px}
+.claimed{margin-top:10px;padding:11px;border-radius:14px;background:rgba(66,215,170,.12);color:#9af0d7;font-size:13px}
+.footer{text-align:center;color:#6f7ca5;font-size:11px;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="logo">🎡 随机人生<span>模拟器</span></div>
+    <div class="badge">传承总览版</div>
+  </div>
+
+  <section id="home" class="screen on">
+    <div class="card hero">
+      <div class="heroIcon">🧬</div>
+      <h1>决定这辈子的起点<br>再把结果留给命运</h1>
+      <p class="muted">一生通常只有 3 次重大抉择。活得足够精彩，才可能迎来第 4 次。每一世结束后，都能给下一世留下传承。</p>
+
+      <div id="newBlock">
+        <div class="setupName"><input id="playerName" maxlength="10" placeholder="输入你的名字"></div>
+
+        <div class="pointsHead">
+          <b>分配开局属性</b>
+          <div class="remaining">剩余 <span id="remaining">20</span> 点</div>
+        </div>
+
+        <div class="allocGrid">
+          <div class="alloc"><div class="allocTop"><div><div class="allocName">💪 体质</div><div class="allocDesc">健康、抗压和寿命</div></div><div class="stepper"><button onclick="changePoint('body',-1)">−</button><div id="bodyValue" class="value">0</div><button onclick="changePoint('body',1)">＋</button></div></div></div>
+          <div class="alloc"><div class="allocTop"><div><div class="allocName">🧠 智力</div><div class="allocDesc">学业、事业和判断</div></div><div class="stepper"><button onclick="changePoint('mind',-1)">−</button><div id="mindValue" class="value">0</div><button onclick="changePoint('mind',1)">＋</button></div></div></div>
+          <div class="alloc"><div class="allocTop"><div><div class="allocName">✨ 魅力</div><div class="allocDesc">爱情、社交和人脉</div></div><div class="stepper"><button onclick="changePoint('charm',-1)">−</button><div id="charmValue" class="value">0</div><button onclick="changePoint('charm',1)">＋</button></div></div></div>
+          <div class="alloc"><div class="allocTop"><div><div class="allocName">🏠 家境</div><div class="allocDesc">资源、起点和财富</div></div><div class="stepper"><button onclick="changePoint('family',-1)">−</button><div id="familyValue" class="value">0</div><button onclick="changePoint('family',1)">＋</button></div></div></div>
+        </div>
+
+        <div class="actions" style="margin-top:18px">
+          <button id="startBtn" class="btn green" disabled onclick="startLife()">必须分完 20 点</button>
+          <button class="btn gray" onclick="randomAllocate()">随机分配</button>
+        </div>
+      </div>
+
+      <div id="continueBlock" style="display:none">
+        <p id="saveInfo" class="muted"></p>
+        <div class="actions">
+          <button class="btn green" onclick="continueLife()">继续人生</button>
+          <button class="btn red" onclick="deleteSave()">删除本世存档</button>
+        </div>
+      </div>
+
+      <div class="card metaCard">
+        <h3>轮回传承</h3>
+        <div id="metaSummary" class="metaGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="game" class="screen">
+    <div class="card">
+      <div class="gameHead">
+        <div class="person">
+          <div id="avatar" class="avatar">🦊</div>
+          <div>
+            <div id="name" class="name"></div>
+            <div id="meta" class="meta"></div>
+            <div class="save">● 自动存档已开启</div>
+          </div>
+        </div>
+        <button class="btn gray" onclick="goHome()">返回</button>
+      </div>
+
+      <div id="stats" class="stats"></div>
+      <div class="progress"><span id="majorProgress">重大抉择：0 / 3</span><span id="legendText">精彩度：0</span></div>
+      <div id="daily" class="daily">18 岁，你站在这一生的入口。</div>
+
+      <div class="card wheelCard">
+        <h2>命运轮盘</h2>
+        <p class="muted">重大事件只会到来少数几次。每次选择，都会决定接下来很多年的走向。</p>
+        <div class="wheelWrap">
+          <div class="pointer"></div>
+          <div id="wheel" class="wheel">
+            <div class="wheelLabel l1">学业</div><div class="wheelLabel l2">事业</div><div class="wheelLabel l3">财富</div><div class="wheelLabel l4">爱情</div>
+            <div class="wheelLabel l5">健康</div><div class="wheelLabel l6">家庭</div><div class="wheelLabel l7">奇遇</div><div class="wheelLabel l8">危机</div>
+          </div>
+          <div class="wheelCenter">命</div>
+        </div>
+        <button id="spinBtn" class="btn green" onclick="spinWheel()">转动命运轮盘</button>
+        <div class="spinHint">通常一生只有 3 次轮盘机会</div>
+
+        <div id="eventPanel" class="eventPanel">
+          <span id="eventTag" class="eventTag"></span>
+          <div id="eventTitle" class="eventTitle"></div>
+          <div id="eventDesc" class="eventDesc"></div>
+          <div id="choices" class="choices"></div>
+          <div id="result" class="result">
+            <b id="resultTitle"></b>
+            <div id="resultText" class="eventDesc" style="margin-top:6px"></div>
+            <div id="effects" class="effects"></div>
+            <button id="nextBtn" class="btn green" style="width:100%" onclick="nextStage()">进入下一阶段</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card log">
+        <h3>本世关键记录</h3>
+        <div id="logList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ending" class="screen">
+    <div class="card ending">
+      <div id="endIcon" class="endIcon">🏆</div>
+      <h2 id="endTitle"></h2>
+      <p id="endText" class="muted"></p>
+
+      <div id="finalGrid" class="finalGrid"></div>
+
+      <div class="card overview">
+        <h3>人生总览图</h3>
+        <div class="svgWrap">
+          <div id="overviewSvg"></div>
+        </div>
+      </div>
+
+      <div class="card overview" id="rewardSection">
+        <h3>给下一世留下什么？</h3>
+        <p class="muted">每次人生结束，你可以解锁 1 个传承能力。</p>
+        <div id="rewardGrid" class="rewardGrid"></div>
+        <div id="claimedBox"></div>
+      </div>
+
+      <div class="actions" style="margin-top:16px">
+        <button class="btn green" onclick="restart()">再活一次</button>
+        <button class="btn gray" onclick="go('home')">返回首页</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">随机人生模拟器 · 单人自动存档 · 传承成长</div>
+</div>
+
+<script>
+const SAVE_KEY="random_life_legacy_save_v1";
+const META_KEY="random_life_legacy_meta_v1";
+const categories=["学业","事业","财富","爱情","健康","家庭","奇遇","危机"];
+const statNames={body:"体质",mind:"智力",charm:"魅力",family:"家境"};
+const statIcons={body:"💪",mind:"🧠",charm:"✨",family:"🏠"};
+const avatars=["🦊","🐼","🐸","🦁","🐙","🦄","🐧","🐰"];
+let allocation={body:0,mind:0,charm:0,family:0};
+let state=null, metaState=null, currentEvent=null, wheelRotation=0, spinning=false;
+
+const rewardPool=[
+  {id:"body_plus", name:"强体传承", desc:"下一世开局体质 +1", apply:m=>m.bonus.body++},
+  {id:"mind_plus", name:"聪慧传承", desc:"下一世开局智力 +1", apply:m=>m.bonus.mind++},
+  {id:"charm_plus", name:"风采传承", desc:"下一世开局魅力 +1", apply:m=>m.bonus.charm++},
+  {id:"family_plus", name:"根基传承", desc:"下一世开局家境 +1", apply:m=>m.bonus.family++},
+  {id:"extra_event", name:"波澜命格", desc:"更容易触发第 4 次重大抉择", apply:m=>m.extraEventChance=Math.min(5,(m.extraEventChance||0)+1)},
+  {id:"fate_favor", name:"命运偏爱", desc:"精彩度更容易增长", apply:m=>m.legendBonus=(m.legendBonus||0)+1}
+];
+
+const eventBank={
+"学业":[
+ {title:"改变命运的考试",desc:"这是一次足以决定方向的考试，但你无法两头兼顾。",choices:[
+  {text:"全力冲刺",hint:"更依赖智力",need:"mind",fx:{mind:[1,3],body:[-1,0]},success:"你抓住了这次跃迁的机会。",fail:"你尽力了，但只是勉强过关。"},
+  {text:"稳住节奏",hint:"更加稳妥",fx:{body:[0,1],mind:[0,1]},success:"你稳稳通过，没有大起大落。",fail:"你没翻车，但也没有真正突破。"}
+ ]},
+ {title:"重要导师向你伸手",desc:"有人愿意带你去更远的地方，但代价是离开熟悉的一切。",choices:[
+  {text:"跟着走",hint:"依赖智力和勇气",need:"mind",fx:{mind:[1,3],family:[-1,1]},success:"你的世界一下被打开了。",fail:"这条路很难，但它确实让你长大。"},
+  {text:"留在原地",hint:"保守但安稳",fx:{family:[1,2],body:[0,1]},success:"你守住了自己的节奏。",fail:"多年后你偶尔还会想起这次邀请。"}
+ ]}
+],
+"事业":[
+ {title:"升职机会突然砸到你头上",desc:"更高的位置伴随着更多责任，也意味着没有那么多退路。",choices:[
+  {text:"接下它",hint:"依赖智力",need:"mind",fx:{mind:[1,2],family:[1,3],body:[-2,0]},success:"你走到了更高的位置上。",fail:"你扛住了职位，却失去了不少轻松。"},
+  {text:"先稳住生活",hint:"更加均衡",fx:{body:[1,2],family:[0,2]},success:"你保住了生活质量。",fail:"机会离开后，你短暂地怀疑过自己。"}
+ ]},
+ {title:"创业伙伴找上门",desc:"对方有想法、有野心，也很缺现实条件。",choices:[
+  {text:"一起试试",hint:"依赖家境和智力",need:"family",fx:{family:[-3,5],mind:[1,2],body:[-1,0]},success:"项目活了下来，你的人生被加速。",fail:"项目没成，但你见过了更大的风。"},
+  {text:"继续原本道路",hint:"风险更小",fx:{family:[1,2],body:[0,1]},success:"你慢慢积累，稳得像一条长线。",fail:"你错过了风口，也躲过了暴雷。"}
+ ]}
+],
+"财富":[
+ {title:"一笔意外之财",desc:"天降一笔钱，你必须决定它去向哪里。",choices:[
+  {text:"投资自己",hint:"长期路线",fx:{mind:[2,3],family:[-1,1]},success:"钱没有立刻翻倍，但它慢慢变成了能力。",fail:"效果没有想象中大，不过至少没有白花。"},
+  {text:"放手投资",hint:"依赖家境",need:"family",fx:{family:[-3,6]},success:"你踩中了风口，资源开始滚动。",fail:"市场给你上了一堂昂贵的课。"}
+ ]},
+ {title:"资产抉择",desc:"有人劝你上车，有人劝你观望，而选择只能你自己做。",choices:[
+  {text:"果断下注",hint:"依赖家境与胆量",need:"family",fx:{family:[-2,5],body:[-1,0]},success:"多年后，这成了你很重要的一笔积累。",fail:"你背上了沉重压力，但并没有彻底失败。"},
+  {text:"先保持灵活",hint:"更稳",fx:{body:[0,2],family:[-1,2]},success:"你保留了选择权。",fail:"机会从身边滑过去时，你还是有点心痒。"}
+ ]}
+],
+"爱情":[
+ {title:"真正心动的人出现了",desc:"你知道再等等会更安全，但有些故事错过就没有了。",choices:[
+  {text:"主动靠近",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],body:[-1,1]},success:"你们真的走进了彼此的人生。",fail:"你被婉拒，但至少没有遗憾。"},
+  {text:"先观察",hint:"避免受伤",fx:{mind:[0,2],charm:[-1,1]},success:"你看清了自己的需要。",fail:"故事还没开始，就已经散了。"}
+ ]},
+ {title:"关系走到岔路口",desc:"继续意味着承诺，结束意味着告别。",choices:[
+  {text:"认真经营下去",hint:"依赖魅力",need:"charm",fx:{charm:[1,2],body:[-1,1]},success:"这段关系穿过现实，变得更稳。",fail:"你努力过，但还是各自走向了不同方向。"},
+  {text:"体面结束",hint:"短痛换长安",fx:{body:[1,2],charm:[-1,0]},success:"你们没有互相拖累，人生继续向前。",fail:"你花了很久，才真正放下。"}
+ ]}
+],
+"健康":[
+ {title:"身体发出正式警告",desc:"这一次已经不是简单的疲惫，而是必须改变。",choices:[
+  {text:"立刻调整生活",hint:"依赖体质",need:"body",fx:{body:[2,4],family:[-1,0]},success:"你的状态慢慢被拉了回来。",fail:"改变并不轻松，但至少阻止了继续恶化。"},
+  {text:"先把事情做完",hint:"短期没事，长期危险",fx:{body:[-4,-1],family:[1,2]},success:"你暂时挺了过去。",fail:"身体用更大的代价提醒了你。"}
+ ]},
+ {title:"一次突发意外",desc:"事情来得很快，你只能在有限时间里做决定。",choices:[
+  {text:"自己冷静处理",hint:"依赖体质和判断",need:"body",fx:{body:[-2,2],mind:[0,2]},success:"你处理得很稳，损失被压到了最低。",fail:"你恢复了很久，人生节奏被迫改变。"},
+  {text:"立刻求助外界",hint:"依赖家境与支持",need:"family",fx:{family:[-1,1],body:[-2,1]},success:"你得到及时帮助，顺利渡过难关。",fail:"帮助来得太慢，还是留下了损耗。"}
+ ]}
+],
+"家庭":[
+ {title:"家人需要你做选择",desc:"工作与家庭第一次正面碰撞，没有完美答案。",choices:[
+  {text:"先照顾家人",hint:"关系更近，代价也更明显",fx:{family:[2,3],body:[-1,1],mind:[-1,0]},success:"你们的联系变得更紧密了。",fail:"你付出了很多，但仍没能让所有人满意。"},
+  {text:"坚持自己的路",hint:"更偏向自我实现",fx:{mind:[1,3],family:[-2,0]},success:"你守住了人生方向。",fail:"你赢得了选择，却失去了一段理解。"}
+ ]},
+ {title:"家庭资源重新分配",desc:"一笔共同资源摆在面前，怎么分都有人会不高兴。",choices:[
+  {text:"尽量公平",hint:"稳定路线",fx:{family:[1,2],charm:[1,2]},success:"没有人暴富，但关系保住了。",fail:"你尽量公平，仍然有人不满。"},
+  {text:"为自己争取更多",hint:"依赖魅力",need:"charm",fx:{family:[-2,4],charm:[-1,1]},success:"你争取到了更多资源。",fail:"你得到了一些利益，也失去了一些信任。"}
+ ]}
+],
+"奇遇":[
+ {title:"陌生人留下一把钥匙",desc:"钥匙上只有地址和一句话：‘到了你就会明白。’",choices:[
+  {text:"按地址前往",hint:"高随机收益",need:"mind",fx:{mind:[1,3],family:[-2,4],charm:[0,2]},success:"门后真的藏着改变人生的东西。",fail:"你只找到一间空屋和更大的谜团。"},
+  {text:"把钥匙交出去",hint:"安全路线",fx:{body:[0,1],mind:[0,1]},success:"你避开了潜在麻烦。",fail:"你后来总会想，门后到底是什么。"}
+ ]},
+ {title:"来自远方的邀请函",desc:"一份陌生计划向你伸手，它也许会彻底改写你的轨迹。",choices:[
+  {text:"立刻出发",hint:"更精彩的人生",fx:{mind:[1,3],charm:[1,3],family:[-2,2]},success:"你的世界从此不再只有眼前这些街道。",fail:"旅途不算圆满，但你已经不是原来的自己。"},
+  {text:"选择拒绝",hint:"保住现在",fx:{body:[1,2],family:[0,2]},success:"你守住了当前的生活。",fail:"那封邀请消失后，再也没有回来。"}
+ ]}
+],
+"危机":[
+ {title:"事业突然崩塌",desc:"原本稳定的一切，在很短时间里失去了支点。",choices:[
+  {text:"立刻重建",hint:"依赖智力",need:"mind",fx:{mind:[1,3],family:[-4,2],body:[-2,0]},success:"你在废墟里找到新方向，恢复得比想象快。",fail:"重建很慢，但你没有彻底倒下。"},
+  {text:"先停下来休息",hint:"保住体质",fx:{body:[2,3],family:[-3,-1]},success:"休息让你恢复判断力。",fail:"你休息得太久，也错过了一些机会。"}
+ ]},
+ {title:"信任危机",desc:"你发现身边有人隐瞒了非常重要的事实。",choices:[
+  {text:"当面对质",hint:"依赖魅力",need:"charm",fx:{charm:[-1,3],mind:[1,2]},success:"真相被摊开，关系重新建立边界。",fail:"对话彻底失控，你失去了一段关系。"},
+  {text:"暗中调查",hint:"依赖智力",need:"mind",fx:{mind:[1,3],charm:[-2,0]},success:"你掌握了完整事实，再决定如何处理。",fail:"你调查得越深，就越难相信任何人。"}
+ ]}
+]
+};
+
+const dailyEvents=[
+  {text:"你把日子过得很规律，身体慢慢变稳。",fx:{body:1}},
+  {text:"你偷偷长了见识，判断比从前更准。",fx:{mind:1}},
+  {text:"你结识了一些重要的人。",fx:{charm:1}},
+  {text:"家里替你托住了一部分压力。",fx:{family:1}},
+  {text:"你有一阵子过得很疲惫。",fx:{body:-1}},
+  {text:"一次冲动决定让资源减少。",fx:{family:-1}},
+  {text:"这一阶段波澜不大，但很扎实。",fx:{}},
+  {text:"你学会了拒绝一些无谓消耗。",fx:{mind:1}},
+  {text:"你与某些人渐行渐远。",fx:{charm:-1}}
+];
+
+function go(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("on"));document.getElementById(id).classList.add("on");window.scrollTo(0,0);}
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function clamp(v){return Math.max(0,Math.min(20,v))}
+function totalPoints(){return Object.values(allocation).reduce((a,b)=>a+b,0)}
+
+function defaultMeta(){return {lives:0, bonus:{body:0,mind:0,charm:0,family:0}, extraEventChance:0, legendBonus:0}}
+function saveMeta(){localStorage.setItem(META_KEY,JSON.stringify(metaState))}
+function loadMeta(){try{return JSON.parse(localStorage.getItem(META_KEY)||"null")||defaultMeta()}catch(e){return defaultMeta()}}
+function saveLife(){localStorage.setItem(SAVE_KEY,JSON.stringify(state))}
+function loadLife(){try{return JSON.parse(localStorage.getItem(SAVE_KEY)||"null")}catch(e){return null}}
+
+function renderMetaSummary(){
+  const m=metaState||defaultMeta();
+  metaSummary.innerHTML = `
+    <div class="metaItem"><b>已完成人生：</b>${m.lives} 次</div>
+    <div class="metaItem"><b>永久加成：</b>体质 +${m.bonus.body} / 智力 +${m.bonus.mind} / 魅力 +${m.bonus.charm} / 家境 +${m.bonus.family}</div>
+    <div class="metaItem"><b>波澜命格：</b>${m.extraEventChance} 级（更容易触发第 4 次重大抉择）</div>
+    <div class="metaItem"><b>命运偏爱：</b>${m.legendBonus} 级（更容易积累精彩度）</div>
+  `;
+}
+
+function changePoint(k,d){
+  const next=allocation[k]+d;
+  if(next<0||next>10)return;
+  if(d>0&&totalPoints()>=20)return;
+  allocation[k]=next;
+  renderAllocation();
+}
+function renderAllocation(){
+  Object.keys(allocation).forEach(k=>document.getElementById(k+"Value").textContent=allocation[k]);
+  const left=20-totalPoints();
+  remaining.textContent=left;
+  startBtn.disabled=left!==0;
+  startBtn.textContent=left===0?"开始这一生":"必须分完 20 点";
+}
+function randomAllocate(){
+  allocation={body:0,mind:0,charm:0,family:0};
+  const keys=Object.keys(allocation);
+  for(let i=0;i<20;i++){
+    const available=keys.filter(k=>allocation[k]<10);
+    allocation[available[rand(0,available.length-1)]]++;
+  }
+  renderAllocation();
+}
+
+function startLife(){
+  if(totalPoints()!==20)return;
+  const m=metaState||defaultMeta();
+  state={
+    name:playerName.value.trim()||"无名旅人",
+    avatar:avatars[rand(0,avatars.length-1)],
+    age:18, majorDone:0, targetMajor:3, legend:0,
+    body:clamp(allocation.body+(m.bonus.body||0)),
+    mind:clamp(allocation.mind+(m.bonus.mind||0)),
+    charm:clamp(allocation.charm+(m.bonus.charm||0)),
+    family:clamp(allocation.family+(m.bonus.family||0)),
+    history:[], ended:false, currentDaily:"18 岁，你站在这一生的入口。第一次重大抉择还没到来。",
+    rewardOptions:null, rewardClaimed:null, lifeCounted:false, extraChecked:false
+  };
+  saveLife();
+  enterGame();
+}
+function continueLife(){
+  state=loadLife();
+  if(!state)return;
+  if(state.ended){showEnding(); return;}
+  enterGame();
+}
+function enterGame(){go("game"); renderAll(); resetWheelUI();}
+function renderAll(){
+  avatar.textContent=state.avatar;
+  name.textContent=state.name;
+  meta.textContent=`${state.age} 岁 · 重大抉择 ${state.majorDone}/${state.targetMajor}`;
+  stats.innerHTML=["body","mind","charm","family"].map(k=>`
+    <div class="stat"><div class="statName">${statIcons[k]} ${statNames[k]}</div><div class="statValue">${state[k]}</div></div>`).join("");
+  majorProgress.textContent=`重大抉择：${state.majorDone} / ${state.targetMajor}`;
+  legendText.textContent=`精彩度：${state.legend}`;
+  daily.textContent=state.currentDaily;
+  const recent=[...state.history].reverse();
+  logList.innerHTML=recent.length?recent.map(x=>`
+    <div class="logItem"><b>${x.age} 岁 · ${x.category}</b>　${x.title}<br><span class="muted">选择：${x.choice}</span></div>
+  `).join("") : `<div class="muted">这一生的关键节点还没有出现。</div>`;
+}
+function resetWheelUI(){
+  eventPanel.classList.remove("on");
+  result.classList.remove("on");
+  spinBtn.disabled=false;
+  spinBtn.textContent="转动命运轮盘";
+}
+function spinWheel(){
+  if(spinning||state.ended)return;
+  spinning=true;
+  spinBtn.disabled=true;
+  spinBtn.textContent="命运正在转动…";
+  eventPanel.classList.remove("on");
+  result.classList.remove("on");
+
+  const index=rand(0,7);
+  const segmentCenter=index*45+22.5;
+  const extra=360*rand(5,8);
+  const target=extra+(360-segmentCenter);
+  wheelRotation+=target;
+  wheel.style.transform=`rotate(${wheelRotation}deg)`;
+
+  setTimeout(()=>{
+    const category=categories[index];
+    const pool=eventBank[category];
+    currentEvent=JSON.parse(JSON.stringify(pool[rand(0,pool.length-1)]));
+    currentEvent.category=category;
+    showEvent();
+    spinning=false;
+  },4200);
+}
+function showEvent(){
+  eventTag.textContent=currentEvent.category+"重大抉择";
+  eventTitle.textContent=currentEvent.title;
+  eventDesc.textContent=currentEvent.desc;
+  choices.innerHTML="";
+  currentEvent.choices.forEach((c,i)=>{
+    const b=document.createElement("button");
+    b.className="choice";
+    b.innerHTML=`<b>${String.fromCharCode(65+i)}. ${c.text}</b><span>${c.hint}</span>`;
+    b.onclick=()=>chooseEvent(i);
+    choices.appendChild(b);
+  });
+  eventPanel.classList.add("on");
+  eventPanel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function chooseEvent(i){
+  document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
+  const c=currentEvent.choices[i];
+  const changes=[];
+  let success=true;
+
+  if(c.need){
+    const chance=Math.min(88,38+state[c.need]*4);
+    success=rand(1,100)<=chance;
+  }else{
+    success=rand(1,100)<=72;
+  }
+
+  Object.entries(c.fx||{}).forEach(([k,range])=>{
+    let d=rand(range[0],range[1]);
+    if(!success && d>1)d=Math.floor(d/2);
+    state[k]=clamp(state[k]+d);
+    changes.push({k,value:d});
+  });
+
+  const gainedLegend = success ? rand(1,2)+(metaState.legendBonus||0>0 ? 1:0) : 0;
+  state.legend += gainedLegend;
+  const ageAtEvent=state.age;
+  state.majorDone++;
+  state.history.push({age:ageAtEvent, category:currentEvent.category, title:currentEvent.title, choice:c.text, success});
+  resultTitle.textContent=success?"你抓住了这次命运转折":"这次命运没有完全站在你这边";
+  resultText.textContent=(success?c.success:c.fail)+(gainedLegend?` 你的精彩度 +${gainedLegend}。`:"");
+  effects.innerHTML=(changes.map(x=>`<span class="effect ${x.value>0?"good":x.value<0?"bad":"neutral"}">${statIcons[x.k]}${statNames[x.k]} ${x.value>0?"+":""}${x.value}</span>`).join("") || `<span class="effect neutral">属性没有变化</span>`);
+  result.classList.add("on");
+  nextBtn.textContent=shouldEndNow()?"查看人生结局":"进入下一阶段";
+  renderAll();
+  saveLife();
+}
+function applyDaily(){
+  const d=dailyEvents[rand(0,dailyEvents.length-1)];
+  state.currentDaily=d.text;
+  Object.entries(d.fx).forEach(([k,v])=>state[k]=clamp(state[k]+v));
+  state.age += rand(10,18);
+}
+function maybeExtraEvent(){
+  if(state.extraChecked)return false;
+  state.extraChecked=true;
+  const chance = Math.min(85, 10 + state.legend*12 + (metaState.extraEventChance||0)*12);
+  if(state.legend>=4 || rand(1,100)<=chance){
+    state.targetMajor=4;
+    state.currentDaily="你这一生过得过于精彩，命运决定再给你一次真正的大抉择。";
+    return true;
+  }
+  return false;
+}
+function shouldEndNow(){
+  if(state.body<=0)return true;
+  if(state.majorDone < state.targetMajor)return false;
+  if(state.targetMajor===3 && !state.extraChecked){
+    return false;
+  }
+  return true;
+}
+function nextStage(){
+  if(state.body<=0){finishLife(); return;}
+  if(state.majorDone>=state.targetMajor){
+    if(state.targetMajor===3 && !state.extraChecked){
+      if(maybeExtraEvent()){
+        renderAll(); saveLife(); resetWheelUI(); window.scrollTo({top:0,behavior:"smooth"}); return;
+      } else {
+        finishLife(); return;
+      }
+    } else {
+      finishLife(); return;
+    }
+  }
+  applyDaily();
+  renderAll();
+  saveLife();
+  resetWheelUI();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function finishLife(){
+  state.ended=true;
+  if(!state.lifeCounted){
+    metaState.lives += 1;
+    state.lifeCounted=true;
+    if(!state.rewardOptions){
+      const pool=[...rewardPool].sort(()=>Math.random()-.5);
+      state.rewardOptions=pool.slice(0,3).map(x=>x.id);
+    }
+    saveMeta();
+  }
+  saveLife();
+  showEnding();
+}
+function endingData(){
+  let d=[["body","🏃","强健而长久的人生","你最珍贵的资产一直是还能继续前进的身体。"],
+         ["mind","🧠","靠头脑改变命运","你一次次用判断和学习，把随机变成了选择。"],
+         ["charm","✨","被许多人记住的人生","你留下来的不仅是结果，还有关系和温度。"],
+         ["family","🏠","稳固而有根基的人生","你把资源、积累与支撑，慢慢变成了真正的安全感。"]]
+         .sort((a,b)=>state[b[0]]-state[a[0]])[0];
+  if(state.body<=0)d=["body","🕯️","燃烧得太快的人生","你经历了很多，只是身体先一步要求停下。"];
+  if(state.majorDone>=4)d=["legend","🌠","波澜壮阔的人生","这一生的重大转折比别人更多，你确实活得不平凡。"];
+  if(Object.values({body:state.body,mind:state.mind,charm:state.charm,family:state.family}).every(v=>v>=12)){
+    d=["all","👑","几乎没有短板的人生","命运给过你考验，而你把每条路都走得不错。"];
+  }
+  return d;
+}
+function renderOverview(){
+  const nodes=[{age:18,label:"起点",cat:"出生"}].concat(state.history.map(h=>({age:h.age,label:h.title,cat:h.category,success:h.success})));
+  nodes.push({age:state.age,label:"结局",cat:"人生结束"});
+  const w=700,h=180, y=90;
+  const gap=(w-80)/(nodes.length-1);
+  const points=nodes.map((n,i)=>({x:40+i*gap, y: y + ((i%2===0)?-18:18)}));
+  let svg=`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  svg+=`<line x1="40" y1="${y}" x2="${w-40}" y2="${y}" stroke="rgba(255,255,255,.18)" stroke-width="4" stroke-linecap="round"/>`;
+  for(let i=0;i<points.length-1;i++){
+    svg+=`<line x1="${points[i].x}" y1="${points[i].y}" x2="${points[i+1].x}" y2="${points[i+1].y}" stroke="#8b7cff" stroke-width="3" stroke-linecap="round"/>`;
+  }
+  nodes.forEach((n,i)=>{
+    const p=points[i];
+    const fill = n.cat==="人生结束" ? "#ffd166" : n.cat==="出生" ? "#42d7aa" : (n.success===false?"#ff6e8a":"#8b7cff");
+    svg+=`<circle cx="${p.x}" cy="${p.y}" r="8" fill="${fill}" />`;
+    svg+=`<text x="${p.x}" y="${p.y-16}" fill="#ffffff" font-size="12" text-anchor="middle">${n.age}岁</text>`;
+    svg+=`<text x="${p.x}" y="${p.y+28}" fill="#d6ddf5" font-size="11" text-anchor="middle">${escapeHtml(n.cat)}</text>`;
+  });
+  svg+=`</svg>`;
+  overviewSvg.innerHTML=svg;
+}
+function renderRewards(){
+  if(state.rewardClaimed){
+    rewardGrid.innerHTML="";
+    claimedBox.innerHTML=`<div class="claimed">本次传承已领取：${state.rewardClaimed}</div>`;
+    return;
+  }
+  const options = state.rewardOptions.map(id=>rewardPool.find(x=>x.id===id)).filter(Boolean);
+  rewardGrid.innerHTML=options.map((r,idx)=>`
+    <button class="rewardBtn" onclick="claimReward('${r.id}')"><b>${r.name}</b><span class="muted">${r.desc}</span></button>
+  `).join("");
+  claimedBox.innerHTML="";
+}
+function claimReward(id){
+  if(state.rewardClaimed)return;
+  const reward=rewardPool.find(x=>x.id===id);
+  if(!reward)return;
+  reward.apply(metaState);
+  state.rewardClaimed = reward.name+" —— "+reward.desc;
+  saveMeta();
+  saveLife();
+  renderMetaSummary();
+  renderRewards();
+}
+function showEnding(){
+  go("ending");
+  const d=endingData();
+  endIcon.textContent=d[1];
+  endTitle.textContent=d[2];
+  endText.textContent=`${state.name} 的人生在 ${state.age} 岁完成结算。${d[3]}`;
+  finalGrid.innerHTML=["body","mind","charm","family"].map(k=>`<div class="finalBox">${statIcons[k]} ${statNames[k]}<br><b style="font-size:25px">${state[k]}</b></div>`).join("");
+  renderOverview();
+  renderRewards();
+}
+function goHome(){saveLife(); location.reload();}
+function deleteSave(){if(confirm("确定删除这一世的存档吗？这不会删除你的传承进度。")){localStorage.removeItem(SAVE_KEY); location.reload();}}
+function restart(){localStorage.removeItem(SAVE_KEY); location.reload();}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+(function init(){
+  metaState = loadMeta();
+  renderMetaSummary();
+  renderAllocation();
+  const s=loadLife();
+  if(s){
+    newBlock.style.display="none";
+    continueBlock.style.display="block";
+    saveInfo.textContent=`已有存档：${s.avatar} ${s.name}，${s.age} 岁，已发生 ${s.majorDone} 次重大抉择。`;
+  }
+})();
+</script>
+</body>
+</html>
