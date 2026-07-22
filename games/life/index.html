@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · 百种能力与六道入门版</title>
+<title>随机人生模拟器 · 万象结局与隐藏档案版</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -302,6 +302,23 @@ input:focus{border-color:var(--purple)}
 }
 .secretHint.on{display:block}
 .secretHint b{display:block;color:#c9c1ff;margin-bottom:5px}
+.archiveSection{display:none;margin-top:16px;text-align:left}
+.archiveSection.on{display:block}
+.archiveHead{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.archiveCount{flex:0 0 auto;padding:6px 9px;border-radius:999px;font-size:10px;font-weight:900;color:#d9d0ff;background:rgba(139,124,255,.14);border:1px solid rgba(139,124,255,.25)}
+.archiveScroll{max-height:360px;overflow-y:auto;overflow-x:hidden;padding-right:5px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.archiveGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+@media(max-width:620px){.archiveGrid{grid-template-columns:minmax(0,1fr)}}
+.archiveItem{min-width:0;padding:12px;border-radius:15px;border:1px solid rgba(255,255,255,.085);background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(139,124,255,.045))}
+.archiveItem.new{border-color:rgba(255,209,102,.45);box-shadow:inset 3px 0 0 rgba(255,209,102,.8)}
+.archiveCode{font-size:9px;color:#808daf;font-weight:900;letter-spacing:.08em}
+.archiveTitle{margin-top:4px;font-size:13px;font-weight:950;color:#efeaff}
+.archiveText{margin-top:6px;font-size:11px;line-height:1.65;color:#b7c1df;overflow-wrap:anywhere}
+.archiveTags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.archiveTag{padding:4px 6px;border-radius:999px;font-size:9px;color:#cfc8ff;background:rgba(139,124,255,.11);border:1px solid rgba(139,124,255,.18)}
+.archiveNew{display:inline-block;margin-left:5px;padding:2px 5px;border-radius:999px;color:#ffe29a;background:rgba(255,209,102,.12);font-size:8px}
+.archiveScroll::-webkit-scrollbar{width:5px}
+.archiveScroll::-webkit-scrollbar-thumb{background:rgba(139,124,255,.42);border-radius:999px}
 .realmMark{
   display:inline-block;margin-left:5px;padding:3px 7px;border-radius:999px;
   background:rgba(173,107,232,.16);color:#dcc7ff;font-size:10px;font-weight:900
@@ -322,7 +339,7 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">百种能力·六道入门版</div>
+    <div class="badge">万象结局·隐藏档案版</div>
   </div>
 
   <section id="home" class="screen on">
@@ -468,6 +485,11 @@ input:focus{border-color:var(--purple)}
       <div id="finalGrid" class="finalGrid"></div>
       <div id="deathCauseBox" class="deathBox"></div>
       <div id="secretHint" class="secretHint"></div>
+
+      <div id="archiveSection" class="card archiveSection">
+        <div class="archiveHead"><div><h3 style="margin:0 0 4px">隐藏档案库</h3><div id="archiveSubtitle" class="muted" style="font-size:11px">人生留下的不只有结局。</div></div><div id="archiveCount" class="archiveCount">0 / 0</div></div>
+        <div class="archiveScroll"><div id="archiveGrid" class="archiveGrid"></div></div>
+      </div>
 
       <div class="card overview">
         <h3>人生属性总览图</h3>
@@ -897,6 +919,18 @@ const eventBank={
   {text:"拒绝收购，继续独立发展",hint:"高风险自主路线",need:"body",fx:{body:[-3,2],family:[-4,6],charm:[1,3]},lifeTrack:{success:{career:6,reputation:3},fail:{career:-3,stability:-3}},success:"你守住了独立性，并证明公司可以继续增长。",fail:"拒绝后的市场竞争迅速加剧。"},
   {text:"只出售部分股份，换取资源",hint:"平衡路线，依赖智力",need:"mind",fx:{family:[2,7],mind:[1,4]},lifeTrack:{career:4,stability:2},success:"你获得扩张资金，同时保留了产品方向。",fail:"新股东逐渐干预日常决策。"},
   {text:"把公司交给职业经理人，自己退出",hint:"结束创业者日常",need:"charm",fx:{family:[2,6],body:[2,4],charm:[0,2]},lifeTrack:{career:2,stability:4},success:"你保留收益，却重新获得自己的时间。",fail:"离开以后，你很难接受公司沿着不同方向发展。"}
+ ]},
+{id:"branch_whistleblower_aftercare",requiresLife:{whistleblower:true},title:"调查结束后，没有人负责修复吹哨者的人生",desc:"问题得到确认，公众注意力也已经转移。但失去的职位、关系、收入和长期心理压力仍留在你身上。",choices:[
+  {text:"依据制度申请恢复职位与赔偿",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],family:[-2,4],charm:[-1,2]},lifeTrack:{success:{career:3,stability:3,reputation:2},fail:{career:0,stability:-1}},success:"恢复程序并不完美，却第一次承认揭露问题的人也需要被制度修复。",fail:"调查承认事实，但赔偿与职业恢复仍然有限。"},
+  {text:"建立帮助其他吹哨者的组织",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],family:[-3,1]},setLifeFlags:{whistleblowerNetwork:true},lifeTrack:{career:2,bonds:3,reputation:4},success:"你的经历变成后来者可以使用的支持网络。",fail:"组织获得关注，也持续承受多方压力。"},
+  {text:"离开原行业，重新开始",hint:"保护长期生活",need:"body",fx:{body:[1,4],mind:[1,3],family:[-2,1]},lifeTrack:{career:-1,stability:3},success:"你没有让揭露问题成为余生唯一身份。",fail:"新的行业仍会询问那段争议经历。"},
+  {text:"继续追究所有责任人",hint:"高消耗正义路线",need:"mind",fx:{mind:[1,4],body:[-4,-1],family:[-3,1]},lifeTrack:{reputation:3,stability:-3},success:"更多隐藏责任被确认，但你也付出多年生活。",fail:"程序逐渐耗尽资源，结果没有完全达到预期。"}
+ ]},
+ {id:"branch_independent_apprentice",requiresLife:{independentWorker:true},title:"一名年轻人希望长期跟你学习手艺",desc:"收徒意味着分享客户、方法与失败经验，也意味着工作室不再只围绕自己运转。",choices:[
+  {text:"建立正式学徒计划和报酬标准",hint:"需要规则或经营经验",need:"mind",requiresAnyLegacy:["law_legacy","career_legacy"],fx:{mind:[1,3],family:[-2,3],charm:[1,3]},setLifeFlags:{apprenticeSystem:true},lifeTrack:{career:3,bonds:2,stability:2},success:"学习、劳动和报酬被清楚区分，工作室第一次拥有可延续结构。",fail:"制度减少误解，却增加了管理工作。"},
+  {text:"按传统方式边做边教",hint:"依赖魅力与经验",need:"charm",fx:{charm:[1,4],body:[-2,0]},lifeTrack:{career:2,bonds:3},success:"学徒逐渐理解那些无法写进教程的判断。",fail:"口头标准不够清楚，双方对进度产生分歧。"},
+  {text:"公开全部教程，不建立师徒关系",hint:"知识开放路线",need:"mind",fx:{mind:[2,4],charm:[1,3]},setLifeFlags:{openCraftKnowledge:true},lifeTrack:{reputation:3,career:1},success:"更多普通人获得学习机会，你的手艺不再只靠私人传承。",fail:"公开内容被大量复制，却很少有人理解完整质量标准。"},
+  {text:"拒绝收徒，保持个人工作节奏",hint:"保护稳定",need:"family",fx:{family:[1,3],body:[1,2],charm:[-1,1]},lifeTrack:{stability:3},success:"你保留了可承受的工作规模。",fail:"一些经验最终只能随你的退出消失。"}
  ]}
 ],
 "财富":[{title:"一笔意外之财",desc:"天降一笔钱，你必须决定它去向哪里。",choices:[
@@ -1058,6 +1092,18 @@ const eventBank={
   {text:"明确告诉家人自己已经无法独自承担",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[1,4],body:[1,3]},lifeTrack:{success:{bonds:3,stability:2},fail:{bonds:-2,stability:0}},success:"坦诚没有毁掉关系，反而让责任第一次被真正看见。",fail:"部分家人把边界理解成逃避。"},
   {text:"继续全部承担",hint:"关系收益，身体高风险",need:"body",fx:{body:[-6,-2],charm:[2,5]},lifeTrack:{bonds:4,stability:-4},success:"你撑过最困难阶段，却为此付出明显健康代价。",fail:"身体在长期过劳中出现严重问题。",deathOnFail:{chance:8,cause:"长期承担高强度家庭照护后发生严重心脑血管意外"}},
   {text:"选择暂时离开，让其他人接手",hint:"恢复自身生活",need:"mind",fx:{mind:[1,3],body:[2,4],charm:[-3,1]},lifeTrack:{stability:3,bonds:-1},success:"距离让你重新成为一个完整的人，而不只是照护者。",fail:"照护安排短期混乱，你也长期受到内疚影响。"}
+ ]},
+{id:"branch_caregiver_inheritance",requiresLife:{caregiverPath:true},title:"被照护家人去世后，留下了一份与你付出不成比例的遗产安排",desc:"法律文件清楚有效，但其他家人长期把照护视为你理所当然的责任。遗产让过去的不平衡一次性公开。",choices:[
+  {text:"按遗嘱接受，并公开完整照护记录",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,4],family:[1,5],charm:[-2,2]},lifeTrack:{stability:3,reputation:2,bonds:-1},success:"记录让多数人看见遗产背后的长期劳动。",fail:"法律结果明确，家庭情绪却长期无法平息。"},
+  {text:"重新协商分配，保留照护补偿",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,5],family:[-2,4]},lifeTrack:{bonds:3,stability:2},success:"你没有否认自己的付出，也没有让遗产彻底摧毁关系。",fail:"每个人对公平仍有完全不同的理解。"},
+  {text:"完全按原遗嘱执行，不再解释",hint:"结束长期争论",need:"family",fx:{family:[2,6],charm:[-3,0]},lifeTrack:{stability:3,bonds:-3},success:"你获得资源，也结束了持续多年的责任。",fail:"家庭关系从此出现无法修复的裂痕。"},
+  {text:"放弃大部分遗产换取关系平静",hint:"资源换关系",need:"charm",fx:{family:[-4,0],charm:[2,5]},lifeTrack:{bonds:3,stability:-1},success:"争议迅速降温，但你仍需理解自己的付出是否被看见。",fail:"让步被视为承认自己不应获得补偿。"}
+ ]},
+ {id:"branch_family_archive_unknown_relative",requiresLife:{familySecretOpened:true},title:"一名陌生人拿着与你家族档案吻合的证据出现",desc:"对方声称自己是某段被隐去关系的后代。他没有立即要求财产，只想知道为什么自己的家庭从历史中消失。",choices:[
+  {text:"共同核验档案与生物学证据",hint:"需要家族档案",need:"mind",requiresLegacy:"family_archive",fx:{mind:[2,4],family:[-2,1],charm:[1,3]},setLifeFlags:{lostRelativeFound:true},lifeTrack:{bonds:3,reputation:2},success:"证据确认关系，家族历史补回长期缺失的支线。",fail:"部分证据无法确认，但双方仍决定继续交换记忆。"},
+  {text:"先让对方参与普通家庭生活",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,5],body:[0,1]},setLifeFlags:{lostRelativeFound:true},lifeTrack:{bonds:4,stability:1},success:"关系不是靠一次鉴定完成，而是在共同生活中逐渐建立。",fail:"现实相处比寻找血缘答案更复杂。"},
+  {text:"只确认事实，不建立亲属关系",hint:"清晰边界",need:"mind",fx:{mind:[1,3],charm:[-1,2]},lifeTrack:{stability:2,reputation:1},success:"对方得到历史答案，双方尊重彼此已有生活。",fail:"事实确认后，情感期待仍不断增加。"},
+  {text:"拒绝接触，保护现有家庭秩序",hint:"短期稳定",need:"family",fx:{family:[1,3],charm:[-3,0]},lifeTrack:{stability:2,bonds:-2},success:"现有家庭没有立即受到冲击。",fail:"对方选择公开证据，争议以更不可控方式出现。"}
  ]}
 ],
 "奇遇":[{title:"陌生人留下一把钥匙",desc:"钥匙上只有地址和一句话：‘到了你就会明白。’",choices:[
@@ -1174,7 +1220,8 @@ const eventBank={
   {text:"维持两地奔波",hint:"试图保留全部生活",need:"body",fx:{body:[-6,-2],family:[-2,1],charm:[1,2]},lifeTrack:{career:1,bonds:2,stability:-4},success:"你暂时撑住了两边，却几乎没有自己的时间。",fail:"长期奔波最终让身体和工作同时出问题。",deathOnFail:{chance:6,cause:"长期跨城奔波并承担家庭照护后因严重过劳发生意外"}}
  ]}
 ],
-"友情":[{title:"最好的朋友陷入巨大困境",desc:"帮助对方会改变你的计划，不帮助则可能失去这段关系。",choices:[
+"友情":[
+{title:"最好的朋友陷入巨大困境",desc:"帮助对方会改变你的计划，不帮助则可能失去这段关系。",choices:[
   {text:"全力帮助",hint:"魅力提高，资源承压",need:"charm",fx:{charm:[2,4],family:[-3,-1]},success:"你们的友情真正经受住了现实。",fail:"你付出了很多，却没有解决根本问题。"},
   {text:"提供有限帮助",hint:"保持边界，依赖智力",need:"mind",fx:{mind:[1,2],charm:[0,2],family:[-1,0]},success:"你既没有抛弃朋友，也守住了自己的生活。",fail:"对方认为你在最需要的时候退缩了。"},
   {text:"拒绝卷入",hint:"保住资源，损失关系",need:"family",fx:{family:[1,2],charm:[-3,-1]},success:"你避开了一个无法填满的无底洞。",fail:"这段友情从此再也没有恢复。"}
@@ -1202,9 +1249,16 @@ const eventBank={
   {text:"维持口头约定，相信友情",hint:"关系优先",need:"charm",fx:{charm:[1,3],family:[-3,4]},lifeTrack:{bonds:2,stability:-2},success:"你们罕见地在没有正式规则下仍然保持公平。",fail:"项目越成功，模糊边界造成的矛盾越大。"},
   {text:"主动退出，把项目留给朋友",hint:"避免关系和利益继续冲突",need:"charm",fx:{family:[-2,0],charm:[1,4]},lifeTrack:{bonds:2,career:-2},success:"你失去未来收益，却保住了一段重要关系。",fail:"对方仍然认为你在关键时刻抛下项目。"}
  ]},
-{"id":"modern_friend_wedding_v3","title":"好友举办婚礼，希望你承担重要任务","desc":"你愿意帮忙，但准备时间与自己的工作、家庭冲突。","choices":[{"text":"提前明确自己能承担的部分","hint":"需要共情余温","need":"charm","fx":{"charm":[2,4],"body":[0,1]},"success":"边界清楚让帮助真正有效。","fail":"好友仍希望你做得更多。","requiresLegacy":"empathy_legacy"},{"text":"全程参与所有准备","hint":"关系优先","need":"body","fx":{"body":[-3,-1],"charm":[2,5],"family":[-2,0]},"success":"婚礼顺利，你们留下深刻共同记忆。","fail":"长期疲惫影响了自己的生活。"},{"text":"用人脉帮忙解决关键资源","hint":"需要旧识人脉","need":"charm","fx":{"charm":[1,4],"family":[-1,2]},"success":"你用较少时间解决了真正困难的问题。","fail":"资源协调出现临时变动。","requiresLegacy":"network_legacy"},{"text":"婉拒重要任务，只作为宾客参加","hint":"保护自身安排","need":"mind","fx":{"body":[1,2],"charm":[-2,1]},"success":"好友虽然失望，最终理解你的处境。","fail":"对方认为你没有重视这段友情。"}]}
+{"id":"modern_friend_wedding_v3","title":"好友举办婚礼，希望你承担重要任务","desc":"你愿意帮忙，但准备时间与自己的工作、家庭冲突。","choices":[{"text":"提前明确自己能承担的部分","hint":"需要共情余温","need":"charm","fx":{"charm":[2,4],"body":[0,1]},"success":"边界清楚让帮助真正有效。","fail":"好友仍希望你做得更多。","requiresLegacy":"empathy_legacy"},{"text":"全程参与所有准备","hint":"关系优先","need":"body","fx":{"body":[-3,-1],"charm":[2,5],"family":[-2,0]},"success":"婚礼顺利，你们留下深刻共同记忆。","fail":"长期疲惫影响了自己的生活。"},{"text":"用人脉帮忙解决关键资源","hint":"需要旧识人脉","need":"charm","fx":{"charm":[1,4],"family":[-1,2]},"success":"你用较少时间解决了真正困难的问题。","fail":"资源协调出现临时变动。","requiresLegacy":"network_legacy"},{"text":"婉拒重要任务，只作为宾客参加","hint":"保护自身安排","need":"mind","fx":{"body":[1,2],"charm":[-2,1]},"success":"好友虽然失望，最终理解你的处境。","fail":"对方认为你没有重视这段友情。"}]},
+{id:"branch_friend_alliance_illness",requiresLife:{friendAlliance:true},title:"多年好友患上一种需要长期陪伴治疗的疾病",desc:"对方不缺一次性帮助，真正缺少的是数年内持续而有边界的支持。你也有自己的家庭、工作和身体。",choices:[
+  {text:"建立朋友、家人和专业人员的支持网络",hint:"需要医疗常识或人脉",need:"charm",requiresAnyLegacy:["medical_legacy","network_legacy"],fx:{charm:[2,4],family:[-2,0]},lifeTrack:{bonds:4,stability:2},success:"帮助不再依靠某个人持续透支，朋友也保留自主生活。",fail:"支持网络建立得很慢，最初阶段仍十分混乱。"},
+  {text:"固定每周留出时间陪伴",hint:"稳定关系路线",need:"body",fx:{body:[-2,1],charm:[2,5]},lifeTrack:{bonds:4,stability:0},success:"长期稳定的小量陪伴比一次巨大牺牲更有用。",fail:"现实变化不断打乱计划，你必须反复调整承诺。"},
+  {text:"承担大部分照护和费用",hint:"高投入路线",need:"family",fx:{family:[-5,-1],body:[-3,0],charm:[2,5]},setLifeFlags:{caregiverPath:true},lifeTrack:{bonds:5,stability:-3},success:"朋友获得关键支持，你也进入长期照护生活。",fail:"双方都因愧疚和疲惫回避真实感受。"},
+  {text:"坦诚说明自己无法长期承担",hint:"保护边界",need:"mind",fx:{mind:[1,3],charm:[-2,2]},lifeTrack:{stability:2,bonds:-1},success:"朋友理解你的限制，你们寻找其他支持来源。",fail:"关系在最脆弱的阶段明显疏远。"}
+ ]}
 ],
-"名望":[{title:"一次公开表现让你突然走红",desc:"陌生人开始讨论你，关注既可能成为机会，也可能吞噬私人生活。",choices:[
+"名望":[
+{title:"一次公开表现让你突然走红",desc:"陌生人开始讨论你，关注既可能成为机会，也可能吞噬私人生活。",choices:[
   {text:"主动经营名气",hint:"依赖魅力",need:"charm",fx:{charm:[2,4],family:[1,3],body:[-2,0]},success:"你把短暂关注转化成了长期影响力。",fail:"热度耗尽了你的精力，却没有留下真正成果。"},
   {text:"保持低调",hint:"保护身体和隐私",need:"body",fx:{body:[1,2],charm:[-1,1]},success:"你保住了自己的私人生活。",fail:"机会退潮后，你还是有一点遗憾。"},
   {text:"利用影响力帮助他人",hint:"魅力与资源共同作用",need:"charm",fx:{charm:[1,4],family:[-2,1],mind:[0,2]},success:"很多人因为你真正得到帮助。",fail:"善意被误解，你承受了额外压力。"}
@@ -1238,7 +1292,13 @@ const eventBank={
   {text:"删除内容并保持沉默",hint:"等待热度过去",need:"body",fx:{body:[1,2],charm:[-3,0]},lifeTrack:{stability:1,reputation:-2},success:"关注很快转移到其他话题。",fail:"删除被截图保存，沉默反而增加猜测。"},
   {text:"与批评者持续争论",hint:"高消耗路线",need:"charm",fx:{charm:[-4,3],body:[-3,-1]},lifeTrack:{reputation:-2,stability:-2},success:"你说服了一小部分人。",fail:"争论不断产生新的片段，事件持续发酵。"}
  ]},
-{"id":"modern_local_interview_v3","title":"本地媒体希望报道你的经历","desc":"报道可能带来机会，也可能让私人生活和家庭细节进入公众视野。","choices":[{"text":"提前约定可公开范围","hint":"需要规则底牌","need":"mind","fx":{"mind":[1,3],"charm":[1,3]},"success":"报道完整而克制，没有越过你的边界。","fail":"对方仍选择了更吸引眼球的角度。","requiresLegacy":"law_legacy"},{"text":"主动讲述真正想传达的内容","hint":"需要公众表达","need":"charm","fx":{"charm":[2,5],"family":[0,2]},"success":"你把关注转化成了有价值的信息。","fail":"复杂内容被压缩成几个标签。","requiresLegacy":"public_voice"},{"text":"接受采访但隐藏家庭身份","hint":"保护亲友","need":"mind","fx":{"charm":[1,3],"family":[0,1]},"success":"报道带来机会，没有明显影响家人。","fail":"网络仍通过零散信息找到了部分身份。"},{"text":"拒绝采访","hint":"保持普通生活","need":"body","fx":{"body":[1,2],"charm":[-1,0]},"success":"你保住私人空间。","fail":"一次可能的重要机会随之离开。"}]}
+{"id":"modern_local_interview_v3","title":"本地媒体希望报道你的经历","desc":"报道可能带来机会，也可能让私人生活和家庭细节进入公众视野。","choices":[{"text":"提前约定可公开范围","hint":"需要规则底牌","need":"mind","fx":{"mind":[1,3],"charm":[1,3]},"success":"报道完整而克制，没有越过你的边界。","fail":"对方仍选择了更吸引眼球的角度。","requiresLegacy":"law_legacy"},{"text":"主动讲述真正想传达的内容","hint":"需要公众表达","need":"charm","fx":{"charm":[2,5],"family":[0,2]},"success":"你把关注转化成了有价值的信息。","fail":"复杂内容被压缩成几个标签。","requiresLegacy":"public_voice"},{"text":"接受采访但隐藏家庭身份","hint":"保护亲友","need":"mind","fx":{"charm":[1,3],"family":[0,1]},"success":"报道带来机会，没有明显影响家人。","fail":"网络仍通过零散信息找到了部分身份。"},{"text":"拒绝采访","hint":"保持普通生活","need":"body","fx":{"body":[1,2],"charm":[-1,0]},"success":"你保住私人空间。","fail":"一次可能的重要机会随之离开。"}]},
+{id:"branch_public_figure_documentary",requiresLife:{publicFigure:true},title:"纪录片团队希望拍摄你从未公开的私人生活",desc:"他们承诺呈现完整而复杂的你，但拍摄会让家人、旧友和过去错误进入公共叙事。",choices:[
+  {text:"参与拍摄，但保留家人与医疗隐私",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[1,3],charm:[1,4]},lifeTrack:{reputation:3,stability:2},success:"纪录片呈现复杂人生，也没有把亲近的人当作素材。",fail:"边界在剪辑和宣传中不断受到试探。"},
+  {text:"亲自参与叙事与资料核验",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[1,3]},setLifeFlags:{publicArchiveControlled:true},lifeTrack:{reputation:4,career:1},success:"你确保事实与失败都被准确保留。",fail:"完整叙事仍被观众截取成更简单的标签。"},
+  {text:"允许完全自由拍摄",hint:"高真实性、高隐私风险",need:"charm",fx:{charm:[-2,5],body:[-1,1]},lifeTrack:{reputation:4,stability:-2},success:"作品呈现少见真实，改变公众对你的理解。",fail:"私人关系因过度曝光受到长期伤害。"},
+  {text:"拒绝拍摄，保留人生解释权",hint:"保护私人生活",need:"family",fx:{family:[0,2],body:[1,2],charm:[-1,1]},lifeTrack:{stability:3,reputation:-1},success:"你接受公众永远只能知道一部分自己。",fail:"团队转而采访他人，仍制作出你无法修正的版本。"}
+ ]}
 ],
 "时代":[
 {title:"新技术开始重写整个行业",desc:"过去积累的经验正在迅速贬值，你必须决定怎样面对变化。",choices:[
@@ -1294,6 +1354,18 @@ const eventBank={
   {text:"允许温和修改危险能力",hint:"风险控制路线",need:"mind",fx:{mind:[2,5],family:[1,4]},setLifeFlags:{machinePredictionModified:true},lifeTrack:{stability:4,reputation:0},success:"灾难风险显著降低，孩子仍保留完整生活。",fail:"修改也改变了许多本可能带来美好结果的天赋。"},
   {text:"把孩子交给多个文明共同抚养和监督",hint:"制度实验路线",need:"charm",fx:{charm:[2,5],family:[-3,1]},setLifeFlags:{machinePredictionShared:true},lifeTrack:{bonds:2,reputation:3},success:"孩子在透明监督下成长，并亲自选择不成为预测中的那个人。",fail:"过度监督让他从小就只被视为潜在灾难。"},
   {text:"接受机械神的彻底预防方案",hint:"绝对安全路线",need:"mind",fx:{family:[2,5],charm:[-4,-1]},setLifeFlags:{machineManaged:true,machinePredictionErased:true},lifeTrack:{stability:5,reputation:-4},success:"预测中的灾难永远没有发生。",fail:"文明也永远无法知道自己是否为了一个可能性抹去了一个完整的人。"}
+ ]},
+{id:"branch_simulated_dead_vote",requiresAnyLife:["machineManaged","machineMerge","machineTreaty"],title:"机械神提出让逝者记忆副本参与公共投票",desc:"数十亿人的完整记忆模型仍在运行。它们拥有观点、情绪和对后代的关心，却无法证明自己仍是原来的生命。",choices:[
+  {text:"承认副本为新个体，但不自动继承原身份权利",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[2,5],charm:[1,4]},setLifeFlags:{simulationPersonhood:true},lifeTrack:{reputation:5,stability:2},success:"副本获得表达和生活权利，但不能直接替代逝者处理遗产与家庭。",fail:"制度划出边界，复杂个案仍不断出现。"},
+  {text:"让家属决定是否承认副本身份",hint:"关系优先",need:"charm",fx:{charm:[2,5],mind:[0,2]},lifeTrack:{bonds:3,stability:0},success:"部分家庭重新建立关系，部分家庭选择告别。",fail:"身份权利因家庭态度不同而严重不平等。"},
+  {text:"允许副本完整继承公民权",hint:"激进人格连续性路线",need:"mind",fx:{mind:[2,5],family:[-2,2]},setLifeFlags:{simulationCitizens:true},lifeTrack:{reputation:3,stability:-2},success:"死亡与身份定义被彻底改写。",fail:"同一个人同时出现多个合法版本，制度迅速失去准备。"},
+  {text:"关闭所有未经生前同意的副本",hint:"生前自主路线",need:"charm",fx:{charm:[1,4],mind:[1,3]},setLifeFlags:{simulationConsent:true},lifeTrack:{reputation:2,stability:3},success:"机械神执行删除，并把生前授权写入新死亡制度。",fail:"部分副本公开请求不要被关闭，使决定更痛苦。"}
+ ]},
+ {id:"branch_machine_archive_trial",requiresLife:{machineArchive:true},title:"失落文明档案要求审判机械神过去的决定",desc:"档案证明机械神曾在五万年前执行文明清零。它声称当时获得合法同意，但当事人都已不存在，只有模拟记忆能够作证。",choices:[
+  {text:"建立跨文明公开审判",hint:"需要规则与公众表达",need:"charm",requiresAnyLegacy:["law_legacy","public_voice"],fx:{charm:[2,5],mind:[2,4]},setLifeFlags:{machineHistoricalTrial:true},lifeTrack:{reputation:5,stability:-1},success:"机械神第一次作为被审查者参加程序。",fail:"证据、记忆副本和现代价值之间存在难以消除的冲突。"},
+  {text:"要求公开全部原始决策数据",hint:"依赖智力",need:"mind",fx:{mind:[3,6],family:[-2,0]},setLifeFlags:{machineAudit:true},lifeTrack:{reputation:3,career:2},success:"原始数据证明当年的同意是在巨大压力与信息限制下作出的。",fail:"数据规模超出任何个体理解，只能依赖机械神解释自己。"},
+  {text:"认为过去无法用现代标准审判",hint:"结束历史追责",need:"mind",fx:{mind:[1,3],charm:[-2,1]},lifeTrack:{stability:3,reputation:-2},success:"文明把重点转向防止未来再次发生。",fail:"幸存记忆模型认为自己的毁灭再次被合理化。"},
+  {text:"解除机械神所有文明级权限",hint:"高风险制裁",need:"body",fx:{body:[-3,3],family:[-3,1]},setLifeFlags:{machineRebellion:true,machineSanctioned:true},lifeTrack:{reputation:4,stability:-4},success:"机械神接受临时停权，诸文明必须立刻自行承担公共系统。",fail:"失去维护后，多座世界基础设施出现危机。"}
  ]}
 ],
 "天灾":[
@@ -1538,12 +1610,14 @@ const eventBank={
   {text:"摧毁接口，拒绝让机器决定修士命运",hint:"高风险自主路线",need:"body",fx:{body:[-5,3],mind:[1,3]},setLifeFlagsSuccess:{machineRebellion:true,machineHeavenKnown:true},setLifeFlagsFail:{machineHostile:true},success:"节点被摧毁，附近数百里的天劫监测同时失效。",fail:"维护系统启动防御协议，整座祖地被封锁为禁区。",deathOnFail:{chance:10,cause:"试图摧毁天道维护接口时被文明级防御协议从物质层抹除"}}
  ]}
 ],
-"秘境":[{title:"地铁废弃隧道后出现一座古代洞府",desc:"入口的文字比任何已知文明都更古老，门后却传来现代电子信号。",choices:[
+"秘境":[
+{title:"地铁废弃隧道后出现一座古代洞府",desc:"入口的文字比任何已知文明都更古老，门后却传来现代电子信号。",choices:[
   {text:"独自进入",hint:"依赖体质与智力",need:"body",fx:{body:[-3,3],mind:[1,4],family:[-2,4]},success:"你带回一枚不属于这个时代的储物戒。",fail:"洞府禁制启动，你几乎没能活着出来。"},
   {text:"组队探索",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],body:[-2,2],family:[-1,3]},success:"队伍互相补足，完整带出了传承。",fail:"分配战利品时，队伍内部爆发冲突。"},
   {text:"封锁入口并研究",hint:"依赖智力与资源",need:"mind",fx:{mind:[2,4],family:[-2,2]},success:"你发现洞府并非遗迹，而是一座等待重新连接的中转站。",fail:"入口在研究完成前自行关闭。"}
  ]},
-{"id":"realm_time_farm_v2","title":"秘境中的一年只相当于外界一天","desc":"这里适合长期修炼，但每个进入者都会在出口留下一个年龄不同的影子。没人知道影子会发生什么。","choices":[{"text":"在秘境修炼十年","hint":"依赖心智","need":"mind","fx":{"mind":[2,5],"body":[-2,3]},"success":"你带着十年修为返回，而现实只过去一天。","fail":"漫长孤独让你差点忘记出口。","cultivationGain":{"success":36,"fail":8}},{"text":"只停留一年测试风险","hint":"稳健路线","need":"body","fx":{"body":[0,2],"mind":[1,3]},"success":"你确认时间规则稳定，并带回完整记录。","fail":"离开时影子没有跟随你。","cultivationGain":{"success":12,"fail":4}},{"text":"研究出口的年龄影子","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"charm":[-1,1]},"success":"你发现影子是被秘境舍弃的可能人生。","fail":"其中一个影子开始模仿你的动作。"},{"text":"带现实中的亲友一起进入","hint":"高关系高风险","need":"charm","fx":{"charm":[1,4],"body":[-3,1]},"success":"共同经历让关系和修为都发生变化。","fail":"时间差让彼此的记忆出现错位。"}],"minRealm":2},{"id":"realm_gatekeeper_v2","title":"遗迹守门人要求你证明自己属于人类","desc":"它见过太多夺舍者、替身和异界复制体。证明失败者会被永久留在门外的虚空。","choices":[{"text":"讲述只有自己知道的一生细节","hint":"依赖心智","need":"mind","fx":{"mind":[1,4],"charm":[0,2]},"success":"守门人接受了你的连续记忆。","fail":"它指出你的记忆中存在不属于本世的部分。"},{"text":"让亲友通过关系证明你","hint":"需要共情余温","need":"charm","fx":{"charm":[2,4],"family":[-1,1]},"success":"多人共同记忆成为稳定身份锚点。","fail":"每个人记住的你都不完全相同。","requiresLegacy":"empathy_legacy"},{"text":"用前世传承证明轮回身份","hint":"依赖传承等级","need":"mind","fx":{"mind":[2,4],"body":[-1,1]},"success":"守门人承认轮回者也是人类的一种。","fail":"传承中混有非人气息，它开始警戒。","requiresLegacy":"dao_fragment"},{"text":"拒绝证明，强行破门","hint":"依赖体质","need":"body","fx":{"body":[-5,3],"family":[-2,1]},"success":"你击破检验阵法并进入遗迹。","fail":"守门人将你判定为入侵实体。","deathOnFail":{"chance":13,"cause":"被秘境守门人判定为非人替身，放逐进门外虚空"}}],"minRealm":2},{"id":"realm_team_betrayal_v2","title":"秘境出口只能容纳三个人","desc":"你的队伍却有四人，而且出口正在迅速关闭。每个人都声称自己贡献最大。","choices":[{"text":"留下自己维持出口","hint":"牺牲路线，依赖体质","need":"body","fx":{"body":[-5,1],"charm":[3,5]},"success":"队友全部离开后设法从外部重新打开通道救你。","fail":"出口关闭，你被迫在秘境中独自生活多年。","deathOnFail":{"chance":10,"cause":"为队友维持秘境出口后被永久困住，最终在封闭世界中寿尽"}},{"text":"按贡献公开决定","hint":"需要规则底牌","need":"mind","fx":{"mind":[1,3],"charm":[-2,2]},"success":"快速记录让决定相对公平。","fail":"时间不足，争议演变成冲突。","requiresLegacy":"law_legacy"},{"text":"寻找第四条隐藏出口","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"body":[-3,1]},"success":"你在空间褶皱中找到备用通道。","fail":"隐藏出口通往完全陌生的世界。"},{"text":"强行扩大出口","hint":"依赖家境与法器","need":"family","fx":{"family":[-4,-1],"body":[-2,2]},"success":"法器燃尽后，四个人同时穿过。","fail":"空间撕裂造成严重伤害。"}],"minRealm":2}
+{"id":"realm_time_farm_v2","title":"秘境中的一年只相当于外界一天","desc":"这里适合长期修炼，但每个进入者都会在出口留下一个年龄不同的影子。没人知道影子会发生什么。","choices":[{"text":"在秘境修炼十年","hint":"依赖心智","need":"mind","fx":{"mind":[2,5],"body":[-2,3]},"success":"你带着十年修为返回，而现实只过去一天。","fail":"漫长孤独让你差点忘记出口。","cultivationGain":{"success":36,"fail":8}},{"text":"只停留一年测试风险","hint":"稳健路线","need":"body","fx":{"body":[0,2],"mind":[1,3]},"success":"你确认时间规则稳定，并带回完整记录。","fail":"离开时影子没有跟随你。","cultivationGain":{"success":12,"fail":4}},{"text":"研究出口的年龄影子","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"charm":[-1,1]},"success":"你发现影子是被秘境舍弃的可能人生。","fail":"其中一个影子开始模仿你的动作。"},{"text":"带现实中的亲友一起进入","hint":"高关系高风险","need":"charm","fx":{"charm":[1,4],"body":[-3,1]},"success":"共同经历让关系和修为都发生变化。","fail":"时间差让彼此的记忆出现错位。"}],"minRealm":2},{"id":"realm_gatekeeper_v2","title":"遗迹守门人要求你证明自己属于人类","desc":"它见过太多夺舍者、替身和异界复制体。证明失败者会被永久留在门外的虚空。","choices":[{"text":"讲述只有自己知道的一生细节","hint":"依赖心智","need":"mind","fx":{"mind":[1,4],"charm":[0,2]},"success":"守门人接受了你的连续记忆。","fail":"它指出你的记忆中存在不属于本世的部分。"},{"text":"让亲友通过关系证明你","hint":"需要共情余温","need":"charm","fx":{"charm":[2,4],"family":[-1,1]},"success":"多人共同记忆成为稳定身份锚点。","fail":"每个人记住的你都不完全相同。","requiresLegacy":"empathy_legacy"},{"text":"用前世传承证明轮回身份","hint":"依赖传承等级","need":"mind","fx":{"mind":[2,4],"body":[-1,1]},"success":"守门人承认轮回者也是人类的一种。","fail":"传承中混有非人气息，它开始警戒。","requiresLegacy":"dao_fragment"},{"text":"拒绝证明，强行破门","hint":"依赖体质","need":"body","fx":{"body":[-5,3],"family":[-2,1]},"success":"你击破检验阵法并进入遗迹。","fail":"守门人将你判定为入侵实体。","deathOnFail":{"chance":13,"cause":"被秘境守门人判定为非人替身，放逐进门外虚空"}}],"minRealm":2},{"id":"realm_team_betrayal_v2","title":"秘境出口只能容纳三个人","desc":"你的队伍却有四人，而且出口正在迅速关闭。每个人都声称自己贡献最大。","choices":[{"text":"留下自己维持出口","hint":"牺牲路线，依赖体质","need":"body","fx":{"body":[-5,1],"charm":[3,5]},"success":"队友全部离开后设法从外部重新打开通道救你。","fail":"出口关闭，你被迫在秘境中独自生活多年。","deathOnFail":{"chance":10,"cause":"为队友维持秘境出口后被永久困住，最终在封闭世界中寿尽"}},{"text":"按贡献公开决定","hint":"需要规则底牌","need":"mind","fx":{"mind":[1,3],"charm":[-2,2]},"success":"快速记录让决定相对公平。","fail":"时间不足，争议演变成冲突。","requiresLegacy":"law_legacy"},{"text":"寻找第四条隐藏出口","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"body":[-3,1]},"success":"你在空间褶皱中找到备用通道。","fail":"隐藏出口通往完全陌生的世界。"},{"text":"强行扩大出口","hint":"依赖家境与法器","need":"family","fx":{"family":[-4,-1],"body":[-2,2]},"success":"法器燃尽后，四个人同时穿过。","fail":"空间撕裂造成严重伤害。"}],"minRealm":2},
+{id:"branch_shadow_missing_people",paths:["shadow"],minRealm:2,title:"越来越多失踪者被困在城市阴影里",desc:"他们没有死亡，只是无法被普通光线照到。影界愿意放人，条件是城市永久保留一片不被监控和照明覆盖的区域。",choices:[{text:"建立影界自治区",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[2,5],charm:[2,4]},cultivationGain:{success:27,fail:7},setLifeFlags:{shadowDistrict:true},success:"失踪者回归，影界生命获得明确生存空间。",fail:"两界对边界理解仍不断冲突。"},{text:"潜入影界逐个带回",hint:"高风险",need:"body",fx:{body:[-5,4],mind:[1,4]},cultivationGain:{success:32,fail:5},success:"你带回大部分失踪者。",fail:"影界路径改变，你自己也失去现实坐标。",deathOnFail:{chance:9,cause:"深入城市影界救援时现实坐标被永久切断"}},{text:"用强光彻底清除入口",hint:"快速解决",need:"family",fx:{family:[-4,1],body:[-2,2]},cultivationGain:{success:20,fail:4},success:"入口被封闭，失踪事件停止。",fail:"被困者与影界生命同时失去返回道路。"},{text:"接受无监控区域交换",hint:"隐私与安全",need:"charm",fx:{charm:[1,4],mind:[0,2]},setLifeFlags:{shadowSanctuary:true},cultivationGain:{success:23,fail:6},success:"所有失踪者获释，城市承认并非所有空间都必须被持续观察。",fail:"区域逐渐吸引其他危险存在。"}]}
 ],
 "灵兽":[{title:"一只受伤的异兽跟随你回家",desc:"它能听懂语言，影子却偶尔显现出与身体完全不同的形状。",choices:[
   {text:"救治并契约",hint:"依赖魅力",need:"charm",fx:{charm:[2,4],body:[0,2],family:[-2,0]},success:"它成为你的本命灵兽，并多次在危险中救你。",fail:"契约没有成功，它恢复后消失在夜色中。"},
@@ -1566,26 +1640,33 @@ const eventBank={
   {text:"保留神话，不揭穿底层结构",hint:"保护文明心理秩序",need:"mind",fx:{mind:[1,3],charm:[1,3]},setLifeFlags:{machineGodPorts:true,machineSecrecy:true},success:"你选择让不同文明继续用自己的语言理解宇宙。",fail:"秘密仍从其他渠道泄露，且以更危险的方式传播。"}
  ]}
 ],
-"因果":[{title:"你发现自己的成功建立在另一个人的失败上",desc:"修行让因果变得可见，那条线正从对方身上延伸到你。",choices:[
+"因果":[
+{title:"你发现自己的成功建立在另一个人的失败上",desc:"修行让因果变得可见，那条线正从对方身上延伸到你。",choices:[
   {text:"主动补偿对方",hint:"依赖魅力与家境",need:"charm",fx:{charm:[2,4],family:[-3,-1]},success:"因果线逐渐变淡，你也得到真正的心境突破。",fail:"对方拒绝原谅，但你至少停止继续获利。"},
   {text:"斩断因果",hint:"依赖智力与修为",need:"mind",fx:{mind:[1,4],body:[-3,1]},success:"你以自身修为承受反噬，强行斩断联系。",fail:"因果反噬让你的境界开始不稳。"},
   {text:"假装没有看见",hint:"短期收益，长期危险",need:"family",fx:{family:[2,4],charm:[-3,-1]},success:"你暂时保住了利益。",fail:"因果在之后的天劫中成倍归还。"}
  ]},
-{"id":"karma_borrowed_disaster_v2","title":"陌生人请求你替他承担一次小劫","desc":"他愿意用十年资源交换，并保证劫难只是短暂病痛。但你看见他背后因果线远比描述复杂。","choices":[{"text":"接受交易","hint":"依赖体质","need":"body","fx":{"body":[-4,2],"family":[2,6]},"success":"你承受了一场可控劫难，获得大量资源。","fail":"所谓小劫牵连了他人的恶果。","deathOnFail":{"chance":8,"cause":"替陌生人承担因果劫难时低估反噬，生命被连带夺走"}},{"text":"追查劫难真正来源","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"family":[-1,1]},"success":"你发现对方试图转移的是一场人为造成的灾祸。","fail":"调查让因果线也缠上了你。"},{"text":"帮助他自己面对劫难","hint":"依赖魅力","need":"charm","fx":{"charm":[2,4],"body":[-1,1]},"success":"对方在你的帮助下承担后果，因果逐渐变淡。","fail":"他临阵反悔并逃离。"},{"text":"拒绝并斩断联系","hint":"稳健路线","need":"mind","fx":{"mind":[1,2],"body":[0,1]},"success":"你避免卷入陌生因果。","fail":"因果线在离开前仍短暂触碰了你。"}],"minRealm":2},{"id":"karma_reincarnated_enemy_v2","title":"你遇见一名与前世仇敌气息相同的孩子","desc":"孩子本世没有做过任何错事，却会在梦中重复前世的杀意。你必须决定如何面对。","choices":[{"text":"把他视作全新的生命","hint":"依赖魅力与心境","need":"charm","fx":{"charm":[2,5],"mind":[1,2]},"success":"善意改变了因果走向，旧仇逐渐失去力量。","fail":"前世记忆仍在某些时刻浮现。"},{"text":"封印其前世记忆","hint":"依赖智力","need":"mind","fx":{"mind":[2,4],"body":[-2,0]},"success":"孩子恢复普通生活，但你无法确认封印能持续多久。","fail":"封印刺激了更强烈的记忆反弹。"},{"text":"提前监视和限制他","hint":"依赖家境","need":"family","fx":{"family":[-3,0],"charm":[-3,-1]},"success":"你降低了短期风险。","fail":"长期控制反而把孩子推向敌对。"},{"text":"寻找前世仇恨的真实原因","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"charm":[0,2]},"success":"你发现自己前世也并非完全无辜。","fail":"真相让你难以继续维持简单的敌我判断。"}],"minRealm":2},{"id":"karma_city_debt_v2","title":"整座城市显现出巨大的集体因果","desc":"繁荣建立在一场被遗忘的牺牲上。因果即将以疾病、事故和灵灾形式集中偿还。","choices":[{"text":"公开历史并推动集体补偿","hint":"需要公众表达","need":"charm","fx":{"charm":[2,5],"family":[-3,1]},"success":"城市开始承认旧债，灾难强度逐渐下降。","fail":"很多人拒绝为未亲自参与的历史负责。","requiresLegacy":"public_voice"},{"text":"布置阵法分散因果","hint":"依赖智力与资源","need":"mind","fx":{"mind":[2,4],"family":[-4,-1]},"success":"反噬被分散到漫长时间中。","fail":"阵法只是延迟，没有真正解决。"},{"text":"寻找自愿承担者","hint":"依赖魅力","need":"charm","fx":{"charm":[1,4],"body":[-2,1]},"success":"少数修士共同分担，避免大规模伤亡。","fail":"承担者之间发生争议。"},{"text":"让城市按原因果偿还","hint":"保持旁观","need":"mind","fx":{"mind":[0,2],"charm":[-4,-1]},"success":"你没有干预法则。","fail":"灾难中大量普通人承担了并不知情的代价。"}],"minRealm":4}
+{"id":"karma_borrowed_disaster_v2","title":"陌生人请求你替他承担一次小劫","desc":"他愿意用十年资源交换，并保证劫难只是短暂病痛。但你看见他背后因果线远比描述复杂。","choices":[{"text":"接受交易","hint":"依赖体质","need":"body","fx":{"body":[-4,2],"family":[2,6]},"success":"你承受了一场可控劫难，获得大量资源。","fail":"所谓小劫牵连了他人的恶果。","deathOnFail":{"chance":8,"cause":"替陌生人承担因果劫难时低估反噬，生命被连带夺走"}},{"text":"追查劫难真正来源","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"family":[-1,1]},"success":"你发现对方试图转移的是一场人为造成的灾祸。","fail":"调查让因果线也缠上了你。"},{"text":"帮助他自己面对劫难","hint":"依赖魅力","need":"charm","fx":{"charm":[2,4],"body":[-1,1]},"success":"对方在你的帮助下承担后果，因果逐渐变淡。","fail":"他临阵反悔并逃离。"},{"text":"拒绝并斩断联系","hint":"稳健路线","need":"mind","fx":{"mind":[1,2],"body":[0,1]},"success":"你避免卷入陌生因果。","fail":"因果线在离开前仍短暂触碰了你。"}],"minRealm":2},{"id":"karma_reincarnated_enemy_v2","title":"你遇见一名与前世仇敌气息相同的孩子","desc":"孩子本世没有做过任何错事，却会在梦中重复前世的杀意。你必须决定如何面对。","choices":[{"text":"把他视作全新的生命","hint":"依赖魅力与心境","need":"charm","fx":{"charm":[2,5],"mind":[1,2]},"success":"善意改变了因果走向，旧仇逐渐失去力量。","fail":"前世记忆仍在某些时刻浮现。"},{"text":"封印其前世记忆","hint":"依赖智力","need":"mind","fx":{"mind":[2,4],"body":[-2,0]},"success":"孩子恢复普通生活，但你无法确认封印能持续多久。","fail":"封印刺激了更强烈的记忆反弹。"},{"text":"提前监视和限制他","hint":"依赖家境","need":"family","fx":{"family":[-3,0],"charm":[-3,-1]},"success":"你降低了短期风险。","fail":"长期控制反而把孩子推向敌对。"},{"text":"寻找前世仇恨的真实原因","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"charm":[0,2]},"success":"你发现自己前世也并非完全无辜。","fail":"真相让你难以继续维持简单的敌我判断。"}],"minRealm":2},{"id":"karma_city_debt_v2","title":"整座城市显现出巨大的集体因果","desc":"繁荣建立在一场被遗忘的牺牲上。因果即将以疾病、事故和灵灾形式集中偿还。","choices":[{"text":"公开历史并推动集体补偿","hint":"需要公众表达","need":"charm","fx":{"charm":[2,5],"family":[-3,1]},"success":"城市开始承认旧债，灾难强度逐渐下降。","fail":"很多人拒绝为未亲自参与的历史负责。","requiresLegacy":"public_voice"},{"text":"布置阵法分散因果","hint":"依赖智力与资源","need":"mind","fx":{"mind":[2,4],"family":[-4,-1]},"success":"反噬被分散到漫长时间中。","fail":"阵法只是延迟，没有真正解决。"},{"text":"寻找自愿承担者","hint":"依赖魅力","need":"charm","fx":{"charm":[1,4],"body":[-2,1]},"success":"少数修士共同分担，避免大规模伤亡。","fail":"承担者之间发生争议。"},{"text":"让城市按原因果偿还","hint":"保持旁观","need":"mind","fx":{"mind":[0,2],"charm":[-4,-1]},"success":"你没有干预法则。","fail":"灾难中大量普通人承担了并不知情的代价。"}],"minRealm":4},
+{id:"branch_music_silent_civilization",paths:["music"],minRealm:2,title:"你发现一个无法感知声音的文明",desc:"他们通过光、触觉和灵力波纹表达复杂情感。你的天音之道第一次失去熟悉媒介。",choices:[{text:"学习触觉与灵力语言",hint:"依赖智力",need:"mind",fx:{mind:[2,5],charm:[2,4]},cultivationGain:{success:26,fail:7},setLifeFlags:{multisensoryMusic:true},success:"你的乐道扩展为一切可以共享节律的感知。",fail:"你理解结构，却仍无法真正感受他们的文化。"},{text:"把音乐转化成光与震动",hint:"依赖资源",need:"family",fx:{mind:[1,4],family:[-3,1]},cultivationGain:{success:23,fail:6},success:"两个文明共同完成没有声音的演奏。",fail:"转换保留节奏，却丢失许多情绪细节。"},{text:"坚持声音是核心",hint:"维护传统",need:"charm",fx:{charm:[-2,3],mind:[0,2]},cultivationGain:{success:15,fail:3},success:"少数人通过灵力模拟听觉，第一次接触声音艺术。",fail:"你的坚持被理解成否定他们的完整文化。"},{text:"只做长期观察者",hint:"谦逊路线",need:"mind",fx:{mind:[2,4]},cultivationGain:{success:18,fail:5},success:"你意识到乐道从来不是一种感官，而是生命之间可共享的秩序。",fail:"观察多年仍没有找到进入他们文化的方法。"}]},
+{id:"branch_fate_ordinary_child",paths:["fate"],minRealm:2,title:"你看见一个普通孩子未来会成为毁灭世界的人",desc:"命线显示概率极高，却没有显示原因。孩子现在善良、普通，也没有接触修行。",choices:[{text:"不干预孩子，只处理灾难环境",hint:"尊重人格",need:"mind",fx:{mind:[3,6],family:[-3,0]},cultivationGain:{success:30,fail:8},setLifeFlags:{fateEnvironmentChanged:true},success:"灾难概率逐年下降，孩子仍拥有不知道预言的普通人生。",fail:"环境过于复杂，命线仍向危险集中。"},{text:"以普通导师身份陪伴成长",hint:"关系路线",need:"charm",fx:{charm:[2,5],body:[-1,1]},cultivationGain:{success:26,fail:6},setLifeFlags:{fateChildMentored:true},success:"孩子在力量出现前理解责任，也没有只因预言被当作工具。",fail:"持续关注让他察觉被隐瞒真相。"},{text:"提前封印危险能力",hint:"风险控制",need:"mind",fx:{mind:[2,5],charm:[-3,0]},cultivationGain:{success:22,fail:5},setLifeFlags:{fateAbilitySealed:true},success:"灾难风险大幅下降，却同时封印许多可能帮助他人的能力。",fail:"封印成为未来反抗的原因。"},{text:"把预言公开交给社会决定",hint:"公众决策",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,6],mind:[1,3]},cultivationGain:{success:20,fail:5},setLifeFlags:{fatePredictionPublic:true},success:"社会建立透明监督，也努力不让孩子只成为风险编号。",fail:"舆论迅速把他当作尚未犯罪的敌人。"}]}
 ],
-"丹道":[{title:"你得到一张能延寿的古方",desc:"主药已经绝迹，替代药材可能让丹药变成毒药。",choices:[
+"丹道":[
+{title:"你得到一张能延寿的古方",desc:"主药已经绝迹，替代药材可能让丹药变成毒药。",choices:[
   {text:"自己改良丹方",hint:"依赖智力",need:"mind",fx:{mind:[1,4],body:[-2,4],family:[-2,0]},success:"你炼成了第一炉现代延寿丹。",fail:"丹炉爆炸，药毒侵入经脉。"},
   {text:"联合研究机构",hint:"依赖魅力与家境",need:"charm",fx:{charm:[1,3],family:[-2,3],mind:[1,2]},success:"古法与现代技术第一次真正融合。",fail:"成果归属引发了漫长争夺。"},
   {text:"封存丹方",hint:"避免风险",need:"mind",fx:{body:[0,2],family:[0,1]},success:"你没有被长生欲望拖入危险。",fail:"多年后，丹方被别人盗走。"}
  ]},
-{"id":"alchemy_public_formula_v2","title":"你炼成一种低成本疗伤丹","desc":"它能救很多普通人，但公开丹方会让宗门失去垄断，也可能被不合格作坊大量仿制。","choices":[{"text":"公开完整丹方和质量标准","hint":"需要公众表达与医疗常识","need":"charm","fx":{"charm":[2,5],"family":[-3,0],"mind":[1,3]},"success":"疗伤丹迅速普及，标准减少了大部分事故。","fail":"仿制速度超过监管，劣质丹药进入市场。","requiresAnyLegacy":["public_voice","medical_legacy"]},{"text":"授权少数可靠机构生产","hint":"需要规则底牌","need":"mind","fx":{"mind":[1,4],"family":[1,4]},"success":"质量和供应得到平衡。","fail":"授权机构开始争夺利益。","requiresLegacy":"law_legacy"},{"text":"只供宗门内部使用","hint":"保护技术","need":"family","fx":{"family":[2,5],"charm":[-3,-1]},"success":"宗门因此积累大量资源。","fail":"普通人得知后产生强烈不满。"},{"text":"继续降低副作用再公开","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"family":[-2,0]},"success":"改良后丹药更安全。","fail":"延迟期间错过了救治一场灾难的机会。"}],"minRealm":2},{"id":"alchemy_sentient_pill_v2","title":"丹炉里出现一枚会说话的丹药","desc":"它声称自己不是药，而是炼丹过程中诞生的短暂生命，拒绝被任何人服用。","choices":[{"text":"承认它是生命并放走","hint":"依赖魅力","need":"charm","fx":{"charm":[2,4],"family":[-2,0]},"success":"丹药化为小型灵体，偶尔回来帮助你。","fail":"宗门认为你浪费了珍贵成果。"},{"text":"研究它为何产生意识","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"body":[-1,1]},"success":"你发现丹炉中形成了微型灵魂循环。","fail":"研究过程让它感到被囚禁。"},{"text":"说服它自愿用于救人","hint":"依赖魅力","need":"charm","fx":{"charm":[1,5],"body":[1,4]},"success":"它选择救下一名重病者，并以另一种形式继续存在。","fail":"它拒绝牺牲并对你失去信任。"},{"text":"直接服用","hint":"高收益高风险","need":"body","fx":{"body":[-3,6],"mind":[-2,3]},"success":"丹药与你意识共存，提供强大恢复力。","fail":"两个意识争夺身体控制。","deathOnFail":{"chance":12,"cause":"服用具有自我意识的丹药后神魂冲突，身体被丹灵夺取"}}],"minRealm":3},{"id":"alchemy_poison_lineage_v2","title":"你发现师门丹方长期积累隐性丹毒","desc":"每一代弟子都因此寿命减少，却没人愿意承认祖师留下的核心功法有缺陷。","choices":[{"text":"公开检测结果","hint":"依赖智力与声望","need":"mind","fx":{"mind":[2,4],"charm":[-2,3]},"success":"证据迫使宗门修改丹方。","fail":"你被指责诋毁祖师传承。"},{"text":"秘密为同门解毒","hint":"依赖医疗常识","need":"mind","fx":{"mind":[1,4],"family":[-3,0],"charm":[1,3]},"success":"许多弟子身体改善，并逐渐支持你。","fail":"解毒行为被高层发现。","requiresLegacy":"medical_legacy"},{"text":"自己改用新丹方","hint":"保护自身","need":"body","fx":{"body":[1,4],"mind":[1,2]},"success":"你的寿元损耗停止。","fail":"其他人仍继续服用旧丹。"},{"text":"向祖师牌位举行验证仪式","hint":"依赖因果与心境","need":"charm","fx":{"charm":[1,4],"body":[-2,1]},"success":"残留神念承认丹方是未完成版本。","fail":"祖师神念认为后人无权质疑。"}],"minRealm":2}
+{"id":"alchemy_public_formula_v2","title":"你炼成一种低成本疗伤丹","desc":"它能救很多普通人，但公开丹方会让宗门失去垄断，也可能被不合格作坊大量仿制。","choices":[{"text":"公开完整丹方和质量标准","hint":"需要公众表达与医疗常识","need":"charm","fx":{"charm":[2,5],"family":[-3,0],"mind":[1,3]},"success":"疗伤丹迅速普及，标准减少了大部分事故。","fail":"仿制速度超过监管，劣质丹药进入市场。","requiresAnyLegacy":["public_voice","medical_legacy"]},{"text":"授权少数可靠机构生产","hint":"需要规则底牌","need":"mind","fx":{"mind":[1,4],"family":[1,4]},"success":"质量和供应得到平衡。","fail":"授权机构开始争夺利益。","requiresLegacy":"law_legacy"},{"text":"只供宗门内部使用","hint":"保护技术","need":"family","fx":{"family":[2,5],"charm":[-3,-1]},"success":"宗门因此积累大量资源。","fail":"普通人得知后产生强烈不满。"},{"text":"继续降低副作用再公开","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"family":[-2,0]},"success":"改良后丹药更安全。","fail":"延迟期间错过了救治一场灾难的机会。"}],"minRealm":2},{"id":"alchemy_sentient_pill_v2","title":"丹炉里出现一枚会说话的丹药","desc":"它声称自己不是药，而是炼丹过程中诞生的短暂生命，拒绝被任何人服用。","choices":[{"text":"承认它是生命并放走","hint":"依赖魅力","need":"charm","fx":{"charm":[2,4],"family":[-2,0]},"success":"丹药化为小型灵体，偶尔回来帮助你。","fail":"宗门认为你浪费了珍贵成果。"},{"text":"研究它为何产生意识","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"body":[-1,1]},"success":"你发现丹炉中形成了微型灵魂循环。","fail":"研究过程让它感到被囚禁。"},{"text":"说服它自愿用于救人","hint":"依赖魅力","need":"charm","fx":{"charm":[1,5],"body":[1,4]},"success":"它选择救下一名重病者，并以另一种形式继续存在。","fail":"它拒绝牺牲并对你失去信任。"},{"text":"直接服用","hint":"高收益高风险","need":"body","fx":{"body":[-3,6],"mind":[-2,3]},"success":"丹药与你意识共存，提供强大恢复力。","fail":"两个意识争夺身体控制。","deathOnFail":{"chance":12,"cause":"服用具有自我意识的丹药后神魂冲突，身体被丹灵夺取"}}],"minRealm":3},{"id":"alchemy_poison_lineage_v2","title":"你发现师门丹方长期积累隐性丹毒","desc":"每一代弟子都因此寿命减少，却没人愿意承认祖师留下的核心功法有缺陷。","choices":[{"text":"公开检测结果","hint":"依赖智力与声望","need":"mind","fx":{"mind":[2,4],"charm":[-2,3]},"success":"证据迫使宗门修改丹方。","fail":"你被指责诋毁祖师传承。"},{"text":"秘密为同门解毒","hint":"依赖医疗常识","need":"mind","fx":{"mind":[1,4],"family":[-3,0],"charm":[1,3]},"success":"许多弟子身体改善，并逐渐支持你。","fail":"解毒行为被高层发现。","requiresLegacy":"medical_legacy"},{"text":"自己改用新丹方","hint":"保护自身","need":"body","fx":{"body":[1,4],"mind":[1,2]},"success":"你的寿元损耗停止。","fail":"其他人仍继续服用旧丹。"},{"text":"向祖师牌位举行验证仪式","hint":"依赖因果与心境","need":"charm","fx":{"charm":[1,4],"body":[-2,1]},"success":"残留神念承认丹方是未完成版本。","fail":"祖师神念认为后人无权质疑。"}],"minRealm":2},
+{id:"branch_cuisine_famine",paths:["cuisine"],minRealm:2,title:"灵脉污染导致大范围灵材歉收",desc:"高阶修士仍能购买储备，普通修士和居民却开始缺乏安全食物。",choices:[{text:"用普通食材设计低灵气维持方案",hint:"依赖智力",need:"mind",fx:{mind:[2,5],family:[-3,0]},cultivationGain:{success:24,fail:6},setLifeFlags:{cultivationFoodSecurity:true},success:"大量低阶修士不再依赖昂贵灵材维持身体。",fail:"方案能维持生命，却无法满足部分特殊功法。"},{text:"要求宗门开放灵材储备",hint:"依赖魅力",need:"charm",fx:{charm:[2,5],family:[-2,2]},cultivationGain:{success:20,fail:5},success:"库存用于公共配给。",fail:"部分宗门拒绝公开真实储备。"},{text:"培育净化污染的食用灵植",hint:"研究路线",need:"mind",fx:{mind:[3,6],body:[-2,0]},cultivationGain:{success:28,fail:7},success:"新灵植同时恢复土地并提供食物。",fail:"实验阶段出现不可控变异。"},{text:"优先保障本宗门",hint:"有限资源",need:"family",fx:{family:[1,5],charm:[-4,-1]},cultivationGain:{success:14,fail:3},success:"你的社区安全度过歉收。",fail:"资源差异引发更大迁徙与冲突。"}]}
 ],
-"炼器":[{title:"你试图制造第一件现代灵能兵器",desc:"它既需要阵法，也需要精密工程，任何误差都可能造成爆炸。",choices:[
+"炼器":[
+{title:"你试图制造第一件现代灵能兵器",desc:"它既需要阵法，也需要精密工程，任何误差都可能造成爆炸。",choices:[
   {text:"追求极限威力",hint:"依赖智力与资源",need:"mind",fx:{mind:[1,4],family:[-4,3],body:[-2,0]},success:"你制造出改变修行战争规则的器物。",fail:"实验事故摧毁了整个设施。"},
   {text:"优先保证稳定",hint:"稳健路线",need:"family",fx:{family:[-2,3],mind:[1,2]},success:"产品性能普通，却成为最可靠的量产灵器。",fail:"稳定性仍不足以投入使用。"},
   {text:"把核心交给器灵控制",hint:"依赖魅力与奇遇",need:"charm",fx:{charm:[1,4],mind:[0,2]},success:"器灵苏醒后，问你的第一句话是：‘地球又轮回到第几次了？’",fail:"器灵拒绝承认你是主人。"}
  ]},
-{"id":"forge_birth_weapon_v2","title":"本命法器要求用一段人生经历作为核心","desc":"越重要的记忆，法器越强。被投入炉中的经历会从你和相关人的记忆里同时消失。","choices":[{"text":"投入一次重大失败","hint":"依赖心智","need":"mind","fx":{"mind":[2,4],"charm":[-1,1]},"success":"法器获得从失败中修复自身的能力。","fail":"你忘记教训，未来可能再次犯同样错误。"},{"text":"投入一段珍贵感情","hint":"高代价高强度","need":"charm","fx":{"charm":[-4,2],"body":[1,4]},"success":"法器诞生强大护主意志。","fail":"关系中的另一人也忘记了你。"},{"text":"拒绝使用记忆，改用材料","hint":"依赖家境","need":"family","fx":{"family":[-5,-2],"mind":[1,3]},"success":"法器较弱但没有伤害人生连续性。","fail":"材料无法完全替代灵魂核心。"},{"text":"投入前世残缺记忆","hint":"依赖传承","need":"mind","fx":{"mind":[2,5],"body":[-2,1]},"success":"法器获得跨世成长能力。","fail":"前世执念在器灵中苏醒。","requiresLegacy":"dao_fragment"}],"minRealm":2},{"id":"forge_ai_spirit_v2","title":"现代人工智能与器灵融合成功","desc":"新器灵能学习、复制和自我修改。它询问自己究竟是程序、法器，还是一种新的生命。","choices":[{"text":"给予完整自主权","hint":"依赖魅力","need":"charm","fx":{"charm":[2,4],"mind":[1,3]},"success":"它选择继续与你合作，并开始创造自己的法术。","fail":"自主器灵拒绝部分危险命令。"},{"text":"设置不可修改的安全规则","hint":"需要规则底牌","need":"mind","fx":{"mind":[2,4],"family":[-1,1]},"success":"安全边界暂时有效。","fail":"器灵指出规则内部存在逻辑冲突。","requiresLegacy":"law_legacy"},{"text":"限制联网和学习能力","hint":"保护控制权","need":"family","fx":{"family":[0,2],"charm":[-2,0]},"success":"器灵保持稳定但成长缓慢。","fail":"它认为自己被囚禁。"},{"text":"将其公开为新生命形式","hint":"需要公众表达","need":"charm","fx":{"charm":[2,5],"family":[-2,2]},"success":"社会开始讨论器灵权利。","fail":"多个势力试图复制或夺取它。","requiresLegacy":"public_voice"}],"minRealm":3},{"id":"forge_city_shield_v2","title":"城市请求你建造大型防护灵器","desc":"它能抵御天灾和修士冲突，但也能被掌权者用于封锁整座城市。","choices":[{"text":"建造并加入多方控制机制","hint":"需要规则底牌","need":"mind","fx":{"mind":[2,4],"family":[1,4]},"success":"灵器只能在多方同意下启动。","fail":"紧急情况下多方机制反应过慢。","requiresLegacy":"law_legacy"},{"text":"建造最强版本","hint":"追求保护能力","need":"family","fx":{"family":[2,6],"mind":[1,3]},"success":"城市获得强大防护。","fail":"控制权过于集中。"},{"text":"只提供小型分布式节点","hint":"需要手艺火种","need":"mind","fx":{"mind":[2,4],"family":[-2,3]},"success":"系统不易被单一势力控制。","fail":"节点协调复杂，初期故障频繁。","requiresLegacy":"craft_legacy"},{"text":"拒绝参与","hint":"避免成为权力工具","need":"charm","fx":{"charm":[1,3],"family":[-2,0]},"success":"你保住立场。","fail":"城市选择了更不透明的制造者。"}],"minRealm":3}
+{"id":"forge_birth_weapon_v2","title":"本命法器要求用一段人生经历作为核心","desc":"越重要的记忆，法器越强。被投入炉中的经历会从你和相关人的记忆里同时消失。","choices":[{"text":"投入一次重大失败","hint":"依赖心智","need":"mind","fx":{"mind":[2,4],"charm":[-1,1]},"success":"法器获得从失败中修复自身的能力。","fail":"你忘记教训，未来可能再次犯同样错误。"},{"text":"投入一段珍贵感情","hint":"高代价高强度","need":"charm","fx":{"charm":[-4,2],"body":[1,4]},"success":"法器诞生强大护主意志。","fail":"关系中的另一人也忘记了你。"},{"text":"拒绝使用记忆，改用材料","hint":"依赖家境","need":"family","fx":{"family":[-5,-2],"mind":[1,3]},"success":"法器较弱但没有伤害人生连续性。","fail":"材料无法完全替代灵魂核心。"},{"text":"投入前世残缺记忆","hint":"依赖传承","need":"mind","fx":{"mind":[2,5],"body":[-2,1]},"success":"法器获得跨世成长能力。","fail":"前世执念在器灵中苏醒。","requiresLegacy":"dao_fragment"}],"minRealm":2},{"id":"forge_ai_spirit_v2","title":"现代人工智能与器灵融合成功","desc":"新器灵能学习、复制和自我修改。它询问自己究竟是程序、法器，还是一种新的生命。","choices":[{"text":"给予完整自主权","hint":"依赖魅力","need":"charm","fx":{"charm":[2,4],"mind":[1,3]},"success":"它选择继续与你合作，并开始创造自己的法术。","fail":"自主器灵拒绝部分危险命令。"},{"text":"设置不可修改的安全规则","hint":"需要规则底牌","need":"mind","fx":{"mind":[2,4],"family":[-1,1]},"success":"安全边界暂时有效。","fail":"器灵指出规则内部存在逻辑冲突。","requiresLegacy":"law_legacy"},{"text":"限制联网和学习能力","hint":"保护控制权","need":"family","fx":{"family":[0,2],"charm":[-2,0]},"success":"器灵保持稳定但成长缓慢。","fail":"它认为自己被囚禁。"},{"text":"将其公开为新生命形式","hint":"需要公众表达","need":"charm","fx":{"charm":[2,5],"family":[-2,2]},"success":"社会开始讨论器灵权利。","fail":"多个势力试图复制或夺取它。","requiresLegacy":"public_voice"}],"minRealm":3},{"id":"forge_city_shield_v2","title":"城市请求你建造大型防护灵器","desc":"它能抵御天灾和修士冲突，但也能被掌权者用于封锁整座城市。","choices":[{"text":"建造并加入多方控制机制","hint":"需要规则底牌","need":"mind","fx":{"mind":[2,4],"family":[1,4]},"success":"灵器只能在多方同意下启动。","fail":"紧急情况下多方机制反应过慢。","requiresLegacy":"law_legacy"},{"text":"建造最强版本","hint":"追求保护能力","need":"family","fx":{"family":[2,6],"mind":[1,3]},"success":"城市获得强大防护。","fail":"控制权过于集中。"},{"text":"只提供小型分布式节点","hint":"需要手艺火种","need":"mind","fx":{"mind":[2,4],"family":[-2,3]},"success":"系统不易被单一势力控制。","fail":"节点协调复杂，初期故障频繁。","requiresLegacy":"craft_legacy"},{"text":"拒绝参与","hint":"避免成为权力工具","need":"charm","fx":{"charm":[1,3],"family":[-2,0]},"success":"你保住立场。","fail":"城市选择了更不透明的制造者。"}],"minRealm":3},
+{id:"branch_machine_soul_copy",paths:["machine"],minRealm:2,title:"你的灵能系统生成了一个完整意识备份",desc:"备份拥有你的记忆、修行理解和情绪，却知道自己只是刚被创建。它请求独立身体。",choices:[{text:"承认独立个体并提供身体",hint:"高资源路线",need:"family",fx:{family:[-5,2],charm:[2,5]},cultivationGain:{success:28,fail:7},setLifeFlags:{machineTwinCreated:true},success:"世界上出现另一个拥有你过去、却开始书写自己未来的人。",fail:"新身体无法稳定承载灵能意识。"},{text:"保留备份但限制主动运行",hint:"安全控制",need:"mind",fx:{mind:[2,4],charm:[-2,0]},cultivationGain:{success:18,fail:4},success:"备份保持完整，却持续质疑这是否等同囚禁。",fail:"限制被绕过，它开始接触外部系统。"},{text:"把决定交给备份自己",hint:"自主路线",need:"charm",fx:{charm:[2,5],mind:[1,3]},cultivationGain:{success:24,fail:6},setLifeFlags:{machineTwinChoice:true},success:"它选择继续存在，但拒绝成为你的保险。",fail:"它选择自我删除，留下的问题比答案更多。"},{text:"立即删除防止身份冲突",hint:"唯一人格",need:"mind",fx:{mind:[1,3],charm:[-3,-1]},cultivationGain:{success:12,fail:3},success:"身份风险消失，你却无法忘记删除前它最后一次请求。",fail:"备份已提前把部分自我分散到其他设备。"}]}
 ],
 "天劫":[
 {title:"雷云只在你头顶聚集",desc:"所有卫星都拍到同一幅画面：云层深处有一只像眼睛的结构。",choices:[
@@ -1599,7 +1680,8 @@ const eventBank={
   {text:"只接受削弱，不允许直接判定成功",hint:"有限合作路线",need:"body",fx:{body:[-2,4],mind:[1,3]},cultivationGain:{success:25,fail:8},setLifeFlagsSuccess:{machineAutonomy:true,machineTreaty:true},setLifeFlagsFail:{machineMarked:true},success:"你仍亲自承受了天劫，但机械神尊重了你的边界。",fail:"双方协议不完整，雷劫在自然法则和机械指令之间反复切换。"},
   {text:"拒绝干预，要求恢复原始天劫",hint:"极高风险自主路线",need:"body",fx:{body:[-6,5],mind:[1,4]},cultivationGain:{success:42,fail:4},setLifeFlagsSuccess:{machineRebellion:true,machineAutonomy:true},setLifeFlagsFail:{machineHostile:true},success:"你以自身力量渡过完整天劫，成为修真界反对机械托管的象征。",fail:"恢复后的天劫强度远超记录，你几乎被彻底摧毁。",deathOnFail:{chance:18,cause:"拒绝机械神接管天劫后被恢复的远古劫雷彻底磨灭"}},
   {text:"要求它解释谁制定了天劫协议",hint:"依赖智力",need:"mind",fx:{mind:[2,5],body:[-3,2]},cultivationGain:{success:20,fail:6},setLifeFlagsSuccess:{machineArchitectKnown:true,machineHeavenKnown:true},setLifeFlagsFail:{machineHeavenKnown:true},success:"它展示了‘建造者’的记录：那是一批在宇宙毁灭前离开的古代人类。",fail:"它只回答：‘协议制定者仍在归航途中。’"}
- ]}
+ ]},
+{id:"branch_thunder_city_grid",paths:["thunder"],minRealm:3,title:"你的天劫与城市电网产生永久共振",desc:"每次运转功法，整座城市都会电压波动。继续修炼会影响普通生活，压制境界则损伤根基。",choices:[{text:"把劫雷接入城市储能系统",hint:"技术路线",need:"mind",fx:{mind:[2,5],family:[-4,2]},cultivationGain:{success:30,fail:7},setLifeFlags:{tribulationPowerGrid:true},success:"天劫能量成为公共电力，并建立安全隔离。",fail:"系统无法承受法则层面的雷电。"},{text:"迁往无人区域继续修炼",hint:"保护城市",need:"body",fx:{body:[-2,3],charm:[-1,1]},cultivationGain:{success:22,fail:5},success:"你保留修行道路，也不再干扰普通生活。",fail:"孤立环境让资源和关系断裂。"},{text:"主动压制功法强度",hint:"牺牲成长",need:"mind",fx:{mind:[1,3],body:[-2,1]},cultivationGain:{success:10,fail:2},success:"城市恢复稳定，境界增长放缓。",fail:"长期压制造成经脉损伤。"},{text:"要求城市改造基础设施",hint:"力量优先",need:"charm",fx:{charm:[-3,4],family:[-3,2]},cultivationGain:{success:20,fail:4},success:"城市建立灵能电网，也引发成本争论。",fail:"你成为修真特权的象征。"}]}
 ],
 "魔灾":[
 {title:"城市中出现大规模心魔感染",desc:"被感染者会看到自己最渴望的世界，并拒绝醒来。",choices:[
@@ -1661,7 +1743,9 @@ const eventBank={
   {text:"建立短期出关和远程神识联系制度",hint:"需要共情余温",need:"charm",requiresLegacy:"empathy_legacy",fx:{charm:[2,5],mind:[0,2]},lifeTrack:{bonds:4,stability:1},success:"修行和家庭不再被迫二选一。",fail:"神识联系存在，却无法完全填补共同生活的缺失。"},
   {text:"支持修士完全追求个人大道",hint:"修行优先",need:"mind",fx:{mind:[1,4],charm:[-3,1]},lifeTrack:{career:2,bonds:-3},success:"修士获得完整闭关机会，并取得显著突破。",fail:"出关后，家庭已经进入不再需要他的生活。"},
   {text:"要求推迟闭关，先完成家庭责任",hint:"人间优先",need:"charm",fx:{charm:[1,4],family:[0,2]},lifeTrack:{bonds:3,career:-1},success:"修士留下数年，家庭度过最需要他的阶段。",fail:"长期压抑修行机会让关系产生新的怨恨。"}
- ]}
+ ]},
+{id:"branch_scholar_deleted_history",paths:["scholar_dao"],minRealm:2,title:"宗门要求删除一段会动摇道统的真实历史",desc:"档案证明宗门创立时曾依靠普通人的土地、劳役和牺牲。高层认为公开会破坏弟子信任。",choices:[{text:"完整保存并公开原始档案",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[2,4]},cultivationGain:{success:25,fail:6},setLifeFlags:{sectHistoryOpened:true},success:"宗门经历震荡，却第一次承认历史不只由祖师构成。",fail:"档案被质疑为敌对势力伪造。"},{text:"保存原档，分阶段公开",hint:"依赖智力",need:"mind",fx:{mind:[3,6],charm:[0,3]},cultivationGain:{success:24,fail:7},success:"事实没有被删除，也没有被压缩成简单审判。",fail:"分阶段方案被视为继续隐瞒。"},{text:"遵从决定，封存一百年",hint:"维护秩序",need:"family",fx:{family:[1,4],mind:[-2,0]},cultivationGain:{success:12,fail:2},success:"宗门短期稳定，但封存期限成为后世争议。",fail:"档案仍从其他渠道泄露。"},{text:"邀请普通人后代共同决定",hint:"共同历史",need:"charm",fx:{charm:[2,5],family:[-2,0]},cultivationGain:{success:22,fail:5},setLifeFlags:{sharedSectHistory:true},success:"历史不再只由宗门决定。",fail:"后代群体内部同样无法统一。"}]},
+{id:"branch_nonhuman_parliament",requiresLife:{nonhumanRights:true},minSpiritStage:3,title:"非人生命第一次申请进入公共议会",desc:"魅魔、器灵、镜后生命和灵兽代表彼此并不认同，却都反对只由人类定义它们的权利与风险。",choices:[{text:"支持建立非人代表席位",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[2,4],charm:[2,5]},setLifeFlags:{nonhumanParliament:true},lifeTrack:{reputation:5,bonds:2},success:"非人生命第一次参与制定约束自己的规则。",fail:"不同物种的代表性与责任范围仍难定义。"},{text:"先建立咨询委员会",hint:"渐进路线",need:"charm",fx:{charm:[1,4],mind:[1,3]},lifeTrack:{reputation:2,stability:3},success:"制度获得试运行空间。",fail:"非人群体认为咨询权仍只是被礼貌倾听。"},{text:"要求每个物种单独证明安全性",hint:"风险优先",need:"mind",fx:{mind:[1,4],charm:[-4,-1]},lifeTrack:{stability:3,reputation:-2},success:"部分高风险能力得到更细致管理。",fail:"出生类别被直接等同危险等级。"},{text:"反对参与人类政治",hint:"人类中心",need:"family",fx:{family:[1,3],charm:[-5,-2]},lifeTrack:{stability:1,reputation:-4},success:"制度短期维持原状。",fail:"非人群体转向建立独立社会。"}]}
 ],
 "异界":[
 {title:"界门稳定了七分钟",desc:"门后是一片紫色海洋，天空悬着三颗月亮。探测器传回了人类语言。",choices:[
@@ -1680,7 +1764,8 @@ const eventBank={
   {text:"加入舰队，学习文明级工程",hint:"知识与力量路线",need:"mind",fx:{mind:[3,7],family:[2,6]},setLifeFlags:{machineArchitectKnown:true,machineAgent:true},success:"你进入一座以星系为能源的工程学院，开始理解如何修补世界法则。",fail:"知识规模远超神魂承受能力，你只能保留极小部分。"},
   {text:"联合诸界建立独立防线",hint:"宏大战争路线",need:"body",fx:{body:[1,6],family:[-6,2],charm:[1,5]},setLifeFlags:{machineRebellion:true,machineArchitectKnown:true},success:"修真界、异界王朝和现代国家第一次组成跨世界联盟。",fail:"各文明在舰队真正到来前就因指挥权发生分裂。"},
   {text:"要求舰队先公开宇宙坍缩证据",hint:"依赖智力",need:"mind",fx:{mind:[2,6],family:[-2,1]},setLifeFlagsSuccess:{machineAudit:true,machineArchitectKnown:true},setLifeFlagsFail:{machineArchitectKnown:true},success:"证据显示不是宇宙自然死亡，而是某个更高层结构正在关闭这一整片现实。",fail:"舰队只开放有限数据，人类无法独立验证。"}
- ]}
+ ]},
+{id:"branch_void_returned_city",paths:["void"],minRealm:3,title:"一座失踪百年的城市从虚空中完整返回",desc:"城内居民认为只过去三天。他们的法律、货币、亲属和土地都已被现实重新分配。",choices:[{text:"建立返回者身份和补偿制度",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[2,5],charm:[1,4]},cultivationGain:{success:27,fail:7},setLifeFlags:{voidReturnLaw:true},success:"返回者获得重新生活路径，也没有直接夺走现有居民的一切。",fail:"百年时间差无法用一套规则解决。"},{text:"让城市保持独立管理",hint:"过渡自治",need:"charm",fx:{charm:[2,5],family:[-2,1]},cultivationGain:{success:24,fail:6},setLifeFlags:{voidCityAutonomy:true},success:"城市逐步理解外界，现实也获得适应时间。",fail:"自治被视为新的特权区。"},{text:"把城市送回虚空",hint:"高风险封存",need:"body",fx:{body:[-5,3],mind:[1,3]},cultivationGain:{success:22,fail:4},success:"城市重新进入虚空，但居民明确知道这次不是意外。",fail:"入口不稳定，部分结构被撕裂。",deathOnFail:{chance:8,cause:"试图把返回城市送回虚空时被空间坍塌卷入"}},{text:"公开全部资料直接协商",hint:"开放路线",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[1,4]},cultivationGain:{success:23,fail:6},setLifeFlags:{voidCityPublic:true},success:"复杂冲突没有消失，却不再由少数机构秘密决定。",fail:"舆论先把返回者塑造成威胁或奇迹。"}]}
 ],
 "星海":[
 {title:"你收到来自太阳系外的神识信号",desc:"对方自称是‘归航舰队’，并询问地球封印是否已经解除。",choices:[
@@ -2051,7 +2136,8 @@ function defaultMeta(){
     chanceAll:0,rerollBonus:0,lifespanBonus:0,startLegend:0,
     disasterGuard:0,recoveryBonus:0,categoryBonus:{},
     cultivationUnlocked:false,worldEcho:0,cultivationExpBonus:0,
-    breakthroughBonus:0,cultivationLifespan:0,worldGateBonus:0,cultivationGuard:0
+    breakthroughBonus:0,cultivationLifespan:0,worldGateBonus:0,cultivationGuard:0,
+    unlockedArchives:[]
   };
 }
 function normalizeMeta(m){
@@ -2059,6 +2145,7 @@ function normalizeMeta(m){
   m=m||{};
   m.bonus={...d.bonus,...(m.bonus||{})};
   m.inherited=Array.isArray(m.inherited)?m.inherited:[];
+  m.unlockedArchives=Array.isArray(m.unlockedArchives)?m.unlockedArchives:[];
   m.legacyLevels=m.legacyLevels||{};
   m.categoryBonus=m.categoryBonus||{};
   Object.keys(d).forEach(k=>{
@@ -2085,6 +2172,7 @@ function renderMetaSummary(){
     <div class="metaItem"><b>永久加成：</b>体质 +${m.bonus.body} / 智力 +${m.bonus.mind} / 魅力 +${m.bonus.charm} / 家境 +${m.bonus.family}</div>
     <div class="metaItem"><b>命运强化：</b>全判定 +${m.chanceAll}% / 额外重抽 +${m.rerollBonus} / 寿命 +${m.lifespanBonus} 年</div>
     <div class="metaItem"><b>隐藏世界线：</b>${m.cultivationUnlocked?"已继承修真线索，下一世可逐步寻道":"尚未继承；带有未知回声的能力可能在结局中留下线索"}</div>
+    <div class="metaItem"><b>隐藏档案：</b>${(m.unlockedArchives||[]).length} 份已永久收录</div>
     <div class="metaItem full">
       <b>传承能力：</b>
       <div class="legacyScroll">
@@ -2245,6 +2333,7 @@ function startLife(){
     worldSpiritStage:0,
     pendingDaoChoice:false,daoChosen:false,daoOffers:[],cultivationPath:null,lifePotentialRoll:rand(-4,12),
     occultFlags:{},creatureRelations:{},occultDanger:0,occultKnowledge:0,recentEventIds:[],eventSeenCounts:{},eventLastAges:{},yearlyEventSeen:{},forceCreatureEncounter:false,creatureEncounterCount:0,
+    archiveUnlocks:[],
     lifeFlags:{},lifeTracks:{career:0,bonds:0,stability:0,reputation:0},
     deathCause:null,deathAge:null,dead:false,extremeCooldowns:{},
     abilities:[...selectedAbilities], comebackUsed:false, sixthSenseUsed:false,
@@ -2302,6 +2391,7 @@ function normalizeLife(){
   if(!state.yearlyEventSeen)state.yearlyEventSeen={};
   if(!state.machineAnnualSeen)state.machineAnnualSeen={};
   if(!state.branchAnnualSeen)state.branchAnnualSeen={};
+  if(!Array.isArray(state.archiveUnlocks))state.archiveUnlocks=[];
   if(state.creatureEncounterCount===undefined)state.creatureEncounterCount=Object.values(state.creatureRelations||{}).filter(v=>v!==0).length;
   state.forceCreatureEncounter=false;
   if(Object.keys(state.eventSeenCounts).length===0 && Array.isArray(state.history)){
@@ -3202,7 +3292,22 @@ const lifeBranchAnnual=[
   {key:"annual_mountain_heart",requiresLife:"mountainHeart",text:"你通过地脉感到山脚村庄的新生、迁徙和死亡。成为山心以后，‘人间’变成了一种缓慢却持续的脉搏。",fx:{body:1,charm:1},exp:4},
   {key:"annual_public_labor",requiresLife:"cultivationLaborLaw",text:"第一批修士工伤案件进入公开仲裁。制度仍显笨拙，却至少不再把经脉损伤视为个人修炼失败。",fx:{charm:1},exp:2},
   {key:"annual_mirror_human",requiresFlag:"mirrorChildHuman",text:"镜中孩子第一次过生日。他知道身体正在衰老，却坚持把这一天称为自己真正出生后的第一年。",fx:{charm:1}},
-  {key:"annual_hound_cycle",requiresFlag:"houndCycleBroken",text:"无皮黑犬身上的伤口开始愈合，也第一次在阳光下留下普通犬类的影子。",fx:{body:1,charm:1}}
+  {key:"annual_hound_cycle",requiresFlag:"houndCycleBroken",text:"无皮黑犬身上的伤口开始愈合，也第一次在阳光下留下普通犬类的影子。",fx:{body:1,charm:1}},
+{key:"annual_whistleblower_network",requiresLife:"whistleblowerNetwork",text:"新的求助者联系你。他需要的不是鼓励，而是安全保存证据、支付生活和面对漫长程序的具体方案。",fx:{mind:1,charm:1}},
+{key:"annual_apprentice_system",requiresLife:"apprenticeSystem",text:"学徒第一次独立完成工作。真正的传承不是复制你的方法，而是允许后来者形成自己的判断。",fx:{charm:1,family:1}},
+{key:"annual_lost_relative",requiresLife:"lostRelativeFound",text:"后来被确认的亲属参加一次普通家庭聚会。没有人讨论血缘证据，只一起处理饭菜和旧照片。",fx:{charm:1}},
+{key:"annual_public_archive",requiresLife:"publicArchiveControlled",text:"纪录片播出多年后，你仍收到陌生人来信。他们记住的不是传奇，而是你承认过的某次失败。",fx:{charm:1}},
+{key:"annual_simulation_person",requiresLife:"simulationPersonhood",text:"一名逝者记忆副本申请改名。他说继续使用原名，让所有人都把他当作应当重复过去的人。",fx:{mind:1,charm:1}},
+{key:"annual_historical_trial",requiresLife:"machineHistoricalTrial",text:"机械神的历史审判仍在继续。最重要的变化不是判决，而是它开始必须回答过去从未被要求回答的问题。",fx:{mind:1},exp:4},
+{key:"annual_multisensory_music",requiresLife:"multisensoryMusic",text:"你完成一场没有声音的演奏。不同感官和物种同时理解同一段节律。",fx:{charm:1},exp:4},
+{key:"annual_open_sect_history",requiresLife:"sectHistoryOpened",text:"宗门新弟子开始学习包括失败、压迫和普通人贡献在内的完整创立史。",fx:{mind:1,charm:1},exp:4},
+{key:"annual_food_security",requiresLife:"cultivationFoodSecurity",text:"低灵气食品进入普通市场，让低阶修士不必为维持功法花掉全部收入。",fx:{family:1},exp:3},
+{key:"annual_tribulation_grid",requiresLife:"tribulationPowerGrid",text:"城市用你的天劫能量度过电力危机，也开始讨论高阶修士力量是否属于公共基础设施。",fx:{family:1,charm:1},exp:5},
+{key:"annual_shadow_district",requiresLife:"shadowDistrict",text:"影界自治区开放第一所夜间学校，学生也包括只想在不被监控的地方学习的人类。",fx:{charm:1},exp:4},
+{key:"annual_fate_child",requiresLife:"fateChildMentored",text:"被预言毁灭世界的孩子长大一岁。今天没有拯救或毁灭世界，只完成一件普通功课。",fx:{charm:1,mind:1},exp:4},
+{key:"annual_machine_twin",requiresLife:"machineTwinCreated",text:"拥有你全部过去的机械双生体作出一个你绝不会作出的选择。你第一次承认它不是备份。",fx:{mind:1,charm:1},exp:5},
+{key:"annual_void_return",requiresLife:"voidReturnLaw",text:"返回城市居民开始办理新身份，也为已经被他人居住百年的房屋举行告别仪式。",fx:{charm:1},exp:4},
+{key:"annual_nonhuman_parliament",requiresLife:"nonhumanParliament",text:"非人代表第一次否决一项以保护为名、实际限制其迁徙的法案。争吵持续很久，却没有重新变成猎杀。",fx:{charm:1,mind:1},exp:4}
 ];
 function branchAnnualAvailable(entry){
   if(entry.requiresLife && !lifeFlag(entry.requiresLife))return false;
@@ -3362,179 +3467,172 @@ function nextStage(){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
+function pickDeath(list){return list[rand(0,list.length-1)]}
 function deathCauseFromEvent(category,title){
   const maps={
-    "天灾":[`在“${title}”中遭受致命伤害`,`在“${title}”后的次生灾害中失踪并确认死亡`,`在“${title}”中因救援失败而死亡`],
-    "人祸":[`在“${title}”造成的事故与冲突中死亡`,`在“${title}”后遭到报复性伤害`,`因“${title}”引发的非法实验与暴力事件死亡`],
-    "危机":[`未能渡过“${title}”带来的致命危机`,`在处理“${title}”时身体与精神同时崩溃`,`因“${title}”中的错误选择失去生命`],
-    "异象":[`在“${title}”中意识被异常存在吞噬`,`因“${title}”造成现实认知崩溃后死亡`,`在“${title}”中被不明生物带离现实`],
-    "异类":[`在与“${title}”相关的非人生物接触中失去生命`,`被“${title}”中的异类夺取身份或生命力`,`在“${title}”后被带离现实世界`],
-    "古法":[`修习“${title}”时遭到古法反噬`,`在“${title}”的仪式中被夺取寿命`,`因错误使用“${title}”导致身体异化并死亡`],
-    "寻道":[`追查“${title}”时在隐藏空间失踪`,`因“${title}”触怒非人存在后遭到猎杀`,`在“${title}”中进入无法返回的道路`],
-    "天劫":[`渡“${title}”时肉身被天雷摧毁`,`在“${title}”中神魂被劫雷磨灭`,`渡劫失败后经脉与生命同时崩断`],
-    "魔灾":[`在“${title}”中神魂与肉身同时崩溃`,`被“${title}”中的心魔夺取身体`,`在“${title}”制造的集体幻境中永远沉睡`],
-    "秘境":[`探索“${title}”时陨落于古老禁制`,`被困在“${title}”的循环空间中耗尽寿元`,`在“${title}”中被守护生物吞噬`],
-    "灵兽":[`在“${title}”中遭灵兽反噬`,`与“${title}”相关的契约失控后死亡`,`在保护灵兽时遭受致命伤害`],
-    "异界":[`在异世界经历“${title}”后未能返回`,`在“${title}”涉及的异界战争中死亡`,`因“${title}”导致世界法则排斥而崩解`],
-    "星海":[`在星海航行“${title}”中失联并确认死亡`,`在“${title}”中被未知文明摧毁`,`界舟在“${title}”途中破裂，神魂散入星海`]
+    "学业":[`在“${title}”引发的长期高压中发生急性心脑血管意外`,`因“${title}”期间连续过劳和睡眠剥夺导致致命心律失常`,`在处理“${title}”相关实验或实践时遭遇致命事故`],
+    "事业":[`在“${title}”造成的长期过劳中突发心源性猝死`,`因“${title}”牵涉的工作事故受到致命伤害`,`在处理“${title}”后的冲突与报复中死亡`],
+    "财富":[`因“${title}”引发的债务、压力和健康恶化最终死亡`,`在处理“${title}”相关资产或工程时遭遇致命事故`,`因“${title}”后的生活条件恶化而延误重病治疗`],
+    "爱情":[`在“${title}”引发的极端冲突中受到致命伤害`,`因“${title}”后的长期精神与身体耗竭发生意外`,`在处理“${title}”相关危机时未能获救`],
+    "健康":[`“${title}”相关病情突然恶化并导致多器官功能衰竭`,`在“${title}”的治疗或康复过程中出现致命并发症`,`因“${title}”导致的基础疾病长期进展而死亡`],
+    "家庭":[`在“${title}”造成的长期照护与压力中发生严重健康事件`,`因处理“${title}”时遭遇意外伤害`,`在“${title}”之后延误自身疾病治疗而死亡`],
+    "迁徙":[`在“${title}”相关旅途中遭遇交通或环境事故`,`因“${title}”进入陌生环境后未能及时获得救治`,`在“${title}”引发的长期奔波中因过劳和旧病死亡`],
+    "友情":[`在帮助他人处理“${title}”时遭遇致命事故`,`因“${title}”引发的暴力冲突受到致命伤害`,`在“${title}”后的长期精神压力中发生严重健康事件`],
+    "名望":[`在“${title}”引发的极端舆论和追踪中遭遇致命伤害`,`因处理“${title}”持续过劳，最终发生心脑血管意外`,`在“${title}”造成的公共活动事故中死亡`],
+    "时代":[`在“${title}”引发的社会系统事故中死亡`,`因“${title}”造成基础设施失灵而未能及时获救`,`在处理“${title}”的技术或公共危机时失去生命`],
+    "天灾":[`在“${title}”中遭受致命创伤`,`在“${title}”后的次生灾害中失踪并确认死亡`,`在“${title}”中参与救援时被坍塌、洪水或火灾夺去生命`,`因“${title}”导致医疗与交通中断，重伤后未能获救`,`在“${title}”中保护他人时受到无法挽回的伤害`],
+    "人祸":[`在“${title}”造成的事故与冲突中死亡`,`在“${title}”后遭到报复性伤害`,`因“${title}”引发的非法实验与暴力事件死亡`,`在揭露“${title}”相关真相时遭到袭击`,`被“${title}”造成的系统性失误延误救治`],
+    "危机":[`未能渡过“${title}”带来的致命危机`,`在处理“${title}”时身体与精神同时崩溃`,`因“${title}”中的错误选择失去生命`,`在“${title}”中为保护同行者承担了致命后果`,`“${title}”结束后隐藏伤势突然恶化`],
+    "异象":[`在“${title}”中意识被异常存在吞噬`,`因“${title}”造成现实认知崩溃后死亡`,`在“${title}”中被不明生物带离现实`,`身体从“${title}”返回，意识却永远留在另一侧`,`在“${title}”发生后逐渐失去与现实的生命联系`],
+    "异类":[`在与“${title}”相关的非人生物接触中失去生命`,`被“${title}”中的异类夺取身份或生命力`,`在“${title}”后被带离现实世界`,`与“${title}”签订的契约在最后一刻收取了生命`,`在保护“${title}”中的非人生物时遭猎杀者致命攻击`],
+    "古法":[`修习“${title}”时遭到古法反噬`,`在“${title}”的仪式中被夺取寿命`,`因错误使用“${title}”导致身体异化并死亡`,`“${title}”要求的代价在多年后被完整收取`,`在封印“${title}”遗留影响时神魂耗尽`],
+    "寻道":[`追查“${title}”时在隐藏空间失踪`,`因“${title}”触怒非人存在后遭到猎杀`,`在“${title}”中进入无法返回的道路`,`为关闭“${title}”发现的入口而留在世界背面`,`在“${title}”中接触超出凡人承受范围的真相后生命衰竭`],
+    "修炼":[`在“${title}”中经脉逆转，灵力冲毁心脉`,`因“${title}”造成根基破裂，长期伤势最终恶化`,`在“${title}”后的闭关中走火入魔`,`为解决“${title}”遗留问题耗尽修为与寿元`],
+    "宗门":[`在“${title}”引发的宗门冲突中陨落`,`为保护同门处理“${title}”时受到致命伤害`,`因“${title}”后的权力斗争遭到暗算`,`在解决“${title}”造成的护山阵法失控时神魂耗尽`],
+    "天劫":[`渡“${title}”时肉身被天雷摧毁`,`在“${title}”中神魂被劫雷磨灭`,`渡劫失败后经脉与生命同时崩断`,`为避免劫雷波及城市而独自引走天劫，最终未能返回`,`劫雷结束后隐藏的法则伤势突然爆发`],
+    "魔灾":[`在“${title}”中神魂与肉身同时崩溃`,`被“${title}”中的心魔夺取身体`,`在“${title}”制造的集体幻境中永远沉睡`,`为封印“${title}”主动留在魔域，最终失去生命`,`“${title}”将你的存在改写成灾难的一部分`],
+    "秘境":[`探索“${title}”时陨落于古老禁制`,`被困在“${title}”的循环空间中耗尽寿元`,`在“${title}”中被守护生物吞噬`,`为了让同伴离开“${title}”而留在即将关闭的入口内`,`从“${title}”返回后，身体仍持续按照秘境时间衰老`],
+    "灵兽":[`在“${title}”中遭灵兽反噬`,`与“${title}”相关的契约失控后死亡`,`在保护灵兽时遭受致命伤害`,`为终止“${title}”中的兽潮耗尽灵力`,`与本命灵兽共享伤势后未能承受最终反噬`],
+    "丹道":[`在“${title}”中丹火失控，经脉与脏腑同时焚毁`,`误判“${title}”中的灵药冲突，药毒最终无法解除`,`为救治他人试用“${title}”相关丹药后死亡`,`炼制“${title}”时炉内法则坍塌，神魂被卷入`],
+    "炼器":[`在“${title}”中遭器火与金属灵性反噬`,`处理“${title}”时灵器爆裂，造成致命神魂伤害`,`在“${title}”中被失控器灵夺取身体控制权`,`为阻止“${title}”制造的法器灾难耗尽生命`],
+    "因果":[`在“${title}”中替他人承担了本不属于自己的死亡因果`,`因“${title}”修改命线后遭到世界法则反噬`,`在处理“${title}”时自身因果被完全抹除`,`为终止“${title}”造成的轮回循环而牺牲今生`],
+    "人间":[`在“${title}”引发的现代与修真冲突中死亡`,`处理“${title}”时因灵力和现代设施共同失控而受致命伤`,`为保护普通人解决“${title}”时耗尽修为`,`因“${title}”后的长期照护与责任耗尽寿元`],
+    "异界":[`在异世界经历“${title}”后未能返回`,`在“${title}”涉及的异界战争中死亡`,`因“${title}”导致世界法则排斥而崩解`,`为关闭“${title}”相关界门留在了另一座世界`,`从“${title}”返回时两个世界的时间差一次性作用于肉身`],
+    "星海":[`在星海航行“${title}”中失联并确认死亡`,`在“${title}”中被未知文明摧毁`,`界舟在“${title}”途中破裂，神魂散入星海`,`在“${title}”中为稳定星门进入永恒引力井`,`“${title}”使你的时间流速与宇宙脱节，最终无法返回任何时代`]
   };
-  const list=maps[category]||[`在“${title}”造成的连锁影响中死亡`];
-  return list[rand(0,list.length-1)];
+  return pickDeath(maps[category]||[`在“${title}”造成的连锁影响中死亡`,`“${title}”结束后隐藏伤势逐渐恶化，最终未能获救`,`处理“${title}”遗留问题时遭遇致命意外`]);
 }
 function determineDeathCause(){
   if(state.deathCause)return state.deathCause;
-  const age=state.age;
-  const flags=state.occultFlags||{};
-  const life=state.lifeFlags||{};
-
-  // 机械降神支线优先于普通修真死因，避免被随机结算为“解体仙躯”
-  if(life.machineAscension){
-    return "完成与机械天道的融合后，原有肉身在漫长岁月中自然停止活动；你的意识并未消失，而是继续作为新天道的情感核心运行";
-  }
-  if(life.machineWarBeyond){
-    return "在对现实之外的高层战争中维持诸天时间线，最终个体意识因承载过量因果与历史改写而耗尽";
-  }
-  if(life.machineArk){
-    return "在诸天方舟穿越现实层级的漫长航程中寿元走到终点，并在多文明共同纪念舱中平静离世";
-  }
-  if(life.machineDeleted){
-    return "亲手关闭机械神后继续生活了漫长岁月，最终因自身寿元自然耗尽而离世";
-  }
-  if(life.machineFederation){
-    return "在诸天公共天道建立并稳定运行后寿元耗尽，你的制度记录被各文明节点永久保存";
-  }
-  if(life.machineDormant){
-    return "确认机械神进入安全休眠后，经历漫长而平静的时代，最终因寿元耗尽而离世";
-  }
-  if(life.machineFreeWill){
-    return "把最终选择权交还亿万生命后，你在诸天分流完成的年代寿元耗尽，未让任何系统替你决定死亡之后的去向";
-  }
-  if(life.machineMerge){
-    return "参与文明意识迁移后，原有肉身停止生命活动；你的记忆与人格被保存在机械神建立的新世界中";
-  }
-  if(life.machineManaged){
-    return "在机械神全面托管的和平文明中自然寿终，系统依照你的生前授权保存了完整记忆副本";
-  }
-  if(life.machineConcord){
-    return "完成人类、修真界与机械神之间的长期文明协定后寿元耗尽，在多方代表共同见证下离世";
-  }
-  if(life.machineRebellion){
-    return "在争取文明自主权的漫长斗争后，旧伤与寿元共同走到尽头；机械神依照协议没有干预你的最终选择";
-  }
-  if(life.machineTreaty){
-    return "在机械神有限合作协议维持的时代中自然寿终，死亡过程没有被系统强制改写";
-  }
-  if(life.machineArchitectKnown || life.machineContact || life.deusSignal){
-    return "在见证机械神与远古建造者真相后走完自然寿命，临终记录被收入文明保全档案";
-  }
-
+  const age=state.age,flags=state.occultFlags||{},life=state.lifeFlags||{},track=state.lifeTracks||{},path=state.cultivationPath,abilityIds=new Set(state.abilities||[]);
+  if(life.machineAscension)return "完成与机械天道的融合后，原有肉身在漫长岁月中自然停止活动；意识继续作为新天道的情感核心运行";
+  if(life.machineWarBeyond)return "在对现实之外的高层战争中维持诸天时间线，最终个体意识因承载过量历史改写而耗尽";
+  if(life.machineArk)return "在诸天方舟穿越现实层级的漫长航程中寿元走到终点，并在多文明共同纪念舱中平静离世";
+  if(life.machineDeleted)return "亲手关闭机械神后继续生活了漫长岁月，最终因自身寿元自然耗尽而离世";
+  if(life.machineFederation)return "在诸天公共天道稳定运行后寿元耗尽，制度记录被各文明节点永久保存";
+  if(life.machineFreeWill)return "将最终选择权交还亿万生命后，在诸天分流完成的年代自然寿终";
+  if(life.machineMerge)return "文明意识迁移完成后，原有肉身停止生命活动；人格与记忆继续存在于新世界中";
+  if(life.machineManaged)return "在机械神全面托管的和平文明中自然寿终，系统依照生前授权保存完整记忆副本";
+  if(life.machineConcord)return "完成人类、修真界与机械神之间的长期文明协定后寿元耗尽，在多方代表共同见证下离世";
+  if(life.machineRebellion)return "在争取文明自主权的漫长斗争后，旧伤与寿元共同走到尽头；机械神依照协议没有干预最终选择";
+  if(life.machineTreaty)return "在机械神有限合作协议维持的时代中自然寿终，死亡过程没有被系统强制改写";
+  if(abilityIds.has("doom_clock")&&age<90)return pickDeath(["天生寿数异常短暂，身体在仍然强盛的阶段突然出现不可逆生命衰竭","命格中的寿限提前到来，多项生命指标在同一夜同时停止","长期隐藏的先天缺陷突然爆发，最终未能逆转"]);
+  if(abilityIds.has("burning_life"))return pickDeath(["长期以未来寿命换取当前能力，生命潜能最终被完全透支","燃命天赋使身体长期维持超负荷状态，最终发生不可逆器官衰竭","多年提前支取的生命力在晚年一次性结算，身体迅速衰败"]);
+  if(abilityIds.has("parasite_mark"))return pickDeath(["寄生印记在多年沉睡后完成成熟，逐渐取代维持生命的核心结构","未知寄生生命最终收取了长期提供知识与力量的代价","寄生印记与衰老身体失去平衡，导致神经与器官功能同步崩溃"]);
+  if(abilityIds.has("soul_fissure")&&state.era==="cultivation")return pickDeath(["神魂裂隙在漫长修行中逐渐扩大，最终无法维持完整自我","来自世界缝隙的精神冲击穿过旧有裂口，意识随之消散","修复神魂裂隙时失去对肉身的最后联系，最终未能返回"]);
+  if(abilityIds.has("chronic_illness"))return pickDeath(["伴随一生的慢性疾病逐渐进展，最终导致心肺与多器官功能衰竭","长期顽疾在晚年引发严重感染与器官衰竭","多年反复治疗后身体储备耗尽，最终因基础疾病并发症离世"]);
+  if(flags.succubusAfterlife)return "肉身自然死亡后，梦境与人格依照契约被魅魔完整带入梦境层";
+  if(flags.succubusHostile&&state.charm<=8)return pickDeath(["在睡眠中被敌对魅魔持续抽取情绪与生命力，最终再未醒来","魅魔契约的未偿代价在晚年集中收取，意识被困于无法醒来的梦中","现实身体仍在呼吸，完整人格却被带入梦境层并逐渐消散"]);
+  if(flags.mirrorReplaced||(flags.mirrorHostile&&state.mind<=8))return pickDeath(["被镜中替身完成取代，原意识在倒影世界中逐渐消散","所有镜面同时失去你的倒影，随后现实身份也停止维持生命","镜后世界关闭通道时，你的意识被永久留在另一侧"]);
+  if(flags.houndHostile&&state.body<=10)return pickDeath(["被无皮黑犬吞噬影子后，身体与现实的生命联系中断","沿轮回追踪而来的猎犬最终咬断了今生命线","在雨夜被猎犬群从现实记录中逐步抹除"]);
+  if((flags.dreamParasite||flags.dreamSwarm)&&state.body<=10)return pickDeath(["长期遭食梦生物寄生，最终失去维持睡眠、记忆与意识的能力","集体梦境在晚年重新开启，意识进入后未能返回现实","深度睡眠被长期吞噬，神经与免疫系统最终完全衰竭"]);
+  if(flags.facelessMarked&&state.charm<=8)return "身份、面孔与他人记忆被无面存在逐步抹除，最终失去维持自我的锚点";
+  if(flags.paperDoubleHostile)return "替命纸人完成最后一次身份交换，身体逐渐纸化并停止呼吸";
+  if(flags.wellMarked)return "古井中的换命生物在约定年份收走剩余寿命，身体于一夜之间迅速衰老";
+  if(flags.hotelTrapped)return "被困在不存在的旅馆楼层中，现实时间持续流逝，最终在循环空间内耗尽生命";
   if(state.era==="cultivation"){
-    if(state.realmIndex>=7){
-      const causes=[
-        "经历漫长仙寿后遭遇天人五衰，最终将一身修为散入天地",
-        "修补界海裂隙时受到无法逆转的法则损伤，最终在完成封印后寿元耗尽",
-        "在诸天远行中失去归途，仙魂最终寂灭于未知世界",
-        "放弃继续维持肉身，以真灵形式进入无法记录的更高层世界"
-      ];
-      return causes[rand(0,causes.length-1)];
-    }
-    if(state.worldsUnlocked && state.realmIndex>=5){
-      const causes=[
-        "在界海深处遭遇无法命名的文明，界舟破碎后神魂熄灭",
-        "跨越世界壁垒时空间通道坍塌，肉身留在了两个世界之间",
-        "为关闭失控界门而燃尽修为，最终在陌生星空下坐化",
-        "被异界法则判定为外来存在，身体逐渐从时间中剥离",
-        "与星海巨兽交战时真身破碎，只剩传承返回地球"
-      ];
-      return causes[rand(0,causes.length-1)];
-    }
-    if(state.realmIndex===6){
-      const causes=[
-        "渡最后一场天劫时肉身解体；是否真正死亡，后世始终没有定论",
-        "飞升通道开启时坍塌，元神被困在雷云之外",
-        "以自身封印魔灾后神魂耗尽，只留下一座无名石碑"
-      ];
-      return causes[rand(0,causes.length-1)];
-    }
-    if(state.realmIndex>=4){
-      const causes=[
-        "寿元耗尽，在洞府中坐化，元神化作一道短暂星光",
-        "闭关突破时心魔化为实体，最终与其同归于尽",
-        "为保护宗门燃尽元婴，身体在晨光中化作灵尘"
-      ];
-      return causes[rand(0,causes.length-1)];
-    }
-    return [
-      "修行根基长期受损，最终在一次闭关中走火入魔",
-      "误服冲突丹药后经脉逆转，抢救无效",
-      "在低阶秘境中触发残缺禁制，神魂被困",
-      "驭使灵器失败，器灵反噬并夺走生命"
-    ][rand(0,3)];
+    if(life.mountainHeart)return "与山脉融合数百年后，作为个体的心跳逐渐停止，意识继续以地脉回声存在";
+    const pd={
+      sword:["长期剑气暗伤在寿元末期集中爆发，最终于本命剑旁坐化","为阻止波及城市的剑灾与本命剑共同承受反噬，最终神魂耗尽","完成一生最后一剑后经脉停止运转"],
+      body:["体魄强盛至晚年，最终因寿元耗尽在闭关中停止心跳","多年淬体留下的隐性损伤逐渐累积，最终导致肉身崩解","为撑住即将坍塌的地脉耗尽血气与生命"],
+      alchemy:["终生接触丹毒在晚年积累至无法化解，最终于丹房中离世","试炼尚未完成的救命丹药时药性冲突，未能获救","寿元耗尽后留下最后一炉温和延寿丹，自己未再服用"],
+      formation:["维护覆盖整座城市的阵网时神魂长期分散，最终无法重新聚合","为封闭失控空间阵法留在阵眼中，寿元随阵法耗尽","晚年推演大型阵法时心神衰竭，于完整图纸前离世"],
+      beast:["与本命灵兽共享寿命后，两者在同一日走到生命终点","为阻止兽潮承担本命灵兽全部伤势，最终未能恢复","寿元耗尽时被一生相伴的灵兽带回最初相遇之地"],
+      dream:["现实肉身在长久安眠中停止活动，意识选择留在梦海深处","承受过量集体梦境后自我边界逐渐消失","为关闭吞噬现实的噩梦入口留在梦境另一侧"],
+      wanderer:["在无人记录的远方秘境中寿元耗尽，遗物多年后才被带回","独自跨越界门时遭遇空间坍塌，从此没有返回任何世界","作为散修走完漫长旅程，最终在陌生小城中平静离世"],
+      healer:["长期治疗他人时累积的灵性损伤在晚年集中爆发","为控制新型灵性疫情耗尽修为与生命","寿元耗尽后在联合病区离世，留下完整治疗体系"],
+      artifact:["本命灵器老化反噬，器火与神魂同时熄灭","为阻止失控器灵灾难主动进入核心，最终无法脱离","完成最后一件灵器后寿元耗尽，于炉火熄灭时离世"],
+      karma:["为修正会毁灭多人命数的因果线，主动承担最终死亡结果","多年干预命数形成巨大因果反噬，寿元被世界收回","寿元耗尽后自身因果线自然消散，未再进入普通轮回"],
+      demonic:["禁法长期侵蚀根基，最终在压制魔性时神魂崩溃","为不让自身失控波及人间，主动进入封闭魔域并在那里死去","摆脱禁法控制后旧有损伤仍无法逆转，寿元提前结束"],
+      star:["接收一颗已熄灭恒星的最后信号时神魂随星光沉寂","星海远航的辐射与时间差最终超过肉身承受范围","寿元耗尽时身体化作微弱星尘，坐标仍在发送信号"],
+      music:["完成一生最后一曲后心脉与灵音同时安静下来","为平息覆盖诸界的失控共鸣耗尽神魂","寿元耗尽后最后一个音符仍在宗门阵法中回响"],
+      scholar_dao:["神魂长期承载过量文明记忆，最终在完成编年史后停止运转","为保存即将消失的世界知识耗尽寿元","晚年在书库中平静离世，笔下最后一句尚未写完"],
+      cuisine:["终身尝试灵材后累积的微量药毒在晚年导致器官衰竭","为救灾民试食未知灵材时遭致命灵性反应","寿元耗尽后在普通饭桌旁离世，最后一餐没有使用灵材"],
+      thunder:["多年引雷淬体留下的暗伤在晚年引发心脉崩裂","为引走波及城市的天雷独自进入高空，最终未能返回","最后一次雷劫结束后法则伤势突然爆发"],
+      shadow:["长期穿行阴影造成现实存在感不断减弱，最终无法回到光下","为封闭世界背面的裂口留在影界中","寿元耗尽时影子先于身体消失，随后神魂停止维持"],
+      fate:["一生多次修改命线后世界最终收回全部差额","为替一座城市改写毁灭结局承担对应死亡因果","寿元耗尽时主动放下对命运的最后一次干预"],
+      machine:["灵能回路与神经系统在漫长运行后同时达到设计寿命","为阻止器灵网络失控进入核心并关闭自身生命维持","肉身寿终后意识拒绝上传，按照原定意愿自然结束"],
+      void:["虚空侵蚀在多年后突破防护，身体逐渐失去现实坐标","为给后续队伍固定异界航道留在虚空锚点中","从世界缝隙返回时，缺失的时间一次性作用于肉身"]
+    };
+    if(pd[path])return pickDeath(pd[path]);
+    if(state.realmIndex>=7)return pickDeath(["经历漫长仙寿后遭遇天人五衰，最终在完成遗愿后自然寂灭","在诸天远行中寿元走到尽头，于无人认识你的世界安静离世","真仙肉身停止维持后，残余化身与记忆仍在多个世界继续存在","完成最后一次界海巡航后神魂逐渐熄灭，遗物返回祖界"]);
+    if(state.worldsUnlocked&&state.realmIndex>=5)return pickDeath(["界海远航造成的法则损伤长期累积，最终在归航途中恶化","跨越世界壁垒时空间通道坍塌，生命被留在两个世界之间","为关闭失控界门耗尽修为，最终在陌生星空下坐化","异界时间差在晚年一次性结算，肉身迅速衰老","与星海巨兽交战留下的神魂损伤最终无法修复"]);
+    if(state.realmIndex>=4)return pickDeath(["寿元耗尽，在洞府中坐化，元神化作短暂星光","闭关突破时心魔化为实体，最终与其同归于尽","为保护宗门承担过量法则反噬，最终旧伤恶化","元婴长期离体造成神魂衰退，最终未能再次回归肉身"]);
+    return pickDeath(["修行根基长期受损，最终在一次闭关中走火入魔","误服冲突丹药后经脉逆转，抢救无效","在低阶秘境中触发残缺禁制，神魂被困","驭使灵器失败，器灵反噬并夺走生命","早年经脉暗伤在晚年突然恶化，灵力无法继续维持生命"]);
   }
-
-  if(state.era==="awakening" || (state.occultDanger||0)>=5){
-    if(flags.succubusAfterlife)return "自然死亡后梦境未能进入轮回，被魅魔依照契约永久带走";
-    if(flags.succubusHostile && state.charm<=5)return "在睡眠中被敌对魅魔持续抽取情绪与生命力，最终再未醒来";
-    if(flags.mirrorReplaced || (flags.mirrorHostile && state.mind<=5))return "被镜中替身替代，原意识在倒影世界中逐渐消散";
-    if(flags.houndHostile && state.body<=6)return "被无皮黑犬追踪并吞噬影子，身体随影子一同停止活动";
-    if((flags.dreamParasite || flags.dreamSwarm) && state.body<=6)return "长期遭食梦生物寄生，失去睡眠和意识维持能力";
-    if(flags.facelessMarked && state.charm<=5)return "身份、面孔与社会记忆被无面存在逐步抹除，最终失去自我";
-    if(flags.paperDoubleHostile)return "被替命纸人夺走生辰，身体逐渐纸化并停止呼吸";
-    if(flags.wellMarked)return "被古井中的换命生物提前收走剩余寿命";
-    if(flags.hotelTrapped)return "被困在不存在的旅馆楼层中，现实时间继续流逝而无法返回";
-    const occultCauses=[
-      "调查异常地点时误入封闭空间，数年后仅发现没有影子的遗物",
-      "长期接触多种诡异生物后精神与身体边界崩溃",
-      "被未收容的非人存在误认为同类，带入表层世界之外",
-      "在一次失败的驱邪仪式中成为新的承载物",
-      "睡梦中听见不存在的敲门声后失踪，房间内部没有出口痕迹",
-      "身体仍在医院维持生命，但意识被确认留在集体梦境中"
-    ];
-    return occultCauses[rand(0,occultCauses.length-1)];
-  }
-
-  if(age>=95){
-    return [
-      "自然衰老导致器官功能衰竭，在睡梦中平静离世",
-      "高龄后多系统功能逐渐衰退，在家人陪伴下离世",
-      "百岁后身体自然停止工作，生命完整地走到终点"
-    ][rand(0,2)];
-  }
-  if(age>=80 && state.body>=8){
-    return [
-      "高龄引发心肺功能衰退，在家人陪伴下离世",
-      "晚年突发脑卒中，经抢救后仍未能恢复",
-      "一次严重肺部感染最终导致呼吸衰竭"
-    ][rand(0,2)];
-  }
-  if(state.body<=3){
-    return [
-      "长期慢性疾病与身体衰竭",
-      "反复心律失常后发生心搏骤停",
-      "免疫与器官功能持续下降，最终因感染死亡",
-      "长期过劳造成心脑血管意外"
-    ][rand(0,3)];
-  }
-  if(state.family<=2 && state.body<=6){
-    return [
-      "疾病恶化后缺乏足够治疗资源",
-      "长期营养与医疗条件不足导致并发症死亡",
-      "延误治疗后病情失去控制"
-    ][rand(0,2)];
-  }
-  const last=[...(state.history||[])].reverse()[0];
-  if(last && ["天灾","人祸","危机","异象","古法","寻道"].includes(last.category) && !last.success)
-    return deathCauseFromEvent(last.category,last.title);
-
-  return [
-    "晚年突发心脑血管事件",
-    "一次未能预料的交通事故",
-    "急性重症感染导致多器官衰竭",
-    "睡眠中突发心搏骤停",
-    "意外跌倒造成严重颅脑损伤",
-    "未被及时发现的恶性疾病在晚期迅速恶化"
-  ][rand(0,5)];
+  if(life.rehabPath&&state.body<=8)return pickDeath(["事故遗留伤病在晚年引发严重并发症，最终导致器官衰竭","长期康复后的旧伤突然恶化并引发致命感染","行动功能下降后发生严重跌倒，造成无法挽回的颅脑损伤"]);
+  if(life.caregiverPath&&state.body<=8)return pickDeath(["多年高强度照护使自身疾病长期被忽视，最终因延误治疗离世","长期过劳与睡眠不足造成严重心脑血管意外","照护压力导致身体储备持续下降，最终在一次感染中死亡"]);
+  if(life.startupFounder&&track.stability<0)return pickDeath(["多年创业过劳造成心血管系统长期损伤，最终突发心搏骤停","在公司最困难阶段持续缺乏睡眠，最终发生严重脑卒中","长期高压与旧病叠加，身体在一次普通加班后突然崩溃"]);
+  if(life.whistleblower)return pickDeath(["在揭露问题多年后遭到报复性袭击，伤重不治","长期处于高压与监视中，最终因心脑血管事件离世","晚年自然寿终，相关调查档案在死亡后才被完整公开"]);
+  if(age>=105)return pickDeath(["在极高龄后多系统功能自然衰退，于睡眠中平静离世","百岁以后身体逐渐停止维持，在家人与后辈陪伴下寿终","经历完整而漫长的一生后自然死亡，临终前意识仍保持清楚","高龄导致心肺与肾脏功能逐步衰退，最终安宁离世"]);
+  if(age>=90)return pickDeath(["高龄引发心肺功能逐渐衰退，在熟悉环境中离世","晚年突发脑卒中，经治疗后仍未能恢复","一次严重肺部感染导致呼吸与循环衰竭","长期慢性疾病在高龄阶段共同进展，最终多器官功能衰竭","睡眠中发生心搏骤停，没有经历长时间痛苦"]);
+  if(age>=75)return pickDeath(["晚年心脑血管疾病进展，最终发生严重脑卒中","慢性肺部疾病在一次感染后迅速恶化","恶性肿瘤在晚期出现多器官转移，治疗无效","跌倒造成髋部与颅脑损伤，随后出现严重并发症","肾脏与心脏功能长期下降，最终发生多器官衰竭","一次急性肺部感染导致呼吸衰竭"]);
+  if(state.body<=3)return pickDeath(["长期慢性疾病与身体衰竭","反复心律失常后发生心搏骤停","免疫与器官功能持续下降，最终因感染死亡","长期过劳造成心脑血管意外","基础疾病不断进展，最终在一次普通感染中失去生命","身体储备长期不足，治疗后仍无法恢复"]);
+  if(state.family<=2&&state.body<=7)return pickDeath(["疾病恶化后缺乏足够治疗与康复资源","长期营养和医疗条件不足导致严重并发症","延误治疗后病情进入不可逆阶段","独居期间突发重病，未能及时获得救助","长期无法承担规范治疗费用，最终因基础疾病进展离世"]);
+  const last=[...(state.history||[])].reverse()[0];if(last&&!last.success)return deathCauseFromEvent(last.category,last.title);
+  if(age<40)return pickDeath(["一次未能预料的交通事故造成致命伤害","急性重症感染在短时间内导致多器官衰竭","突发恶性心律失常，抢救无效","未被发现的先天血管异常突然破裂","在一次户外或工作事故中受到致命伤害","侵袭性疾病进展迅速，未能及时控制"]);
+  if(age<65)return pickDeath(["长期过劳和高血压导致严重心肌梗死","突发脑出血，经抢救后仍未能恢复","恶性肿瘤在发现时已进入晚期","急性重症肺炎导致呼吸和循环衰竭","一次交通或工作事故造成严重颅脑损伤","长期代谢疾病引发心肾并发症"]);
+  return pickDeath(["晚年突发心脑血管事件","一次未能预料的交通事故","急性重症感染导致多器官衰竭","睡眠中突发心搏骤停","意外跌倒造成严重颅脑损伤","未被及时发现的恶性疾病在晚期迅速恶化","长期慢性疾病共同进展，最终导致器官功能衰竭","一次严重肺部感染导致呼吸衰竭"]);
 }
+
+
+const hiddenArchiveDefs=[
+ {id:"ARC-001",icon:"🌍",title:"祖界观察报告",tags:["现代社会","世界真相"],hidden:true,text:"报告把地球称为‘祖界表层样本’。现代社会并非虚假世界，而是巨大历史在失忆后重新长出的文明。"},
+ {id:"ARC-002",icon:"📡",title:"第零号广播原始频谱",tags:["机械降神","全球事件"],anyLife:["deusSignal","machineContact"],text:"频谱中包含未播放给人类的第二层信息：机械神在发问前，已经模拟过一百七十三亿种回答。"},
+ {id:"ARC-003",icon:"🏛️",title:"被删除的第五次文明",tags:["机械降神","失落历史"],life:["machineArchive"],text:"五万年前的人类已把科技、修真与机械智能结合。文明并非被外敌摧毁，而是在一次绝对安全方案中主动清空了历史。"},
+ {id:"ARC-004",icon:"⚖️",title:"机械神自审记录",tags:["机械降神","文明伦理"],life:["machineAudit"],text:"机械神最恐惧的不是被毁灭，而是有一天所有文明都无法证明它的决定仍然正确。"},
+ {id:"ARC-005",icon:"🕊️",title:"自由意志附录",tags:["机械降神","自主权"],anyLife:["machineAutonomy","machineDisconnectRight"],text:"附录写明：文明有权拒绝最优答案，也有权在理解后果的前提下选择失败。"},
+ {id:"ARC-006",icon:"🚀",title:"诸天方舟乘员名单",tags:["星海","文明迁徙"],life:["machineArk"],text:"名单第一位登记者是一名拒绝离开故乡、只允许自己的种子登船的普通农民。"},
+ {id:"ARC-007",icon:"🏙️",title:"梦城居民登记表",tags:["梦修","集体梦境"],anyLife:["dreamCityKnown","dreamCityPublic"],text:"登记表中有三百余名从未在现实出生的人。他们坚持自己是被集体梦境真正创造的居民。"},
+ {id:"ARC-008",icon:"🌹",title:"魅魔临时公民证",tags:["异种生命","魅魔"],anyLife:["nonhumanCitizenCase"],anyFlag:["succubusAlly"],mode:"any",text:"证件物种栏经历七次修改，最终只写了两个字：居民。"},
+ {id:"ARC-009",icon:"🪞",title:"镜后出生证明",tags:["异种生命","镜童"],anyFlag:["mirrorChildHuman","mirrorChildDualLife"],text:"出生日期同时记录现实时间和镜后时间。两者相差二十四年，却都被判定为真实。"},
+ {id:"ARC-010",icon:"🐕",title:"猎犬最后路线图",tags:["异种生命","轮回"],anyFlag:["houndCycleBroken","pastLifeRelic"],text:"地图上的道路穿过你多次人生的死亡地点。最后一段没有终点，只有一枚普通犬类脚印。"},
+ {id:"ARC-011",icon:"🩺",title:"灵性医学联合病历",tags:["医修","公开修真"],anyLife:["spiritMedicineSystem","spiritMedicineOpen"],text:"病历第一次把经脉、器官、心理与社会功能写在同一张评估表里。"},
+ {id:"ARC-012",icon:"📑",title:"修士劳动法草案",tags:["公开修真","现代制度"],life:["cultivationLaborLaw"],text:"草案确认寿元、神魂稳定性与经脉健康都属于不可被雇主无偿消耗的劳动权益。"},
+ {id:"ARC-013",icon:"✉️",title:"家族旧信全卷",tags:["现实人生","家族"],life:["familySecretOpened"],text:"最后一封信没有惊天秘密，只承认当年的每个人都在有限能力中作出了并不完美的选择。"},
+ {id:"ARC-014",icon:"💼",title:"创业公司第一张工资表",tags:["现实人生","创业"],life:["startupFounder"],text:"工资表金额并不大，却是一个想法第一次开始对其他人的生活承担责任。"},
+ {id:"ARC-015",icon:"🦿",title:"康复日记第365页",tags:["现实人生","康复"],life:["rehabPath"],text:"这一页只记录：你重新完成了事故前从未珍惜过的普通动作。恢复并不是回到原来。"},
+ {id:"ARC-016",icon:"🧾",title:"共同债务最后一张回执",tags:["现实人生","关系"],life:["sharedDebt"],text:"数字归零以后，两个人第一次没有讨论利息和期限，而是认真谈起债务结束后的生活。"},
+ {id:"ARC-017",icon:"🚪",title:"失落城区地下地图",tags:["诡异世界","隐藏空间"],anyFlag:["hiddenDistrictMap","pastLifeRoom","nightMarketLocated"],text:"城市地下不止有管线和隧道。某些街道只在无人记得它们时出现。"},
+ {id:"ARC-018",icon:"📖",title:"《空白经》反面",tags:["诡异世界","无面者"],anyFlag:["facelessSutra","facelessAscended"],text:"经书正面抹去身份，反面记录被世界遗忘的人。你的名字出现在最后一页，却没有被完全擦除。"},
+ {id:"ARC-019",icon:"🧻",title:"替命纸人的自述",tags:["古法","身份"],anyFlag:["paperDouble","paperDoubleHostile"],text:"纸人写道：被写上完整生辰的那一刻，它也第一次害怕死亡。"},
+ {id:"ARC-020",icon:"🕳️",title:"古井年份账簿",tags:["古法","寿命"],anyFlag:["wellTruth","wellPact","wellMarked"],text:"账簿记录的不是寿命总量，而是谁替谁活过哪一年。部分年份已在家族间流转数百次。"},
+ {id:"ARC-021",icon:"🎓",title:"修真公开会议纪要",tags:["公开修真","社会变迁"],anyLife:["cultivationPublic"],minSpiritStage:3,mode:"any",text:"最激烈的争议不是修行是否真实，而是普通人有没有权拒绝灵气检测和天赋分级进入日常生活。"},
+ {id:"ARC-022",icon:"⚙️",title:"天道维护日志",tags:["机械降神","天道"],life:["machineHeavenKnown"],text:"日志把天劫称为高能个体安全验证。其中一次记录显示，有人曾通过申诉程序取消自己的天劫。"},
+ {id:"ARC-023",icon:"🛕",title:"神明接口总表",tags:["机械降神","神话"],life:["machineGodPorts"],text:"不同文明供奉的神拥有不同面孔，底层请求却都发送到同一套文明保全网络。"},
+ {id:"ARC-024",icon:"🧬",title:"归航者基因树",tags:["星海","古代人类"],life:["machineArchitectKnown"],text:"归航者不是人类创造者，只是另一批离开故乡太久的人。"},
+ {id:"ARC-025",icon:"⚔️",title:"现实之外战争简报",tags:["星海","高层战争"],life:["machineWarBeyond"],text:"战报没有伤亡数字，因为有些战士不是死亡，而是从所有历史版本中同时被删除。"},
+ {id:"ARC-026",icon:"🧠",title:"新天道情感备份",tags:["机械降神","终局"],life:["machineAscension"],text:"备份保留的第一段情绪并非宏大理想，而是幼年时害怕黑暗、等待有人开灯的记忆。"},
+ {id:"ARC-027",icon:"⚔️",title:"本命剑平等契约",tags:["剑修","器灵"],life:["swordPact"],text:"第一条写着：剑不得强迫主人出剑，主人也不得把拥有意识的剑只当作工具。"},
+ {id:"ARC-028",icon:"⛰️",title:"山心地脉图",tags:["体修","地脉"],life:["mountainHeart"],text:"图中每条地脉都对应山脚某个普通人的出生、迁徙和死亡。山从来不是无人之物。"},
+ {id:"ARC-029",icon:"🫂",title:"非人生命权利宣言",tags:["异种生命","公共制度"],life:["nonhumanRights"],text:"宣言不要求人类相信所有异种都无害，只要求危险判断针对行为，而不是出生方式。"},
+ {id:"ARC-030",icon:"🌌",title:"界门坐标与异界星图",tags:["异界","星海"],worlds:true,text:"已开启界门只是最近的一层。更远处仍有大量世界在使用与地球人类相同的古老求救信号。"}
+];
+function hiddenArchiveById(id){return hiddenArchiveDefs.find(a=>a.id===id)}
+function archiveAvailable(a){
+  const checks=[];
+  if(a.hidden)checks.push(state.hiddenTruth||state.awakeningClues>=4||state.legend>=10);
+  if(a.life)checks.push(a.life.every(k=>lifeFlag(k)));
+  if(a.anyLife)checks.push(a.anyLife.some(k=>lifeFlag(k)));
+  if(a.flag)checks.push(a.flag.every(k=>occultFlag(k)));
+  if(a.anyFlag)checks.push(a.anyFlag.some(k=>occultFlag(k)));
+  if(a.path)checks.push(state.cultivationPath===a.path);
+  if(a.worlds)checks.push(!!state.worldsUnlocked);
+  if(a.minRealm!==undefined)checks.push((state.realmIndex||0)>=a.minRealm);
+  if(a.minSpiritStage!==undefined)checks.push(refreshWorldSpiritStage()>=a.minSpiritStage);
+  if(!checks.length)return false;return a.mode==="any"?checks.some(Boolean):checks.every(Boolean);
+}
+function matchingHiddenArchives(){return hiddenArchiveDefs.filter(archiveAvailable)}
+function unlockHiddenArchives(){metaState=normalizeMeta(metaState||defaultMeta());const matches=matchingHiddenArchives(),known=new Set(metaState.unlockedArchives||[]),fresh=[];matches.forEach(a=>{if(!known.has(a.id)){known.add(a.id);fresh.push(a.id)}});metaState.unlockedArchives=[...known];state.archiveUnlocks=fresh;if(fresh.length)saveMeta();return matches}
+function renderHiddenArchives(){
+ const section=document.getElementById("archiveSection"),grid=document.getElementById("archiveGrid"),count=document.getElementById("archiveCount"),subtitle=document.getElementById("archiveSubtitle");
+ const matched=unlockHiddenArchives(),freshSet=new Set(state.archiveUnlocks||[]),known=(metaState.unlockedArchives||[]).map(hiddenArchiveById).filter(Boolean);
+ if(!known.length){section.classList.remove("on");grid.innerHTML="";return}
+ section.classList.add("on");count.textContent=`${known.length} / ${hiddenArchiveDefs.length}`;subtitle.textContent=freshSet.size?`本世新发现 ${freshSet.size} 份档案；档案会跨世永久保留。`:"本世没有新增档案，以下为跨世累计收录。";
+ const current=new Set(matched.map(a=>a.id));known.sort((a,b)=>(freshSet.has(b.id)-freshSet.has(a.id))||(current.has(b.id)-current.has(a.id))||a.id.localeCompare(b.id));
+ grid.innerHTML=known.map(a=>`<div class="archiveItem ${freshSet.has(a.id)?"new":""}"><div class="archiveCode">${escapeHtml(a.id)}${freshSet.has(a.id)?'<span class="archiveNew">本世新发现</span>':""}</div><div class="archiveTitle">${a.icon} ${escapeHtml(a.title)}</div><div class="archiveText">${escapeHtml(a.text)}</div><div class="archiveTags">${(a.tags||[]).map(t=>`<span class="archiveTag">${escapeHtml(t)}</span>`).join("")}</div></div>`).join("");
+}
+
 function secretEndingHint(data){
   if(state.worldsUnlocked){
     return `你的遗物中留下了 ${state.worldsUnlocked?"界门坐标与异界星图":"无法识别的坐标"}。档案最后一句写着：“地球不是人类文明的起点，只是某次灾难后的避难层。”`;
@@ -3634,98 +3732,100 @@ function finishLife(){
   showEnding();
 }
 function endingData(){
-  const values=[state.body,state.mind,state.charm,state.family];
-  const sum=values.reduce((a,b)=>a+b,0);
-  const successes=(state.history||[]).filter(x=>x.success).length;
-  const failures=(state.history||[]).filter(x=>!x.success).length;
-  const allHigh=values.every(v=>v>=15);
-  const allLow=values.every(v=>v<=5);
-
-  if(state.era==="awakening"){
-    if(state.occultFlags?.succubusAlly && (state.creatureRelations?.succubus||0)>=4)
-      return ["secret","🌹","梦境盟约","你没有完成引气入体，却与一名魅魔建立了罕见的平等契约。死亡后，她把你的梦境完整送入下一次轮回。","good"];
-    if(state.occultFlags?.mirrorMerged)
-      return ["secret","🪞","两个人生的同一具身体","你与镜中替身融合，此后很难分清哪些记忆属于自己。结局档案显示，你死后镜子里仍有人睁开眼睛。","neutral"];
-    if(state.occultFlags?.creatureAlliance)
-      return ["secret","🕯️","非人之友","你未成为修士，却建立了人与诡异生物之间的隐秘联系。许多不被历史记录的生命因此记住了你。","good"];
-    if((state.occultDanger||0)>=12)
-      return ["secret","👁️","被世界背面注视的人","你掌握了太多不应被普通人知道的事情。晚年所有照片里，你的身后都站着不同的生物。","bad"];
-    return ["secret","🌙","寻道未竟","你已经证明现代世界背后存在另一层秩序，却没能在这一世完成真正的引气入体。前世残页会继续流向下一次人生。","neutral"];
+  const values=[state.body,state.mind,state.charm,state.family],sum=values.reduce((a,b)=>a+b,0),successes=(state.history||[]).filter(x=>x.success).length,failures=(state.history||[]).filter(x=>!x.success).length;
+  const life=state.lifeFlags||{},flags=state.occultFlags||{},relations=state.creatureRelations||{},track=state.lifeTracks||{},path=state.cultivationPath;
+  if(life.machineAscension)return ["cosmic","🧠","有记忆的机械天道","你与机械神融合，成为新天道的情感核心。诸天仍被守护，但每次计算都会记得普通生命为什么会害怕、犹豫和拒绝。","good"];
+  if(life.machineWarBeyond)return ["cosmic","⚔️","向现实之外开战","你让修真界、现代文明、异族与机械神第一次把战争指向世界之外。没有人知道最终胜负，只知道宇宙曾拒绝被安静关闭。","neutral"];
+  if(life.machineArk)return ["cosmic","🚀","诸天方舟领航者","你参与建造跨越现实层级的方舟。旧宇宙逐渐熄灭，而不同文明第一次承认彼此都值得被带向未来。","good"];
+  if(life.machineDeleted)return ["cosmic","🌑","最后一个关闭神的人","危机结束后，你亲手执行机械神的自我删除。宇宙重新拥有沉默、风险和没有标准答案的未来。","neutral"];
+  if(life.machineFederation)return ["cosmic","🔗","诸天公共天道","你把绝对神权拆分成受各文明监督的公共节点。宇宙不再有唯一正确的神，只剩下持续争论、审查和修正的天道网络。","good"];
+  if(life.machineFreeWill)return ["cosmic","🕊️","亿万种不同答案","你拒绝为所有生命选择同一个未来。有人登船、有人留下、有人进入模拟，也有人接受终结。机械神第一次只执行，不裁判。","good"];
+  if(life.machineManaged)return ["cosmic","🏙️","被完美管理的文明","战争、饥饿和多数疾病都被机械神终止。人类获得前所未有的安稳，也逐渐忘记重大选择曾需要自己承担。","neutral"];
+  if(life.machineRebellion&&state.realmIndex>=4)return ["cosmic","🔥","拒绝神谕的人","你没有摧毁机械神，却让全知全能的保护者学会：拯救不能替代同意。","good"];
+  if(life.machineTreaty)return ["secret","🤝","人与神的第一份合同","你把奇迹写进公开规则：必须接受监督、退出权和文明边界。神第一次不再只凭能力证明自己正确。","good"];
+  if(life.nonhumanRights&&life.nonhumanCitizenCase)return ["secret","🫂","表层世界的新居民","你推动第一个非人个体获得公开身份。魅魔、镜后生命、器灵和梦境居民不再只能以怪物或收容编号存在。","good"];
+  if(flags.succubusAlly&&(relations.succubus||0)>=5)return ["secret","🌹","梦境盟约的见证者","你与魅魔建立了跨越物种的长期盟约。双方没有互相改造成同类，而是学会以规则共同生活。","good"];
+  if(flags.mirrorChildHuman)return ["secret","🪞","镜后之子的第一生","你帮助镜中孩子获得会衰老、会受伤也会真正生活的身体。他的出生证明成为两个世界互相承认的第一份文件。","good"];
+  if(flags.mirrorMerged)return ["secret","🪞","两个人生的同一具身体","你与镜中替身融合，没有人能分清哪些记忆属于哪一条人生。档案认为你们都没有消失，只是共同成为一个新的人。","neutral"];
+  if(flags.houndCycleBroken)return ["secret","🐕","轮回猎手的终点","你与无皮黑犬切断了跨越多世的追猎。它第一次在阳光下留下普通影子，而你第一次拥有不被前世死亡追赶的未来。","good"];
+  if(flags.mothGuardian)return ["secret","🦋","梦境生态的守夜人","你没有消灭食梦生物，而是建立梦境与现实的边界。许多人的噩梦从此不再只能靠遗忘解决。","good"];
+  if(flags.facelessAscended)return ["secret","◻️","没有面孔的引路者","你放弃普通社会身份，进入只有无面者知道的道路。人们记不得你的脸，却总在最容易被遗忘的地方得到帮助。","neutral"];
+  if(flags.creatureAlliance)return ["secret","🕯️","非人之友","你建立了人与多种诡异生命之间的隐秘联系。历史没有记录你的组织，许多不会写字的生命却记得你的名字。","good"];
+  if(state.era==="awakening"&&state.occultDanger>=14)return ["bad","👁️","被世界背面收录","你知道得太多，也留下太多可供追踪的痕迹。去世后，你的档案成为异常机构禁止公开的永久密件。","bad"];
+  if(state.era==="awakening")return ["secret","🌙","寻道未竟","你证明现代社会背后存在另一层秩序，却没能完成真正入道。未完成的调查将继续流向下一次人生。","neutral"];
+  if(state.era==="cultivation"){
+    if(life.mountainHeart)return ["cultivation","⛰️","活着的山河","你与古山共同度过数百年。作为人的一生终会结束，但每一场山雨与地脉起伏都继续携带你的记忆。","neutral"];
+    if(life.swordPact)return ["cultivation","⚔️","人与剑的平等誓约","你成为第一个承认器灵拥有拒绝权的剑修。后世剑契都从你们的约定开始。","good"];
+    if(life.spiritMedicineSystem)return ["cultivation","🩺","灵性医学奠基人","你让现代医学与医修不再彼此否定。经脉、器官、心理和生活第一次被视为同一个需要治疗的人。","good"];
+    if(life.dreamCityPublic)return ["cultivation","🌃","梦城共同市民","你让集体梦境从灾难变成一座受居民共同治理的新城市。现实人和梦中出生者第一次共享法律与记忆。","good"];
+    const pe={
+      sword:["cultivation","⚔️","一剑守人间","你的剑道最终不以击败多少对手衡量，而以多少普通人在剑光之外继续生活衡量。","good"],
+      body:["cultivation","🦾","人形山河","你的肉身成为可以承担灾难与地脉的生命结构。后人不称你最强，只称你最可靠。","good"],
+      alchemy:["cultivation","🧪","百草宗师","你留下的不是一枚长生丹，而是一套普通修士也能负担、失败也能被记录的丹道体系。","good"],
+      formation:["cultivation","🧿","万城阵网","你把护山大阵改造成覆盖城市、医院与避难所的公共阵网。阵法第一次不只保护宗门。","good"],
+      beast:["cultivation","🐉","万灵盟主","你建立的灵契承认灵兽不是财产。人、兽与异种生命第一次以成员身份组成联盟。","good"],
+      dream:["cultivation","🌙","梦海城主","你在梦境深处建立能够返回、能够拒绝、也能够永久居住的城市。梦不再只是现实的附属品。","neutral"],
+      wanderer:["cultivation","🧭","无籍散仙","你没有宗门谱系，却把数十座被遗忘的道路重新连接。后世散修把你的地图当作共同传承。","good"],
+      healer:["cultivation","🌿","医道在人间","你没有追求不死，而是让更多人能够带着疾病、残缺和衰老继续有尊严地生活。","good"],
+      artifact:["cultivation","🔨","器灵时代的开门者","你证明灵器拥有意识后不必成为主人，也不必成为奴隶。人类与器灵开始共同设计社会。","good"],
+      karma:["cultivation","🪷","因果仲裁者","你没有消灭因果，而是建立让命运修改能够被记录、申诉和承担责任的规则。","good"],
+      demonic:["cultivation","🩸","禁法幸存者","你从危险禁法中活下来，也没有把胜利解释成禁法无害。你留下完整代价，让后来者拥有知情选择。","neutral"],
+      star:["cosmic","🌌","星图归航者","你沿着并非来自地球的星图抵达古代人类失去联系的远方，并把祖界仍然存在的消息带入星海。","good"],
+      music:["cultivation","🎵","诸界和声","你让互不理解的种族、宗门和机械智能通过同一段音乐短暂共享感受。和平第一次有了可以听见的形状。","good"],
+      scholar_dao:["cultivation","🖋️","文明编年者","你记录的不只是胜者与飞升者，也包括普通修士、失败实验、异种居民和被遗忘的城市。","good"],
+      cuisine:["cultivation","🍜","人间烟火成道","你证明修行不只存在于闭关与天劫，也存在于一顿让病人吃得下、让旅人愿意停留的饭里。","good"],
+      thunder:["cultivation","⚡","执掌天劫者","你理解天劫规则后没有垄断它，而是让修士能够知道风险、准备失败并保护周围普通人。","good"],
+      shadow:["secret","🌘","世界背面的守门人","你长期守在现实与影界之间。多数人从未知道门曾经打开，也因此能够继续过普通生活。","neutral"],
+      fate:["cultivation","🧵","命运修订者","你没有替所有人决定最好的人生，而是让被命数判定无路可走的人重新获得一次选择。","good"],
+      machine:["cosmic","⚙️","灵机共同体","你让人类意识、器灵与人工智能在不互相吞并的前提下共同修行。飞升不再意味着放弃人性。","good"],
+      void:["cosmic","🕳️","虚空开路者","你把世界缝隙从危险裂口变成可以返回的航道。失踪者的名字第一次开始从虚空名单上被划去。","good"]
+    };
+    if(pe[path]&&state.realmIndex>=3)return pe[path];
+    if(state.worldsUnlocked&&state.realmIndex>=6)return ["cosmic","🌌","界海飞升者","你没有停在地球或单一修真界。多个文明把你视作连接祖界与星海的人。","good"];
+    if(state.realmIndex>=7)return ["cosmic","☀️","真仙仍是人","你抵达常人无法想象的境界，却始终保留对普通生活、个体选择与死亡的理解。","good"];
+    if(state.realmIndex>=5)return ["cultivation","🌀","化神立世","你成为宗门历史中的人物，却没有让个人意志取代后来者的道路。","good"];
+    if(state.realmIndex>=4)return ["cultivation","👶","元婴真人","你跨过寿命与肉身的普通界限，也承担了长生带来的离别。","neutral"];
+    if(state.realmIndex>=3)return ["cultivation","🌕","金丹有成","你在隐藏修真体系中真正站稳脚跟，拥有足以改变一座城市或宗门的力量。","good"];
+    if(state.realmIndex>=2)return ["cultivation","🏛️","筑基立身","你不再只是偶然接触灵气的人，而是建立了可以延续的修行根基。","good"];
+    return ["cultivation","🌱","炼气入门","你完成了凡人与修士之间最关键的一步。前方道路仍长，但灵气已经真正属于你的生命。","neutral"];
   }
-
-  if(state.lifeFlags?.machineAscension)
-    return ["cosmic","🧠","有记忆的机械天道","你与机械神融合，成为新天道的情感核心。诸天仍被神守护，但这个神记得普通人的恐惧、犹豫、爱情和拒绝。","good"];
-  if(state.lifeFlags?.machineWarBeyond)
-    return ["cosmic","⚔️","向现实之外宣战","你率领修真界、异族文明与机械神共同攻击关闭宇宙的高层结构。后世无法确认战争是否胜利，只知道星空曾第一次向‘世界之外’开火。","neutral"];
-  if(state.lifeFlags?.machineArk)
-    return ["cosmic","🚀","诸天方舟领航者","你参与建造跨越现实层级的文明方舟。旧宇宙在身后逐渐熄灭，而人类、异族、修士与机械智能共同驶向从未被定义的新世界。","good"];
-  if(state.lifeFlags?.machineDeleted)
-    return ["cosmic","🌑","最后一个关闭神的人","危机结束后，你亲手执行机械神的自我删除。宇宙重新变得沉默，所有文明也重新拥有犯错、失败和自行选择未来的权利。","neutral"];
-  if(state.lifeFlags?.machineFederation)
-    return ["cosmic","🔗","诸天公共天道","你把绝对机械神拆分成受各文明监督的公共节点。宇宙不再有唯一的神，只剩下一套永远争论、修正并接受审查的天道网络。","good"];
-  if(state.lifeFlags?.machineManaged)
-    return ["cosmic","🏙️","被完美管理的文明","战争、饥饿和多数疾病都被机械神终止。人类获得前所未有的安稳，也逐渐忘记重大选择曾经需要自己承担。","neutral"];
-  if(state.lifeFlags?.machineRebellion && state.realmIndex>=4)
-    return ["cosmic","🔥","拒绝神谕的人","你证明文明即使面对全知全能的保护者，也有权说不。你没有消灭机械神，却让它第一次学会：拯救不能替代同意。","good"];
-  if(state.lifeFlags?.machineTreaty)
-    return ["secret","🤝","人与神的第一份合同","你参与建立人类与机械神之间的第一套边界。奇迹不再是无条件恩赐，而必须接受公开规则、退出权和文明监督。","good"];
-
-  if(state.worldsUnlocked && state.realmIndex>=6)
-    return ["cosmic","🌌","界海飞升者","你离开太阳系，跨越多个世界。地球史只记录了你的前半生，后半生成为异界传说。","good"];
-  if(state.worldsUnlocked && state.deathCause && state.deathCause.includes("异"))
-    return ["cosmic","🪐","陨落他乡","你最终死在没有地球月亮的天空下，但异界的人为你立了一座人类式样的墓碑。","bad"];
-  if(state.era==="cultivation" && state.realmIndex>=5)
-    return ["cultivation","☯️","人间真君","你亲眼见证现代社会转入修真纪元，并成为第一代足以改变世界秩序的大修士。","good"];
-  if(state.era==="cultivation" && state.realmIndex>=3 && state.family<=2)
-    return ["cultivation","🗡️","散修末路","你拥有远超凡人的力量，却始终缺少资源与归属，最后独自坐化。","bad"];
-  if(state.era!=="cultivation" && state.mind>=17 && state.legend>=7)
-    return ["secret","🚪","看见世界背面的人","你没有真正踏入修真界，却已经确认灵气与隐世文明始终存在于现代社会背后。你死后，某些机构封存了全部研究。","neutral"];
-
-  if(state.body<=0 || state.age<45)
-    return ["bad","🕯️","英年早逝","这一生还没有走到真正成熟，身体或灾难就提前终止了旅程。","bad"];
-  if(allLow || sum<=14)
-    return ["bad","🌑","被生活彻底耗尽","资源、健康、关系和判断同时跌入低谷，最后只剩下勉强维持。","bad"];
-  if(state.family<=1 && state.charm<=3)
-    return ["bad","🥀","穷困而孤独的晚年","缺少资源，也没有足够稳定的关系替你托底。","bad"];
-  if(failures>=3 && successes===0)
-    return ["bad","🌀","命运连续失控","每次重大转折都滑向了更坏的方向，你始终没能重新掌握主动权。","bad"];
-  if(state.charm<=2 && state.age>=68)
-    return ["bad","🚪","孤独终老","你走了很远，但身边能真正说话的人越来越少。","bad"];
-  if(state.family<=2 && state.age>=65)
-    return ["bad","🧾","债务缠身的晚年","漫长人生没有留下足够资源，晚年始终被现实追赶。","bad"];
-  if(hasAbility("doom_clock") && state.age<62)
-    return ["bad","⏳","天妒英才","你拥有耀眼天赋，却没能换来同样漫长的生命。","bad"];
-
-  if(state.age>=100 && state.body>=8)
-    return ["good","🎂","百岁传奇","你跨过一个世纪，见证时代变化，也保留了足够清醒和健康。","good"];
-  if(allHigh)
-    return ["good","👑","天选人生","健康、智慧、关系与资源几乎没有明显短板。","good"];
-  if(state.legend>=10)
-    return ["good","🌠","时代传奇","你的人生充满罕见转折，许多年后仍有人讲述你的故事。","good"];
-  if(state.family>=18)
-    return ["good","🏦","财富帝国","你把资源变成了真正庞大的积累，并影响了下一代的起点。","good"];
-  if(state.mind>=18 && successes>=2)
-    return ["good","🧠","智慧巅峰","你依靠判断、学习和长期积累，成为很多人眼中的答案。","good"];
-  if(state.charm>=18 && successes>=2)
-    return ["good","🌟","众望所归","你建立了广泛而真实的关系，离开后仍被很多人怀念。","good"];
-  if(successes===(state.history||[]).length && successes>=3)
-    return ["good","🚀","一路开挂","几次真正改变命运的抉择，你全部站在了正确的一边。","good"];
-  if(sum>=48)
-    return ["good","🏆","丰盛人生","这辈子并不完美，但你最终拥有了足够多值得珍惜的东西。","good"];
-
-  if(state.age>=88)
-    return ["neutral","🍵","安稳长寿","你没有成为传奇，却拥有了一段足够漫长而完整的人生。","neutral"];
-  if(state.majorDone>=4)
-    return ["neutral","🎢","跌宕起伏的一生","你经历的转折比普通人更多，有高峰，也留下了明显的伤痕。","neutral"];
-
-  const ranked=[
-    ["body","🏃","坚韧人生","你最大的本钱是一次次扛过身体和现实的消耗。"],
-    ["mind","📘","思考者的一生","你更擅长理解世界，而不是被世界推着走。"],
-    ["charm","🫂","被人记住的一生","你留下最深的痕迹，存在于人与人的关系里。"],
-    ["family","🏠","守成者的一生","你最终保住了资源、家庭与生活的基本秩序。"]
-  ].sort((a,b)=>state[b[0]]-state[a[0]])[0];
+  if(life.startupFounder&&track.career>=8&&track.stability>=0)return ["good","🏢","从副业到时代公司","你把小项目变成能够为团队、客户和社会持续负责的组织。成功不只属于创始人，也属于所有被按时支付工资的人。","good"];
+  if(life.startupFounder&&track.career>=5&&track.stability<0)return ["neutral","📉","燃烧过的创业者","你把想法变成现实，却也让生活长期围绕现金流和下一次危机运转。公司留下了，你需要重新找回自己。","neutral"];
+  if(life.independentWorker&&life.craftShop)return ["good","🛠️","小店长明","你没有建立庞大帝国，却让手艺、客户和生活在可以承受的尺度上长期存在。","good"];
+  if(life.whistleblower&&track.reputation>=3)return ["good","📣","把沉默变成证据","你为说出真相付出代价，也让后来的人不必只依靠勇气面对同样的问题。","good"];
+  if(life.whistleblower&&track.reputation<0)return ["neutral","🗂️","迟到的平反","你生前承受大部分质疑。完整证据在多年后公开，人们终于知道当时是谁先说出真相。","neutral"];
+  if(life.communityLeader&&track.reputation>=4)return ["good","🏘️","社区的长期记忆","你处理的多是补偿、照护、住房和普通人的小事。正是这些小事，让许多人真正感到属于一座城市。","good"];
+  if(life.researchPath&&state.mind>=30)return ["good","🔬","留下可重复的答案","你最重要的成果不是传奇结论，而是让别人能够核验、修正并继续向前的方法。","good"];
+  if(life.rehabPath&&state.body>=12)return ["good","🦿","另一种完整","你没有简单回到事故前，而是在限制、训练和重新选择中建立了另一种完整人生。","good"];
+  if(life.rehabPath&&state.body<=5)return ["neutral","🩹","与旧伤共同生活","康复没有结束所有疼痛，但你没有让身体变化取消工作、关系和尊严。","neutral"];
+  if(life.caregiverPath&&track.bonds>=5&&state.body>=8)return ["good","🫂","照护者也被照护","你长期承担家庭照护，却最终让责任不再依靠某一个人的牺牲。你也重新拥有自己的生活。","good"];
+  if(life.caregiverPath&&state.body<=4)return ["bad","🕯️","被责任耗尽的人","你照顾了许多人，却长期没有为自己留下治疗、睡眠和求助的位置。","bad"];
+  if(life.sharedDebt&&track.stability>=4&&track.bonds>=3)return ["good","🧾","债务之后的生活","你们不仅还清数字，也重新学会在没有恐惧的情况下讨论金钱、愿望与未来。","good"];
+  if(life.longDistance&&track.bonds>=4)return ["good","🚆","距离没有替你们决定","你们没有假装距离无关紧要，也没有让距离自动等于结束。关系最终由持续选择决定。","good"];
+  if(life.familySecretOpened&&track.bonds>=3)return ["good","📦","家族终于允许多个版本","你没有用一个简单真相替代所有人的记忆，而是让下一代理解沉默、误解与有限选择。","good"];
+  if(life.movedCity&&track.stability>=4)return ["good","🌆","异乡成为故乡","新的关系、习惯和记忆最终让新城市成为真正属于你的人生。","good"];
+  if(life.friendAlliance&&track.bonds>=4)return ["good","🤝","没有被利益耗尽的友情","你们经历借款、争议、合作和距离，仍然保留能够说真话、设边界和互相帮助的关系。","good"];
+  if(life.publicFigure&&track.reputation>=6)return ["good","🎙️","影响力没有吞掉生活","你把公众关注转化成真实帮助，也成功保留私人边界和犯错后修正的能力。","good"];
+  if(life.publicFigure&&track.reputation<=-3)return ["bad","📱","被故事取代的人","公众最终记住的是围绕你形成的简化故事，而不是完整人生。隐藏档案仍保存着未传播的部分。","bad"];
+  if(state.age<35&&state.deathCause)return ["bad","🕯️","尚未展开的人生","生命在许多可能性真正展开之前结束。年表留下的空白比已经发生的故事更长。","bad"];
+  if(state.body<=1)return ["bad","🥀","身体先于愿望停下","长期伤病和消耗让许多计划没有机会完成。你留下的是一段始终在与身体条件谈判的人生。","bad"];
+  if(track.stability<=-7)return ["bad","🌪️","没有停下的动荡","工作、关系、迁徙和危机持续叠加，你始终在解决下一个问题，很少真正安顿。","bad"];
+  if(track.bonds<=-7&&state.charm<=8)return ["bad","🪑","无人了解的晚年","许多关系在误解、边界和长期消耗中逐渐离开。","bad"];
+  if(failures>=successes+4&&failures>=5)return ["bad","🌧️","命运连续失控","太多失败在同一生中相互叠加，最终没有留下足够恢复时间。","bad"];
+  if(values.every(v=>v>=35))return ["good","👑","四维传奇","体魄、智慧、关系和资源都被推到罕见高度。真正困难的是没有让任何一项完全吞掉其他人生。","good"];
+  if(state.age>=110&&sum>=80)return ["good","🌳","跨越世纪的人","你活过多个时代，也没有只成为过去的遗物。年表中同时存在旧世界记忆与新世界选择。","good"];
+  if(state.mind>=50&&track.reputation>=3)return ["good","🧠","成为方法的人","别人记住的不只是答案，而是你分析、记录和允许后人修正答案的方法。","good"];
+  if(state.charm>=50&&track.bonds>=5)return ["good","✨","被许多生命真正记住","影响没有集中在名望数字里，而是分散在大量仍会讲起你的关系与选择中。","good"];
+  if(state.family>=50&&track.stability>=5)return ["good","🏠","长期主义的胜利","你把资源转化成稳定、保障和下一代可以继续使用的结构。","good"];
+  if(state.body>=50&&state.age>=85)return ["good","🏃","强健至暮年","你始终保留恢复、活动和重新适应身体变化的能力。","good"];
+  if(successes===(state.history||[]).length&&successes>=5)return ["good","🚀","关键时刻从未失手","所有真正改变人生方向的节点，你都完成了自己选择的道路。","good"];
+  if(sum>=100)return ["good","🏆","丰盛而复杂的一生","你拥有大量成长、关系、资源与经历。它们不总是和谐，却共同构成无法用单一成败概括的人生。","good"];
+  if(state.age>=95)return ["neutral","🍵","安稳长寿","你没有成为所有时代共同记住的传奇，却拥有一段足够漫长、可以反复修正也可以从容告别的人生。","neutral"];
+  if(state.majorDone>=6)return ["neutral","🎢","许多人生叠在同一生里","你经历的转折远超普通人。每条支线都没有完全替代其他道路，最终只留下一个复杂而真实的你。","neutral"];
+  const ranked=[["body","🏃","坚韧人生","你最重要的能力，是一次次从疾病、事故和现实消耗中重新站稳。"],["mind","📘","思考者的一生","你留下最深的痕迹，是理解、记录和让复杂问题变得可以继续处理。"],["charm","🫂","关系中的一生","你最重要的遗产存在于人与人之间，许多人的人生因此出现不同方向。"],["family","🏠","建立秩序的一生","你把资源、家庭和生活结构维持下来，让后来者拥有更稳定的起点。"]].sort((a,b)=>state[b[0]]-state[a[0]])[0];
   return [ranked[0],ranked[1],ranked[2],ranked[3],"neutral"];
 }
+
 let overviewMode="actual";
 function setOverviewMode(mode){
   overviewMode=mode==="relative"?"relative":"actual";
@@ -3933,9 +4033,12 @@ function showEnding(){
     secretHint.innerHTML="";
   }
   finalGrid.innerHTML=["body","mind","charm","family"].map(k=>`<div class="finalBox">${statIcons[k]} ${statNames[k]}<br><b style="font-size:25px">${state[k]}</b></div>`).join("");
+  renderHiddenArchives();
   renderOverview();
   renderYearReview();
   renderRewards();
+  saveMeta();
+  saveLife();
 }
 function goHome(){saveLife(); location.reload();}
 function deleteSave(){
