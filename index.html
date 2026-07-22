@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · 万界人生</title>
+<title>随机人生模拟器 · 入道境界修正版</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -181,6 +181,49 @@ input:focus{border-color:var(--purple)}
 .rewardBtn b{display:block;margin-bottom:4px}
 .claimed{margin-top:10px;padding:11px;border-radius:14px;background:rgba(66,215,170,.12);color:#9af0d7;font-size:13px}
 
+
+.daoDrawPanel{
+  display:none;margin:14px 0 16px;padding:18px;border-radius:20px;text-align:left;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(173,107,232,.20),transparent 35%),
+    linear-gradient(145deg,rgba(44,34,86,.95),rgba(19,27,52,.98));
+  border:1px solid rgba(190,151,255,.35);
+  box-shadow:0 18px 50px rgba(0,0,0,.35)
+}
+.daoDrawPanel.on{display:block;animation:fade .3s ease}
+.daoDrawHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}
+.daoDrawBadge{
+  flex:0 0 auto;padding:6px 9px;border-radius:999px;
+  background:rgba(196,164,255,.13);color:#e0ceff;font-size:11px;font-weight:900
+}
+.daoCardGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+@media(max-width:680px){.daoCardGrid{grid-template-columns:1fr}}
+.daoCard{
+  width:100%;min-height:220px;text-align:left;color:white;padding:15px;border-radius:17px;
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.055);
+  position:relative;overflow:hidden
+}
+.daoCard:before{
+  content:"";position:absolute;inset:0 auto 0 0;width:4px;
+  background:linear-gradient(#c69cff,#6f8dff)
+}
+.daoCard.mixed:before{background:linear-gradient(#ffd166,#f29f45)}
+.daoCard.danger:before{background:linear-gradient(#ff6e8a,#b64fe8)}
+.daoCard:hover{border-color:rgba(199,170,255,.55);background:rgba(255,255,255,.085)}
+.daoCardIcon{font-size:34px;margin-bottom:7px}
+.daoCardName{font-size:18px;font-weight:950}
+.daoCardType{font-size:10px;color:#d7c5ff;margin-top:4px;font-weight:900}
+.daoCardDesc{font-size:12px;line-height:1.65;color:#cbd3eb;margin-top:9px}
+.daoCardEffects{display:flex;gap:5px;flex-wrap:wrap;margin-top:11px}
+.daoEffect{
+  font-size:10px;padding:5px 7px;border-radius:999px;background:rgba(139,124,255,.13);
+  border:1px solid rgba(139,124,255,.20);color:#e1ddff
+}
+.daoSelect{margin-top:12px;width:100%}
+.realmLine{
+  margin-top:5px;font-size:11px;color:#cbbcff;font-weight:800
+}
+
 .eraStatus{
   margin:-3px 0 13px;padding:10px 12px;border-radius:14px;
   background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);
@@ -222,7 +265,7 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">万界人生</div>
+    <div class="badge">入道境界修正版</div>
   </div>
 
   <section id="home" class="screen on">
@@ -310,7 +353,18 @@ input:focus{border-color:var(--purple)}
       <div class="progress"><span id="majorProgress">重大抉择：0 / 3</span><span id="legendText">精彩度：0</span></div>
       <div id="daily" class="daily">18 岁，你站在这一生的入口。</div>
 
-      <div class="card wheelCard">
+      <div id="daoDrawPanel" class="daoDrawPanel">
+        <div class="daoDrawHead">
+          <div>
+            <h2 style="margin:0 0 5px">入道机缘</h2>
+            <div class="muted" style="font-size:12px">你收集到的线索只能打开入口。真正踏入修行前，还要从三条随机道途中选择一条。</div>
+          </div>
+          <div class="daoDrawBadge">三选一 · 一经选择不可更改</div>
+        </div>
+        <div id="daoCardGrid" class="daoCardGrid"></div>
+      </div>
+
+      <div id="wheelCard" class="card wheelCard">
         <h2>命运轮盘</h2>
         <p class="muted">重大事件只会到来少数几次。每次选择，都会决定接下来很多年的走向。</p>
         <div class="wheelWrap">
@@ -396,7 +450,116 @@ const awakeningCategories=["异象","古法","寻道","奇遇","时代","危机"
 const cultivationBaseCategories=["修炼","宗门","秘境","灵兽","仙缘","因果","丹道","炼器","天劫","魔灾","人间","危机"];
 const otherWorldCategories=["异界","星海"];
 let categories=[...modernCategories];
-const realms=["凡人","炼气","筑基","金丹","元婴","化神","渡劫","真仙"];
+const realmConfigs=[
+  {
+    name:"凡人",baseAge:58,bodyFactor:2,maxAge:108,
+    categories:[]
+  },
+  {
+    name:"炼气",baseAge:88,bodyFactor:2.2,maxAge:140,
+    categories:["修炼","宗门","人间","仙缘","危机"]
+  },
+  {
+    name:"筑基",baseAge:135,bodyFactor:3,maxAge:220,
+    categories:["修炼","宗门","人间","仙缘","危机","秘境","灵兽","丹道","炼器","因果"]
+  },
+  {
+    name:"金丹",baseAge:225,bodyFactor:4,maxAge:380,
+    categories:["修炼","宗门","人间","仙缘","危机","秘境","灵兽","丹道","炼器","因果","天劫","魔灾"]
+  },
+  {
+    name:"元婴",baseAge:390,bodyFactor:5,maxAge:650,
+    categories:["修炼","宗门","人间","仙缘","危机","秘境","灵兽","丹道","炼器","因果","天劫","魔灾"]
+  },
+  {
+    name:"化神",baseAge:610,bodyFactor:6,maxAge:900,
+    categories:["修炼","宗门","人间","仙缘","危机","秘境","灵兽","丹道","炼器","因果","天劫","魔灾"]
+  },
+  {
+    name:"渡劫",baseAge:830,bodyFactor:7,maxAge:1200,
+    categories:["修炼","宗门","人间","仙缘","危机","秘境","灵兽","丹道","炼器","因果","天劫","魔灾"]
+  },
+  {
+    name:"真仙",baseAge:1120,bodyFactor:8,maxAge:1600,
+    categories:["修炼","宗门","人间","仙缘","危机","秘境","灵兽","丹道","炼器","因果","天劫","魔灾"]
+  }
+];
+const realms=realmConfigs.map(x=>x.name);
+
+const cultivationPaths=[
+  {
+    id:"sword",icon:"⚔️",name:"残剑引气",tone:"stable",type:"剑修",
+    desc:"以前世残剑中的一缕剑意切开气海。攻伐强，但每次突破都更考验体质。",
+    start:{body:2,mind:1},chanceCats:{"修炼":7,"危机":8,"天劫":7},
+    earlyCategories:["秘境"],lifespanBonus:4
+  },
+  {
+    id:"body",icon:"🦾",name:"古体炼形",tone:"stable",type:"体修",
+    desc:"先炼血肉，再纳灵气。寿元更稳、渡劫更强，但学习复杂法术稍慢。",
+    start:{body:3,mind:-1},chanceCats:{"修炼":8,"危机":10,"天劫":9},
+    earlyCategories:[],lifespanBonus:12
+  },
+  {
+    id:"alchemy",icon:"🧪",name:"青炉丹火",tone:"stable",type:"丹修",
+    desc:"以药理和灵火完成第一次引气。能在炼气期提前接触丹道，资源消耗较大。",
+    start:{mind:2,family:1,body:-1},chanceCats:{"丹道":13,"修炼":4,"人间":4},
+    earlyCategories:["丹道"],lifespanBonus:8
+  },
+  {
+    id:"formation",icon:"🧿",name:"符阵启灵",tone:"stable",type:"阵修",
+    desc:"用现代计算和古阵纹稳定灵气。能更早接触炼器，突破成功率较稳定。",
+    start:{mind:2,family:1},chanceCats:{"炼器":12,"宗门":5,"秘境":5},
+    earlyCategories:["炼器"],breakthroughBonus:5
+  },
+  {
+    id:"beast",icon:"🐉",name:"灵契共生",tone:"mixed",type:"御灵",
+    desc:"借非人生物的灵性完成入道。魅力与体质增长，但会受到契约关系影响。",
+    start:{charm:2,body:1},chanceCats:{"灵兽":15,"仙缘":7,"危机":-3},
+    earlyCategories:["灵兽"],lifespanBonus:5
+  },
+  {
+    id:"dream",icon:"🌙",name:"梦海观想",tone:"mixed",type:"梦修",
+    desc:"从魅魔、食梦生物和前世梦境中观想神魂。心智强大，却更容易遭遇心魔。",
+    start:{mind:2,charm:2,body:-1},chanceCats:{"仙缘":11,"因果":10,"魔灾":-5},
+    earlyCategories:["因果"],lifespanBonus:3
+  },
+  {
+    id:"wanderer",icon:"🧭",name:"散修游脉",tone:"mixed",type:"散修",
+    desc:"不加入固定传承，依靠秘境、旧物和人间经验修行。自由度高，资源不稳定。",
+    start:{body:1,mind:1,charm:1,family:-1},chanceCats:{"秘境":12,"人间":8,"宗门":-5},
+    earlyCategories:["秘境"],lifespanBonus:2
+  },
+  {
+    id:"healer",icon:"🌿",name:"医道灵枢",tone:"stable",type:"医修",
+    desc:"以经络、药理与生命感知入道。擅长延寿和恢复，正面战斗较弱。",
+    start:{mind:2,body:1},chanceCats:{"丹道":10,"人间":9,"危机":4},
+    earlyCategories:["丹道"],lifespanBonus:16
+  },
+  {
+    id:"artifact",icon:"🔨",name:"器火铸脉",tone:"mixed",type:"器修",
+    desc:"借灵器反向温养经脉。资源充足时成长很快，失败时可能造成器火反噬。",
+    start:{mind:1,family:2,body:-1},chanceCats:{"炼器":15,"财富":5,"天劫":-3},
+    earlyCategories:["炼器"],lifespanBonus:5
+  },
+  {
+    id:"karma",icon:"🪷",name:"因果照心",tone:"mixed",type:"因果修",
+    desc:"通过观察人与人之间的因果线完成入道。社交与心境强，容易卷入他人命数。",
+    start:{mind:1,charm:2},chanceCats:{"因果":14,"人间":8,"魔灾":3},
+    earlyCategories:["因果"],lifespanBonus:6
+  },
+  {
+    id:"demonic",icon:"🩸",name:"血月残篇",tone:"danger",type:"禁法",
+    desc:"以诡异生物留下的污染强行冲开气海。开局强大，却提前接触魔灾并损耗寿元。",
+    start:{body:3,mind:2,charm:-2},chanceCats:{"修炼":12,"魔灾":7,"宗门":-10},
+    earlyCategories:["魔灾"],lifespanBonus:-16,breakthroughBonus:8
+  },
+  {
+    id:"star",icon:"🌌",name:"星图吐纳",tone:"danger",type:"星修",
+    desc:"沿着遗物星图引动并非来自地球的灵气。修炼迅速，但更早被界外存在注意。",
+    start:{mind:3,body:-1},chanceCats:{"仙缘":10,"秘境":8,"异界":8},
+    earlyCategories:["秘境"],lifespanBonus:0,breakthroughBonus:4
+  }
+];
 const statNames={body:"体质",mind:"智力",charm:"魅力",family:"家境"};
 const statIcons={body:"💪",mind:"🧠",charm:"✨",family:"🏠"};
 const avatars=["🦊","🐼","🐸","🦁","🐙","🦄","🐧","🐰"];
@@ -445,6 +608,11 @@ function calculateChance(choice){
   });
   chance += metaState?.chanceAll||0;
   chance += metaState?.categoryBonus?.[currentEvent?.category]||0;
+
+  const path=cultivationPathById(state?.cultivationPath);
+  if(state?.era==="cultivation" && path){
+    chance += path.chanceCats?.[currentEvent?.category]||0;
+  }
 
   return Math.max(5,Math.min(95,Math.round(chance)));
 }
@@ -1023,15 +1191,15 @@ const eventBank={
  ]}
 ],
 "修炼":[
- {title:"城市上空第一次出现灵潮",desc:"全球监测设备同时失灵。你能清楚感觉到空气中有某种东西正在回应呼吸。",choices:[
+ {title:"你第一次在现实中看见灵气潮汐",desc:"只有你和少数修士能感知到这场灵气潮汐。普通城市仍在照常运转，路人甚至没有抬头。",choices:[
   {text:"闭关尝试引气入体",hint:"依赖体质与智力",need:"body",fx:{body:[0,3],mind:[1,3]},success:"你在丹田中捕捉到第一缕灵气，从此真正踏上修行路。",fail:"灵气在经脉中失控，你花了很久才恢复。"},
   {text:"记录并研究灵气规律",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,1]},success:"你整理出最早的一批现代修行理论。",fail:"数据相互矛盾，但你确定旧科学并没有错，只是不完整。"},
   {text:"寻找民间古法",hint:"依赖魅力与家境",need:"charm",fx:{charm:[1,3],family:[-2,2],mind:[0,2]},success:"一位沉默多年的老人向你展示了真正的吐纳法。",fail:"你遇到了很多骗子，只得到几页真假难辨的残卷。"}
  ]},
- {title:"第一次正式突破",desc:"灵力已经抵达瓶颈。突破可能带来寿元，也可能直接损伤根基。",choices:[
-  {text:"强行冲关",hint:"高风险，依赖体质",need:"body",fx:{body:[-3,4],mind:[0,2]},success:"经脉扩张，你跨过了境界门槛。",fail:"冲关失败，根基出现裂痕。"},
-  {text:"继续打磨根基",hint:"稳健，依赖智力",need:"mind",fx:{mind:[1,3],body:[0,2]},success:"你没有急于突破，却让下一次成功概率大幅提高。",fail:"瓶颈比预想更顽固。"},
-  {text:"借助灵药突破",hint:"依赖家境",need:"family",fx:{family:[-4,-1],body:[1,4]},success:"药力化开瓶颈，你成功进阶。",fail:"灵药品阶不足，只留下药毒。"}
+ {id:"realm_bottleneck",title:"你抵达当前境界的修炼瓶颈",desc:"这次选择会影响修为积累和破境准备。只有修为达到下一境界阈值，并通过破境判定后，境界才会真正提升。",choices:[
+  {text:"强行冲击瓶颈",hint:"高风险，依赖体质",need:"body",fx:{body:[-3,4],mind:[0,2]},cultivationGain:{success:18,fail:4},success:"经脉承受住冲击，瓶颈明显松动。",fail:"冲击失败，根基出现裂痕，但你仍积累了少量经验。"},
+  {text:"继续打磨根基",hint:"稳健，依赖智力",need:"mind",fx:{mind:[1,3],body:[0,2]},cultivationGain:{success:11,fail:6},success:"你的根基更加稳固，为真正破境做好了准备。",fail:"瓶颈仍然顽固，但修为没有停滞。"},
+  {text:"借助灵药冲关",hint:"依赖家境",need:"family",fx:{family:[-4,-1],body:[1,4]},cultivationGain:{success:15,fail:3},success:"药力化开了一部分瓶颈，修为迅速增长。",fail:"灵药品阶不足，只留下药毒和少量修为积累。"}
  ]}
 ],
 "宗门":[
@@ -1103,7 +1271,7 @@ const eventBank={
   {text:"只保护自己在意的人",hint:"依赖家境与体质",need:"family",fx:{family:[1,3],body:[0,2],charm:[-2,0]},success:"你守住了自己的小世界。",fail:"外部动荡最终仍然波及家人。"},
   {text:"退出城市，建立隐居地",hint:"依赖体质",need:"body",fx:{body:[1,3],family:[-3,1],mind:[0,2]},success:"你建立了一处远离争斗的修行聚落。",fail:"隐居地的资源很快耗尽。"}
  ]},
- {title:"旧时代最后一所普通大学关闭",desc:"课程被修行、阵法和异界学取代。你意识到现代社会已经成为历史名词。",choices:[
+ {title:"第一所面向普通人的修行学院公开招生",desc:"现代大学依然存在，但修行课程首次被公开纳入体系。两个世界开始缓慢接触，而非一夜之间互相取代。",choices:[
   {text:"保存旧时代知识",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,1]},success:"你建立的档案馆后来被称为‘凡人文明火种库’。",fail:"大部分数据在灵能风暴中损毁。"},
   {text:"全面拥抱新时代",hint:"依赖魅力与适应力",need:"charm",fx:{charm:[1,3],mind:[1,2]},success:"你成为连接两个时代的重要人物。",fail:"变化太快，你仍错过了许多东西。"}
  ]},
@@ -1237,22 +1405,69 @@ const yearlyEventPools={
 };
 
 
+function cultivationPathById(id){
+  return cultivationPaths.find(x=>x.id===id);
+}
+function cultivationCategoriesForState(){
+  const index=Math.max(1,Math.min(state.realmIndex||1,realmConfigs.length-1));
+  const config=realmConfigs[index];
+  const result=[...(config.categories||[])];
+  const path=cultivationPathById(state.cultivationPath);
+  (path?.earlyCategories||[]).forEach(cat=>{
+    if(!result.includes(cat))result.push(cat);
+  });
+  if(state.worldsUnlocked){
+    otherWorldCategories.forEach(cat=>{
+      if(!result.includes(cat))result.push(cat);
+    });
+  }
+  return result;
+}
 function syncEraCategories(){
   if(state?.era==="cultivation"){
-    categories=[...cultivationBaseCategories];
-    if(state.worldsUnlocked)categories.push(...otherWorldCategories);
-  }else if(state?.era==="awakening"){
+    categories=cultivationCategoriesForState();
+  }else if(state?.era==="awakening" || state?.era==="dao_choice"){
     categories=[...awakeningCategories];
   }else{
     categories=[...modernCategories];
   }
-  pointerIndex=Math.min(pointerIndex,categories.length-1);
+  pointerIndex=Math.max(0,Math.min(pointerIndex,categories.length-1));
   renderWheelLabels();
 }
 function currentRealm(){
+  if(state?.era==="dao_choice")return "入道门前";
   if(state?.era==="awakening")return "寻道者";
   if(state?.era!=="cultivation")return "现代凡人";
-  return realms[Math.max(1,state.realmIndex||1)]||realms[realms.length-1];
+  return realmConfigs[Math.max(1,state.realmIndex||1)]?.name||"炼气";
+}
+function currentRealmConfig(){
+  if(state?.era!=="cultivation")return realmConfigs[0];
+  return realmConfigs[Math.max(1,Math.min(state.realmIndex||1,realmConfigs.length-1))];
+}
+function fixedLifeRoll(){
+  if(state.lifePotentialRoll===undefined || state.lifePotentialRoll===null){
+    state.lifePotentialRoll=rand(-4,12);
+  }
+  return state.lifePotentialRoll;
+}
+function calculatedLifespanTarget(){
+  const abilityBonus=(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.lifespan||0),0);
+  const inheritedBonus=metaState?.lifespanBonus||0;
+  const roll=fixedLifeRoll();
+
+  if(state.era!=="cultivation"){
+    const cfg=realmConfigs[0];
+    return Math.max(state.age,Math.min(cfg.maxAge,cfg.baseAge+state.body*cfg.bodyFactor+abilityBonus+inheritedBonus+roll));
+  }
+
+  const cfg=currentRealmConfig();
+  const path=cultivationPathById(state.cultivationPath);
+  const cultivationInheritance=metaState?.cultivationLifespan||0;
+  const worldBonus=state.worldsUnlocked?Math.min(180,60+(state.realmIndex||1)*15):0;
+  const cap=cfg.maxAge+worldBonus;
+  const target=cfg.baseAge+state.body*cfg.bodyFactor+abilityBonus+inheritedBonus+
+    cultivationInheritance+(path?.lifespanBonus||0)+worldBonus+roll;
+  return Math.max(state.age,Math.min(cap,target));
 }
 function cultivationThresholdReached(){
   if(!state || state.era!=="modern")return false;
@@ -1275,22 +1490,55 @@ function enterAwakening(){
   state.extraChecked=true;
   state.hiddenTruth=true;
   state.lastWorldTransition="awakening";
-  state.currentDaily=`${state.age} 岁，前世继承的残缺记忆开始与现实重合。你没有看见全球灵气复苏，只是第一次确认：现代世界之外确实还藏着另一层秩序。`;
-  recordYear(state.age,"前世传承中的梦境与现实出现重合。你开始秘密调查异象、古法与旧时代留下的痕迹。此时你仍是普通人，只是已经无法再把一切解释成巧合。","cultivation");
+  state.currentDaily=`${state.age} 岁，前世残页开始与现实重合。你仍然生活在现代社会，只是开始接触被普通人忽略的异常。`;
+  recordYear(state.age,"前世传承中的梦境与现实出现重合。你开始调查异象、古法和隐藏组织，但此时仍然没有真正修为。","cultivation");
   syncEraCategories();
   return true;
 }
-function enterCultivation(){
+function generateDaoOffers(){
+  const stable=shuffleArray(cultivationPaths.filter(x=>x.tone==="stable"));
+  const mixed=shuffleArray(cultivationPaths.filter(x=>x.tone==="mixed"));
+  const danger=shuffleArray(cultivationPaths.filter(x=>x.tone==="danger"));
+  const picks=[];
+  if(stable.length)picks.push(stable[0]);
+  if(mixed.length)picks.push(mixed[0]);
+  const remaining=shuffleArray(cultivationPaths.filter(x=>!picks.some(p=>p.id===x.id)));
+  const dangerRoll=state.occultDanger>=6 && danger.length && rand(1,100)<=55;
+  if(dangerRoll)picks.push(danger[0]);
+  else if(remaining.length)picks.push(remaining[0]);
+  return shuffleArray(picks).slice(0,3).map(x=>x.id);
+}
+function beginDaoDraw(){
+  if(state.pendingDaoChoice)return true;
+  state.era="dao_choice";
+  state.pendingDaoChoice=true;
+  state.daoOffers=generateDaoOffers();
+  state.lastWorldTransition="dao_choice";
+  state.targetMajor=Math.max(state.targetMajor,state.majorDone+3);
+  state.currentDaily=`${state.age} 岁，你终于找到了真正的入道门槛。三种传承与你产生共鸣，但你只能选择其中一种。`;
+  recordYear(state.age,"寻道线索在同一夜汇聚。你尚未成为修士，而是站在了选择修行道路的门前。","cultivation");
+  syncEraCategories();
+  return true;
+}
+function enterCultivation(path){
   state.era="cultivation";
-  state.realmIndex=Math.max(1,state.realmIndex||1);
+  state.pendingDaoChoice=false;
+  state.daoChosen=true;
+  state.cultivationPath=path.id;
+  state.realmIndex=1;
   state.cultivationExp=Math.max(state.cultivationExp||0,metaState.cultivationExpBonus||0);
   state.worldsUnlocked=false;
-  state.targetMajor=Math.max(state.targetMajor,8);
+  state.targetMajor=Math.max(state.targetMajor,state.majorDone+4);
   state.extraChecked=true;
   state.hiddenTruth=true;
   state.lastWorldTransition="cultivation";
-  state.currentDaily=`${state.age} 岁，你终于将残缺古法补全，并完成第一次真正的引气入体。修真者并非突然出现——他们一直隐蔽地生活在现代社会背后。`;
-  recordYear(state.age,"经过多年追查，你确认所谓灵气从未消失，只是大多数人无法感知。你完成引气入体，踏入炼气境，并第一次接触到隐藏在现代秩序背后的修行者网络。","cultivation");
+
+  Object.entries(path.start||{}).forEach(([key,value])=>{
+    state[key]=clamp(state[key]+value);
+  });
+
+  state.currentDaily=`${state.age} 岁，你选择“${path.name}”，完成第一次引气入体，正式踏入炼气境。隐藏修真界并非突然降临，而是终于向你打开入口。`;
+  recordYear(state.age,`你从三条入道机缘中选择“${path.name}”，以${path.type}之法完成引气入体，正式进入炼气境。`,"cultivation");
   syncEraCategories();
   return true;
 }
@@ -1306,41 +1554,54 @@ function maybeUnlockCultivation(){
     const affinity=state.cultivationAffinity||0;
     const clues=state.awakeningClues||0;
     const ready=clues>=4 && state.mind+state.body+affinity*2>=24;
-    if(ready)return enterCultivation();
+    if(ready)return beginDaoDraw();
   }
   return false;
 }
 function realmThreshold(index){
-  return [0,0,16,40,78,130,200,290][index]||9999;
+  return [0,0,36,96,190,335,525,810][index]||99999;
 }
 function maybeBreakthrough(age){
-  if(state.era!=="cultivation")return;
-  const gain=Math.max(1,Math.floor((state.body+state.mind+state.legend)/13)+rand(0,2));
+  if(state.era!=="cultivation" || state.dead)return false;
+
+  const path=cultivationPathById(state.cultivationPath);
+  const gain=Math.max(1,Math.floor((state.body+state.mind+state.legend)/16)+rand(0,2));
   state.cultivationExp+=gain;
-  const next=state.realmIndex+1;
-  if(next<realms.length && state.cultivationExp>=realmThreshold(next)){
-    const chance=Math.min(94,34+state.body*2+state.mind*2+Math.floor(state.family/2)+(metaState.breakthroughBonus||0));
-    if(rand(1,100)<=chance){
-      state.realmIndex=next;
-      state.body=clamp(state.body+1);
-      state.mind=clamp(state.mind+1);
-      recordYear(age,`你渡过瓶颈，境界提升至${realms[next]}。寿元与感知都发生了变化。`,"cultivation");
-      if(next>=4)maybeUnlockOtherWorld(age);
-    }else{
-      const guard=Math.min(1,metaState.cultivationGuard||0);
-      state.body=clamp(state.body-1+guard);
-      recordYear(age,`你尝试突破${realms[next]}失败，灵力反噬${guard?"被传承护魂之力削弱":"令体质 -1"}。`,"cultivation");
-    }
+
+  const next=(state.realmIndex||1)+1;
+  if(next>=realmConfigs.length || state.cultivationExp<realmThreshold(next))return false;
+
+  const pathBonus=path?.breakthroughBonus||0;
+  const chance=Math.min(
+    94,
+    27+state.body*1.7+state.mind*1.8+Math.floor(state.family/2)+
+    (metaState.breakthroughBonus||0)+pathBonus
+  );
+
+  if(rand(1,100)<=chance){
+    state.realmIndex=next;
+    state.body=clamp(state.body+1);
+    state.mind=clamp(state.mind+1);
+    const newTarget=Math.floor(calculatedLifespanTarget());
+    recordYear(age,`你渡过瓶颈，境界提升至${realmConfigs[next].name}。新的寿元上限约为 ${newTarget} 岁，可接触的修行事件也随之增加。`,"cultivation");
+    syncEraCategories();
+    if(next>=4)maybeUnlockOtherWorld(age);
+    return true;
   }
+
+  const guard=Math.min(1,metaState.cultivationGuard||0);
+  state.body=clamp(state.body-1+guard);
+  recordYear(age,`你冲击${realmConfigs[next].name}失败，灵力反噬${guard?"被传承护魂之力削弱":"令体质 -1"}。`,"cultivation");
+  return false;
 }
 function maybeUnlockOtherWorld(age=state.age){
   if(state.worldsUnlocked || state.era!=="cultivation")return false;
   const gate=metaState.worldGateBonus||0;
   if((state.realmIndex>=Math.max(3,4-gate) && state.mind>=15-gate) || (state.legend>=11-gate*2 && state.mind>=14-gate)){
     state.worldsUnlocked=true;
-    state.targetMajor=Math.max(state.targetMajor,9);
+    state.targetMajor=Math.max(state.targetMajor,state.majorDone+3);
     state.hiddenTruth=true;
-    recordYear(age,"你稳定了一道界门。门后不是幻觉，而是拥有天空、文明和人类遗迹的另一座世界。地球第一次确认：人类历史远比现代文明更长。","world");
+    recordYear(age,"你稳定了一道界门。门后不是幻觉，而是拥有天空、文明和人类遗迹的另一座世界。","world");
     syncEraCategories();
     return true;
   }
@@ -1564,6 +1825,7 @@ function startLife(){
     age:18, majorDone:0, targetMajor:3, legend:(m.startLegend||0),
     era:"modern",realmIndex:0,cultivationExp:(m.cultivationExpBonus||0),worldsUnlocked:false,hiddenTruth:false,
     cultivationAffinity:(m.worldEcho||0),awakeningClues:0,lastWorldTransition:null,
+    pendingDaoChoice:false,daoChosen:false,daoOffers:[],cultivationPath:null,lifePotentialRoll:rand(-4,12),
     occultFlags:{},creatureRelations:{},occultDanger:0,occultKnowledge:0,recentEventIds:[],
     lifeFlags:{},lifeTracks:{career:0,bonds:0,stability:0,reputation:0},
     deathCause:null,deathAge:null,dead:false,extremeCooldowns:{},
@@ -1599,6 +1861,14 @@ function normalizeLife(){
   if(state.awakeningClues===undefined)state.awakeningClues=0;
   if(state.cultivationAffinity===undefined)state.cultivationAffinity=(metaState?.worldEcho||0)+(state.abilities||[]).reduce((s,id)=>s+(abilityById(id)?.cultivationAffinity||0),0);
   if(state.lastWorldTransition===undefined)state.lastWorldTransition=null;
+  if(state.pendingDaoChoice===undefined)state.pendingDaoChoice=state.era==="dao_choice";
+  if(state.daoChosen===undefined)state.daoChosen=state.era==="cultivation";
+  if(!Array.isArray(state.daoOffers))state.daoOffers=[];
+  if(state.lifePotentialRoll===undefined)state.lifePotentialRoll=rand(-4,12);
+  if(state.era==="cultivation" && !state.cultivationPath){
+    state.cultivationPath="wanderer";
+    state.daoChosen=true;
+  }
   if(!state.occultFlags)state.occultFlags={};
   if(!state.creatureRelations)state.creatureRelations={};
   if(state.occultDanger===undefined)state.occultDanger=0;
@@ -1653,13 +1923,81 @@ function continueLife(){
   enterGame();
 }
 function enterGame(){syncEraCategories();go("game"); renderAll(); resetWheelUI();}
+function renderDaoDraw(){
+  const panel=document.getElementById("daoDrawPanel");
+  const grid=document.getElementById("daoCardGrid");
+  const wheelBox=document.getElementById("wheelCard");
+  const pending=!!state.pendingDaoChoice;
+
+  panel.classList.toggle("on",pending);
+  wheelBox.style.display=pending?"none":"";
+
+  if(!pending){
+    grid.innerHTML="";
+    return;
+  }
+
+  if(!Array.isArray(state.daoOffers) || state.daoOffers.length!==3){
+    state.daoOffers=generateDaoOffers();
+  }
+
+  const offers=state.daoOffers.map(cultivationPathById).filter(Boolean);
+  grid.innerHTML=offers.map(path=>{
+    const mods=Object.entries(path.start||{}).map(([key,value])=>
+      `<span class="daoEffect">${statIcons[key]}${statNames[key]} ${value>0?"+":""}${value}</span>`
+    ).join("");
+    const early=(path.earlyCategories||[]).length
+      ?`<span class="daoEffect">提前开放：${path.earlyCategories.join("、")}</span>`
+      :"";
+    const life=path.lifespanBonus
+      ?`<span class="daoEffect">寿元 ${path.lifespanBonus>0?"+":""}${path.lifespanBonus}</span>`
+      :"";
+    const toneClass=path.tone==="danger"?"danger":path.tone==="mixed"?"mixed":"";
+    return `
+      <button class="daoCard ${toneClass}" onclick="chooseDaoPath('${path.id}')">
+        <div class="daoCardIcon">${path.icon}</div>
+        <div class="daoCardName">${path.name}</div>
+        <div class="daoCardType">${path.type} · ${path.tone==="danger"?"危险道途":path.tone==="mixed"?"有得有失":"稳定道途"}</div>
+        <div class="daoCardDesc">${path.desc}</div>
+        <div class="daoCardEffects">${mods}${early}${life}</div>
+        <div class="btn green daoSelect">选择这条道途</div>
+      </button>`;
+  }).join("");
+}
+function showDaoDraw(){
+  renderDaoDraw();
+  document.getElementById("daoDrawPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function chooseDaoPath(id){
+  if(!state.pendingDaoChoice)return;
+  if(!state.daoOffers?.includes(id))return;
+  const path=cultivationPathById(id);
+  if(!path)return;
+
+  enterCultivation(path);
+  renderAll();
+  resetWheelUI();
+  saveLife();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
 function renderAll(){
   avatar.textContent=state.avatar;
   name.textContent=state.name;
   meta.textContent=`${state.age} 岁 · 重大抉择 ${state.majorDone}/${state.targetMajor}`;
   if(state.era==="cultivation"){
     eraStatus.className="eraStatus cultivation";
-    eraStatus.innerHTML=`🌌 <b>隐藏修真界</b> · 当前境界：${currentRealm()} · 修为积累：${state.cultivationExp}${state.worldsUnlocked?' · 已开启界门':''}`;
+    const path=cultivationPathById(state.cultivationPath);
+    const lifeTarget=Math.floor(calculatedLifespanTarget());
+    const atPeak=(state.realmIndex||1)>=realmConfigs.length-1;
+    const cultivationText=atPeak
+      ?`修为 ${state.cultivationExp} · 已至最高境界`
+      :`修为 ${state.cultivationExp}/${realmThreshold((state.realmIndex||1)+1)}`;
+    const available=cultivationCategoriesForState().join("、");
+    eraStatus.innerHTML=`🌌 <b>隐藏修真界</b> · 当前境界：${currentRealm()} · 道途：${path?path.icon+" "+path.name:"散修"} · ${cultivationText}${state.worldsUnlocked?' · 已开启界门':''}<div class="realmLine">本境界预计寿元上限约 ${lifeTarget} 岁；当前轮盘可出现：${available}。</div>`;
+  }else if(state.era==="dao_choice"){
+    eraStatus.className="eraStatus cultivation";
+    eraStatus.innerHTML=`🪷 <b>入道门前</b> · 你已经完成寻道，但还没有修为。请从三张入道卡中选择一条修行道路。`;
   }else if(state.era==="awakening"){
     eraStatus.className="eraStatus cultivation";
     const metCreatures=Object.values(state.creatureRelations||{}).filter(v=>v!==0).length;
@@ -1683,6 +2021,7 @@ function renderAll(){
   logList.innerHTML=recent.length?recent.map(x=>`
     <div class="logItem"><b>${x.age} 岁 · ${x.category}</b>　${x.title}<br><span class="muted">选择：${x.choice}</span></div>
   `).join("") : `<div class="muted">这一生的关键节点还没有出现。</div>`;
+  renderDaoDraw();
 }
 function getRerollLimit(){
   return 1+(metaState?.rerollBonus||0)+(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.rerolls||0),0);
@@ -1745,6 +2084,11 @@ function eventAvailable(event){
   if(Array.isArray(event.requiresAnyLife) && !event.requiresAnyLife.some(key=>lifeFlag(key)))return false;
   if(Array.isArray(event.excludesLife) && event.excludesLife.some(key=>lifeFlag(key)))return false;
   if(event.requiresTrack && !meetsTrackRequirement(event.requiresTrack))return false;
+
+  if(event.minRealm!==undefined && (state.realmIndex||0)<event.minRealm)return false;
+  if(event.maxRealm!==undefined && (state.realmIndex||0)>event.maxRealm)return false;
+  if(Array.isArray(event.paths) && !event.paths.includes(state.cultivationPath))return false;
+  if(Array.isArray(event.excludePaths) && event.excludePaths.includes(state.cultivationPath))return false;
 
   if(event.minClues!==undefined && (state.awakeningClues||0)<event.minClues)return false;
   if(event.maxClues!==undefined && (state.awakeningClues||0)>event.maxClues)return false;
@@ -1809,7 +2153,7 @@ function pickEvent(category){
 }
 
 function spinWheel(isReroll=false){
-  if(spinning||state.ended)return;
+  if(spinning||state.ended||state.pendingDaoChoice)return;
   spinning=true;
   spinBtn.disabled=true;
   rerollBtn.style.display="none";
@@ -1967,6 +2311,12 @@ function applyBranchConsequences(choice,success,age){
     notes.push(`诡异危险 ${dangerDelta>0?"+":""}${dangerDelta}`);
   }
 
+  const cultivationDelta=numericOutcome(choice.cultivationGain,success);
+  if(cultivationDelta && state.era==="cultivation"){
+    state.cultivationExp=Math.max(0,(state.cultivationExp||0)+cultivationDelta);
+    notes.push(`修为 +${cultivationDelta}`);
+  }
+
   const relationText=changeCreatureRelation(choice.relation,success);
   if(relationText)notes.push(relationText);
 
@@ -2074,9 +2424,11 @@ function chooseEvent(i){
 
   const transitionTitle=state.lastWorldTransition==="awakening"
     ?"前世残页第一次与现实重合"
-    :state.lastWorldTransition==="cultivation"
-      ?"你终于踏入隐藏修真界"
-      :null;
+    :state.lastWorldTransition==="dao_choice"
+      ?"三道入道机缘与你产生共鸣"
+      :state.lastWorldTransition==="cultivation"
+        ?"你终于踏入隐藏修真界"
+        :null;
 
   resultTitle.textContent=state.dead
     ?"这次选择成为你人生的终点"
@@ -2095,7 +2447,7 @@ function chooseEvent(i){
   effects.innerHTML=(effectHtml+branchHtml)||`<span class="effect neutral">属性没有变化</span>`;
 
   result.classList.add("on");
-  nextBtn.textContent=shouldEndNow()?"查看人生结局":"进入下一阶段";
+  nextBtn.textContent=state.pendingDaoChoice?"查看入道机缘":shouldEndNow()?"查看人生结局":"进入下一阶段";
   renderAll();
   saveLife();
 }
@@ -2310,6 +2662,7 @@ function generateCultivationYear(age){
   checkExtremeStatEvents(age);
 }
 function generateOneYear(age){
+  if(state.pendingDaoChoice || state.era==="dao_choice")return;
   if(state.era==="cultivation"){
     generateCultivationYear(age);
     return;
@@ -2392,6 +2745,7 @@ function shouldEndNow(){
 }
 function nextStage(){
   if(state.dead){finishLife(); return;}
+  if(state.pendingDaoChoice){showDaoDraw(); return;}
   if(state.majorDone>=state.targetMajor){
     if(state.targetMajor===3 && !state.extraChecked){
       if(maybeExtraEvent()){
@@ -2434,6 +2788,15 @@ function determineDeathCause(){
   const flags=state.occultFlags||{};
 
   if(state.era==="cultivation"){
+    if(state.realmIndex>=7){
+      const causes=[
+        "经历漫长仙寿后遭遇天人五衰，最终将一身修为散入天地",
+        "为修补界海裂隙主动解体仙躯，只留下跨世传承",
+        "在诸天远行中失去归途，仙魂最终寂灭于未知世界",
+        "放弃继续维持肉身，以真灵形式进入无法记录的更高层世界"
+      ];
+      return causes[rand(0,causes.length-1)];
+    }
     if(state.worldsUnlocked && state.realmIndex>=5){
       const causes=[
         "在界海深处遭遇无法命名的文明，界舟破碎后神魂熄灭",
@@ -2444,10 +2807,10 @@ function determineDeathCause(){
       ];
       return causes[rand(0,causes.length-1)];
     }
-    if(state.realmIndex>=6){
+    if(state.realmIndex===6){
       const causes=[
         "渡最后一场天劫时肉身解体；是否真正死亡，后世始终没有定论",
-        "飞升通道在开启时坍塌，元神被困在雷云之外",
+        "飞升通道开启时坍塌，元神被困在雷云之外",
         "以自身封印魔灾后神魂耗尽，只留下一座无名石碑"
       ];
       return causes[rand(0,causes.length-1)];
@@ -2551,37 +2914,64 @@ function secretEndingHint(data){
 }
 
 function completeRemainingLife(){
-  if(state.lifeCompleted)return;
+  if(state.lifeCompleted)return "done";
   if(state.dead){
     state.deathCause=state.deathCause||determineDeathCause();
     state.deathAge=state.deathAge??state.age;
     state.lifeCompleted=true;
-    return;
+    return "done";
+  }
+  if(state.pendingDaoChoice)return "pending";
+
+  let yearsAdvanced=0;
+  const safetyLimit=1800;
+
+  while(!state.dead && yearsAdvanced<safetyLimit){
+    if(state.pendingDaoChoice)return "pending";
+    if(state.majorDone<state.targetMajor)return "continue";
+
+    const target=Math.floor(calculatedLifespanTarget());
+    if(state.age>=target)break;
+
+    advanceYears(1);
+    yearsAdvanced++;
+
+    if(state.pendingDaoChoice)return "pending";
+    if(state.majorDone<state.targetMajor)return "continue";
   }
 
-  const abilityBonus=(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.lifespan||0),0);
-  let eraBonus=0;
-  if(state.era==="cultivation"){
-    eraBonus=([0,10,25,55,95,150,230,380][state.realmIndex]||0)+(metaState?.cultivationLifespan||0);
-  }
-  const cap=state.era==="cultivation"?(state.worldsUnlocked?420:320):108;
-  const lifespan=Math.max(state.age,Math.min(cap,58+state.body*2+abilityBonus+(metaState?.lifespanBonus||0)+eraBonus+rand(-4,12)));
-
-  if(lifespan>state.age)advanceYears(lifespan-state.age);
   if(state.dead){
     state.deathCause=state.deathCause||determineDeathCause();
     state.deathAge=state.deathAge??state.age;
     state.lifeCompleted=true;
-    return;
+    return "done";
   }
+
   state.deathCause=determineDeathCause();
   state.deathAge=state.age;
   state.dead=true;
-  recordYear(state.age,`你因${state.deathCause}，在这一年结束了这一生。`,"end");
+  recordYear(state.age,`你因${state.deathCause}，在这一年结束了这一生。最终境界为${currentRealm()}。`,"end");
   state.lifeCompleted=true;
+  return "done";
 }
 function finishLife(){
-  completeRemainingLife();
+  const completion=completeRemainingLife();
+  if(completion==="pending"){
+    state.ended=false;
+    saveLife();
+    go("game");
+    renderAll();
+    showDaoDraw();
+    return;
+  }
+  if(completion==="continue"){
+    state.ended=false;
+    saveLife();
+    go("game");
+    renderAll();
+    resetWheelUI();
+    return;
+  }
   state.ended=true;
   if(!state.lifeCounted){
     metaState.lives += 1;
@@ -2759,7 +3149,8 @@ function showEnding(){
   endTitle.textContent=d[2];
   endTitle.style.color=d[4]==="good"?"#91efd3":d[4]==="bad"?"#ff9aae":"#ffe19a";
   const talentText=(state.abilities||[]).map(id=>abilityById(id)?.name).filter(Boolean).join("、");
-  endText.textContent=`${state.name} 的人生在 ${state.age} 岁完成结算。${d[3]} 本世能力：${talentText||"无"}。`;
+  const path=cultivationPathById(state.cultivationPath);
+  endText.textContent=`${state.name} 的人生在 ${state.age} 岁完成结算。${d[3]} 本世能力：${talentText||"无"}。${path?`最终道途：${path.name}；最终境界：${currentRealm()}。`:""}`;
   deathCauseBox.innerHTML=`<b>死亡原因 · ${state.deathAge??state.age} 岁</b>${escapeHtml(state.deathCause||determineDeathCause())}`;
   const hidden=secretEndingHint(d);
   if(hidden){
