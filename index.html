@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器</title>
+<title>随机人生模拟器 · 万界人生</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -180,6 +180,41 @@ input:focus{border-color:var(--purple)}
 .rewardBtn{padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white;text-align:left}
 .rewardBtn b{display:block;margin-bottom:4px}
 .claimed{margin-top:10px;padding:11px;border-radius:14px;background:rgba(66,215,170,.12);color:#9af0d7;font-size:13px}
+
+.eraStatus{
+  margin:-3px 0 13px;padding:10px 12px;border-radius:14px;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);
+  font-size:12px;color:#d9e0f5;line-height:1.6
+}
+.eraStatus.cultivation{
+  color:#d8c9ff;border-color:rgba(173,107,232,.35);
+  background:linear-gradient(135deg,rgba(117,93,240,.14),rgba(173,107,232,.10))
+}
+.deathBox{
+  margin:14px 0;padding:14px;border-radius:16px;text-align:left;
+  background:rgba(255,110,138,.09);border:1px solid rgba(255,110,138,.25)
+}
+.deathBox b{display:block;color:#ff9aae;margin-bottom:6px}
+.secretHint{
+  display:none;margin:14px 0;padding:14px;border-radius:16px;text-align:left;
+  background:linear-gradient(135deg,rgba(139,124,255,.13),rgba(74,168,233,.09));
+  border:1px solid rgba(139,124,255,.28);color:#d9ddff;line-height:1.7
+}
+.secretHint.on{display:block}
+.secretHint b{display:block;color:#c9c1ff;margin-bottom:5px}
+.realmMark{
+  display:inline-block;margin-left:5px;padding:3px 7px;border-radius:999px;
+  background:rgba(173,107,232,.16);color:#dcc7ff;font-size:10px;font-weight:900
+}
+.yearItem.cultivation{
+  border-left:3px solid #ad6be8;padding-left:9px;
+  background:rgba(173,107,232,.055)
+}
+.yearItem.world{
+  border-left:3px solid #4aa8e9;padding-left:9px;
+  background:rgba(74,168,233,.065)
+}
+
 .footer{text-align:center;color:#6f7ca5;font-size:11px;margin-top:18px}
 </style>
 </head>
@@ -187,7 +222,7 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">人生模拟器</div>
+    <div class="badge">万界人生</div>
   </div>
 
   <section id="home" class="screen on">
@@ -266,6 +301,7 @@ input:focus{border-color:var(--purple)}
 
       <div id="stats" class="stats"></div>
       <div id="abilityBar" class="abilityBar"></div>
+      <div id="eraStatus" class="eraStatus"></div>
       <div class="progress"><span id="majorProgress">重大抉择：0 / 3</span><span id="legendText">精彩度：0</span></div>
       <div id="daily" class="daily">18 岁，你站在这一生的入口。</div>
 
@@ -314,6 +350,8 @@ input:focus{border-color:var(--purple)}
       <p id="endText" class="muted"></p>
 
       <div id="finalGrid" class="finalGrid"></div>
+      <div id="deathCauseBox" class="deathBox"></div>
+      <div id="secretHint" class="secretHint"></div>
 
       <div class="card overview">
         <h3>人生属性总览图</h3>
@@ -324,7 +362,7 @@ input:focus{border-color:var(--purple)}
 
       <div class="card yearReview">
         <h3>逐年人生回顾</h3>
-        <p class="muted">从 18 岁开始，每一岁都会留下记录；紫色条目代表重大抉择。</p>
+        <p class="muted">从出生到死亡，每一岁都会留下记录；紫色条目代表重大抉择，修真与异界经历会单独标记。</p>
         <div id="yearList" class="yearList"></div>
       </div>
 
@@ -348,7 +386,11 @@ input:focus{border-color:var(--purple)}
 <script>
 const SAVE_KEY="random_life_legacy_save_v1";
 const META_KEY="random_life_legacy_meta_v1";
-const categories=["学业","事业","财富","爱情","健康","家庭","迁徙","友情","名望","奇遇","时代","危机","天灾","人祸"];
+const modernCategories=["学业","事业","财富","爱情","健康","家庭","迁徙","友情","名望","奇遇","时代","危机","天灾","人祸"];
+const cultivationBaseCategories=["修炼","宗门","秘境","灵兽","仙缘","因果","丹道","炼器","天劫","魔灾","人间","危机"];
+const otherWorldCategories=["异界","星海"];
+let categories=[...modernCategories];
+const realms=["凡人","炼气","筑基","金丹","元婴","化神","渡劫","真仙"];
 const statNames={body:"体质",mind:"智力",charm:"魅力",family:"家境"};
 const statIcons={body:"💪",mind:"🧠",charm:"✨",family:"🏠"};
 const avatars=["🦊","🐼","🐸","🦁","🐙","🦄","🐧","🐰"];
@@ -364,7 +406,11 @@ const categoryStats={
   "学业":["mind"],"事业":["mind","family"],"财富":["family","mind"],"爱情":["charm"],
   "健康":["body"],"家庭":["family","charm"],"迁徙":["mind","family"],"友情":["charm"],
   "名望":["charm","mind"],"奇遇":["mind","charm"],"时代":["mind"],"危机":["body","mind"],
-  "天灾":["body","family"],"人祸":["mind","charm"]
+  "天灾":["body","family"],"人祸":["mind","charm"],
+  "修炼":["body","mind"],"宗门":["charm","mind"],"秘境":["body","mind"],"灵兽":["charm","body"],
+  "仙缘":["mind","charm"],"因果":["charm","mind"],"丹道":["mind","family"],"炼器":["mind","family"],
+  "天劫":["body","mind"],"魔灾":["body","charm"],"人间":["charm","family"],
+  "异界":["body","mind"],"星海":["mind","family"]
 };
 
 function hasAbility(id){return !!state && Array.isArray(state.abilities) && state.abilities.includes(id)}
@@ -522,6 +568,111 @@ const eventBank={
   {text:"动用人脉寻找对方",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],family:[-5,3]},success:"你的关系网找到了重要线索。",fail:"消息真假混杂，反而浪费了时间。"},
   {text:"承担损失，重新开始",hint:"依赖家境与抗压",need:"family",fx:{family:[-4,-1],body:[-1,2],mind:[1,2]},success:"你保住了剩余生活，没有被这件事彻底拖垮。",fail:"损失远超承受范围，生活结构被迫改变。"}
  ]}
+],
+"修炼":[
+ {title:"城市上空第一次出现灵潮",desc:"全球监测设备同时失灵。你能清楚感觉到空气中有某种东西正在回应呼吸。",choices:[
+  {text:"闭关尝试引气入体",hint:"依赖体质与智力",need:"body",fx:{body:[0,3],mind:[1,3]},success:"你在丹田中捕捉到第一缕灵气，从此真正踏上修行路。",fail:"灵气在经脉中失控，你花了很久才恢复。"},
+  {text:"记录并研究灵气规律",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,1]},success:"你整理出最早的一批现代修行理论。",fail:"数据相互矛盾，但你确定旧科学并没有错，只是不完整。"},
+  {text:"寻找民间古法",hint:"依赖魅力与家境",need:"charm",fx:{charm:[1,3],family:[-2,2],mind:[0,2]},success:"一位沉默多年的老人向你展示了真正的吐纳法。",fail:"你遇到了很多骗子，只得到几页真假难辨的残卷。"}
+ ]},
+ {title:"第一次正式突破",desc:"灵力已经抵达瓶颈。突破可能带来寿元，也可能直接损伤根基。",choices:[
+  {text:"强行冲关",hint:"高风险，依赖体质",need:"body",fx:{body:[-3,4],mind:[0,2]},success:"经脉扩张，你跨过了境界门槛。",fail:"冲关失败，根基出现裂痕。"},
+  {text:"继续打磨根基",hint:"稳健，依赖智力",need:"mind",fx:{mind:[1,3],body:[0,2]},success:"你没有急于突破，却让下一次成功概率大幅提高。",fail:"瓶颈比预想更顽固。"},
+  {text:"借助灵药突破",hint:"依赖家境",need:"family",fx:{family:[-4,-1],body:[1,4]},success:"药力化开瓶颈，你成功进阶。",fail:"灵药品阶不足，只留下药毒。"}
+ ]}
+],
+"宗门":[
+ {title:"新世界的宗门向你发出邀请",desc:"旧国家体系仍在运转，而修行组织已经开始争夺第一代修士。",choices:[
+  {text:"加入官方修行院",hint:"资源稳定，依赖智力",need:"mind",fx:{mind:[1,3],family:[1,3],charm:[0,1]},success:"你成为第一批有正式编制的修士。",fail:"制度变化太快，你被困在层层审查里。"},
+  {text:"进入古老隐世宗门",hint:"依赖魅力与机缘",need:"charm",fx:{charm:[1,3],mind:[1,3],family:[-2,1]},success:"宗门地底封存着现代历史从未记录过的东西。",fail:"你只是外门弟子，很久都接触不到真正传承。"},
+  {text:"保持散修身份",hint:"自由但缺少资源",need:"body",fx:{body:[1,3],family:[-3,0],mind:[0,2]},success:"你没有被任何势力束缚，走出了自己的道路。",fail:"缺少功法和资源让每一步都格外艰难。"}
+ ]}
+],
+"秘境":[
+ {title:"地铁废弃隧道后出现一座古代洞府",desc:"入口的文字比任何已知文明都更古老，门后却传来现代电子信号。",choices:[
+  {text:"独自进入",hint:"依赖体质与智力",need:"body",fx:{body:[-3,3],mind:[1,4],family:[-2,4]},success:"你带回一枚不属于这个时代的储物戒。",fail:"洞府禁制启动，你几乎没能活着出来。"},
+  {text:"组队探索",hint:"依赖魅力",need:"charm",fx:{charm:[1,3],body:[-2,2],family:[-1,3]},success:"队伍互相补足，完整带出了传承。",fail:"分配战利品时，队伍内部爆发冲突。"},
+  {text:"封锁入口并研究",hint:"依赖智力与资源",need:"mind",fx:{mind:[2,4],family:[-2,2]},success:"你发现洞府并非遗迹，而是一座等待重新连接的中转站。",fail:"入口在研究完成前自行关闭。"}
+ ]}
+],
+"灵兽":[
+ {title:"一只受伤的异兽跟随你回家",desc:"它能听懂语言，影子却偶尔显现出与身体完全不同的形状。",choices:[
+  {text:"救治并契约",hint:"依赖魅力",need:"charm",fx:{charm:[2,4],body:[0,2],family:[-2,0]},success:"它成为你的本命灵兽，并多次在危险中救你。",fail:"契约没有成功，它恢复后消失在夜色中。"},
+  {text:"交给研究机构",hint:"依赖智力",need:"mind",fx:{mind:[1,3],family:[1,3],charm:[-1,1]},success:"研究结果证明它的祖先不来自地球。",fail:"它在实验室里失踪，监控只拍到一道门。"},
+  {text:"放归山林",hint:"依赖因果与魅力",need:"charm",fx:{charm:[1,3],body:[0,1]},success:"多年后，你在天劫中再次见到它。",fail:"它回头看了你一眼，此后再无消息。"}
+ ]}
+],
+"仙缘":[
+ {title:"梦中有人传你一式剑诀",desc:"醒来后，你的手指仍保持着从未学过的剑印。",choices:[
+  {text:"按梦中方法修炼",hint:"依赖智力",need:"mind",fx:{mind:[2,4],body:[-2,2]},success:"剑诀真实有效，而梦中人似乎正在另一个世界等你。",fail:"你只练成一段残式，反而伤了经脉。"},
+  {text:"寻找梦中人身份",hint:"依赖魅力与资源",need:"charm",fx:{charm:[1,3],family:[-2,2],mind:[0,2]},success:"你在古籍中发现同一张脸，它出现于三千年前。",fail:"线索最终指向一座从地图上消失的山。"},
+  {text:"拒绝未知传承",hint:"谨慎路线",need:"mind",fx:{body:[1,2],mind:[0,1]},success:"你避开了一段无法判断善恶的因果。",fail:"剑诀仍然在梦中反复出现。"}
+ ]}
+],
+"因果":[
+ {title:"你发现自己的成功建立在另一个人的失败上",desc:"修行让因果变得可见，那条线正从对方身上延伸到你。",choices:[
+  {text:"主动补偿对方",hint:"依赖魅力与家境",need:"charm",fx:{charm:[2,4],family:[-3,-1]},success:"因果线逐渐变淡，你也得到真正的心境突破。",fail:"对方拒绝原谅，但你至少停止继续获利。"},
+  {text:"斩断因果",hint:"依赖智力与修为",need:"mind",fx:{mind:[1,4],body:[-3,1]},success:"你以自身修为承受反噬，强行斩断联系。",fail:"因果反噬让你的境界开始不稳。"},
+  {text:"假装没有看见",hint:"短期收益，长期危险",need:"family",fx:{family:[2,4],charm:[-3,-1]},success:"你暂时保住了利益。",fail:"因果在之后的天劫中成倍归还。"}
+ ]}
+],
+"丹道":[
+ {title:"你得到一张能延寿的古方",desc:"主药已经绝迹，替代药材可能让丹药变成毒药。",choices:[
+  {text:"自己改良丹方",hint:"依赖智力",need:"mind",fx:{mind:[1,4],body:[-2,4],family:[-2,0]},success:"你炼成了第一炉现代延寿丹。",fail:"丹炉爆炸，药毒侵入经脉。"},
+  {text:"联合研究机构",hint:"依赖魅力与家境",need:"charm",fx:{charm:[1,3],family:[-2,3],mind:[1,2]},success:"古法与现代技术第一次真正融合。",fail:"成果归属引发了漫长争夺。"},
+  {text:"封存丹方",hint:"避免风险",need:"mind",fx:{body:[0,2],family:[0,1]},success:"你没有被长生欲望拖入危险。",fail:"多年后，丹方被别人盗走。"}
+ ]}
+],
+"炼器":[
+ {title:"你试图制造第一件现代灵能兵器",desc:"它既需要阵法，也需要精密工程，任何误差都可能造成爆炸。",choices:[
+  {text:"追求极限威力",hint:"依赖智力与资源",need:"mind",fx:{mind:[1,4],family:[-4,3],body:[-2,0]},success:"你制造出改变修行战争规则的器物。",fail:"实验事故摧毁了整个设施。"},
+  {text:"优先保证稳定",hint:"稳健路线",need:"family",fx:{family:[-2,3],mind:[1,2]},success:"产品性能普通，却成为最可靠的量产灵器。",fail:"稳定性仍不足以投入使用。"},
+  {text:"把核心交给器灵控制",hint:"依赖魅力与奇遇",need:"charm",fx:{charm:[1,4],mind:[0,2]},success:"器灵苏醒后，问你的第一句话是：‘地球又轮回到第几次了？’",fail:"器灵拒绝承认你是主人。"}
+ ]}
+],
+"天劫":[
+ {title:"雷云只在你头顶聚集",desc:"所有卫星都拍到同一幅画面：云层深处有一只像眼睛的结构。",choices:[
+  {text:"正面渡劫",hint:"主要依赖体质",need:"body",fx:{body:[-5,5],mind:[0,3]},success:"雷霆重塑肉身，你的境界跨过巨大门槛。",fail:"天雷贯穿经脉，你的生命被削去大半。"},
+  {text:"用阵法分散雷劫",hint:"依赖智力与家境",need:"mind",fx:{mind:[1,4],family:[-5,1],body:[-3,3]},success:"现代电网与古阵法共同承担了天雷。",fail:"阵法在最后一刻崩溃。"},
+  {text:"逃入秘境避劫",hint:"依赖奇遇和判断",need:"mind",fx:{family:[-2,2],body:[-4,1],charm:[-1,1]},success:"你躲过了雷劫，却在秘境另一端看见陌生星空。",fail:"雷劫追进秘境，空间开始坍塌。"}
+ ]}
+],
+"魔灾":[
+ {title:"城市中出现大规模心魔感染",desc:"被感染者会看到自己最渴望的世界，并拒绝醒来。",choices:[
+  {text:"进入集体幻境救人",hint:"依赖智力与魅力",need:"mind",fx:{mind:[-2,4],charm:[1,4],body:[-2,0]},success:"你在万千梦境中找到出口，唤醒了大量感染者。",fail:"你差点忘记现实中的自己是谁。"},
+  {text:"封锁感染区域",hint:"依赖家境与判断",need:"family",fx:{family:[-4,1],mind:[1,2],charm:[-2,0]},success:"灾情被控制，却留下了沉重争议。",fail:"封锁速度不够，感染继续扩散。"},
+  {text:"顺着心魔寻找源头",hint:"高风险路线",need:"charm",fx:{charm:[-3,4],mind:[1,3],body:[-3,1]},success:"源头并不是魔物，而是一道从其他世界发来的求救信号。",fail:"你与源头建立连接后，开始听见不属于自己的记忆。"}
+ ]}
+],
+"人间":[
+ {title:"修士与普通人的矛盾公开爆发",desc:"修行者拥有远超普通人的力量，旧法律正在失去约束力。",choices:[
+  {text:"推动建立新规则",hint:"依赖魅力与智力",need:"charm",fx:{charm:[2,5],mind:[1,3],family:[-2,1]},success:"你参与建立了第一个修真时代的公共秩序。",fail:"各方势力都认为规则偏向别人。"},
+  {text:"只保护自己在意的人",hint:"依赖家境与体质",need:"family",fx:{family:[1,3],body:[0,2],charm:[-2,0]},success:"你守住了自己的小世界。",fail:"外部动荡最终仍然波及家人。"},
+  {text:"退出城市，建立隐居地",hint:"依赖体质",need:"body",fx:{body:[1,3],family:[-3,1],mind:[0,2]},success:"你建立了一处远离争斗的修行聚落。",fail:"隐居地的资源很快耗尽。"}
+ ]},
+ {title:"旧时代最后一所普通大学关闭",desc:"课程被修行、阵法和异界学取代。你意识到现代社会已经成为历史名词。",choices:[
+  {text:"保存旧时代知识",hint:"依赖智力",need:"mind",fx:{mind:[2,4],family:[-1,1]},success:"你建立的档案馆后来被称为‘凡人文明火种库’。",fail:"大部分数据在灵能风暴中损毁。"},
+  {text:"全面拥抱新时代",hint:"依赖魅力与适应力",need:"charm",fx:{charm:[1,3],mind:[1,2]},success:"你成为连接两个时代的重要人物。",fail:"变化太快，你仍错过了许多东西。"}
+ ]}
+],
+"异界":[
+ {title:"界门稳定了七分钟",desc:"门后是一片紫色海洋，天空悬着三颗月亮。探测器传回了人类语言。",choices:[
+  {text:"亲自穿越界门",hint:"依赖体质与智力",need:"body",fx:{body:[-4,4],mind:[2,5],family:[-2,4]},success:"你成为第一个有记录的异界行者，并发现那里也有人类遗迹。",fail:"界门提前关闭，你被困在陌生世界多年。"},
+  {text:"先派遣无人设备",hint:"依赖智力与资源",need:"mind",fx:{mind:[2,4],family:[-3,3]},success:"设备在异界发现一座刻着地球星图的城市。",fail:"信号中断前，设备拍到某种巨大生物。"},
+  {text:"封锁界门",hint:"谨慎路线",need:"family",fx:{family:[1,3],mind:[0,1]},success:"你避免了未知存在进入地球。",fail:"界门从另一侧再次被打开。"}
+ ]},
+ {title:"异界王朝邀请你成为客卿",desc:"他们称地球为‘失落祖界’，并坚信人类曾经统治过界海。",choices:[
+  {text:"接受邀请",hint:"依赖魅力",need:"charm",fx:{charm:[2,5],family:[1,5],mind:[1,3]},success:"你获得异界身份，也接触到被删除的人类远古史。",fail:"你卷入王朝内部权力斗争。"},
+  {text:"交换知识后返回",hint:"依赖智力",need:"mind",fx:{mind:[2,5],family:[0,3]},success:"你带回一套完全不同的修行文明体系。",fail:"对方在知识中埋入了无法识别的后门。"},
+  {text:"调查‘失落祖界’真相",hint:"高风险剧情",need:"mind",fx:{mind:[2,5],body:[-4,2],charm:[0,3]},success:"你在皇陵深处看见一段录像：现代地球只是人类文明的避难层。",fail:"真相触发禁制，你被整个王朝追杀。"}
+ ]}
+],
+"星海":[
+ {title:"你收到来自太阳系外的神识信号",desc:"对方自称是‘归航舰队’，并询问地球封印是否已经解除。",choices:[
+  {text:"回应信号",hint:"依赖智力",need:"mind",fx:{mind:[2,5],charm:[1,3],family:[-2,2]},success:"星海坐标被打开，你看见数量惊人的人类世界。",fail:"回应引来了无法判断善恶的观察者。"},
+  {text:"隐藏地球坐标",hint:"依赖家境与阵法",need:"family",fx:{family:[-4,1],mind:[1,3]},success:"你暂时让地球继续保持隐秘。",fail:"坐标已经在更早的时候泄露。"},
+  {text:"乘界舟前往信号源",hint:"极高风险",need:"body",fx:{body:[-5,4],mind:[2,5],charm:[1,4]},success:"你离开太阳系，正式进入界海文明。",fail:"界舟失联，人类只收到你最后一句话：‘前面不是宇宙。’"}
+ ]}
 ]
 };
 
@@ -576,9 +727,92 @@ const yearlyEventPools={
   ]
 };
 
+
+function syncEraCategories(){
+  if(state?.era==="cultivation"){
+    categories=[...cultivationBaseCategories];
+    if(state.worldsUnlocked)categories.push(...otherWorldCategories);
+  }else{
+    categories=[...modernCategories];
+  }
+  pointerIndex=Math.min(pointerIndex,categories.length-1);
+  renderWheelLabels();
+}
+function currentRealm(){
+  if(state?.era!=="cultivation")return "现代凡人";
+  return realms[Math.max(1,state.realmIndex||1)]||realms[realms.length-1];
+}
+function cultivationThresholdReached(){
+  if(!state || state.era==="cultivation")return false;
+  const sum=state.body+state.mind+state.charm+state.family;
+  return (
+    state.body>=10 &&
+    state.mind>=11 &&
+    state.legend>=4 &&
+    sum>=44
+  ) || (
+    state.mind>=17 &&
+    state.body>=8 &&
+    state.legend>=3
+  );
+}
+function maybeUnlockCultivation(){
+  if(!cultivationThresholdReached())return false;
+  state.era="cultivation";
+  state.realmIndex=1;
+  state.cultivationExp=0;
+  state.worldsUnlocked=false;
+  state.targetMajor=Math.max(state.targetMajor,7);
+  state.extraChecked=true;
+  state.hiddenTruth=true;
+  state.currentDaily=`${state.age} 岁，全球灵气复苏。现代社会没有消失，却从此不再是世界的全部。`;
+  recordYear(state.age,"这一年，世界各地同时出现灵潮。隐藏在历史夹层中的修行文明重新进入人类视野，你成功引气入体，踏入炼气境。","cultivation");
+  syncEraCategories();
+  return true;
+}
+function realmThreshold(index){
+  return [0,0,16,40,78,130,200,290][index]||9999;
+}
+function maybeBreakthrough(age){
+  if(state.era!=="cultivation")return;
+  const gain=Math.max(1,Math.floor((state.body+state.mind+state.legend)/13)+rand(0,2));
+  state.cultivationExp+=gain;
+  const next=state.realmIndex+1;
+  if(next<realms.length && state.cultivationExp>=realmThreshold(next)){
+    const chance=Math.min(92,34+state.body*2+state.mind*2+Math.floor(state.family/2));
+    if(rand(1,100)<=chance){
+      state.realmIndex=next;
+      state.body=clamp(state.body+1);
+      state.mind=clamp(state.mind+1);
+      recordYear(age,`你渡过瓶颈，境界提升至${realms[next]}。寿元与感知都发生了变化。`,"cultivation");
+      if(next>=4)maybeUnlockOtherWorld(age);
+    }else{
+      state.body=clamp(state.body-1);
+      recordYear(age,`你尝试突破${realms[next]}失败，灵力反噬令体质 -1。`,"cultivation");
+    }
+  }
+}
+function maybeUnlockOtherWorld(age=state.age){
+  if(state.worldsUnlocked || state.era!=="cultivation")return false;
+  if((state.realmIndex>=4 && state.mind>=15) || (state.legend>=11 && state.mind>=14)){
+    state.worldsUnlocked=true;
+    state.targetMajor=Math.max(state.targetMajor,9);
+    state.hiddenTruth=true;
+    recordYear(age,"你稳定了一道界门。门后不是幻觉，而是拥有天空、文明和人类遗迹的另一座世界。地球第一次确认：人类历史远比现代文明更长。","world");
+    syncEraCategories();
+    return true;
+  }
+  return false;
+}
+
 function renderWheelLabels(){
   wheel.innerHTML="";
   const step=360/categories.length;
+  const palette=["#745df0","#2dbd93","#f1a63c","#ef6685","#4aa8e9","#ad6be8","#5bc46e","#d85e5e","#2f9c95","#cc7b45","#6b8fe8","#9f65c8","#c35f97","#4f9f68"];
+  wheel.style.background=`conic-gradient(${categories.map((_,i)=>{
+    const start=(i*step).toFixed(3),end=((i+1)*step).toFixed(3);
+    return `${palette[i%palette.length]} ${start}deg ${end}deg`;
+  }).join(",")})`;
   categories.forEach((cat,i)=>{
     const angle=i*step+step/2;
     const label=document.createElement("div");
@@ -698,6 +932,51 @@ function renderAbilitySelection(){
   }).join("");
 }
 
+
+const childhoodBase=[
+  "你在哭声中来到这个世界。","你学会辨认最熟悉的声音。","你第一次独立走出几步。",
+  "你开始对陌生事物表现出明显兴趣。","你拥有了最早的一段清晰记忆。","你第一次意识到别人也有自己的情绪。",
+  "你进入学校，生活第一次被时间表切割。","你在某件小事上显露出与同龄人不同的倾向。",
+  "你开始拥有真正属于自己的秘密。","你第一次因为失败而认真反思。",
+  "你结识了一位影响童年的朋友。","你逐渐知道家庭条件会改变很多选择。",
+  "你开始形成稳定的兴趣和性格。","你第一次对未来产生具体想象。",
+  "青春期让身体和情绪都出现明显变化。","你开始认真思考自己想成为什么人。",
+  "你第一次为一个重要目标持续努力。","成年前的最后一年，你已经能看见人生道路的大致轮廓。"
+];
+function childhoodText(age,target){
+  if(age===0){
+    if(target.family>=12)return "你出生在资源充足的家庭。大人们没有意识到，你睁眼时窗外所有电子钟都慢了一秒。";
+    if(target.body<=3)return "你出生时身体很弱，在保温箱里度过了最初一段时间。值班护士后来一直记得那晚窗外异常明亮的星。";
+    return "你在一个普通家庭出生。出生证明背面有一道后来怎么也擦不掉的淡银色纹路。";
+  }
+  let text=childhoodBase[age]||"你平稳地长大了一岁。";
+  const dominant=Object.entries(target).sort((a,b)=>b[1]-a[1])[0][0];
+  const additions={
+    body:["你比同龄人更能跑，也更少生病。","你在运动和体力活动中表现突出。"],
+    mind:["你经常提出让大人无法立刻回答的问题。","学习新东西对你而言似乎比别人更容易。"],
+    charm:["你很早就学会观察别人的表情和语气。","同龄人愿意围在你身边听你说话。"],
+    family:["家庭资源让你更早接触到更大的世界。","你比同龄人拥有更多尝试新事物的机会。"]
+  };
+  if([3,6,9,12,15,17].includes(age))text+=" "+additions[dominant][age%2];
+  if(age===7 && target.mind>=12)text+=" 你曾在梦里看见一座悬在云上的城，醒来后准确画出了从未学过的符号。";
+  if(age===13 && target.charm>=12)text+=" 一位陌生老人看到你后称你‘像故人’，却拒绝解释。";
+  if(age===16 && target.body>=12 && target.mind>=12)text+=" 一次意外中，你短暂听见空气里类似潮水的声音。";
+  return text;
+}
+function generateChildhood(target){
+  state.yearlyLog=[];
+  for(let age=0;age<=17;age++){
+    const ratio=.28+.72*(age/17);
+    const snapshot={
+      body:Math.max(0,Math.round(target.body*ratio)),
+      mind:Math.max(0,Math.round(target.mind*ratio)),
+      charm:Math.max(0,Math.round(target.charm*ratio)),
+      family:Math.max(0,Math.round(target.family*(.65+.35*age/17)))
+    };
+    state.yearlyLog.push({age,text:childhoodText(age,target),type:age===0?"birth":"normal",stats:snapshot});
+  }
+}
+
 function startLife(){
   if(totalPoints()!==20 || selectedAbilities.length!==3)return;
   const m=metaState||defaultMeta();
@@ -705,6 +984,8 @@ function startLife(){
     name:playerName.value.trim()||"无名旅人",
     avatar:avatars[rand(0,avatars.length-1)],
     age:18, majorDone:0, targetMajor:3, legend:0,
+    era:"modern",realmIndex:0,cultivationExp:0,worldsUnlocked:false,hiddenTruth:false,
+    deathCause:null,deathAge:null,
     abilities:[...selectedAbilities], comebackUsed:false, sixthSenseUsed:false,
     body:clamp(allocation.body+(m.bonus.body||0)),
     mind:clamp(allocation.mind+(m.bonus.mind||0)),
@@ -719,19 +1000,28 @@ function startLife(){
     Object.entries(a?.start||{}).forEach(([k,v])=>state[k]=clamp(state[k]+v));
   });
   state.initialStats={body:state.body,mind:state.mind,charm:state.charm,family:state.family};
+  generateChildhood(state.initialStats);
 
   const talentNames=state.abilities.map(id=>abilityById(id)?.name).filter(Boolean).join("、");
-  recordYear(18,`你正式成年，并带着三种天赋开始人生：${talentNames}。`,"start");
+  recordYear(18,`你正式成年，并带着三种天赋开始人生：${talentNames}。现代社会看起来完整、稳定，至少此刻如此。`,"start");
   saveLife();
   enterGame();
 }
 function normalizeLife(){
   if(!Array.isArray(state.abilities))state.abilities=[];
+  if(!state.era)state.era="modern";
+  if(state.realmIndex===undefined)state.realmIndex=0;
+  if(state.cultivationExp===undefined)state.cultivationExp=0;
+  if(state.worldsUnlocked===undefined)state.worldsUnlocked=false;
+  if(state.hiddenTruth===undefined)state.hiddenTruth=false;
+  if(state.deathCause===undefined)state.deathCause=null;
+  if(state.deathAge===undefined)state.deathAge=null;
   if(state.comebackUsed===undefined)state.comebackUsed=false;
   if(state.sixthSenseUsed===undefined)state.sixthSenseUsed=false;
   if(!state.yearlyLog){
     state.yearlyLog=[];
     const lastAge=Math.max(18,state.age||18);
+    generateChildhood(state.initialStats||{body:state.body,mind:state.mind,charm:state.charm,family:state.family});
     for(let age=18;age<=lastAge;age++){
       const pool=yearlyPool(age);
       const d=pool[(age*7+lastAge)%pool.length];
@@ -745,7 +1035,14 @@ function normalizeLife(){
     (state.history||[]).forEach(h=>recordYear(h.age,`${h.title}；你选择了“${h.choice}”。`,"major"));
     if(state.ended)recordYear(lastAge,"你在这一年走完了这一生。","end");
   }
+  if((state.yearlyLog||[]).length && Math.min(...state.yearlyLog.map(x=>x.age))>0){
+    const existing=[...state.yearlyLog];
+    generateChildhood(state.initialStats||{body:state.body,mind:state.mind,charm:state.charm,family:state.family});
+    state.yearlyLog.push(...existing);
+    state.yearlyLog.sort((a,b)=>a.age-b.age);
+  }
   if(state.lifeCompleted===undefined)state.lifeCompleted=!!state.ended;
+  syncEraCategories();
 }
 function continueLife(){
   state=loadLife();
@@ -754,11 +1051,18 @@ function continueLife(){
   if(state.ended){showEnding(); return;}
   enterGame();
 }
-function enterGame(){go("game"); renderAll(); resetWheelUI();}
+function enterGame(){syncEraCategories();go("game"); renderAll(); resetWheelUI();}
 function renderAll(){
   avatar.textContent=state.avatar;
   name.textContent=state.name;
   meta.textContent=`${state.age} 岁 · 重大抉择 ${state.majorDone}/${state.targetMajor}`;
+  if(state.era==="cultivation"){
+    eraStatus.className="eraStatus cultivation";
+    eraStatus.innerHTML=`🌌 <b>修真时代</b> · 当前境界：${currentRealm()} · 修为积累：${state.cultivationExp}${state.worldsUnlocked?' · 已开启界门':''}`;
+  }else{
+    eraStatus.className="eraStatus";
+    eraStatus.innerHTML=`🏙️ <b>现代社会</b> · 某些极端属性组合可能触碰世界隐藏层`;
+  }
   stats.innerHTML=["body","mind","charm","family"].map(k=>`
     <div class="stat"><div class="statName">${statIcons[k]} ${statNames[k]}</div><div class="statValue">${state[k]}</div></div>`).join("");
   abilityBar.innerHTML=(state.abilities||[]).map(id=>{
@@ -949,7 +1253,16 @@ function chooseEvent(i){
   const specialText=charmFlip?" “人见人爱”让局面意外反转。":comebackTriggered?" “绝处逢生”在最后一刻生效。":"";
   recordYear(ageAtEvent,`${currentEvent.title}。你选择了“${c.text}”（判定成功率 ${chance}%）。${success?c.success:c.fail}${specialText}`,"major");
 
-  resultTitle.textContent=success?(comebackTriggered?"你在绝境中翻盘":"你抓住了这次命运转折"):"这次命运没有完全站在你这边";
+  if(state.body<=0 && !state.deathCause){
+    state.deathCause=deathCauseFromEvent(currentEvent.category,currentEvent.title);
+  }
+  const eraAwakened=maybeUnlockCultivation();
+  if(state.era==="cultivation"){
+    maybeBreakthrough(state.age);
+    maybeUnlockOtherWorld(state.age);
+  }
+
+  resultTitle.textContent=eraAwakened?"世界的隐藏层被你触发了":success?(comebackTriggered?"你在绝境中翻盘":"你抓住了这次命运转折"):"这次命运没有完全站在你这边";
   resultText.textContent=(success?c.success:c.fail)+specialText+(gainedLegend?` 精彩度 +${gainedLegend}。`:"");
   effects.innerHTML=(changes.map(x=>`<span class="effect ${x.value>0?"good":x.value<0?"bad":"neutral"}">${statIcons[x.k]}${statNames[x.k]} ${x.value>0?"+":""}${x.value}</span>`).join("") || `<span class="effect neutral">属性没有变化</span>`);
   result.classList.add("on");
@@ -961,9 +1274,10 @@ function recordYear(age,text,type="normal"){
   if(!state.yearlyLog)state.yearlyLog=[];
   const existing=state.yearlyLog.find(x=>x.age===age);
   const snapshot={body:state.body,mind:state.mind,charm:state.charm,family:state.family};
+  const priority={normal:0,birth:1,start:1,cultivation:2,world:3,major:4,end:5};
   if(existing){
     if(text && !existing.text.includes(text))existing.text += "；"+text;
-    if(type==="major" || type==="end")existing.type=type;
+    if((priority[type]??0)>(priority[existing.type]??0))existing.type=type;
     existing.stats=snapshot;
   }else{
     state.yearlyLog.push({age,text,type,stats:snapshot});
@@ -976,7 +1290,35 @@ function yearlyPool(age){
   if(age<68)return yearlyEventPools.middle;
   return yearlyEventPools.senior;
 }
+function generateCultivationYear(age){
+  const normal=[
+    {text:"你用现代仪器测量灵气潮汐，发现月球背面存在规律性回应。",fx:{mind:1}},
+    {text:"你完成一次长时间吐纳，根骨得到轻微强化。",fx:{body:1}},
+    {text:"修行资源价格上涨，你为灵石和药材付出更多积累。",fx:{family:-1}},
+    {text:"你帮助一位刚觉醒的普通人控制灵力，获得了新的信任。",fx:{charm:1}},
+    {text:"一位修士在公共网络上传了无法用现代物理解释的飞行影像。",fx:{}},
+    {text:"你在旧城区地下听见阵法运转的声音，那里比城市本身更古老。",fx:{mind:1}},
+    {text:"灵能风暴令部分电子设备永久失效，你损失了一些资源。",fx:{family:-1}},
+    {text:"你平稳修炼了一年，境界没有突破，根基却更加牢固。",fx:{}}
+  ];
+  const world=[
+    {text:"你在异界生活数月，那里的‘人类’称地球为祖界。",fx:{mind:1,charm:1},type:"world"},
+    {text:"界舟穿过一片没有星光的区域，你意识到宇宙可能只是更大结构的表层。",fx:{mind:1},type:"world"},
+    {text:"你从异界带回一株灵植，家境资源因此增加。",fx:{family:1},type:"world"},
+    {text:"你在界门另一侧遭到未知生物追击，体质受到损耗。",fx:{body:-1},type:"world"}
+  ];
+  const pool=state.worldsUnlocked && rand(1,100)<=35?[...normal,...world,...world]:normal;
+  const d=pool[rand(0,pool.length-1)];
+  Object.entries(d.fx||{}).forEach(([k,v])=>state[k]=clamp(state[k]+v));
+  recordYear(age,d.text,d.type||"cultivation");
+  maybeBreakthrough(age);
+  maybeUnlockOtherWorld(age);
+}
 function generateOneYear(age){
+  if(state.era==="cultivation"){
+    generateCultivationYear(age);
+    return;
+  }
   const pool=yearlyPool(age);
   const d=pool[rand(0,pool.length-1)];
   const entries=Object.entries(d.fx||{});
@@ -1014,6 +1356,8 @@ function generateOneYear(age){
       }
     });
   });
+  if(state.body<=0 && !state.deathCause)state.deathCause="长期身体损耗引发的多器官衰竭";
+  maybeUnlockCultivation();
 }
 function advanceYears(years){
   const startAge=state.age;
@@ -1066,17 +1410,86 @@ function nextStage(){
   resetWheelUI();
   window.scrollTo({top:0,behavior:"smooth"});
 }
+
+function deathCauseFromEvent(category,title){
+  const map={
+    "天灾":`在“${title}”中遭受致命伤害`,
+    "人祸":`在“${title}”造成的事故与冲突中死亡`,
+    "危机":`未能渡过“${title}”带来的致命危机`,
+    "天劫":`渡“${title}”时肉身被天雷摧毁`,
+    "魔灾":`在“${title}”中神魂与肉身同时崩溃`,
+    "秘境":`探索“${title}”时陨落于古老禁制`,
+    "异界":`在异世界经历“${title}”后未能返回`,
+    "星海":`在星海航行“${title}”中失联并确认死亡`
+  };
+  return map[category]||`在“${title}”造成的连锁影响中死亡`;
+}
+function determineDeathCause(){
+  if(state.deathCause)return state.deathCause;
+  const age=state.age;
+  if(state.era==="cultivation"){
+    if(state.worldsUnlocked && state.realmIndex>=5){
+      const causes=[
+        "在界海深处遭遇无法命名的文明，界舟破碎后神魂熄灭",
+        "跨越世界壁垒时空间通道坍塌，肉身留在了两个世界之间",
+        "为关闭失控界门而燃尽修为，最终在陌生星空下坐化"
+      ];
+      return causes[rand(0,causes.length-1)];
+    }
+    if(state.realmIndex>=6)return "渡最后一场天劫时肉身解体；是否真正死亡，后世始终没有定论";
+    if(state.realmIndex>=4)return "寿元耗尽，在洞府中坐化，元神化作一道短暂星光";
+    return "修行根基长期受损，最终在一次闭关中走火入魔";
+  }
+  if(age>=95)return "自然衰老导致的器官功能衰竭，在睡梦中平静离世";
+  if(age>=80 && state.body>=8)return "高龄引发的心肺功能衰退，在家人陪伴下离世";
+  if(state.body<=3)return "长期慢性疾病与身体衰竭";
+  if(state.family<=2 && state.body<=6)return "疾病恶化后缺乏足够治疗资源";
+  const last=[...(state.history||[])].reverse()[0];
+  if(last && ["天灾","人祸","危机"].includes(last.category) && !last.success)
+    return deathCauseFromEvent(last.category,last.title);
+  return "晚年突发心脑血管事件";
+}
+function secretEndingHint(data){
+  if(state.worldsUnlocked){
+    return `你的遗物中留下了 ${state.worldsUnlocked?"界门坐标与异界星图":"无法识别的坐标"}。档案最后一句写着：“地球不是人类文明的起点，只是某次灾难后的避难层。”`;
+  }
+  if(state.era==="cultivation"){
+    return "你死后，全球灵气监测站记录到一次来自太阳系外的回应。信号使用的语言，比地球上最古老的文字还要古老。";
+  }
+  if(state.hiddenTruth || state.mind>=17 || state.legend>=8){
+    const hints=[
+      "整理遗物时，人们发现了一张你从未解释过的星图。图中标注的几颗星，现代天文学直到多年后才确认存在。",
+      "你去世当晚，所有保存你人生档案的设备同时多出一句话：‘本轮观察结束，祖界仍未苏醒。’",
+      "你的骨灰中发现一枚无法测定年代的晶体。它内部刻着一座并不存在于地球历史中的城市。",
+      "多年后，有人在你童年照片的背景里发现一道门。那道门在每张照片里都更近一点。"
+    ];
+    return hints[Math.abs((state.age+state.mind+state.legend))%hints.length];
+  }
+  return "";
+}
+
 function completeRemainingLife(){
   if(state.lifeCompleted)return;
   if(state.body<=0){
-    recordYear(state.age,"身体已经无法继续支撑，你在这一年走完了这一生。","end");
+    state.deathCause=determineDeathCause();
+    state.deathAge=state.age;
+    recordYear(state.age,`你因${state.deathCause}，在这一年走完了生命。`,"end");
     state.lifeCompleted=true;
     return;
   }
-  const lifespanBonus=(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.lifespan||0),0);
-  const lifespan=Math.max(state.age,Math.min(108,58+state.body*2+lifespanBonus+rand(-4,12)));
+
+  const abilityBonus=(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.lifespan||0),0);
+  let eraBonus=0;
+  if(state.era==="cultivation"){
+    eraBonus=[0,10,25,55,95,150,230,380][state.realmIndex]||0;
+  }
+  const cap=state.era==="cultivation"?(state.worldsUnlocked?360:260):108;
+  const lifespan=Math.max(state.age,Math.min(cap,58+state.body*2+abilityBonus+eraBonus+rand(-4,12)));
+
   if(lifespan>state.age)advanceYears(lifespan-state.age);
-  recordYear(state.age,"你在这一年走完了这一生，留下了属于自己的轨迹。","end");
+  state.deathCause=determineDeathCause();
+  state.deathAge=state.age;
+  recordYear(state.age,`你因${state.deathCause}，在这一年结束了这一生。`,"end");
   state.lifeCompleted=true;
 }
 function finishLife(){
@@ -1101,6 +1514,17 @@ function endingData(){
   const failures=(state.history||[]).filter(x=>!x.success).length;
   const allHigh=values.every(v=>v>=15);
   const allLow=values.every(v=>v<=5);
+
+  if(state.worldsUnlocked && state.realmIndex>=6)
+    return ["cosmic","🌌","界海飞升者","你离开太阳系，跨越多个世界。地球史只记录了你的前半生，后半生成为异界传说。","good"];
+  if(state.worldsUnlocked && state.deathCause && state.deathCause.includes("异"))
+    return ["cosmic","🪐","陨落他乡","你最终死在没有地球月亮的天空下，但异界的人为你立了一座人类式样的墓碑。","bad"];
+  if(state.era==="cultivation" && state.realmIndex>=5)
+    return ["cultivation","☯️","人间真君","你亲眼见证现代社会转入修真纪元，并成为第一代足以改变世界秩序的大修士。","good"];
+  if(state.era==="cultivation" && state.realmIndex>=3 && state.family<=2)
+    return ["cultivation","🗡️","散修末路","你拥有远超凡人的力量，却始终缺少资源与归属，最后独自坐化。","bad"];
+  if(state.era!=="cultivation" && state.mind>=17 && state.legend>=7)
+    return ["secret","🚪","看见世界背面的人","你没有等到灵气复苏，却已经确认现代文明只是巨大真相的表层。你死后，某些机构封存了全部研究。","neutral"];
 
   if(state.body<=0 || state.age<45)
     return ["bad","🕯️","英年早逝","这一生还没有走到真正成熟，身体或灾难就提前终止了旅程。","bad"];
@@ -1151,7 +1575,7 @@ function renderOverview(){
   const logs=[...(state.yearlyLog||[])].sort((a,b)=>a.age-b.age);
   if(!logs.length){overviewSvg.innerHTML='<div class="muted">暂无逐年数据。</div>';return;}
   const minAge=logs[0].age,maxAge=logs[logs.length-1].age;
-  const w=Math.max(700,(maxAge-minAge+1)*17),h=250,padL=42,padR=22,padT=26,padB=42;
+  const w=Math.max(700,Math.min(2800,(maxAge-minAge+1)*12)),h=250,padL=42,padR=22,padT=26,padB=42;
   const plotW=w-padL-padR,plotH=h-padT-padB;
   const x=age=>padL+(age-minAge)/Math.max(1,maxAge-minAge)*plotW;
   const y=v=>padT+(20-v)/20*plotH;
@@ -1186,7 +1610,7 @@ function renderOverview(){
 function renderYearReview(){
   const logs=[...(state.yearlyLog||[])].sort((a,b)=>a.age-b.age);
   yearList.innerHTML=logs.map(l=>`
-    <div class="yearItem ${l.type==="major"?"major":l.type==="end"?"end":""}">
+    <div class="yearItem ${l.type==="major"?"major":l.type==="end"?"end":l.type==="cultivation"?"cultivation":l.type==="world"?"world":""}">
       <div class="yearAge">${l.age} 岁</div>
       <div>
         <div class="yearText">${escapeHtml(l.text)}</div>
@@ -1225,6 +1649,15 @@ function showEnding(){
   endTitle.style.color=d[4]==="good"?"#91efd3":d[4]==="bad"?"#ff9aae":"#ffe19a";
   const talentText=(state.abilities||[]).map(id=>abilityById(id)?.name).filter(Boolean).join("、");
   endText.textContent=`${state.name} 的人生在 ${state.age} 岁完成结算。${d[3]} 本世能力：${talentText||"无"}。`;
+  deathCauseBox.innerHTML=`<b>死亡原因 · ${state.deathAge??state.age} 岁</b>${escapeHtml(state.deathCause||determineDeathCause())}`;
+  const hidden=secretEndingHint(d);
+  if(hidden){
+    secretHint.classList.add("on");
+    secretHint.innerHTML=`<b>隐藏档案</b>${escapeHtml(hidden)}`;
+  }else{
+    secretHint.classList.remove("on");
+    secretHint.innerHTML="";
+  }
   finalGrid.innerHTML=["body","mind","charm","family"].map(k=>`<div class="finalBox">${statIcons[k]} ${statNames[k]}<br><b style="font-size:25px">${state[k]}</b></div>`).join("");
   renderOverview();
   renderYearReview();
@@ -1236,6 +1669,7 @@ function restart(){localStorage.removeItem(SAVE_KEY); location.reload();}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 
 (function init(){
+  categories=[...modernCategories];
   renderWheelLabels();
   metaState = loadMeta();
   renderMetaSummary();
