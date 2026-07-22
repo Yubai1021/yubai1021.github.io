@@ -250,6 +250,7 @@ input:focus{border-color:var(--purple)}
 
           <div class="actions" style="margin-top:18px">
             <button id="startBtn" class="btn green" disabled onclick="openAbilitySelection()">必须分完 20 点</button>
+            <button class="btn gray" onclick="setAllFive()">全部为 5</button>
             <button class="btn gray" onclick="randomAllocate()">随机分配</button>
           </div>
         </div>
@@ -274,13 +275,17 @@ input:focus{border-color:var(--purple)}
         <p id="saveInfo" class="muted"></p>
         <div class="actions">
           <button class="btn green" onclick="continueLife()">继续人生</button>
-          <button class="btn red" onclick="deleteSave()">删除本世存档</button>
+          <button class="btn gray" onclick="deleteSave()">删除本世存档</button>
+          <button class="btn red" onclick="resetAllLives()">重置全部人生</button>
         </div>
       </div>
 
       <div class="card metaCard">
         <h3>轮回传承</h3>
         <div id="metaSummary" class="metaGrid"></div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn red" onclick="resetAllLives()">重置全部人生</button>
+        </div>
       </div>
     </div>
   </section>
@@ -913,6 +918,12 @@ function renderAllocation(){
   remaining.textContent=left;
   startBtn.disabled=left!==0;
   startBtn.textContent=left===0?"下一步：选择能力":"必须分完 20 点";
+}
+function setAllFive(){
+  allocation={body:5,mind:5,charm:5,family:5};
+  selectedAbilities=[];
+  offeredAbilityIds=[];
+  renderAllocation();
 }
 function randomAllocate(){
   allocation={body:0,mind:0,charm:0,family:0};
@@ -1917,7 +1928,34 @@ function showEnding(){
   renderRewards();
 }
 function goHome(){saveLife(); location.reload();}
-function deleteSave(){if(confirm("确定删除这一世的存档吗？这不会删除你的传承进度。")){localStorage.removeItem(SAVE_KEY); location.reload();}}
+function deleteSave(){
+  if(confirm("确定删除这一世的存档吗？这不会删除你的传承进度。")){
+    localStorage.removeItem(SAVE_KEY);
+    location.reload();
+  }
+}
+function resetAllLives(){
+  const first=confirm("确定要重置全部人生吗？\n\n这会删除：\n• 当前人生存档\n• 已完成的人生次数\n• 所有传承能力\n• 所有永久属性加成");
+  if(!first)return;
+
+  const second=confirm("最后确认一次：全部轮回记录将永久清空，无法恢复。");
+  if(!second)return;
+
+  localStorage.removeItem(SAVE_KEY);
+  localStorage.removeItem(META_KEY);
+
+  // 清理可能由旧版本使用过的同类存档键
+  [
+    "random_life_save",
+    "random_life_save_v1",
+    "random_life_meta",
+    "random_life_meta_v1",
+    "random_life_legacy_save_v1",
+    "random_life_legacy_meta_v1"
+  ].forEach(key=>localStorage.removeItem(key));
+
+  location.reload();
+}
 function restart(){localStorage.removeItem(SAVE_KEY); location.reload();}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 
