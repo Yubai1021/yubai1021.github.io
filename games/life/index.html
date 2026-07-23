@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · 轮盘防越界与百变寻道版</title>
+<title>随机人生模拟器 · 终局自救与极速轮盘版</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -79,6 +79,13 @@ input:focus{border-color:var(--purple)}
 .motiveCard.selected{border-color:rgba(66,215,170,.7);background:linear-gradient(145deg,rgba(66,215,170,.13),rgba(139,124,255,.08));box-shadow:inset 0 0 0 1px rgba(66,215,170,.15)}
 .motiveIcon{font-size:28px}.motiveName{font-weight:950;margin-top:6px}.motiveDesc{font-size:11px;line-height:1.62;color:#aeb9d7;margin-top:6px}.motiveEffect{font-size:10px;line-height:1.55;color:#c9d2ec;margin-top:8px}.motiveTag{display:inline-block;margin-top:8px;padding:4px 7px;border-radius:999px;background:rgba(139,124,255,.13);color:#d8d2ff;font-size:9px;font-weight:900}
 .wheelLockedNote{display:none;margin:10px 0;padding:10px 12px;border-radius:13px;background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.2);color:#e8d9aa;font-size:10px;line-height:1.55}.wheelLockedNote.on{display:block}
+.lifeEndActions{display:none;margin:12px 0;padding:15px;border-radius:17px;background:linear-gradient(145deg,rgba(255,209,102,.105),rgba(239,102,133,.065));border:1px solid rgba(255,209,102,.25);box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+.lifeEndActions.on{display:block}.lifeEndActions h3{margin:0 0 6px;color:#ffe19a}.lifeEndText{font-size:11px;line-height:1.65;color:#c9d2e9}.lifeEndActions .actions{margin-top:11px}.lifeEndActions .btn{flex:1;min-width:145px}
+.fastDrawBtn{background:linear-gradient(135deg,rgba(255,209,102,.16),rgba(239,166,60,.1));border-color:rgba(255,209,102,.28)!important;color:#ffe19a!important}.fastDrawBtn:disabled{opacity:.45}
+.motiveReveal{padding:12px 14px;margin-bottom:11px;border-radius:15px;text-align:center;font-size:12px;font-weight:950;color:#ffe7a8;background:linear-gradient(135deg,rgba(255,209,102,.13),rgba(139,124,255,.1));border:1px solid rgba(255,209,102,.25);animation:motiveReveal .55s ease both}
+.motiveGrid.single{grid-template-columns:minmax(0,560px);justify-content:center}.motiveCard.autoDrawn{cursor:default;min-height:176px;border-color:rgba(255,209,102,.38);background:linear-gradient(145deg,rgba(255,209,102,.095),rgba(139,124,255,.105));animation:motiveCardIn .58s cubic-bezier(.2,.8,.2,1) both}
+.motiveDrawSeal{position:absolute;right:11px;top:11px;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:950;color:#ffe19a;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.24)}
+@keyframes motiveReveal{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}@keyframes motiveCardIn{from{opacity:0;transform:scale(.96) translateY(9px)}to{opacity:1;transform:none}}
 .abilityCard.tone-good{border-left:4px solid #42d7aa}
 .abilityCard.tone-mixed{border-left:4px solid #ffd166}
 .abilityCard.tone-danger{border-left:4px solid #ff6e8a}
@@ -359,7 +366,7 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">防重复·百变寻道版</div>
+    <div class="badge">终局自救·极速轮盘版</div>
   </div>
 
   <section id="home" class="screen on">
@@ -403,23 +410,23 @@ input:focus{border-color:var(--purple)}
           <div id="abilityGrid" class="abilityGrid"></div>
           <div class="actions" style="margin-top:16px">
             <button class="btn gray" onclick="backToPoints()">返回属性</button>
-            <button id="confirmAbilityBtn" class="btn green" disabled onclick="openMotiveSelection()">继续选择人生底色</button>
+            <button id="confirmAbilityBtn" class="btn green" disabled onclick="openMotiveSelection()">抽取人生底色</button>
           </div>
         </div>
 
         <div id="motiveStage" class="motiveStage">
           <div class="abilityHead">
             <div>
-              <h2 style="margin-bottom:4px">选择这一世的人生底色</h2>
-              <div class="muted" style="font-size:12px">每世随机出现6种凡尘志向，选择1种。它会改变早年经历、事件倾向和修仙前的生活路线。</div>
+              <h2 style="margin-bottom:4px">命运抽取人生底色</h2>
+              <div class="muted" style="font-size:12px">系统会从14种人生底色中自动抽取1种，并优先避开最近几世出现过的结果。本世无需手动选择。</div>
             </div>
-            <div class="abilityCount">六选一</div>
+            <div class="abilityCount">自动抽取</div>
           </div>
-          <div id="motiveGrid" class="motiveGrid"></div>
+          <div id="motiveReveal" class="motiveReveal">命运正在翻开这一世的底牌……</div>
+          <div id="motiveGrid" class="motiveGrid single"></div>
           <div class="actions" style="margin-top:16px">
             <button class="btn gray" onclick="backToAbilities()">返回能力</button>
-            <button class="btn gray" onclick="rerollMotiveOffers()">换一批底色</button>
-            <button id="confirmMotiveBtn" class="btn green" disabled onclick="startLife()">选择一种人生底色</button>
+            <button id="confirmMotiveBtn" class="btn green" disabled onclick="startLife()">接受命运并开始人生</button>
           </div>
         </div>
       </div>
@@ -427,7 +434,7 @@ input:focus{border-color:var(--purple)}
       <div id="continueBlock" style="display:none">
         <p id="saveInfo" class="muted"></p>
         <div class="actions">
-          <button class="btn green" onclick="continueLife()">继续人生</button>
+          <button id="continueLifeBtn" class="btn green" onclick="continueLife()">继续人生</button>
           <button class="btn gray" onclick="deleteSave()">删除本世存档</button>
           <button class="btn red" onclick="resetAllLives()">重置全部人生</button>
         </div>
@@ -466,6 +473,14 @@ input:focus{border-color:var(--purple)}
       <div class="progress"><span id="majorProgress">重大抉择：0 / 3</span><span id="legendText">精彩度：0</span></div>
       <div id="daily" class="daily">18 岁，你站在这一生的入口。</div>
       <div id="wheelLockedNote" class="wheelLockedNote"></div>
+      <div id="lifeEndActions" class="lifeEndActions">
+        <h3 id="lifeEndTitle">这一生已经走到终点</h3>
+        <div id="lifeEndText" class="lifeEndText">请结算完整人生，查看结局、死因、隐藏档案和传承奖励。</div>
+        <div class="actions">
+          <button id="lifeEndPrimaryBtn" class="btn green" onclick="handleLifeEndPrimary()">查看完整结局</button>
+          <button id="quickRebirthBtn" class="btn gray" onclick="quickRebirth()">直接重生</button>
+        </div>
+      </div>
 
       <div id="daoDrawPanel" class="daoDrawPanel">
         <div class="daoDrawHead">
@@ -490,9 +505,10 @@ input:focus{border-color:var(--purple)}
         <div id="spinTrail" class="spinTrail"></div>
         <div class="wheelActions">
           <button id="spinBtn" class="btn green" onclick="spinWheel()">转动命运轮盘</button>
+          <button id="fastSpinBtn" class="btn gray fastDrawBtn" onclick="fastDrawEvent()">⚡ 极速抽取</button>
           <button id="rerollBtn" class="btn gray" style="display:none" onclick="rerollEvent()">重新抽取</button>
         </div>
-        <div class="spinHint">转动时会显示经过的每一个选项</div>
+        <div class="spinHint">普通转动会展示经过的选项；“极速抽取”会跳过动画，直接生成事件。</div>
         <div class="rerollNote">每次重大抉择可以重新抽取一次</div>
 
         <div id="eventPanel" class="eventPanel">
@@ -560,7 +576,7 @@ input:focus{border-color:var(--purple)}
       </div>
 
       <div class="actions" style="margin-top:16px">
-        <button class="btn green" onclick="restart()">再活一次</button>
+        <button class="btn green" onclick="restart()">开始下一世</button>
         <button class="btn gray" onclick="go('home')">返回首页</button>
       </div>
     </div>
@@ -783,12 +799,23 @@ const lifeMotives=[
 let motiveOfferIds=[];
 let selectedMotiveId=null;
 function motiveById(id){return lifeMotives.find(x=>x.id===id)}
+function chooseAutomaticMotive(){
+  const recentList=metaState?.recentMotiveIds||[];
+  const recentSet=new Set(recentList.slice(-7));
+  const fresh=shuffleArray(lifeMotives.filter(item=>!recentSet.has(item.id)));
+  if(fresh.length)return fresh[0];
+
+  const ranked=shuffleArray(lifeMotives).sort((a,b)=>{
+    const aLast=recentList.lastIndexOf(a.id);
+    const bLast=recentList.lastIndexOf(b.id);
+    return aLast-bLast;
+  });
+  return ranked[0]||lifeMotives[0];
+}
 function generateMotiveOffers(){
-  const recent=new Set(metaState?.recentMotiveIds||[]);
-  let fresh=shuffleArray(lifeMotives.filter(x=>!recent.has(x.id)));
-  let rest=shuffleArray(lifeMotives.filter(x=>recent.has(x.id)));
-  motiveOfferIds=[...fresh,...rest].slice(0,6).map(x=>x.id);
-  selectedMotiveId=null;
+  const picked=chooseAutomaticMotive();
+  selectedMotiveId=picked?.id||lifeMotives[0]?.id||null;
+  motiveOfferIds=selectedMotiveId?[selectedMotiveId]:[];
 }
 function motiveEffects(m){
   const stat=Object.entries(m.start||{}).map(([k,v])=>`${statIcons[k]}${statNames[k]} ${v>0?"+":""}${v}`).join(" · ");
@@ -798,22 +825,44 @@ function motiveEffects(m){
 function renderMotiveSelection(){
   const grid=document.getElementById("motiveGrid");
   const confirm=document.getElementById("confirmMotiveBtn");
+  const reveal=document.getElementById("motiveReveal");
   if(!grid||!confirm)return;
-  confirm.disabled=!selectedMotiveId;
-  confirm.textContent=selectedMotiveId?"带着这份人生底色出生":"选择一种人生底色";
-  grid.innerHTML=motiveOfferIds.map(id=>motiveById(id)).filter(Boolean).map(m=>`<button class="motiveCard ${selectedMotiveId===m.id?"selected":""}" onclick="selectMotive('${m.id}')"><div class="motiveIcon">${m.icon}</div><div class="motiveName">${m.name}</div><div class="motiveDesc">${m.desc}</div><div class="motiveEffect">${motiveEffects(m)}</div><span class="motiveTag">${m.tag}</span>${selectedMotiveId===m.id?'<div class="abilityPick">✓ 已选择</div>':""}</button>`).join("");
+
+  const motive=motiveById(selectedMotiveId);
+  confirm.disabled=!motive;
+  confirm.textContent=motive?"接受这份底色，开始人生":"正在抽取人生底色……";
+
+  if(!motive){
+    grid.innerHTML="";
+    if(reveal)reveal.textContent="命运正在翻开这一世的底牌……";
+    return;
+  }
+
+  if(reveal)reveal.innerHTML=`命运抽中了：<b>${motive.icon} ${escapeHtml(motive.name)}</b>`;
+  grid.innerHTML=`<div class="motiveCard selected autoDrawn">
+    <div class="motiveDrawSeal">本世唯一结果</div>
+    <div class="motiveIcon">${motive.icon}</div>
+    <div class="motiveName">${escapeHtml(motive.name)}</div>
+    <div class="motiveDesc">${escapeHtml(motive.desc)}</div>
+    <div class="motiveEffect">${motiveEffects(motive)}</div>
+    <span class="motiveTag">${escapeHtml(motive.tag)}</span>
+  </div>`;
 }
 function openMotiveSelection(){
   if(selectedAbilities.length!==3)return;
-  generateMotiveOffers();
+  if(!selectedMotiveId)generateMotiveOffers();
   document.getElementById("abilityStage").classList.remove("on");
   document.getElementById("motiveStage").classList.add("on");
   renderMotiveSelection();
   window.scrollTo({top:0,behavior:"smooth"});
 }
-function backToAbilities(){document.getElementById("motiveStage").classList.remove("on");document.getElementById("abilityStage").classList.add("on");window.scrollTo({top:0,behavior:"smooth"})}
-function rerollMotiveOffers(){generateMotiveOffers();renderMotiveSelection()}
-function selectMotive(id){if(!motiveOfferIds.includes(id))return;selectedMotiveId=id;renderMotiveSelection()}
+function backToAbilities(){
+  document.getElementById("motiveStage").classList.remove("on");
+  document.getElementById("abilityStage").classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function rerollMotiveOffers(){renderMotiveSelection()}
+function selectMotive(){renderMotiveSelection()}
 
 function hasAbility(id){return !!state && Array.isArray(state.abilities) && state.abilities.includes(id)}
 function abilityById(id){return abilities.find(a=>a.id===id)}
@@ -2482,6 +2531,8 @@ function toggleAbility(id){
   }else if(selectedAbilities.length<3){
     selectedAbilities.push(id);
   }
+  selectedMotiveId=null;
+  motiveOfferIds=[];
   renderAbilitySelection();
 }
 function toneText(tone){
@@ -2495,7 +2546,7 @@ function formatStartMods(a){
 function renderAbilitySelection(){
   abilityCount.textContent=selectedAbilities.length;
   confirmAbilityBtn.disabled=selectedAbilities.length!==3;
-  confirmAbilityBtn.textContent=selectedAbilities.length===3?"继续选择人生底色":`还需选择 ${3-selectedAbilities.length} 个`;
+  confirmAbilityBtn.textContent=selectedAbilities.length===3?"抽取人生底色":`还需选择 ${3-selectedAbilities.length} 个`;
   const offered=offeredAbilityIds.map(id=>abilityById(id)).filter(Boolean);
   abilityGrid.innerHTML=offered.map(a=>{
     const chosen=selectedAbilities.includes(a.id);
@@ -2705,17 +2756,25 @@ function normalizeLife(){
     state.yearlyLog.push(...existing);
     state.yearlyLog.sort((a,b)=>a.age-b.age);
   }
-  if(state.lifeCompleted===undefined)state.lifeCompleted=!!state.ended;
+  if(state.lifeCompleted===undefined)state.lifeCompleted=!!state.ended||!!state.dead;
   syncEraCategories();
 }
 function continueLife(){
   state=loadLife();
   if(!state)return;
   normalizeLife();
-  if(state.ended){showEnding(); return;}
+  if(state.ended){showEnding();return;}
+  if(state.dead||state.lifeCompleted){finishLife();return;}
   enterGame();
 }
-function enterGame(){syncEraCategories();go("game"); renderAll(); resetWheelUI();}
+function enterGame(){
+  syncEraCategories();
+  if(state?.ended){showEnding();return;}
+  if(state?.dead||state?.lifeCompleted){finishLife();return;}
+  go("game");
+  renderAll();
+  resetWheelUI();
+}
 function renderDaoDraw(){
   const panel=document.getElementById("daoDrawPanel");
   const grid=document.getElementById("daoCardGrid");
@@ -2827,6 +2886,7 @@ function renderAll(){
   majorProgress.textContent=`重大抉择：${state.majorDone} / ${state.targetMajor}`;
   legendText.textContent=`精彩度：${state.legend}`;
   refreshWheelAvailability();
+  renderLifeEndActions();
   daily.textContent=state.currentDaily;
   const recent=[...state.history].reverse();
   logList.innerHTML=recent.length?recent.map(x=>`
@@ -2848,27 +2908,91 @@ function updateRerollButton(){
   rerollBtn.disabled=!available;
   rerollBtn.textContent=free?"🔮 第六感：免费重抽":`重新抽取（剩余 ${Math.max(0,remain)} 次）`;
 }
+function lifeSettlementState(){
+  if(!state)return "none";
+  if(state.ended||state.dead||state.lifeCompleted)return "ended";
+  if(state.majorDone>=state.targetMajor)return "stage_complete";
+  return "none";
+}
+function renderLifeEndActions(){
+  const panel=document.getElementById("lifeEndActions");
+  const title=document.getElementById("lifeEndTitle");
+  const text=document.getElementById("lifeEndText");
+  const primary=document.getElementById("lifeEndPrimaryBtn");
+  const quick=document.getElementById("quickRebirthBtn");
+  if(!panel||!state)return;
+
+  const mode=lifeSettlementState();
+  panel.classList.toggle("on",mode!=="none");
+  if(mode==="none")return;
+
+  if(mode==="ended"){
+    title.textContent=state.ended?"这一生已经完成结算":"这一生已经走到终点";
+    text.textContent=state.dead
+      ?`你在 ${state.deathAge??state.age} 岁结束了这一生。现在可以查看完整结局、死因、隐藏档案与传承。`
+      :"人生已经结束。现在可以进入结局页，或跳过本次传承直接开启下一世。";
+    primary.textContent=state.ended?"返回完整结局":"结算并查看完整结局";
+    quick.style.display="inline-flex";
+  }else{
+    title.textContent="本阶段重大抉择已经完成";
+    text.textContent="轮盘已经锁定，但人生没有卡住。点击下方按钮，系统会检查追加事件、入道阶段或直接进入结局。";
+    primary.textContent="继续结算人生";
+    quick.style.display="none";
+  }
+}
+function handleLifeEndPrimary(){
+  if(!state)return;
+  if(state.ended){showEnding();return;}
+  if(state.dead||state.lifeCompleted){finishLife();return;}
+  if(state.majorDone>=state.targetMajor){nextStage();return;}
+  refreshWheelAvailability();
+}
+function quickRebirth(){
+  if(!state||!(state.dead||state.ended||state.lifeCompleted))return;
+  const ok=confirm("确定直接开启下一世吗？\n\n这会跳过本次传承选择，但已完成的人生次数和跨世档案仍会保存。");
+  if(!ok)return;
+
+  if(!state.ended){
+    const completion=completeRemainingLife();
+    if(completion!=="done"){
+      handleLifeEndPrimary();
+      return;
+    }
+    state.ended=true;
+  }
+  if(!state.lifeCounted){
+    metaState.lives=(metaState.lives||0)+1;
+    state.lifeCounted=true;
+    saveMeta();
+  }
+  localStorage.removeItem(SAVE_KEY);
+  location.reload();
+}
 function wheelStageLocked(){
   return !state || state.ended || state.dead || state.pendingDaoChoice || state.majorDone>=state.targetMajor;
 }
 function refreshWheelAvailability(){
   const note=document.getElementById("wheelLockedNote");
+  const fast=document.getElementById("fastSpinBtn");
   if(!state)return;
   const locked=wheelStageLocked();
   spinBtn.disabled=locked||spinning;
+  if(fast)fast.disabled=locked||spinning;
+
   if(state.pendingDaoChoice){
     spinBtn.textContent="请先选择入道机缘";
     if(note){note.classList.add("on");note.textContent="寻道已经完成，请先从六条道途中选择一条。"}
-  }else if(state.dead||state.ended){
+  }else if(state.dead||state.ended||state.lifeCompleted){
     spinBtn.textContent="这一生已经结束";
-    if(note){note.classList.add("on");note.textContent="这一生已经结束，无法继续转动轮盘。"}
+    if(note){note.classList.add("on");note.textContent="这一生已经结束。请点击下方“结算并查看完整结局”，不会再停留在无法操作的轮盘页面。"}
   }else if(state.majorDone>=state.targetMajor){
     spinBtn.textContent="本阶段抉择已完成";
-    if(note){note.classList.add("on");note.textContent="本阶段重大抉择次数已经用完。请点击结算区域的“进入下一阶段”或“查看人生结局”；切换支线不会增加次数。"}
+    if(note){note.classList.add("on");note.textContent="本阶段重大抉择次数已经用完。请点击下方“继续结算人生”；系统会自动处理追加事件、入道或结局。"}
   }else{
     if(!spinning)spinBtn.textContent="转动命运轮盘";
     if(note){note.classList.remove("on");note.textContent=""}
   }
+  renderLifeEndActions();
 }
 function resetWheelUI(){
   eventPanel.classList.remove("on");
@@ -3020,10 +3144,55 @@ function pickEvent(category){
   return picked;
 }
 
+function fastDrawEvent(){
+  if(spinning||wheelStageLocked()){
+    refreshWheelAvailability();
+    return;
+  }
+  spinning=true;
+  spinBtn.disabled=true;
+  const fast=document.getElementById("fastSpinBtn");
+  if(fast)fast.disabled=true;
+  rerollBtn.style.display="none";
+  eventPanel.classList.remove("on");
+  result.classList.remove("on");
+  spinTrail.innerHTML="";
+
+  const count=Math.max(1,categories.length);
+  pointerIndex=rand(0,count-1);
+  const category=categories[pointerIndex]||"奇遇";
+  wheelRotation-=360/count*rand(1,count);
+  wheel.style.transition="transform 160ms ease-out";
+  wheel.style.transform=`rotate(${wheelRotation}deg)`;
+  appendTrail(category);
+  spinCurrent.textContent="极速抽取中……";
+
+  setTimeout(()=>{
+    try{
+      const picked=pickEvent(category);
+      currentEvent=JSON.parse(JSON.stringify(picked));
+      currentEvent.category=category;
+      spinCurrent.textContent="极速抽中："+category;
+      showEvent();
+    }catch(error){
+      console.error("极速抽取异常：",error);
+      currentEvent=fallbackEvent(category);
+      currentEvent.category=category;
+      spinCurrent.textContent="极速抽中："+category+"（已自动修复）";
+      showEvent();
+    }finally{
+      spinning=false;
+      spinBtn.disabled=true;
+      if(fast)fast.disabled=true;
+    }
+  },170);
+}
 function spinWheel(isReroll=false){
   if(spinning||wheelStageLocked())return;
   spinning=true;
   spinBtn.disabled=true;
+  const fast=document.getElementById("fastSpinBtn");
+  if(fast)fast.disabled=true;
   rerollBtn.style.display="none";
   spinBtn.textContent=isReroll?"重新抽取中…":"命运正在转动…";
   eventPanel.classList.remove("on");
@@ -3100,6 +3269,9 @@ function rerollEvent(){
   spinWheel(true);
 }
 function showEvent(){
+  spinBtn.disabled=true;
+  const fast=document.getElementById("fastSpinBtn");
+  if(fast)fast.disabled=true;
   eventTag.textContent=currentEvent.category+"重大抉择";
   eventTitle.textContent=currentEvent.title;
   eventDesc.textContent=currentEvent.desc;
@@ -3323,7 +3495,7 @@ function chooseEvent(i){
   effects.innerHTML=(effectHtml+branchHtml)||`<span class="effect neutral">属性没有变化</span>`;
 
   result.classList.add("on");
-  nextBtn.textContent=state.pendingDaoChoice?"查看入道机缘":shouldEndNow()?"查看人生结局":"进入下一阶段";
+  nextBtn.textContent=state.dead?"结算这一生并查看结局":state.pendingDaoChoice?"查看入道机缘":shouldEndNow()?"查看人生结局":"进入下一阶段";
   renderAll();
   saveLife();
 }
@@ -4487,7 +4659,12 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":
     saveLife();
     newBlock.style.display="none";
     continueBlock.style.display="block";
-    saveInfo.textContent=`已有存档：${s.avatar} ${s.name}，${s.age} 岁，已发生 ${s.majorDone} 次重大抉择。`;
+    const continueBtn=document.getElementById("continueLifeBtn");
+    const finished=!!(state.ended||state.dead||state.lifeCompleted);
+    if(continueBtn)continueBtn.textContent=finished?"查看这一世的结局":"继续人生";
+    saveInfo.textContent=finished
+      ?`已有存档：${s.avatar} ${s.name}，这一生已经结束。点击上方按钮即可进入完整结局，不会再卡在轮盘。`
+      :`已有存档：${s.avatar} ${s.name}，${s.age} 岁，已发生 ${s.majorDone} 次重大抉择。`;
   }
 })();
 </script>
