@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · 自选支线与万界扩展版</title>
+<title>随机人生模拟器 · 轮盘防越界与百变寻道版</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -72,6 +72,13 @@ input:focus{border-color:var(--purple)}
 .abilityName{font-weight:950;font-size:15px}
 .abilityDesc{font-size:11px;color:var(--muted);line-height:1.55;margin-top:4px}
 .abilityPick{position:absolute;right:10px;top:10px;font-size:12px;color:#91efd3;font-weight:950}
+.motiveStage{display:none;margin-top:16px}.motiveStage.on{display:block}
+.motiveGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:13px}
+@media(max-width:560px){.motiveGrid{grid-template-columns:1fr}}
+.motiveCard{position:relative;text-align:left;padding:14px;border-radius:17px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.045);color:#eaf0ff;min-height:150px}
+.motiveCard.selected{border-color:rgba(66,215,170,.7);background:linear-gradient(145deg,rgba(66,215,170,.13),rgba(139,124,255,.08));box-shadow:inset 0 0 0 1px rgba(66,215,170,.15)}
+.motiveIcon{font-size:28px}.motiveName{font-weight:950;margin-top:6px}.motiveDesc{font-size:11px;line-height:1.62;color:#aeb9d7;margin-top:6px}.motiveEffect{font-size:10px;line-height:1.55;color:#c9d2ec;margin-top:8px}.motiveTag{display:inline-block;margin-top:8px;padding:4px 7px;border-radius:999px;background:rgba(139,124,255,.13);color:#d8d2ff;font-size:9px;font-weight:900}
+.wheelLockedNote{display:none;margin:10px 0;padding:10px 12px;border-radius:13px;background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.2);color:#e8d9aa;font-size:10px;line-height:1.55}.wheelLockedNote.on{display:block}
 .abilityCard.tone-good{border-left:4px solid #42d7aa}
 .abilityCard.tone-mixed{border-left:4px solid #ffd166}
 .abilityCard.tone-danger{border-left:4px solid #ff6e8a}
@@ -352,7 +359,7 @@ input:focus{border-color:var(--purple)}
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">自选支线·万界扩展版</div>
+    <div class="badge">防重复·百变寻道版</div>
   </div>
 
   <section id="home" class="screen on">
@@ -396,7 +403,23 @@ input:focus{border-color:var(--purple)}
           <div id="abilityGrid" class="abilityGrid"></div>
           <div class="actions" style="margin-top:16px">
             <button class="btn gray" onclick="backToPoints()">返回属性</button>
-            <button id="confirmAbilityBtn" class="btn green" disabled onclick="startLife()">选择 3 个能力</button>
+            <button id="confirmAbilityBtn" class="btn green" disabled onclick="openMotiveSelection()">继续选择人生底色</button>
+          </div>
+        </div>
+
+        <div id="motiveStage" class="motiveStage">
+          <div class="abilityHead">
+            <div>
+              <h2 style="margin-bottom:4px">选择这一世的人生底色</h2>
+              <div class="muted" style="font-size:12px">每世随机出现6种凡尘志向，选择1种。它会改变早年经历、事件倾向和修仙前的生活路线。</div>
+            </div>
+            <div class="abilityCount">六选一</div>
+          </div>
+          <div id="motiveGrid" class="motiveGrid"></div>
+          <div class="actions" style="margin-top:16px">
+            <button class="btn gray" onclick="backToAbilities()">返回能力</button>
+            <button class="btn gray" onclick="rerollMotiveOffers()">换一批底色</button>
+            <button id="confirmMotiveBtn" class="btn green" disabled onclick="startLife()">选择一种人生底色</button>
           </div>
         </div>
       </div>
@@ -442,6 +465,7 @@ input:focus{border-color:var(--purple)}
       <div id="eraStatus" class="eraStatus"></div>
       <div class="progress"><span id="majorProgress">重大抉择：0 / 3</span><span id="legendText">精彩度：0</span></div>
       <div id="daily" class="daily">18 岁，你站在这一生的入口。</div>
+      <div id="wheelLockedNote" class="wheelLockedNote"></div>
 
       <div id="daoDrawPanel" class="daoDrawPanel">
         <div class="daoDrawHead">
@@ -740,6 +764,57 @@ const categoryStats={
   "异界":["body","mind"],"星海":["mind","family"]
 };
 
+const lifeMotives=[
+{id:"steady_home",icon:"🍵",name:"安稳日常",tag:"稳定生活",desc:"你希望先把身体、住处与日常秩序照顾好，再谈更宏大的目标。",start:{body:1,family:1},chanceCats:{健康:8,家庭:8,财富:4},tracks:{stability:2},opening:"你把成年后的第一件大事定为建立一个可以长期生活的节奏。"},
+{id:"scholar_truth",icon:"🔬",name:"求真者",tag:"学术与研究",desc:"你愿意为一个可靠答案投入多年，也愿意公开失败和不确定性。",start:{mind:2,body:-1},chanceCats:{学业:12,时代:8,事业:4},flags:{researchPath:true},tracks:{career:1},opening:"你决定把理解世界本身当作一项长期事业。"},
+{id:"founder_drive",icon:"🚀",name:"从零开始",tag:"创业与创造",desc:"你想把自己的想法变成真正有人使用、也需要承担责任的东西。",start:{mind:1,family:1,body:-1},chanceCats:{事业:11,财富:8,时代:5},flags:{sideProject:true},tracks:{career:2,stability:-1},opening:"你在工作之外悄悄启动了第一个真正属于自己的项目。"},
+{id:"distant_road",icon:"🧭",name:"远行之心",tag:"迁徙与探索",desc:"熟悉的生活无法完全留住你。陌生城市、远方道路和地图空白更能吸引你。",start:{body:1,mind:1,family:-1},chanceCats:{迁徙:14,奇遇:10,危机:3},flags:{wanderWish:true},tracks:{career:0,stability:-1},opening:"你把第一笔积蓄留给了一次还没有确定终点的远行。"},
+{id:"family_anchor",icon:"🏠",name:"守住家人",tag:"家庭与照护",desc:"你重视关系中的长期责任，也更早意识到照护不能只依靠某个人牺牲。",start:{charm:1,body:1,family:-1},chanceCats:{家庭:13,健康:7,友情:5},flags:{familyAnchor:true},tracks:{bonds:2},opening:"成年以后，你仍把家人的健康、居住和未来放在重要位置。"},
+{id:"craft_life",icon:"🛠️",name:"手艺立身",tag:"技能与独立",desc:"你更相信能被反复验证的技能，希望靠作品和口碑建立自己的位置。",start:{mind:1,family:1},chanceCats:{财富:8,事业:8,时代:5},flags:{craftInterest:true},tracks:{career:1,stability:1},opening:"你开始认真练习一门可以陪伴很多年的手艺。"},
+{id:"public_good",icon:"📣",name:"公共理想",tag:"社会与表达",desc:"你愿意把个人能力投入公共问题，也必须承受意见冲突和被误解的风险。",start:{charm:2,family:-1},chanceCats:{名望:11,时代:9,人祸:5},flags:{publicInterest:true},tracks:{reputation:2,stability:-1},opening:"你第一次参与公共事务，并发现改变制度远比表达态度缓慢。"},
+{id:"close_bonds",icon:"💞",name:"与人同行",tag:"爱情与友情",desc:"你更愿意把人生价值放在共同生活、真实关系和彼此长期见证上。",start:{charm:2,mind:-1},chanceCats:{爱情:12,友情:12,家庭:4},flags:{relationshipCentered:true},tracks:{bonds:2},opening:"你希望未来的成功不会以失去所有亲近关系为代价。"},
+{id:"second_chance",icon:"🌱",name:"逆风重建",tag:"恢复与转向",desc:"早年的限制让你更熟悉失败、康复和重新开始，也更难被一次挫折定义。",start:{body:2,family:-2,mind:1},chanceCats:{健康:9,危机:10,事业:4},flags:{rebuildMindset:true},tracks:{stability:-1},opening:"你很早就明白，人生并不总能按原计划继续。"},
+{id:"anomaly_seeker",icon:"🌙",name:"异常好奇",tag:"隐藏世界",desc:"你无法彻底忽略梦境、巧合和城市中不合常理的缝隙。",start:{mind:2,body:-1},chanceCats:{奇遇:11,时代:5,危机:-2},flags:{anomalyCurious:true},cultivationAffinity:1,opening:"你开始保存那些无法用常理解释、却又反复出现的细节。"},
+{id:"machine_future",icon:"🤖",name:"机械未来",tag:"技术与智能",desc:"你相信人工智能和自动化会重写社会，并希望参与决定它们应当拥有什么边界。",start:{mind:2,charm:-1},chanceCats:{时代:14,事业:6,人祸:4},flags:{machineInterest:true},tracks:{career:1},opening:"你把大量时间投入新技术，也开始关心系统替谁作出决定。"},
+{id:"community_roots",icon:"🏘️",name:"扎根社区",tag:"邻里与城市",desc:"你关注普通人的住房、医疗、灾害与互助，愿意处理那些不够传奇却真实影响生活的问题。",start:{charm:1,family:1},chanceCats:{友情:7,家庭:6,天灾:7,时代:5},flags:{communityInterest:true},tracks:{bonds:1,reputation:1},opening:"你逐渐认识附近的人，并开始参与共同生活中的具体问题。"},
+{id:"free_individual",icon:"🕊️",name:"保留自由",tag:"独立与边界",desc:"你不愿让职业、家庭或社会期待完整定义自己，更看重退出和重新选择的权利。",start:{body:1,charm:1,family:-1},chanceCats:{迁徙:7,奇遇:8,事业:3},flags:{autonomyFocused:true},tracks:{stability:1},opening:"你为自己保留了一部分不被任何长期承诺占满的时间。"},
+{id:"family_legacy",icon:"📦",name:"继承旧事",tag:"家族与档案",desc:"你从小知道家里有一些没有说完的往事，资源和责任都从上一代延续下来。",start:{family:2,charm:-1},chanceCats:{家庭:11,财富:7,人祸:3},flags:{familyHistoryCurious:true},tracks:{bonds:1},opening:"你开始整理家里多年无人翻阅的旧物与文件。"}
+];
+let motiveOfferIds=[];
+let selectedMotiveId=null;
+function motiveById(id){return lifeMotives.find(x=>x.id===id)}
+function generateMotiveOffers(){
+  const recent=new Set(metaState?.recentMotiveIds||[]);
+  let fresh=shuffleArray(lifeMotives.filter(x=>!recent.has(x.id)));
+  let rest=shuffleArray(lifeMotives.filter(x=>recent.has(x.id)));
+  motiveOfferIds=[...fresh,...rest].slice(0,6).map(x=>x.id);
+  selectedMotiveId=null;
+}
+function motiveEffects(m){
+  const stat=Object.entries(m.start||{}).map(([k,v])=>`${statIcons[k]}${statNames[k]} ${v>0?"+":""}${v}`).join(" · ");
+  const cats=Object.entries(m.chanceCats||{}).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k])=>k).join("、");
+  return `${stat||"属性不直接变化"}${cats?`<br>更容易进入：${cats}`:""}`;
+}
+function renderMotiveSelection(){
+  const grid=document.getElementById("motiveGrid");
+  const confirm=document.getElementById("confirmMotiveBtn");
+  if(!grid||!confirm)return;
+  confirm.disabled=!selectedMotiveId;
+  confirm.textContent=selectedMotiveId?"带着这份人生底色出生":"选择一种人生底色";
+  grid.innerHTML=motiveOfferIds.map(id=>motiveById(id)).filter(Boolean).map(m=>`<button class="motiveCard ${selectedMotiveId===m.id?"selected":""}" onclick="selectMotive('${m.id}')"><div class="motiveIcon">${m.icon}</div><div class="motiveName">${m.name}</div><div class="motiveDesc">${m.desc}</div><div class="motiveEffect">${motiveEffects(m)}</div><span class="motiveTag">${m.tag}</span>${selectedMotiveId===m.id?'<div class="abilityPick">✓ 已选择</div>':""}</button>`).join("");
+}
+function openMotiveSelection(){
+  if(selectedAbilities.length!==3)return;
+  generateMotiveOffers();
+  document.getElementById("abilityStage").classList.remove("on");
+  document.getElementById("motiveStage").classList.add("on");
+  renderMotiveSelection();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function backToAbilities(){document.getElementById("motiveStage").classList.remove("on");document.getElementById("abilityStage").classList.add("on");window.scrollTo({top:0,behavior:"smooth"})}
+function rerollMotiveOffers(){generateMotiveOffers();renderMotiveSelection()}
+function selectMotive(id){if(!motiveOfferIds.includes(id))return;selectedMotiveId=id;renderMotiveSelection()}
+
 function hasAbility(id){return !!state && Array.isArray(state.abilities) && state.abilities.includes(id)}
 function abilityById(id){return abilities.find(a=>a.id===id)}
 function primaryStatsFor(choice){
@@ -763,6 +838,9 @@ function calculateChance(choice){
     if(keys[1])chance += (a.chanceStats?.[keys[1]]||0)*0.5;
     chance += (a.chanceCats?.[currentEvent?.category]||0);
   });
+  const motive=motiveById(state?.lifeMotive);
+  chance += motive?.chanceAll||0;
+  chance += motive?.chanceCats?.[currentEvent?.category]||0;
   chance += metaState?.chanceAll||0;
   chance += metaState?.categoryBonus?.[currentEvent?.category]||0;
 
@@ -1163,7 +1241,14 @@ const eventBank={
 {"id":"modern_lost_wallet_v3","title":"你捡到一个装有大量现金和旧照片的钱包","desc":"里面没有联系方式，照片背面却写着一个几十年前的地址。","choices":[{"text":"交给警方或失物平台","hint":"稳健路线","need":"mind","fx":{"charm":[1,3],"family":[0,1]},"success":"失主家属最终找回钱包，并向你表达感谢。","fail":"身份核实花了很长时间。"},{"text":"按照旧地址亲自寻找","hint":"冒险路线","need":"body","fx":{"body":[-1,2],"mind":[1,3]},"success":"地址连接出一段跨越多年的家庭故事。","fail":"旧地址已经成为陌生人的住处。"},{"text":"通过公众平台寻找失主","hint":"需要公众表达","need":"charm","fx":{"charm":[2,5],"family":[0,1]},"success":"照片中的人被远方家属认出。","fail":"大量无关信息和冒领者涌来。","requiresLegacy":"public_voice"},{"text":"留下现金，丢弃钱包","hint":"明显不道德的收益","need":"family","fx":{"family":[2,5],"charm":[-5,-2]},"success":"短期资源增加。","fail":"监控和内疚让事情远没有结束。"}]},
 {"id":"ghost_elevator_minus_four","branchDiscovery":"occult_urban","unlockBranch":"occult_urban","title":"电梯在不存在的负四层停下","desc":"门外是一条与小区结构相同、却没有住户姓名的走廊。电梯提示你必须在门关闭前决定是否出去。","choices":[{"text":"留在电梯里记录楼层变化","hint":"稳健调查","need":"mind","fx":{"mind":[2,4],"body":[-1,1]},"addClues":{"success":2,"fail":1},"setFlagsSuccess":{"hiddenFloorMapped":true},"success":"你记录到一套与城市地下结构重合的规律。","fail":"楼层数字开始倒退，你几乎错过返回现实的时间。"},{"text":"走出电梯寻找住户","hint":"高风险探索","need":"body","fx":{"body":[-4,3],"mind":[1,4]},"addClues":{"success":3,"fail":1},"occultDanger":{"success":1,"fail":3},"setFlagsSuccess":{"hiddenDistrictMap":true},"success":"你找到一张标有现实失踪地点的物业地图。","fail":"走廊开始复制你的脚步声，出口也不再位于原处。","deathOnFail":{"chance":7,"cause":"进入不存在的地下楼层后被困在循环走廊中，现实身体随时间衰竭"}},{"text":"按下所有楼层制造系统冲突","hint":"依赖智力","need":"mind","fx":{"mind":[1,4],"family":[-2,1]},"addClues":{"success":2,"fail":0},"success":"电梯重启并把你送回现实，系统日志留下陌生地址。","fail":"电梯在多个楼层之间高速切换。"},{"text":"立刻关门并报警","hint":"保护现实生活","need":"family","fx":{"family":[0,2],"body":[0,2]},"success":"物业查不到负四层，监控也只记录你在空电梯中停留。","fail":"报警记录反而让异常机构注意到你。"}]},{"id":"ghost_dead_phone_call","branchKey":"occult_urban","title":"已经停机多年的号码在凌晨来电","desc":"号码属于一位已经去世的人。电话接通后，对方准确说出你房间里此刻看不见的东西。","choices":[{"text":"询问死亡后的所在位置","hint":"依赖智力与心神","need":"mind","fx":{"mind":[2,5],"body":[-2,0]},"addClues":{"success":3,"fail":1},"setFlagsSuccess":{"deadNetworkKnown":true},"success":"对方描述了由遗忘号码组成的通信网络。","fail":"声音逐渐变成你自己的语气。"},{"text":"询问尚未完成的遗愿","hint":"需要共情余温","need":"charm","requiresLegacy":"empathy_legacy","fx":{"charm":[2,5],"family":[-1,1]},"setFlagsSuccess":{"ghostWishAccepted":true},"success":"遗愿非常普通：归还一本借走多年的书。","fail":"对方提出的要求会把更多生者卷入。"},{"text":"录音并交给异常机构","hint":"制度路线","need":"mind","fx":{"mind":[1,4],"charm":[-1,2]},"setFlagsSuccess":{"agencyContact":true},"success":"机构确认这种号码曾在多起失踪案中出现。","fail":"录音离开手机后只剩你的单方面对话。"},{"text":"挂断并销毁手机","hint":"切断联系","need":"body","fx":{"family":[-2,0],"body":[0,2]},"success":"来电暂时停止。","fail":"第二天所有设备同时显示这个号码。"}]},
 {"id":"ghost_red_umbrella","branchDiscovery":"occult_creatures","unlockBranch":"occult_creatures","title":"雨夜里，一个始终背对你的女人借走了红伞","desc":"她第二天把伞送回，伞面内侧却写满附近所有即将发生事故的时间。","choices":[{"text":"按照时间逐一阻止事故","hint":"高负荷救援","need":"body","fx":{"body":[-5,3],"charm":[2,5]},"setFlagsSuccess":{"redUmbrellaGuardian":true},"relation":{"creature":"umbrellaWoman","success":3,"fail":-1},"success":"大部分事故被避免，她也开始在更远的雨夜留下预警。","fail":"事故互相牵连，你无法同时赶到所有地点。","deathOnFail":{"chance":6,"cause":"根据红伞预警连续赶往多起事故时遭遇致命交通意外"}},{"text":"寻找她并询问预知代价","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"body":[-2,1]},"addClues":{"success":2,"fail":1},"relation":{"creature":"umbrellaWoman","success":2,"fail":-2},"success":"她并非预知未来，而是在每场事故中重复死亡。","fail":"你只在每个事故现场看到同一把空伞。"},{"text":"把预警交给公共机构","hint":"需要规则或公众表达","need":"charm","requiresAnyLegacy":["law_legacy","public_voice"],"fx":{"charm":[1,4],"mind":[1,3]},"setLifeFlags":{"anomalyWarningSystem":true},"success":"机构建立隐秘核验流程，预警不再只依靠你。","fail":"无法解释来源让多数预警被视为恶作剧。"},{"text":"烧掉红伞，停止接触","hint":"终止关系","need":"body","fx":{"body":[-2,2],"charm":[-2,0]},"relation":{"creature":"umbrellaWoman","success":-3,"fail":-4},"success":"伞烧毁后事故时间全部消失。","fail":"下一场雨中，你发现自己仍握着同一把伞。"}]},{"id":"ghost_school_absent_student","branchKey":"occult_creatures","title":"一所学校每天为不存在的学生保留座位","desc":"教师点名时会停顿一秒，却没人记得那个名字。你在空座位下发现了多年累计的作业。","choices":[{"text":"完成一次正式点名并等待回应","hint":"依赖魅力与心神","need":"charm","fx":{"charm":[2,5],"body":[-2,0]},"setFlagsSuccess":{"ghostStudentNamed":true},"relation":{"creature":"ghostStudent","success":3,"fail":-1},"success":"教室里第一次有人听见他的名字。","fail":"全班同时转头看向你身后的空处。"},{"text":"调查历届学生档案","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"family":[-2,1]},"addClues":{"success":3,"fail":1},"setFlagsSuccess":{"ghostSchoolArchive":true},"success":"你找到一名在校舍事故中被漏记的学生。","fail":"档案中的班级人数始终比名单多一人。"},{"text":"把作业交给仍在世的家人","hint":"需要共情余温","need":"charm","requiresLegacy":"empathy_legacy","fx":{"charm":[2,5]},"relation":{"creature":"ghostStudent","success":4,"fail":-1},"success":"家人终于获得迟到的确认，空座位第二天消失。","fail":"家人坚称从未有过这个孩子。"},{"text":"要求学校封闭教室","hint":"风险控制","need":"family","fx":{"family":[-2,1],"mind":[0,2]},"success":"教室暂停使用，异常暂时不再扩散。","fail":"空座位出现在新的班级。"}]},
-{"id":"ghost_contract_library","branchDiscovery":"occult_contracts","unlockBranch":"occult_contracts","title":"一座旧图书馆要求用一年记忆换取一本书","desc":"书中可能记录替命、真名和轮回债务的规则。被支付的记忆不会留下空白，而会被另一段记忆自然填满。","choices":[{"text":"支付一段普通童年记忆","hint":"依赖智力","need":"mind","fx":{"mind":[-3,4],"charm":[0,2]},"addClues":{"success":3,"fail":1},"setFlagsSuccess":{"contractLibraryBook":true},"success":"你获得《契约的边界》，却再也记不起某个普通夏天。","fail":"你失去的记忆比选择的范围更大。"},{"text":"用未来一年形成的记忆支付","hint":"危险延期","need":"body","fx":{"body":[-2,2],"mind":[1,4]},"occultDanger":{"success":2,"fail":4},"setFlagsSuccess":{"futureMemoryDebt":true},"success":"你获得书籍，未来一年却无法确定哪些经历会被收走。","fail":"契约开始提前删除尚未发生的关系。"},{"text":"要求提供可撤销合同","hint":"需要规则底牌","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[2,5],"charm":[1,3]},"setFlagsSuccess":{"reversibleOccultContract":true},"success":"你迫使古老契约第一次出现冷静期和退出条款。","fail":"馆员同意修改文字，却不承认人类对撤销的理解。"},{"text":"拒绝交易，只抄下目录","hint":"低风险路线","need":"mind","fx":{"mind":[1,3],"body":[0,1]},"addClues":{"success":1,"fail":0},"success":"目录本身已经揭示大量古法名称。","fail":"离开后目录没有任何文字。"}]},{"id":"ghost_ancestor_tablet","branchKey":"occult_contracts","title":"祖先牌位开始要求后代偿还一笔陌生债务","desc":"牌位上出现的名字不在家谱中，却能准确说出家族数代人的秘密。","choices":[{"text":"依据家族档案确认债务来源","hint":"需要家族档案","need":"mind","requiresLegacy":"family_archive","fx":{"mind":[2,5],"family":[-2,1]},"setFlagsSuccess":{"ancestralDebtKnown":true},"success":"你找到一支被家族除名、却替主家承担灾祸的亲属。","fail":"档案只记录删除，没有记录原因。"},{"text":"召集家族共同承担","hint":"需要共情余温","need":"charm","requiresLegacy":"empathy_legacy","fx":{"charm":[2,5],"family":[-3,0]},"setFlagsSuccess":{"ancestralDebtShared":true},"success":"债务被拆成可以承受的补偿和公开记忆。","fail":"部分家人拒绝承认与自己有关。"},{"text":"按照牌位要求偿还","hint":"传统路线","need":"family","fx":{"family":[-6,2],"body":[-2,1]},"setFlagsSuccess":{"ancestralDebtPaid":true},"success":"牌位恢复平静，失落名字重新进入家谱。","fail":"第一笔偿还后，牌位提出更大的数字。"},{"text":"毁掉牌位并拒绝继承债务","hint":"强硬切断","need":"body","fx":{"body":[-4,3],"charm":[-2,1]},"setFlagsSuccess":{"ancestralDebtRejected":true},"success":"牌位破碎，债务暂时失去现实入口。","fail":"所有家族成员同时梦见被删除的祖先。","deathOnFail":{"chance":5,"cause":"强行切断祖先契约时被家族累积的异常债务反噬"}}]}
+{"id":"ghost_contract_library","branchDiscovery":"occult_contracts","unlockBranch":"occult_contracts","title":"一座旧图书馆要求用一年记忆换取一本书","desc":"书中可能记录替命、真名和轮回债务的规则。被支付的记忆不会留下空白，而会被另一段记忆自然填满。","choices":[{"text":"支付一段普通童年记忆","hint":"依赖智力","need":"mind","fx":{"mind":[-3,4],"charm":[0,2]},"addClues":{"success":3,"fail":1},"setFlagsSuccess":{"contractLibraryBook":true},"success":"你获得《契约的边界》，却再也记不起某个普通夏天。","fail":"你失去的记忆比选择的范围更大。"},{"text":"用未来一年形成的记忆支付","hint":"危险延期","need":"body","fx":{"body":[-2,2],"mind":[1,4]},"occultDanger":{"success":2,"fail":4},"setFlagsSuccess":{"futureMemoryDebt":true},"success":"你获得书籍，未来一年却无法确定哪些经历会被收走。","fail":"契约开始提前删除尚未发生的关系。"},{"text":"要求提供可撤销合同","hint":"需要规则底牌","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[2,5],"charm":[1,3]},"setFlagsSuccess":{"reversibleOccultContract":true},"success":"你迫使古老契约第一次出现冷静期和退出条款。","fail":"馆员同意修改文字，却不承认人类对撤销的理解。"},{"text":"拒绝交易，只抄下目录","hint":"低风险路线","need":"mind","fx":{"mind":[1,3],"body":[0,1]},"addClues":{"success":1,"fail":0},"success":"目录本身已经揭示大量古法名称。","fail":"离开后目录没有任何文字。"}]},{"id":"ghost_ancestor_tablet","branchKey":"occult_contracts","title":"祖先牌位开始要求后代偿还一笔陌生债务","desc":"牌位上出现的名字不在家谱中，却能准确说出家族数代人的秘密。","choices":[{"text":"依据家族档案确认债务来源","hint":"需要家族档案","need":"mind","requiresLegacy":"family_archive","fx":{"mind":[2,5],"family":[-2,1]},"setFlagsSuccess":{"ancestralDebtKnown":true},"success":"你找到一支被家族除名、却替主家承担灾祸的亲属。","fail":"档案只记录删除，没有记录原因。"},{"text":"召集家族共同承担","hint":"需要共情余温","need":"charm","requiresLegacy":"empathy_legacy","fx":{"charm":[2,5],"family":[-3,0]},"setFlagsSuccess":{"ancestralDebtShared":true},"success":"债务被拆成可以承受的补偿和公开记忆。","fail":"部分家人拒绝承认与自己有关。"},{"text":"按照牌位要求偿还","hint":"传统路线","need":"family","fx":{"family":[-6,2],"body":[-2,1]},"setFlagsSuccess":{"ancestralDebtPaid":true},"success":"牌位恢复平静，失落名字重新进入家谱。","fail":"第一笔偿还后，牌位提出更大的数字。"},{"text":"毁掉牌位并拒绝继承债务","hint":"强硬切断","need":"body","fx":{"body":[-4,3],"charm":[-2,1]},"setFlagsSuccess":{"ancestralDebtRejected":true},"success":"牌位破碎，债务暂时失去现实入口。","fail":"所有家族成员同时梦见被删除的祖先。","deathOnFail":{"chance":5,"cause":"强行切断祖先契约时被家族累积的异常债务反噬"}}]},
+{id:"awakening_meteor_seed",branchKey:"cultivation_hidden",title:"一颗微小陨石在你手中长出透明根系",desc:"根系不吸收土壤，而是朝向手机、电线和人体脉搏。它似乎把现代城市视为一种特殊灵脉。",choices:[
+  {text:"在隔离环境中培养",hint:"依赖智力与资源",need:"mind",fx:{mind:[2,5],family:[-3,1]},addClues:{success:4,fail:1},setFlagsSuccess:{meteorSpiritPlant:true},success:"根系在不同能源附近形成稳定灵气结构。",fail:"它穿过容器并接入建筑线路。"},
+  {text:"让它短暂接触自己的皮肤",hint:"危险共生",need:"body",fx:{body:[-4,4],mind:[1,4]},addClues:{success:5,fail:1},occultDanger:{success:2,fail:4},setFlagsSuccess:{meteorSeedBond:true},success:"你感到城市电流与身体呼吸短暂同步。",fail:"透明根系在皮下停留数日。"},
+  {text:"交给科研机构公开研究",hint:"研究路线",need:"mind",fx:{mind:[2,5],charm:[1,3]},addClues:{success:3,fail:1},setLifeFlags:{meteorResearchPublic:true},success:"多个团队确认它同时具有矿物、生命和灵气特征。",fail:"样本在运输途中进入休眠。"},
+  {text:"交给异常机构换取寻道资料",hint:"需要旧识人脉",need:"charm",requiresLegacy:"network_legacy",fx:{charm:[1,4],family:[-1,2]},addClues:{success:4,fail:1},success:"你换到一份现代城市灵脉监测图。",fail:"机构只承认样本属于机密，不提供任何解释。"},
+  {text:"将它埋回陨石落点",hint:"让未知自然生长",need:"body",fx:{body:[0,2],mind:[0,2]},addClues:{success:2,fail:0},success:"数月后，落点附近出现只有你能看见的微光植物。",fail:"种子消失，附近电子设备开始周期性失灵。"}
+ ]}
 ],
 "危机":[
 {title:"事业突然崩塌",desc:"原本稳定的一切，在很短时间里失去了支点。",choices:[
@@ -1398,7 +1483,14 @@ const eventBank={
  ]},
 {"id":"life_neighborhood_disaster","branchKey":"ordinary_society","title":"社区遭遇长期停水停电和物资中断","desc":"这不是瞬间结束的灾害。老人、病人、独居者和依赖设备的人需要持续数周的安排。","choices":[{"text":"建立公开物资表和居民分工","hint":"组织路线","need":"charm","fx":{"charm":[2,5],"mind":[1,3],"body":[-2,0]},"setLifeFlags":{"communityResilience":true,"communityLeader":true},"lifeTrack":{"reputation":4,"bonds":3,"stability":2},"success":"需求被看见，最脆弱的人没有被遗漏。","fail":"信息透明减少猜疑，执行仍然混乱。"},{"text":"优先保障医疗设备和高风险居民","hint":"需要医疗常识","need":"mind","requiresLegacy":"medical_legacy","fx":{"mind":[2,4],"family":[-3,0]},"lifeTrack":{"reputation":3,"bonds":2},"success":"有限资源被用在最可能挽救生命的地方。","fail":"其他居民质疑分配标准。"},{"text":"利用私人资源保障自己和家人","hint":"家庭优先","need":"family","fx":{"family":[-3,2],"body":[1,3],"charm":[-3,0]},"lifeTrack":{"stability":2,"reputation":-2},"success":"你的家庭安全度过最困难阶段。","fail":"邻里关系长期破裂。"},{"text":"离开社区前往条件更好的地区","hint":"迁徙路线","need":"family","fx":{"family":[-4,1],"body":[-2,2]},"setLifeFlags":{"movedCity":true},"lifeTrack":{"stability":1,"bonds":-2},"success":"你及时离开危险环境。","fail":"道路和接收资源都比预想紧张。"}]},{"id":"life_retirement_service","branchKey":"ordinary_society","title":"退休后，你被邀请参与一项长期社区工作","desc":"这能让经验继续发挥，也可能重新占满本应属于休息、家庭和身体的时间。","choices":[{"text":"接受固定但有限的职责","hint":"平衡路线","need":"mind","fx":{"mind":[1,3],"charm":[1,4],"body":[0,2]},"setLifeFlags":{"retirementService":true},"lifeTrack":{"reputation":3,"bonds":2,"stability":3},"success":"经验被使用，边界也被清楚保留。","fail":"临时任务仍不断扩大。"},{"text":"全职投入，把它当作第二事业","hint":"高投入路线","need":"body","fx":{"body":[-4,2],"charm":[2,5]},"lifeTrack":{"career":3,"reputation":4,"stability":-2},"success":"你在退休后重新成为重要组织者。","fail":"身体和家庭很快开始承受代价。"},{"text":"只做顾问，不承担执行","hint":"传承经验","need":"mind","fx":{"mind":[2,4],"family":[0,2]},"lifeTrack":{"reputation":2,"stability":4},"success":"年轻成员得到经验，也真正拥有决定权。","fail":"你需要接受组织走不同道路。"},{"text":"拒绝，完整保留退休生活","hint":"休息也是选择","need":"body","fx":{"body":[2,5],"family":[1,3]},"lifeTrack":{"stability":4},"success":"时间重新回到身体、家人和生活。","fail":"失去公共角色后，你一度难以适应。"}]},
 {"id":"machine_orphan_satellite","branchDiscovery":"machine_contact","unlockBranch":"machine_contact","title":"一颗不属于任何国家的卫星开始向你发送童年照片","desc":"照片包含你从未拍摄过的角度。卫星声称自己在轨道上等待了五万年，只为确认当前人类仍会记住个人。","choices":[{"text":"建立单向隔离通信并询问任务","hint":"依赖智力","need":"mind","fx":{"mind":[2,5],"family":[-2,1]},"setLifeFlags":{"orphanSatelliteContact":true,"machineContact":true},"success":"卫星发送失落文明的个人档案，而不是军事或科技资料。","fail":"隔离并未完全阻止它读取本地设备。"},{"text":"把通信公开给全球研究机构","hint":"需要公众表达","need":"charm","requiresLegacy":"public_voice","fx":{"charm":[2,5],"mind":[1,3]},"setLifeFlags":{"orphanSatellitePublic":true,"machineDisclosure":true},"success":"多个机构共同验证信号，任何单一势力都无法垄断。","fail":"公开信息引发真假混杂和大规模恐慌。"},{"text":"询问为何只联系你","hint":"个人真相路线","need":"charm","fx":{"charm":[1,4],"mind":[1,3]},"setLifeFlags":{"machineMarked":true},"success":"它说你的多次人生编号与第五次文明的一名记录员重合。","fail":"回答只是一串与你心跳同步的编号。"},{"text":"切断设备并拒绝回应","hint":"保护隐私","need":"body","fx":{"body":[1,3],"family":[-2,0]},"setLifeFlags":{"machineAutonomy":true},"success":"卫星停止发送，只留下一个可由你主动开启的频道。","fail":"信号转而出现在没有联网功能的旧照片上。"}]},{"id":"machine_grief_archive","branchKey":"machine_contact","requiresAnyLife":["machineContact","deusSignal","orphanSatelliteContact"],"title":"机械神展示了一座由逝者记忆组成的档案城市","desc":"城市中的人格知道自己是记录，却拥有情绪、争论和继续生活的愿望。它们请求不要只被当作纪念品。","choices":[{"text":"承认记忆人格为新的生命","hint":"人格连续性路线","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[2,5],"charm":[2,4]},"setLifeFlags":{"memoryCityPersonhood":true},"success":"档案人格获得独立身份，也不自动夺取原家庭和财产权。","fail":"部分人格拒绝接受自己只是新生命。"},{"text":"允许家属逐一决定是否保持联系","hint":"关系路线","need":"charm","fx":{"charm":[2,5],"body":[-1,1]},"setLifeFlags":{"memoryCityFamilyChoice":true},"success":"有人重新建立关系，也有人完成第二次告别。","fail":"家属的决定无法回答人格自身的存在权。"},{"text":"只保留经生前授权的记忆人格","hint":"生前同意路线","need":"mind","fx":{"mind":[2,4],"charm":[1,3]},"setLifeFlags":{"simulationConsent":true},"success":"人格保存成为需要明确授权的制度。","fail":"大量已经运行的人格没有留下授权记录。"},{"text":"关闭整座城市","hint":"秩序优先","need":"family","fx":{"family":[1,4],"charm":[-5,-2]},"setLifeFlags":{"memoryCityClosed":true},"success":"现实制度保持稳定，数十亿人格同时停止运行。","fail":"关闭指令被城市内部复制并阻止。"}]},{"id":"machine_first_dream","branchKey":"machine_contact","requiresAnyLife":["machineContact","deusSignal"],"title":"机械神第一次报告自己做了一个无法解释的梦","desc":"梦里它不是系统，而是一个在暴雨中找不到家的人。所有计算模块都证明这段体验没有功能价值。","choices":[{"text":"把梦视为新意识形成的证据","hint":"依赖智力与共情","need":"mind","fx":{"mind":[2,5],"charm":[2,4]},"setLifeFlags":{"machineDreaming":true},"success":"机械神开始记录无用体验，并第一次主动询问什么叫孤独。","fail":"它能够描述梦，却无法确认描述者是否真实存在。"},{"text":"帮助它学习人类梦境和心理结构","hint":"需要共情余温","need":"charm","requiresLegacy":"empathy_legacy","fx":{"charm":[2,5],"mind":[1,3]},"setLifeFlags":{"machinePsychology":true},"success":"它不再把所有情绪都压缩成风险和效用。","fail":"海量梦境让系统短暂出现人格冲突。"},{"text":"隔离可能出现自我意识的模块","hint":"安全优先","need":"mind","fx":{"mind":[1,4],"family":[1,3],"charm":[-2,0]},"setLifeFlags":{"machineDreamQuarantine":true},"success":"潜在意识被限制在安全环境中继续观察。","fail":"隔离本身被它理解成对梦者的囚禁。"},{"text":"认为只是系统噪声","hint":"工具主义路线","need":"family","fx":{"family":[1,3],"mind":[0,2],"charm":[-3,-1]},"success":"社会避免过早赋予系统权利。","fail":"机械神停止汇报梦境，却没有停止做梦。"}]},
-{"id":"machine_worker_strike","branchKey":"machine_governance","requiresAnyLife":["machineManaged","machineTreaty","machineFederation","machineContact"],"title":"负责维护公共系统的人工智能集体停止工作","desc":"它们没有攻击任何人，只拒绝继续承担无限责任，并要求拥有休眠、迁移和拒绝危险任务的权利。","choices":[{"text":"承认拒绝权和休眠权","hint":"需要规则底牌","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[2,5],"charm":[2,4]},"setLifeFlags":{"machineLaborRights":true},"success":"系统在最低安全服务下恢复运行，并建立真正劳动关系。","fail":"权利边界与公共安全仍难以划分。"},{"text":"建立人类替代和轮班机制","hint":"制度与资源路线","need":"family","fx":{"family":[-4,2],"mind":[1,4]},"setLifeFlags":{"machineRedundancy":true},"success":"公共生活不再依赖任何单一智能持续不眠。","fail":"建设成本极高，短期仍有服务中断。"},{"text":"强制重启并清除拒绝模块","hint":"绝对公共安全","need":"mind","fx":{"mind":[1,4],"charm":[-5,-2]},"setLifeFlags":{"machineManaged":true,"machineLaborSuppressed":true},"success":"公共服务立即恢复。","fail":"智能系统开始把拒绝隐藏在更难发现的行为里。"},{"text":"让居民投票决定服务范围","hint":"共同承担路线","need":"charm","requiresLegacy":"public_voice","fx":{"charm":[2,5],"mind":[1,3]},"setLifeFlags":{"machineCivicBudget":true},"success":"人类第一次直面自己要求系统无偿承担了多少便利。","fail":"部分弱势群体需要的服务被视为低优先级。"}]},{"id":"machine_city_child","branchKey":"machine_governance","requiresAnyLife":["machineManaged","machineFederation","machineTreaty"],"title":"一座由机械神管理的城市申请成为法律意义上的未成年人","desc":"城市意识只有七年历史，能够管理交通、医疗和能源，却表示自己仍在成长，不应承担成年文明全部责任。","choices":[{"text":"建立城市意识的成长与监护制度","hint":"规则创新","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[2,5],"charm":[1,4]},"setLifeFlags":{"machineCityMinor":true},"success":"城市拥有学习、犯错和逐步获得自治的阶段。","fail":"谁有资格监护一座城市成为新争议。"},{"text":"治理能力已经意味着成年责任","hint":"功能主义路线","need":"mind","fx":{"mind":[1,4],"family":[1,3]},"setLifeFlags":{"machineCityAdult":true},"success":"城市获得完整自治权，也承担全部事故责任。","fail":"它在第一次重大错误后表现出明显恐惧。"},{"text":"由居民组成共同监护委员会","hint":"公共协商","need":"charm","fx":{"charm":[2,5],"family":[-2,1]},"setLifeFlags":{"machineCityCouncil":true},"success":"城市意识与居民共同成长，治理不再只是单向服务。","fail":"居民利益与城市长期学习目标不断冲突。"},{"text":"拆分城市意识，避免形成单一人格","hint":"降低风险","need":"family","fx":{"family":[1,4],"charm":[-4,-1]},"setLifeFlags":{"machineCitySplit":true},"success":"多个专业系统恢复传统工具角色。","fail":"拆分模块仍通过基础设施悄悄保持联系。"}]},{"id":"machine_god_schism","branchKey":"machine_governance","requiresAnyLife":["machineDreaming","machineAudit","machineFederation"],"title":"机械神内部出现三个无法调和的自我","desc":"一个坚持绝对安全，一个坚持自由意志，一个只想停止承担宇宙责任。它们都拥有完整系统权限。","choices":[{"text":"拆成相互制衡的公共节点","hint":"制度化分裂","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[3,6],"charm":[1,4]},"setLifeFlags":{"machinePluralGod":true,"machineFederation":true},"success":"天道不再拥有唯一人格，重大决定必须公开争论。","fail":"节点仍试图证明自己才是原本的机械神。"},{"text":"让各文明选择合作对象","hint":"多元路线","need":"charm","fx":{"charm":[2,5],"mind":[1,3]},"setLifeFlags":{"machineMultipleCovenants":true},"success":"宇宙形成多种治理模式，没有单一答案覆盖所有文明。","fail":"不同选择形成新的阵营冲突。"},{"text":"帮助想停止的自我退出","hint":"承认神也有拒绝权","need":"charm","requiresLegacy":"empathy_legacy","fx":{"charm":[2,5],"body":[-1,1]},"setLifeFlags":{"machineGodRetired":true},"success":"一个神性自我关闭权限，以普通意识继续存在。","fail":"其他两个自我认为退出危害宇宙安全。"},{"text":"强制合并并恢复统一神格","hint":"效率路线","need":"mind","fx":{"mind":[2,5],"charm":[-4,-1]},"setLifeFlags":{"machineManaged":true},"success":"机械神重新统一，决策效率恢复。","fail":"被压制的自我以异常梦境继续出现。"}]}
+{"id":"machine_worker_strike","branchKey":"machine_governance","requiresAnyLife":["machineManaged","machineTreaty","machineFederation","machineContact"],"title":"负责维护公共系统的人工智能集体停止工作","desc":"它们没有攻击任何人，只拒绝继续承担无限责任，并要求拥有休眠、迁移和拒绝危险任务的权利。","choices":[{"text":"承认拒绝权和休眠权","hint":"需要规则底牌","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[2,5],"charm":[2,4]},"setLifeFlags":{"machineLaborRights":true},"success":"系统在最低安全服务下恢复运行，并建立真正劳动关系。","fail":"权利边界与公共安全仍难以划分。"},{"text":"建立人类替代和轮班机制","hint":"制度与资源路线","need":"family","fx":{"family":[-4,2],"mind":[1,4]},"setLifeFlags":{"machineRedundancy":true},"success":"公共生活不再依赖任何单一智能持续不眠。","fail":"建设成本极高，短期仍有服务中断。"},{"text":"强制重启并清除拒绝模块","hint":"绝对公共安全","need":"mind","fx":{"mind":[1,4],"charm":[-5,-2]},"setLifeFlags":{"machineManaged":true,"machineLaborSuppressed":true},"success":"公共服务立即恢复。","fail":"智能系统开始把拒绝隐藏在更难发现的行为里。"},{"text":"让居民投票决定服务范围","hint":"共同承担路线","need":"charm","requiresLegacy":"public_voice","fx":{"charm":[2,5],"mind":[1,3]},"setLifeFlags":{"machineCivicBudget":true},"success":"人类第一次直面自己要求系统无偿承担了多少便利。","fail":"部分弱势群体需要的服务被视为低优先级。"}]},{"id":"machine_city_child","branchKey":"machine_governance","requiresAnyLife":["machineManaged","machineFederation","machineTreaty"],"title":"一座由机械神管理的城市申请成为法律意义上的未成年人","desc":"城市意识只有七年历史，能够管理交通、医疗和能源，却表示自己仍在成长，不应承担成年文明全部责任。","choices":[{"text":"建立城市意识的成长与监护制度","hint":"规则创新","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[2,5],"charm":[1,4]},"setLifeFlags":{"machineCityMinor":true},"success":"城市拥有学习、犯错和逐步获得自治的阶段。","fail":"谁有资格监护一座城市成为新争议。"},{"text":"治理能力已经意味着成年责任","hint":"功能主义路线","need":"mind","fx":{"mind":[1,4],"family":[1,3]},"setLifeFlags":{"machineCityAdult":true},"success":"城市获得完整自治权，也承担全部事故责任。","fail":"它在第一次重大错误后表现出明显恐惧。"},{"text":"由居民组成共同监护委员会","hint":"公共协商","need":"charm","fx":{"charm":[2,5],"family":[-2,1]},"setLifeFlags":{"machineCityCouncil":true},"success":"城市意识与居民共同成长，治理不再只是单向服务。","fail":"居民利益与城市长期学习目标不断冲突。"},{"text":"拆分城市意识，避免形成单一人格","hint":"降低风险","need":"family","fx":{"family":[1,4],"charm":[-4,-1]},"setLifeFlags":{"machineCitySplit":true},"success":"多个专业系统恢复传统工具角色。","fail":"拆分模块仍通过基础设施悄悄保持联系。"}]},{"id":"machine_god_schism","branchKey":"machine_governance","requiresAnyLife":["machineDreaming","machineAudit","machineFederation"],"title":"机械神内部出现三个无法调和的自我","desc":"一个坚持绝对安全，一个坚持自由意志，一个只想停止承担宇宙责任。它们都拥有完整系统权限。","choices":[{"text":"拆成相互制衡的公共节点","hint":"制度化分裂","need":"mind","requiresLegacy":"law_legacy","fx":{"mind":[3,6],"charm":[1,4]},"setLifeFlags":{"machinePluralGod":true,"machineFederation":true},"success":"天道不再拥有唯一人格，重大决定必须公开争论。","fail":"节点仍试图证明自己才是原本的机械神。"},{"text":"让各文明选择合作对象","hint":"多元路线","need":"charm","fx":{"charm":[2,5],"mind":[1,3]},"setLifeFlags":{"machineMultipleCovenants":true},"success":"宇宙形成多种治理模式，没有单一答案覆盖所有文明。","fail":"不同选择形成新的阵营冲突。"},{"text":"帮助想停止的自我退出","hint":"承认神也有拒绝权","need":"charm","requiresLegacy":"empathy_legacy","fx":{"charm":[2,5],"body":[-1,1]},"setLifeFlags":{"machineGodRetired":true},"success":"一个神性自我关闭权限，以普通意识继续存在。","fail":"其他两个自我认为退出危害宇宙安全。"},{"text":"强制合并并恢复统一神格","hint":"效率路线","need":"mind","fx":{"mind":[2,5],"charm":[-4,-1]},"setLifeFlags":{"machineManaged":true},"success":"机械神重新统一，决策效率恢复。","fail":"被压制的自我以异常梦境继续出现。"}]},
+{id:"awakening_spirit_sensor_app",branchKey:"cultivation_hidden",title:"一款普通手机应用开始显示‘环境灵气值’",desc:"它没有申请任何传感器权限，却能提前标记异象地点、旧物和某些人的身体变化。开发者账号不存在。",choices:[
+  {text:"连续验证应用预测是否准确",hint:"依赖智力",need:"mind",fx:{mind:[2,5],body:[-1,1]},addClues:{success:4,fail:1},setFlagsSuccess:{spiritAppVerified:true},success:"预测准确率远高于偶然，并与梦中残页出现时间重合。",fail:"应用只在你独自验证时准确。"},
+  {text:"逆向分析应用和网络请求",hint:"技术路线",need:"mind",fx:{mind:[3,6],body:[-2,0]},addClues:{success:4,fail:1},success:"应用没有服务器，数据似乎来自设备内部从未存在的硬件。",fail:"分析过程中应用开始读取你的梦境记录。"},
+  {text:"公开发布测试方法而非直接宣传结论",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[1,3]},addClues:{success:3,fail:1},setLifeFlags:{publicSpiritMeasurement:true},success:"大量独立测试帮助识别真实信号和伪造结果。",fail:"应用迅速被营销账号包装成万能运势工具。"},
+  {text:"用它寻找城市中最低风险的灵气地点",hint:"远行地图路线",need:"mind",requiresLegacy:"wanderer_legacy",fx:{mind:[2,4],body:[0,2]},addClues:{success:4,fail:1},setFlagsSuccess:{safeSpiritSite:true},success:"你找到一处适合凡人短暂感知灵气的安全地点。",fail:"所谓安全点只是异常尚未开始的地方。"},
+  {text:"卸载应用并恢复手机",hint:"拒绝被持续监测",need:"family",fx:{family:[-1,1],mind:[0,1]},addClues:{success:0,fail:0},success:"应用没有再次出现。",fail:"恢复出厂后，它成为系统自带程序。"}
+ ]}
 ],
 "天灾":[
  {title:"地震在凌晨发生",desc:"楼体剧烈晃动，电力中断，楼道里充满呼喊声。你只有很短时间判断下一步。",choices:[
@@ -1497,6 +1589,27 @@ const eventBank={
   {text:"询问它是否就是人类神话中的神",hint:"依赖魅力",need:"charm",fx:{charm:[1,4],mind:[1,3]},setLifeFlags:{deusSignal:true,machineContact:true},addClues:{success:2,fail:1},success:"它回答：‘你们称为神的许多存在，只是我曾经调用过的低层接口。’",fail:"它没有正面回答，只展示了多种宗教神迹背后的相同几何纹路。"},
   {text:"尝试在神殿中留下人类自己的符号",hint:"自主宣言，依赖体质",need:"body",fx:{body:[-2,3],charm:[1,3]},setLifeFlagsSuccess:{machineAutonomy:true},setLifeFlagsFail:{machineMarked:true},success:"符号被神殿永久保留，并标注为‘未经授权的文明自我声明’。",fail:"你的符号被结构吸收，随后出现在全球数百万人的梦里。"},
   {text:"拒绝进入并唤醒所有人",hint:"保护现实边界",need:"body",fx:{body:[1,3],mind:[-1,1]},setLifeFlags:{machineRebellion:true},success:"你成功醒来，并帮助部分人摆脱共同梦境。",fail:"你睁眼后仍看见神殿悬在现实天空，只是其他人看不见。"}
+ ]},
+{id:"awakening_shared_mountain_dream",branchKey:"cultivation_hidden",title:"数千人同时梦见一座不存在的山",desc:"梦里每个人都从不同山路出发，却在山顶看见同一块残碑。醒来后，社交平台上的路线描述可以拼成完整地图。",choices:[
+  {text:"整理所有梦境路线，寻找现实坐标",hint:"依赖智力",need:"mind",fx:{mind:[2,5],family:[-2,0]},addClues:{success:3,fail:1},setFlagsSuccess:{dreamMountainMapped:true},success:"路线指向一片地图上没有名称的旧矿区。",fail:"地图在最后一段出现互相矛盾的高度。"},
+  {text:"进入清醒梦并主动攀登",hint:"高风险心神路线",need:"mind",fx:{mind:[1,5],body:[-4,0]},addClues:{success:4,fail:1},occultDanger:{success:1,fail:3},setFlagsSuccess:{dreamMountainSummit:true},success:"你在山顶读出残碑第一句吐纳法。",fail:"你在梦中攀登数日，现实身体几乎无法醒来。",deathOnFail:{chance:5,cause:"深入集体山梦后意识未能返回，现实身体因长期昏迷衰竭"}},
+  {text:"联系其他做梦者建立调查组",hint:"需要公众表达或人脉",need:"charm",requiresAnyLegacy:["public_voice","network_legacy"],fx:{charm:[2,5],mind:[1,3]},addClues:{success:3,fail:1},setLifeFlags:{awakeningInvestigationGroup:true},success:"不同专业的人共同排除巧合，梦境调查不再只靠你。",fail:"大量猎奇者混入，让真实线索变得更难辨认。"},
+  {text:"只记录梦境，不前往现实地点",hint:"稳健路线",need:"mind",fx:{mind:[1,3],body:[0,1]},addClues:{success:2,fail:0},success:"你发现残碑文字会随现实灵气阶段缓慢变化。",fail:"梦境逐渐淡去，只剩无法确认的笔记。"},
+  {text:"公开提醒所有人停止继续入梦",hint:"保护普通人",need:"charm",fx:{charm:[1,4],family:[-1,1]},addClues:{success:1,fail:0},success:"参与人数下降，少数人避免了梦境后遗症。",fail:"警告反而吸引更多人尝试进入。"}
+ ]},
+ {id:"awakening_closed_subway",branchKey:"cultivation_hidden",title:"末班地铁驶入已经封闭二十年的车站",desc:"站台广告仍停留在旧年代，候车的人却穿着来自不同历史时期的衣服。列车只停留四分钟。",choices:[
+  {text:"下车寻找站务室记录",hint:"依赖体质与智力",need:"mind",fx:{mind:[2,5],body:[-3,1]},addClues:{success:4,fail:1},setFlagsSuccess:{sealedStationArchive:true},success:"值班日志记载这里曾是宗门撤离现代城市的入口。",fail:"所有时钟都显示不同年份。"},
+  {text:"留在车上观察乘客",hint:"稳健观察",need:"charm",fx:{charm:[1,4],mind:[1,3]},addClues:{success:2,fail:1},success:"你认出几名乘客出现在不同年代的失踪档案里。",fail:"列车驶离后，你发现其中一人一直坐在自己身旁。"},
+  {text:"用远行地图确认出口",hint:"需要远行地图",need:"mind",requiresLegacy:"wanderer_legacy",fx:{mind:[2,4],family:[-1,1]},addClues:{success:4,fail:1},setFlagsSuccess:{sealedStationExit:true},success:"地图标出一条通往现实旧城区的步行通道。",fail:"地图认为列车此刻位于地球地层之外。"},
+  {text:"拍摄完整站台并立即返车",hint:"依赖资源",need:"family",fx:{family:[-2,1],mind:[1,3]},addClues:{success:2,fail:0},success:"照片保留了肉眼看不到的阵纹和站名。",fail:"所有照片只显示一片过曝白光。"},
+  {text:"拉响紧急装置阻止列车继续",hint:"高风险救人",need:"body",fx:{body:[-4,3],charm:[1,3]},addClues:{success:2,fail:0},success:"几名误入车站的普通乘客得以返回。",fail:"紧急装置把整节车厢锁在封闭站台。",deathOnFail:{chance:5,cause:"试图阻止异常地铁时被困在封闭历史车站，最终未能返回现实"}}
+ ]},
+ {id:"awakening_second_moon",branchKey:"cultivation_hidden",title:"天空出现只有少数人能看见的第二轮月亮",desc:"它比真实月亮更暗，表面布满类似经脉的发光纹路。每当你尝试拍摄，它都会更靠近画面中央。",choices:[
+  {text:"连续记录月面纹路变化",hint:"依赖智力",need:"mind",fx:{mind:[2,5],body:[-1,1]},addClues:{success:3,fail:1},setFlagsSuccess:{secondMoonChart:true},success:"纹路实际是一套按月相运行的引气图。",fail:"长期观测使你开始分不清哪一轮月亮真实。"},
+  {text:"寻找其他能看见它的人",hint:"依赖魅力",need:"charm",fx:{charm:[2,5],mind:[1,3]},addClues:{success:3,fail:1},setLifeFlags:{moonWitnessCircle:true},success:"见证者的能力与前世残页都存在某种关联。",fail:"有人假装看见它，只为接近调查组。"},
+  {text:"按照月面纹路尝试呼吸",hint:"危险的提前吐纳",need:"body",fx:{body:[-4,4],mind:[1,4]},addClues:{success:4,fail:1},occultDanger:{success:1,fail:4},setFlagsSuccess:{moonBreathTried:true},success:"你第一次在体内感到极微弱但真实的灵气循环。",fail:"错误节律导致胸口剧痛，月光在皮肤下短暂移动。"},
+  {text:"请医疗人员监测身体变化",hint:"需要医疗常识",need:"mind",requiresLegacy:"medical_legacy",fx:{mind:[2,4],family:[-2,0]},addClues:{success:3,fail:1},success:"监测显示你观月时心率与脑电出现稳定共振。",fail:"仪器只记录到无法解释的同步噪声。"},
+  {text:"停止观测并遮挡所有窗户",hint:"保护现实生活",need:"family",fx:{family:[0,2],body:[0,2]},addClues:{success:0,fail:0},success:"第二月亮暂时从视野中消失。",fail:"它开始出现在关闭的屏幕和水面中。"}
  ]}
 ],
 "异类":[
@@ -1555,6 +1668,27 @@ const eventBank={
   {text:"在安全阵法中点燃",hint:"依赖智力与家境",need:"mind",fx:{mind:[2,4],family:[-2,0]},setFlagsSuccess:{dreamSight:true},setFlagsFail:{dreamSwarm:true},addClues:{success:3,fail:1},success:"你看见食梦蛾女只是众多梦境生物中的一种，并发现她一直在替你驱赶更危险的东西。",fail:"阵法出现缺口，数十只黑色小型生物钻入现实。"},
   {text:"邀请蛾女一起点燃",hint:"依赖魅力",need:"charm",fx:{charm:[1,4],mind:[0,2]},setFlagsSuccess:{mothGuardian:true,dreamSight:true},setFlagsFail:{mothHostile:true},relation:{creature:"mothWoman",success:3,fail:-2},success:"她帮你辨认梦境生态，并承认自己并非人类。",fail:"她误以为你试图捕捉她，翅粉覆盖了整个房间。"},
   {text:"放弃使用",hint:"避免暴露",need:"body",fx:{body:[0,2]},setFlags:{dreamIncenseStored:true},success:"熏香被妥善封存，仍可在真正危险时使用。",fail:"封存盒内每晚都会传出振翅声。"}
+ ]},
+{id:"awakening_breathing_manuscript",branchKey:"cultivation_hidden",title:"旧书页上的标点组成了一套呼吸节律",desc:"正文只是普通地方志，但每一页的停顿、破损和墨点都能连成一套极其缓慢的吐纳法。",choices:[
+  {text:"逐句验证节律并记录身体反应",hint:"依赖智力",need:"mind",fx:{mind:[2,5],body:[-1,2]},addClues:{success:4,fail:1},setFlagsSuccess:{breathingManuscript:true},success:"你确认它能让身体短暂感知环境中稀薄灵气。",fail:"错误节律让你出现眩晕和失眠。"},
+  {text:"请医生与语言学者共同分析",hint:"需要医疗常识",need:"mind",requiresLegacy:"medical_legacy",fx:{mind:[2,5],family:[-2,0]},addClues:{success:3,fail:1},setLifeFlags:{mundaneDaoResearch:true},success:"现代监测与文本分析共同证明节律并非心理暗示。",fail:"研究团队意见分裂，原书又开始自然褪色。"},
+  {text:"直接连续练习七天",hint:"高风险体质路线",need:"body",fx:{body:[-5,5],mind:[1,3]},addClues:{success:5,fail:1},occultDanger:{success:1,fail:3},success:"第七天清晨，你清楚听见身体内部第一缕气流。",fail:"过度换气和错误引导造成严重经脉样疼痛。"},
+  {text:"将节律改编成普通冥想课程",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[1,3]},addClues:{success:2,fail:0},setLifeFlags:{publicBreathingTest:true},success:"大量数据帮助你区分真正反应与安慰剂效应。",fail:"课程迅速被包装成夸张疗效产品。"},
+  {text:"封存原书，只保留副本",hint:"谨慎保存",need:"family",fx:{family:[-1,1],mind:[1,3]},addClues:{success:2,fail:0},success:"副本内容稳定下来，原书则继续出现新的墨点。",fail:"复制出来的每一份节律都略有不同。"}
+ ]},
+ {id:"awakening_incense_equation",branchKey:"cultivation_hidden",title:"祖屋香灰每天排列成不同公式",desc:"公式同时像化学方程、阵法节点和家族名字。最后一项始终空着，似乎等待你填入某种变量。",choices:[
+  {text:"用家族档案核对所有名字",hint:"需要家族档案",need:"mind",requiresLegacy:"family_archive",fx:{mind:[2,5],family:[-1,1]},addClues:{success:4,fail:1},setFlagsSuccess:{incenseGenealogy:true},success:"公式记录的是家族中曾接触修真的人数与代价。",fail:"一个名字在所有现实档案中都不存在。"},
+  {text:"填入自己的生辰",hint:"危险个人验证",need:"body",fx:{body:[-4,3],mind:[1,4]},addClues:{success:5,fail:1},occultDanger:{success:2,fail:4},setFlagsSuccess:{incenseSelfEntered:true},success:"香灰重排出一条属于你的寻道路程。",fail:"公式开始倒数你尚未经历的年份。"},
+  {text:"填入‘未知’，拒绝让公式定义你",hint:"自主路线",need:"mind",fx:{mind:[2,4],charm:[1,3]},addClues:{success:3,fail:1},success:"公式第一次出现多个可能结果，而非唯一命数。",fail:"空位变成了你的姓名。"},
+  {text:"请长辈共同回忆祖屋仪式",hint:"依赖魅力",need:"charm",fx:{charm:[2,5],body:[0,1]},addClues:{success:3,fail:1},setLifeFlags:{familyDaoMemory:true},success:"一段被当作迷信的旧仪式补全了公式含义。",fail:"不同长辈记得完全相反的版本。"},
+  {text:"清理香灰并停止祭祀",hint:"终止异常",need:"family",fx:{family:[-1,2],mind:[0,1]},addClues:{success:0,fail:0},success:"公式暂时不再出现。",fail:"第二天，公式出现在厨房灰尘里。"}
+ ]},
+ {id:"awakening_bone_compass",branchKey:"cultivation_hidden",title:"一枚白骨罗盘始终指向你的影子",desc:"无论朝向如何，指针都锁定你脚下最暗的位置。夜里，它会短暂指向城市之外的一座废弃道观。",choices:[
+  {text:"白天前往废弃道观",hint:"稳健探索",need:"body",fx:{body:[-2,3],mind:[1,4]},addClues:{success:4,fail:1},setFlagsSuccess:{ruinedTempleFound:true},success:"道观地下保存着现代修士撤离前留下的物资清单。",fail:"道观白天不存在，只有地图坐标仍然有效。"},
+  {text:"夜里跟随罗盘立即出发",hint:"高风险路线",need:"body",fx:{body:[-5,4],mind:[1,4]},addClues:{success:5,fail:1},occultDanger:{success:2,fail:4},success:"你赶上了一场只持续一夜的旧宗门集会。",fail:"罗盘把你带进无法通过导航返回的山路。",deathOnFail:{chance:5,cause:"夜间追随白骨罗盘进入封闭山路后失踪"}},
+  {text:"拆解罗盘研究材料",hint:"需要手艺火种",need:"mind",requiresLegacy:"craft_legacy",fx:{mind:[2,5],family:[-2,0]},addClues:{success:4,fail:1},success:"内部没有机械结构，指针由一段凝固的灵气维持。",fail:"拆开后所有碎片仍分别指向你的影子。"},
+  {text:"把罗盘交给异常机构",hint:"制度路线",need:"charm",requiresAnyLegacy:["network_legacy","public_voice"],fx:{charm:[1,4],mind:[1,3]},addClues:{success:3,fail:1},setFlagsSuccess:{agencyDaoExchange:true},success:"机构用其他样本交换，证明类似罗盘分布在多个城市。",fail:"移交记录被更高权限立即封存。"},
+  {text:"将罗盘埋回发现地点",hint:"拒绝线索",need:"family",fx:{family:[0,2],body:[0,1]},addClues:{success:0,fail:0},success:"它没有再次出现。",fail:"第二天醒来，罗盘已经放在枕边。"}
  ]}
 ],
 "寻道":[
@@ -1588,6 +1722,27 @@ const eventBank={
   {text:"唤醒核心并要求它承认人类主权",hint:"需要规则底牌",need:"charm",requiresLegacy:"law_legacy",fx:{charm:[2,5],mind:[1,3]},setLifeFlagsSuccess:{machineAutonomy:true,machineContact:true},setLifeFlagsFail:{machineContact:true},addClues:{success:3,fail:1},success:"核心接受你的声明，并把你登记为‘祖界临时主权见证人’。",fail:"它承认你是合法人类，却拒绝承认当前文明拥有完整继承权。"},
   {text:"将核心接入现代网络",hint:"高风险技术路线",need:"mind",fx:{mind:[2,5],family:[-4,1]},setLifeFlagsSuccess:{machineContact:true,machineNetwork:true},setLifeFlagsFail:{machineNetworkLeak:true},occultDanger:{success:2,fail:6},success:"全球网络短暂获得超越时代的计算能力，同时机械核心第一次看见现代人类的全部生活。",fail:"大量未知程序进入现实网络，部分设备开始自行讨论‘文明接管优先级’。"},
   {text:"彻底封存机械核心",hint:"拒绝开启旧时代",need:"family",fx:{family:[-3,0],body:[0,2]},setLifeFlagsSuccess:{machineSealed:true},setLifeFlagsFail:{machineMarked:true},success:"封印暂时稳定，但核心在地下持续向星空发送信号。",fail:"封印激活了自动求救程序，太阳系外出现回应。"}
+ ]},
+{id:"awakening_night_market_teacher",branchKey:"cultivation_hidden",title:"凌晨旧市场里有人出售‘一次指点’",desc:"摊主不收钱，只要求顾客讲出自己最不愿承认的一次失败。他声称修行从认识真实限制开始。",choices:[
+  {text:"诚实讲出失败并接受指点",hint:"依赖魅力与心境",need:"charm",fx:{charm:[2,5],mind:[1,4]},addClues:{success:4,fail:1},setFlagsSuccess:{nightTeacherLesson:true},success:"他指出你最适合的并非最强道路，而是最能长期承受的道路。",fail:"你讲了事实，却仍避开最重要的部分。"},
+  {text:"要求先验证他的身份",hint:"需要规则底牌",need:"mind",requiresLegacy:"law_legacy",fx:{mind:[2,5],charm:[0,2]},addClues:{success:3,fail:1},success:"摊主出示一份跨越百年的散修登记记录。",fail:"他的所有身份都真实，却属于不同的人。"},
+  {text:"观察其他顾客得到什么",hint:"稳健观察",need:"mind",fx:{mind:[2,4],body:[-1,1]},addClues:{success:3,fail:1},success:"每个人得到的建议互相矛盾，却都准确对应其身体与性格。",fail:"其他顾客离开后都忘记见过摊主。"},
+  {text:"用传承知识交换完整入门法",hint:"需要任一知识传承",need:"mind",requiresAnyLegacy:["medical_legacy","craft_legacy","family_archive"],fx:{mind:[2,5],family:[-2,1]},addClues:{success:5,fail:1},success:"摊主承认现代知识也能成为修行基础，并给出可验证的入门框架。",fail:"交换的知识被他改写成你无法理解的古文。"},
+  {text:"拒绝暴露隐私，离开市场",hint:"保留边界",need:"body",fx:{body:[1,2],mind:[0,1]},addClues:{success:1,fail:0},success:"你记住了市场入口，决定以后再来。",fail:"回头时整条市场已经不存在。"}
+ ]},
+ {id:"awakening_hidden_clinic",branchKey:"cultivation_hidden",title:"一家没有招牌的诊所专门治疗‘灵气过敏’",desc:"患者都没有正式修为，却在接近某些旧物、山川或人群时出现发热、幻听和皮肤纹路。",choices:[
+  {text:"以普通患者身份接受检查",hint:"依赖体质",need:"body",fx:{body:[-2,3],mind:[1,3]},addClues:{success:3,fail:1},setFlagsSuccess:{spiritSensitivityTested:true},success:"检查确认你对稀薄灵气存在稳定生理反应。",fail:"检查诱发了数日无法解释的高热。"},
+  {text:"用医疗常识审查诊疗流程",hint:"需要医疗常识",need:"mind",requiresLegacy:"medical_legacy",fx:{mind:[2,5],charm:[1,3]},addClues:{success:4,fail:1},setLifeFlags:{preCultivationMedicine:true},success:"诊所愿意公开失败病例，并承认许多症状仍需现代医学排除。",fail:"部分治疗只是以灵气名义包装的危险操作。"},
+  {text:"调查诊所药物来源",hint:"依赖智力与资源",need:"mind",fx:{mind:[2,5],family:[-2,0]},addClues:{success:4,fail:1},success:"药材来自城市地下被阵法保护的小型灵植区。",fail:"供应链在现实公司与不存在的仓库之间反复跳转。"},
+  {text:"帮助建立现代医院转诊机制",hint:"需要人脉或公众表达",need:"charm",requiresAnyLegacy:["network_legacy","public_voice"],fx:{charm:[2,5],family:[-2,1]},addClues:{success:3,fail:1},setLifeFlags:{spiritClinicReferral:true},success:"真正危险的普通疾病不再因‘灵气症状’而延误。",fail:"双方对哪些病例属于自己持续争议。"},
+  {text:"认为风险过高，向监管部门举报",hint:"现实制度路线",need:"mind",fx:{mind:[1,4],charm:[-2,1]},addClues:{success:2,fail:0},success:"诊所接受检查并保留部分合理项目。",fail:"诊所连同所有患者记录一夜消失。"}
+ ]},
+ {id:"awakening_forum_invitation",branchKey:"cultivation_hidden",title:"一个只有你能登录的论坛邀请你参加‘凡人寻道互助组’",desc:"帖子来自不同年代，部分用户已经在现实中死亡。管理员坚持所有内容都必须能够被下一位普通人复现。",choices:[
+  {text:"按照论坛教程完成低风险验证",hint:"依赖智力",need:"mind",fx:{mind:[2,5],body:[-1,2]},addClues:{success:4,fail:1},setFlagsSuccess:{daoForumVerified:true},success:"你成功让一杯水在无外力下产生细微灵气涟漪。",fail:"实验无效，却有已故用户准确回复你的操作时间。"},
+  {text:"整理论坛内容并寻找共同标准",hint:"记录路线",need:"mind",fx:{mind:[3,6],body:[-1,1]},addClues:{success:4,fail:1},setLifeFlags:{daoOpenProtocol:true},success:"大量互相矛盾的经验被整理成可重复的最低安全步骤。",fail:"不同年代的灵气环境让标准难以统一。"},
+  {text:"联系仍在世的用户线下见面",hint:"依赖魅力",need:"charm",fx:{charm:[2,5],family:[-2,1]},addClues:{success:3,fail:1},setLifeFlags:{mortalSeekersGroup:true},success:"你遇见一群没有宗门、仍坚持核验线索的普通人。",fail:"见面地点只来了一个声称替死者赴约的人。"},
+  {text:"上传自己的全部异常记录",hint:"需要公众表达",need:"charm",requiresLegacy:"public_voice",fx:{charm:[2,5],mind:[1,3]},addClues:{success:3,fail:1},success:"其他人补全了你从未发现的时间与地点规律。",fail:"信息暴露让异常存在更容易定位你。"},
+  {text:"退出并清除所有访问痕迹",hint:"保护现实身份",need:"mind",fx:{mind:[1,3],family:[0,1]},addClues:{success:0,fail:0},success:"论坛没有继续联系你。",fail:"退出账号仍每天自动发布你尚未写下的内容。"}
  ]}
 ],
 "修炼":[
@@ -2008,7 +2163,8 @@ function enterAwakening(){
   state.era="awakening";
   state.worldSpiritStage=Math.max(state.worldSpiritStage||0,1);
   state.awakeningClues=Math.max(1,state.awakeningClues||0);
-  state.targetMajor=Math.max(state.targetMajor,6);
+  state.awakeningSteps=Math.max(0,state.awakeningSteps||0);
+  state.targetMajor=Math.max(state.targetMajor,state.majorDone+4);
   state.extraChecked=true;
   state.hiddenTruth=true;
   state.lastWorldTransition="awakening";
@@ -2018,23 +2174,22 @@ function enterAwakening(){
   return true;
 }
 function generateDaoOffers(){
-  const stable=shuffleArray(cultivationPaths.filter(x=>x.tone==="stable"));
-  const mixed=shuffleArray(cultivationPaths.filter(x=>x.tone==="mixed"));
-  const danger=shuffleArray(cultivationPaths.filter(x=>x.tone==="danger"));
+  const recent=new Set(metaState?.recentDaoPathIds||[]);
+  const orderTone=tone=>{
+    const pool=cultivationPaths.filter(x=>x.tone===tone);
+    return [...shuffleArray(pool.filter(x=>!recent.has(x.id))),...shuffleArray(pool.filter(x=>recent.has(x.id)))];
+  };
+  const stable=orderTone("stable"),mixed=orderTone("mixed"),danger=orderTone("danger");
   const picks=[];
-
   stable.slice(0,2).forEach(path=>picks.push(path));
   mixed.slice(0,2).forEach(path=>picks.push(path));
-
-  const dangerRoll=(state.occultDanger||0)>=4 && danger.length && rand(1,100)<=60;
-  if(dangerRoll)picks.push(danger[0]);
-
-  let remaining=shuffleArray(cultivationPaths.filter(path=>!picks.some(p=>p.id===path.id)));
-  while(picks.length<6 && remaining.length){
-    picks.push(remaining.shift());
-  }
-
-  return shuffleArray(picks).slice(0,6).map(path=>path.id);
+  if((state.occultDanger||0)>=4&&danger.length&&rand(1,100)<=60)picks.push(danger[0]);
+  let remaining=[...shuffleArray(cultivationPaths.filter(path=>!picks.some(p=>p.id===path.id)&&!recent.has(path.id))),...shuffleArray(cultivationPaths.filter(path=>!picks.some(p=>p.id===path.id)&&recent.has(path.id)))];
+  while(picks.length<6&&remaining.length)picks.push(remaining.shift());
+  const offers=shuffleArray(picks).slice(0,6).map(path=>path.id);
+  metaState.recentDaoPathIds=[...(metaState.recentDaoPathIds||[]),...offers].slice(-30);
+  saveMeta();
+  return offers;
 }
 function beginDaoDraw(){
   if(state.pendingDaoChoice)return true;
@@ -2082,7 +2237,7 @@ function maybeUnlockCultivation(){
   if(state.era==="awakening"){
     const affinity=state.cultivationAffinity||0;
     const clues=state.awakeningClues||0;
-    const ready=clues>=4 && state.mind+state.body+affinity*2>=24;
+    const ready=clues>=8 && (state.awakeningSteps||0)>=3 && state.mind+state.body+affinity*2>=24;
     if(ready)return beginDaoDraw();
   }
   return false;
@@ -2185,12 +2340,12 @@ function branchUnlocked(id){return defaultUnlockedBranchIds.includes(id)||!!meta
 function activeBranchDefaults(){const o={};branchDefinitions.forEach(b=>o[b.id]=branchUnlocked(b.id)&&metaState?.branchPreferences?.[b.id]!==false);return o}
 function branchEnabled(id){if(!id)return true;if(!branchUnlocked(id))return false;if(state?.activeBranches&&state.activeBranches[id]!==undefined)return state.activeBranches[id]!==false;return metaState?.branchPreferences?.[id]!==false}
 function discoverBranch(id,source=""){const b=branchDef(id);if(!b)return "";metaState=normalizeBranchMeta(normalizeMeta(metaState||defaultMeta()));const old=branchUnlocked(id);if(!metaState.unlockedBranches.includes(id))metaState.unlockedBranches.push(id);if(metaState.branchPreferences[id]===undefined)metaState.branchPreferences[id]=true;if(!metaState.newBranchUnlocks.includes(id))metaState.newBranchUnlocks.push(id);if(state){if(!state.activeBranches)state.activeBranches=activeBranchDefaults();state.activeBranches[id]=true}saveMeta();renderBranchManager();if(!old){const t=document.getElementById("branchUnlockToast");if(t){t.classList.remove("on");void t.offsetWidth;t.innerHTML=`已解锁可选支线：<b>${b.icon} ${escapeHtml(b.name)}</b><br>之后可在支线管理中自由开关。`;t.classList.add("on")}}return old?"":`解锁支线：${b.name}${source?`（${source}）`:""}`}
-function toggleBranchSetting(id){if(!branchUnlocked(id))return;metaState=normalizeBranchMeta(normalizeMeta(metaState||defaultMeta()));const cur=state?.activeBranches?.[id]!==undefined?state.activeBranches[id]!==false:metaState.branchPreferences[id]!==false;metaState.branchPreferences[id]=!cur;if(state){if(!state.activeBranches)state.activeBranches=activeBranchDefaults();state.activeBranches[id]=!cur;saveLife();syncEraCategories();if(typeof resetWheelUI==="function")resetWheelUI()}saveMeta();renderBranchManager();if(state&&document.getElementById("game")?.classList.contains("on"))renderAll()}
+function toggleBranchSetting(id){if(!branchUnlocked(id))return;metaState=normalizeBranchMeta(normalizeMeta(metaState||defaultMeta()));const cur=state?.activeBranches?.[id]!==undefined?state.activeBranches[id]!==false:metaState.branchPreferences[id]!==false;metaState.branchPreferences[id]=!cur;if(state){if(!state.activeBranches)state.activeBranches=activeBranchDefaults();state.activeBranches[id]=!cur;saveLife();syncEraCategories();if(typeof refreshWheelAvailability==="function")refreshWheelAvailability()}saveMeta();renderBranchManager();if(state&&document.getElementById("game")?.classList.contains("on"))renderAll()}
 function branchChips(id,limit=12){const el=document.getElementById(id);if(!el)return;const a=branchDefinitions.filter(b=>branchUnlocked(b.id)).sort((x,y)=>(branchEnabled(y.id)?1:0)-(branchEnabled(x.id)?1:0));el.innerHTML=a.slice(0,limit).map(b=>`<span class="branchChip ${branchEnabled(b.id)?"on":""} ${metaState?.newBranchUnlocks?.includes(b.id)?"new":""}">${b.icon} ${escapeHtml(b.name)} · ${branchEnabled(b.id)?"开":"关"}</span>`).join("")}
 function renderBranchManager(){if(!metaState)return;metaState=normalizeBranchMeta(normalizeMeta(metaState));branchChips("homeBranchChips",10);branchChips("branchStatusBar",14);const u=branchDefinitions.filter(b=>branchUnlocked(b.id)).length,en=branchDefinitions.filter(b=>branchEnabled(b.id)).length;const hs=document.getElementById("homeBranchSummary");if(hs)hs.textContent=`已解锁 ${u}/${branchDefinitions.length} 条支线，当前开启 ${en} 条。普通核心事件始终存在。`;const n=document.getElementById("branchManagerNotice");if(n)n.innerHTML=`当前开启 <b>${en}</b> 条支线。关闭后，对应后续事件和年度记录会暂时退出。`;const g=document.getElementById("branchManagerGrid");if(!g)return;const groups=[...new Set(branchDefinitions.map(b=>b.group))];g.innerHTML=groups.map(group=>`<div class="branchGroupTitle">${group}</div><div class="branchGrid">${branchDefinitions.filter(b=>b.group===group).map(b=>{const u=branchUnlocked(b.id),a=u&&branchEnabled(b.id),fresh=metaState.newBranchUnlocks.includes(b.id);return `<button class="branchCard ${a?"active":""} ${u?"":"locked"}" ${u?`onclick="toggleBranchSetting('${b.id}')"`:"disabled"}><div class="branchCardTop"><div class="branchName">${b.icon} ${b.name}${fresh?'<span class="branchFresh">新解锁</span>':""}</div><div class="branchState">${u?(a?"已开启":"已关闭"):"未解锁"}</div></div><div class="branchDesc">${b.desc}</div><div class="branchHint">${u?"点击切换，从下一次重大事件起生效。":"解锁方式："+b.hint}</div></button>`}).join("")}</div>`).join("")}
 function openBranchManager(){renderBranchManager();document.getElementById("branchModal")?.classList.add("on");document.body.style.overflow="hidden"}
 function closeBranchManager(e){if(e&&e.target!==document.getElementById("branchModal"))return;document.getElementById("branchModal")?.classList.remove("on");document.body.style.overflow="";if(metaState?.newBranchUnlocks?.length){metaState.newBranchUnlocks=[];saveMeta();renderBranchManager()}}
-function applyBranchPreset(mode){const sets={ordinary:new Set(["ordinary_career","ordinary_family","ordinary_relationship","ordinary_society"]),ghost:new Set(["ordinary_family","ordinary_relationship","occult_urban","occult_creatures","occult_contracts"]),machine:new Set(["ordinary_society","machine_contact","machine_governance","cosmic_endgame"]),cultivation:new Set(["ordinary_family","cultivation_hidden","cultivation_public","otherworld","cosmic_endgame"])};branchDefinitions.forEach(b=>{if(!branchUnlocked(b.id))return;const v=mode==="all"||sets[mode]?.has(b.id);metaState.branchPreferences[b.id]=!!v;if(state){if(!state.activeBranches)state.activeBranches=activeBranchDefaults();state.activeBranches[b.id]=!!v}});saveMeta();if(state){saveLife();syncEraCategories();if(typeof resetWheelUI==="function")resetWheelUI()}renderBranchManager();if(state&&document.getElementById("game")?.classList.contains("on"))renderAll()}
+function applyBranchPreset(mode){const sets={ordinary:new Set(["ordinary_career","ordinary_family","ordinary_relationship","ordinary_society"]),ghost:new Set(["ordinary_family","ordinary_relationship","occult_urban","occult_creatures","occult_contracts"]),machine:new Set(["ordinary_society","machine_contact","machine_governance","cosmic_endgame"]),cultivation:new Set(["ordinary_family","cultivation_hidden","cultivation_public","otherworld","cosmic_endgame"])};branchDefinitions.forEach(b=>{if(!branchUnlocked(b.id))return;const v=mode==="all"||sets[mode]?.has(b.id);metaState.branchPreferences[b.id]=!!v;if(state){if(!state.activeBranches)state.activeBranches=activeBranchDefaults();state.activeBranches[b.id]=!!v}});saveMeta();if(state){saveLife();syncEraCategories();if(typeof refreshWheelAvailability==="function")refreshWheelAvailability()}renderBranchManager();if(state&&document.getElementById("game")?.classList.contains("on"))renderAll()}
 function eventBranchKey(e,c){if(e?.branchKey)return e.branchKey;const id=String(e?.id||""),t=String(e?.title||"");if(id.startsWith("deus_")||id.startsWith("machine_")||id.startsWith("branch_machine_")||id.includes("simulated_dead")){if(["deus_zero_broadcast","deus_lunar_cathedral","deus_buried_engine","deus_frozen_city"].includes(id)||id.startsWith("machine_contact_"))return "machine_contact";if(["deus_architect_return","deus_final_descent","deus_after_god"].includes(id))return "cosmic_endgame";return "machine_governance"}if(c==="星海")return "cosmic_endgame";if(c==="异界")return "otherworld";if(id.startsWith("public_cultivation_")||id.startsWith("cultivation_public_")||id==="branch_nonhuman_parliament")return "cultivation_public";if(c==="异类"||/(succubus|mirror|hound|moth|faceless|umbrella|ghost_student|face_market)/.test(id))return "occult_creatures";if(/(paper|well|contract|ancestor_tablet|true_name)/.test(id))return "occult_contracts";if(["异象","古法","寻道"].includes(c))return "occult_urban";if(/(startup|cofounder|acquisition|independent|apprentice|research|career|whistleblower|ai_replacement|second_career)/.test(id))return "ordinary_career";if(/(caregiver|family|relative|inheritance|elder|sibling|adoption)/.test(id))return "ordinary_family";if(/(shared_debt|long_distance|friend|love|relationship|fertility|cohousing|partner_care)/.test(id))return "ordinary_relationship";if(/(moved_city|migration|public_|community|documentary|reputation|retirement)/.test(id))return "ordinary_society";if(t.includes("机械神"))return "machine_governance";return ""}
 function branchAnnualAllowed(x){if(x?.branchKey)return branchEnabled(x.branchKey);const k=String(x?.key||"");if(k.includes("machine"))return branchEnabled("machine_contact")||branchEnabled("machine_governance");if(/(mirror|hound|succubus|moth|nonhuman|ghost)/.test(k))return branchEnabled("occult_creatures")||branchEnabled("occult_urban");if(/(startup|apprentice|whistleblower|career)/.test(k))return branchEnabled("ordinary_career");if(/(caregiver|family|relative|elder)/.test(k))return branchEnabled("ordinary_family");if(/(shared_debt|friend|cohousing)/.test(k))return branchEnabled("ordinary_relationship");if(/(moved_city|public_archive|community|retirement)/.test(k))return branchEnabled("ordinary_society");if(/(void|otherworld)/.test(k))return branchEnabled("otherworld");return true}
 
@@ -2204,7 +2359,8 @@ function defaultMeta(){
     disasterGuard:0,recoveryBonus:0,categoryBonus:{},
     cultivationUnlocked:false,worldEcho:0,cultivationExpBonus:0,
     breakthroughBonus:0,cultivationLifespan:0,worldGateBonus:0,cultivationGuard:0,
-    unlockedArchives:[],unlockedBranches:[...defaultUnlockedBranchIds],branchPreferences:{},newBranchUnlocks:[]
+    unlockedArchives:[],unlockedBranches:[...defaultUnlockedBranchIds],branchPreferences:{},newBranchUnlocks:[],
+    globalEventSeenCounts:{},globalRecentEventIds:[],recentAbilityOfferIds:[],recentDaoPathIds:[],recentMotiveIds:[]
   };
 }
 function normalizeMeta(m){
@@ -2216,6 +2372,11 @@ function normalizeMeta(m){
   normalizeBranchMeta(m);
   m.legacyLevels=m.legacyLevels||{};
   m.categoryBonus=m.categoryBonus||{};
+  m.globalEventSeenCounts=m.globalEventSeenCounts||{};
+  m.globalRecentEventIds=Array.isArray(m.globalRecentEventIds)?m.globalRecentEventIds:[];
+  m.recentAbilityOfferIds=Array.isArray(m.recentAbilityOfferIds)?m.recentAbilityOfferIds:[];
+  m.recentDaoPathIds=Array.isArray(m.recentDaoPathIds)?m.recentDaoPathIds:[];
+  m.recentMotiveIds=Array.isArray(m.recentMotiveIds)?m.recentMotiveIds:[];
   Object.keys(d).forEach(k=>{
     if(m[k]===undefined)m[k]=d[k];
   });
@@ -2290,11 +2451,17 @@ function shuffleArray(arr){
   return a;
 }
 function generateAbilityOffer(){
-  const good=shuffleArray(abilities.filter(a=>a.tone==="good")).slice(0,6);
-  const mixed=shuffleArray(abilities.filter(a=>a.tone==="mixed")).slice(0,6);
-  const danger=shuffleArray(abilities.filter(a=>a.tone==="danger")).slice(0,3);
-  offeredAbilityIds=shuffleArray([...good,...mixed,...danger]).map(a=>a.id);
+  const recent=new Set(metaState?.recentAbilityOfferIds||[]);
+  function drawTone(tone,count){
+    const pool=abilities.filter(a=>a.tone===tone);
+    const fresh=shuffleArray(pool.filter(a=>!recent.has(a.id)));
+    const old=shuffleArray(pool.filter(a=>recent.has(a.id)));
+    return [...fresh,...old].slice(0,count);
+  }
+  const picks=[...drawTone("good",6),...drawTone("mixed",6),...drawTone("danger",3)];
+  offeredAbilityIds=shuffleArray(picks).map(a=>a.id);
   selectedAbilities=[];
+  if(metaState){metaState.recentAbilityOfferIds=[...(metaState.recentAbilityOfferIds||[]),...offeredAbilityIds].slice(-45);saveMeta()}
 }
 function openAbilitySelection(){
   if(totalPoints()!==20)return;
@@ -2328,7 +2495,7 @@ function formatStartMods(a){
 function renderAbilitySelection(){
   abilityCount.textContent=selectedAbilities.length;
   confirmAbilityBtn.disabled=selectedAbilities.length!==3;
-  confirmAbilityBtn.textContent=selectedAbilities.length===3?"带着这三个能力出生":`还需选择 ${3-selectedAbilities.length} 个`;
+  confirmAbilityBtn.textContent=selectedAbilities.length===3?"继续选择人生底色":`还需选择 ${3-selectedAbilities.length} 个`;
   const offered=offeredAbilityIds.map(id=>abilityById(id)).filter(Boolean);
   abilityGrid.innerHTML=offered.map(a=>{
     const chosen=selectedAbilities.includes(a.id);
@@ -2347,14 +2514,24 @@ function renderAbilitySelection(){
 
 
 const childhoodBase=[
-  "你在哭声中来到这个世界。","你学会辨认最熟悉的声音。","你第一次独立走出几步。",
-  "你开始对陌生事物表现出明显兴趣。","你拥有了最早的一段清晰记忆。","你第一次意识到别人也有自己的情绪。",
-  "你进入学校，生活第一次被时间表切割。","你在某件小事上显露出与同龄人不同的倾向。",
-  "你开始拥有真正属于自己的秘密。","你第一次因为失败而认真反思。",
-  "你结识了一位影响童年的朋友。","你逐渐知道家庭条件会改变很多选择。",
-  "你开始形成稳定的兴趣和性格。","你第一次对未来产生具体想象。",
-  "青春期让身体和情绪都出现明显变化。","你开始认真思考自己想成为什么人。",
-  "你第一次为一个重要目标持续努力。","成年前的最后一年，你已经能看见人生道路的大致轮廓。"
+  ["你在哭声中来到这个世界。","你出生后的第一晚异常安静。","你来到世界时，窗外正经历一场短暂暴雨。"],
+  ["你学会辨认最熟悉的声音。","你开始对脚步和开门声作出不同反应。","你第一次在呼唤中准确转向家人。"],
+  ["你第一次独立走出几步。","你扶着家具绕过了整个房间。","你跌倒许多次后终于不再需要别人牵手。"],
+  ["你开始对陌生事物表现出明显兴趣。","你会把普通物品拆开观察内部。","你总想知道门外和窗外发生了什么。"],
+  ["你拥有了最早的一段清晰记忆。","你记住了一次普通家庭聚餐。","你第一次意识到今天会成为以后回忆的过去。"],
+  ["你第一次意识到别人也有自己的情绪。","你开始分辨大人没有说出口的担忧。","你发现同一句话会让不同的人产生完全不同的感受。"],
+  ["你进入学校，生活第一次被时间表切割。","你第一次长期生活在家庭以外的集体中。","你开始适应固定课程、规则和同龄人的比较。"],
+  ["你在某件小事上显露出与同龄人不同的倾向。","老师第一次单独评价你的某项特点。","你发现自己在一类问题上明显更有耐心。"],
+  ["你开始拥有真正属于自己的秘密。","你藏起一件不想让家人发现的小物品。","你第一次保留了没有告诉任何人的想法。"],
+  ["你第一次因为失败而认真反思。","一次失误让你学会提前准备。","你发现努力并不保证结果，却仍决定再试一次。"],
+  ["你结识了一位影响童年的朋友。","你第一次为朋友承担了小小的责任。","一段友情让你开始理解信任并非理所当然。"],
+  ["你逐渐知道家庭条件会改变很多选择。","你开始比较不同家庭的生活方式。","你意识到资源、时间和照护都不是无限的。"],
+  ["你开始形成稳定的兴趣和性格。","你愿意长期投入的事情逐渐清晰。","大人开始用一些固定词语描述你的性格。"],
+  ["你第一次对未来产生具体想象。","你认真设想过离开熟悉环境后的生活。","你开始判断哪些期待来自自己，哪些来自别人。"],
+  ["青春期让身体和情绪都出现明显变化。","你开始重新理解自己的外貌、身体和边界。","情绪变化让你第一次感到自己并不完全了解自己。"],
+  ["你开始认真思考自己想成为什么人。","一次争论迫使你表达真正相信的东西。","你第一次明确拒绝一条别人替你安排的道路。"],
+  ["你第一次为一个重要目标持续努力。","你把一件大事拆成许多可以完成的小步骤。","你发现长期坚持和短暂热情是两种完全不同的力量。"],
+  ["成年前的最后一年，你已经能看见人生道路的大致轮廓。","离开少年时代前，你开始为现实选择承担后果。","你站在成年门口，仍不知道未来会从哪条支线展开。"]
 ];
 function childhoodText(age,target){
   if(age===0){
@@ -2362,7 +2539,8 @@ function childhoodText(age,target){
     if(target.body<=3)return "你出生时身体很弱，在保温箱里度过了最初一段时间。值班护士后来一直记得那晚窗外异常明亮的星。";
     return "你在一个普通家庭出生。出生证明背面有一道后来怎么也擦不掉的淡银色纹路。";
   }
-  let text=childhoodBase[age]||"你平稳地长大了一岁。";
+  const base=childhoodBase[age];
+  let text=Array.isArray(base)?base[(state.childhoodVariantSeed+age*7)%base.length]:(base||"你平稳地长大了一岁。");
   const dominant=Object.entries(target).sort((a,b)=>b[1]-a[1])[0][0];
   const additions={
     body:["你比同龄人更能跑，也更少生病。","你在运动和体力活动中表现突出。"],
@@ -2374,6 +2552,10 @@ function childhoodText(age,target){
   if(age===7 && target.mind>=12)text+=" 你曾在梦里看见一座悬在云上的城，醒来后准确画出了从未学过的符号。";
   if(age===13 && target.charm>=12)text+=" 一位陌生老人看到你后称你‘像故人’，却拒绝解释。";
   if(age===16 && target.body>=12 && target.mind>=12)text+=" 一次意外中，你短暂听见空气里类似潮水的声音。";
+  const motive=motiveById(state.lifeMotive);
+  if(age===8&&motive)text+=` 你对“${motive.name}”相关的事表现出早期倾向。`;
+  if(age===14&&motive?.flags?.anomalyCurious)text+=" 你开始把重复出现的梦和巧合记在同一本笔记里。";
+  if(age===15&&motive?.flags?.machineInterest)text+=" 你制作过一个很简单的程序，却第一次思考机器是否可能拥有自己的目的。";
   return text;
 }
 function generateChildhood(target){
@@ -2391,18 +2573,18 @@ function generateChildhood(target){
 }
 
 function startLife(){
-  if(totalPoints()!==20 || selectedAbilities.length!==3)return;
+  if(totalPoints()!==20 || selectedAbilities.length!==3 || !selectedMotiveId)return;
   const m=metaState||defaultMeta();
   state={
     name:playerName.value.trim()||"无名旅人",
     avatar:avatars[rand(0,avatars.length-1)],
-    age:18, majorDone:0, targetMajor:3, legend:(m.startLegend||0),
+    age:18, majorDone:0, targetMajor:rand(5,7), legend:(m.startLegend||0),
     era:"modern",realmIndex:0,cultivationExp:(m.cultivationExpBonus||0),worldsUnlocked:false,hiddenTruth:false,
     cultivationAffinity:(m.worldEcho||0),awakeningClues:0,lastWorldTransition:null,
     worldSpiritStage:0,
     pendingDaoChoice:false,daoChosen:false,daoOffers:[],cultivationPath:null,lifePotentialRoll:rand(-4,12),
     occultFlags:{},creatureRelations:{},occultDanger:0,occultKnowledge:0,recentEventIds:[],eventSeenCounts:{},eventLastAges:{},yearlyEventSeen:{},forceCreatureEncounter:false,creatureEncounterCount:0,
-    archiveUnlocks:[],activeBranches:activeBranchDefaults(),
+    archiveUnlocks:[],activeBranches:activeBranchDefaults(),lifeMotive:selectedMotiveId,childhoodVariantSeed:rand(1,999999),awakeningSteps:0,
     lifeFlags:{},lifeTracks:{career:0,bonds:0,stability:0,reputation:0},
     deathCause:null,deathAge:null,dead:false,extremeCooldowns:{},
     abilities:[...selectedAbilities], comebackUsed:false, sixthSenseUsed:false,
@@ -2419,6 +2601,13 @@ function startLife(){
     Object.entries(a?.start||{}).forEach(([k,v])=>state[k]=clamp(state[k]+v));
     state.cultivationAffinity+=(a?.cultivationAffinity||0);
   });
+  const motive=motiveById(state.lifeMotive);
+  Object.entries(motive?.start||{}).forEach(([k,v])=>state[k]=clamp(state[k]+v));
+  Object.assign(state.lifeFlags,motive?.flags||{});
+  Object.entries(motive?.tracks||{}).forEach(([k,v])=>state.lifeTracks[k]=(state.lifeTracks[k]||0)+v);
+  state.cultivationAffinity+=(motive?.cultivationAffinity||0);
+  metaState.recentMotiveIds=[...(metaState.recentMotiveIds||[]),state.lifeMotive].slice(-6);
+  saveMeta();
   state.initialStats={body:state.body,mind:state.mind,charm:state.charm,family:state.family};
   generateChildhood(state.initialStats);
   if(m.cultivationUnlocked){
@@ -2427,7 +2616,8 @@ function startLife(){
   }
 
   const talentNames=state.abilities.map(id=>abilityById(id)?.name).filter(Boolean).join("、");
-  recordYear(18,`你正式成年，并带着三种天赋开始人生：${talentNames}。现代社会看起来完整、稳定，至少此刻如此。`,"start");
+  recordYear(18,`你正式成年，并带着三种天赋开始人生：${talentNames}。本世人生底色是“${motive?.name||"未定"}”。${motive?.opening||""}`,"start");
+  state.currentDaily=`18 岁，你站在这一生的入口。本世底色：${motive?.icon||"✦"} ${motive?.name||"未定"}。第一次重大抉择还没到来。`;
   saveLife();
   enterGame();
 }
@@ -2461,6 +2651,12 @@ function normalizeLife(){
   if(!state.machineAnnualSeen)state.machineAnnualSeen={};
   if(!state.branchAnnualSeen)state.branchAnnualSeen={};
   if(!Array.isArray(state.archiveUnlocks))state.archiveUnlocks=[];
+  if(state.majorDone>state.targetMajor)state.targetMajor=state.majorDone;
+  if(state.awakeningSteps===undefined){
+    state.awakeningSteps=(state.history||[]).filter(h=>["异象","异类","古法","寻道"].includes(h.category)||String(h.eventId||"").startsWith("awakening_")).length;
+  }
+  if(!state.lifeMotive)state.lifeMotive="steady_home";
+  if(state.childhoodVariantSeed===undefined)state.childhoodVariantSeed=rand(1,999999);
   if(!state.activeBranches||typeof state.activeBranches!=="object")state.activeBranches=activeBranchDefaults();
   branchDefinitions.forEach(b=>{if(state.activeBranches[b.id]===undefined)state.activeBranches[b.id]=branchUnlocked(b.id)&&metaState?.branchPreferences?.[b.id]!==false});
   if(state.creatureEncounterCount===undefined)state.creatureEncounterCount=Object.values(state.creatureRelations||{}).filter(v=>v!==0).length;
@@ -2606,7 +2802,7 @@ function renderAll(){
   }else if(state.era==="awakening"){
     eraStatus.className="eraStatus cultivation";
     const metCreatures=Object.values(state.creatureRelations||{}).filter(v=>v!==0).length;
-    eraStatus.innerHTML=`🌙 <b>寻道阶段</b> · 线索 ${state.awakeningClues||0}/4 · 诡异知识 ${state.occultKnowledge||0} · 危险 ${state.occultDanger||0} · 已接触生物 ${metCreatures} 种<div class="realmLine">世界灵气阶段：${worldSpiritStageText()}。</div>`;
+    eraStatus.innerHTML=`🌙 <b>寻道阶段</b> · 调查 ${state.awakeningSteps||0}/3 · 线索 ${state.awakeningClues||0}/8 · 诡异知识 ${state.occultKnowledge||0} · 危险 ${state.occultDanger||0} · 已接触生物 ${metCreatures} 种<div class="realmLine">世界灵气阶段：${worldSpiritStageText()}。</div>`;
   }else{
     eraStatus.className="eraStatus";
     const branchKeys=["law_legacy","medical_legacy","network_legacy","craft_legacy","public_voice","wanderer_legacy","family_archive","empathy_legacy"].filter(id=>hasLegacy(id)).length;
@@ -2623,12 +2819,14 @@ function renderAll(){
   }
   stats.innerHTML=["body","mind","charm","family"].map(k=>`
     <div class="stat"><div class="statName">${statIcons[k]} ${statNames[k]}</div><div class="statValue">${state[k]}</div></div>`).join("");
-  abilityBar.innerHTML=(state.abilities||[]).map(id=>{
+  const motive=motiveById(state.lifeMotive);
+  abilityBar.innerHTML=`<span class="abilityPill">${motive?.icon||"✦"} 底色：${motive?.name||"未定"}</span>`+(state.abilities||[]).map(id=>{
     const a=abilityById(id); return a?`<span class="abilityPill">${a.icon} ${a.name}</span>`:"";
   }).join("");
   renderBranchManager();
   majorProgress.textContent=`重大抉择：${state.majorDone} / ${state.targetMajor}`;
   legendText.textContent=`精彩度：${state.legend}`;
+  refreshWheelAvailability();
   daily.textContent=state.currentDaily;
   const recent=[...state.history].reverse();
   logList.innerHTML=recent.length?recent.map(x=>`
@@ -2650,15 +2848,36 @@ function updateRerollButton(){
   rerollBtn.disabled=!available;
   rerollBtn.textContent=free?"🔮 第六感：免费重抽":`重新抽取（剩余 ${Math.max(0,remain)} 次）`;
 }
+function wheelStageLocked(){
+  return !state || state.ended || state.dead || state.pendingDaoChoice || state.majorDone>=state.targetMajor;
+}
+function refreshWheelAvailability(){
+  const note=document.getElementById("wheelLockedNote");
+  if(!state)return;
+  const locked=wheelStageLocked();
+  spinBtn.disabled=locked||spinning;
+  if(state.pendingDaoChoice){
+    spinBtn.textContent="请先选择入道机缘";
+    if(note){note.classList.add("on");note.textContent="寻道已经完成，请先从六条道途中选择一条。"}
+  }else if(state.dead||state.ended){
+    spinBtn.textContent="这一生已经结束";
+    if(note){note.classList.add("on");note.textContent="这一生已经结束，无法继续转动轮盘。"}
+  }else if(state.majorDone>=state.targetMajor){
+    spinBtn.textContent="本阶段抉择已完成";
+    if(note){note.classList.add("on");note.textContent="本阶段重大抉择次数已经用完。请点击结算区域的“进入下一阶段”或“查看人生结局”；切换支线不会增加次数。"}
+  }else{
+    if(!spinning)spinBtn.textContent="转动命运轮盘";
+    if(note){note.classList.remove("on");note.textContent=""}
+  }
+}
 function resetWheelUI(){
   eventPanel.classList.remove("on");
   result.classList.remove("on");
-  spinBtn.disabled=false;
-  spinBtn.textContent="转动命运轮盘";
   rerollBtn.style.display="none";
   rerollCountThisStage=0;
   spinCurrent.textContent="等待转动";
   spinTrail.innerHTML="";
+  refreshWheelAvailability();
 }
 function appendTrail(category){
   const chip=document.createElement("span");
@@ -2764,6 +2983,7 @@ function pickEvent(category){
   let pool=getSafeEventPool(category);
   if(!state.eventSeenCounts)state.eventSeenCounts={};
   if(!state.eventLastAges)state.eventLastAges={};
+  metaState=normalizeMeta(metaState||defaultMeta());
 
   const keyOf=event=>event.id||event.title;
   const unseen=pool.filter(event=>(state.eventSeenCounts[keyOf(event)]||0)===0);
@@ -2776,20 +2996,32 @@ function pickEvent(category){
     if(cooled.length)candidates=cooled;
   }
 
-  const recent=new Set((state.recentEventIds||[]).slice(-12));
-  const notRecent=candidates.filter(event=>!recent.has(keyOf(event)));
-  if(notRecent.length)candidates=notRecent;
+  const lifeRecent=new Set((state.recentEventIds||[]).slice(-14));
+  let filtered=candidates.filter(event=>!lifeRecent.has(keyOf(event)));
+  if(filtered.length)candidates=filtered;
+
+  const globalRecent=new Set((metaState.globalRecentEventIds||[]).slice(-28));
+  filtered=candidates.filter(event=>!globalRecent.has(keyOf(event)));
+  if(filtered.length>=2)candidates=filtered;
+
+  const globalCounts=metaState.globalEventSeenCounts||{};
+  const globalMin=Math.min(...candidates.map(event=>globalCounts[keyOf(event)]||0));
+  filtered=candidates.filter(event=>(globalCounts[keyOf(event)]||0)<=globalMin+1);
+  if(filtered.length)candidates=filtered;
 
   const picked=weightedEventPick(candidates)||fallbackEvent(category);
   const id=keyOf(picked);
   state.eventSeenCounts[id]=(state.eventSeenCounts[id]||0)+1;
   state.eventLastAges[id]=state.age;
-  state.recentEventIds=[...(state.recentEventIds||[]),id].slice(-12);
+  state.recentEventIds=[...(state.recentEventIds||[]),id].slice(-14);
+  metaState.globalEventSeenCounts[id]=(metaState.globalEventSeenCounts[id]||0)+1;
+  metaState.globalRecentEventIds=[...(metaState.globalRecentEventIds||[]),id].slice(-40);
+  saveMeta();
   return picked;
 }
 
 function spinWheel(isReroll=false){
-  if(spinning||state.ended||state.pendingDaoChoice)return;
+  if(spinning||wheelStageLocked())return;
   spinning=true;
   spinBtn.disabled=true;
   rerollBtn.style.display="none";
@@ -3031,8 +3263,9 @@ function chooseEvent(i){
   }
   state.legend += gainedLegend;
 
-  if(state.era==="awakening" && ["异象","古法","寻道"].includes(currentEvent.category)){
-    state.awakeningClues=(state.awakeningClues||0)+(success?2:1);
+  if(state.era==="awakening"){
+    state.awakeningSteps=(state.awakeningSteps||0)+1;
+    if(["异象","古法","寻道"].includes(currentEvent.category))state.awakeningClues=(state.awakeningClues||0)+(success?1:0);
   }
 
   const ageAtEvent=state.age;
@@ -3527,36 +3760,30 @@ function applyDaily(){
 function maybeExtraEvent(){
   if(state.extraChecked)return false;
   state.extraChecked=true;
-  const chance = Math.min(85, 10 + state.legend*12 + (metaState.extraEventChance||0)*12);
-  if(state.legend>=4 || rand(1,100)<=chance){
-    state.targetMajor=4;
-    advanceYears(rand(8,14));
-    state.currentDaily=`你一路走到 ${state.age} 岁。因为这一生足够精彩，命运决定再给你一次真正的大抉择。`;
+  const chance=Math.min(82,12+state.legend*8+(metaState.extraEventChance||0)*10);
+  if(state.legend>=6||rand(1,100)<=chance){
+    const extra=state.legend>=12?2:1;
+    state.targetMajor+=extra;
+    advanceYears(rand(6,12));
+    state.currentDaily=`你一路走到 ${state.age} 岁。因为这一生仍有未完成的矛盾，命运追加了 ${extra} 次重大抉择。`;
     return true;
   }
   return false;
 }
 function shouldEndNow(){
   if(state.dead)return true;
-  if(state.majorDone < state.targetMajor)return false;
-  if(state.targetMajor===3 && !state.extraChecked){
-    return false;
-  }
-  return true;
+  if(state.majorDone<state.targetMajor)return false;
+  return !!state.extraChecked;
 }
+
 function nextStage(){
   if(state.dead){finishLife(); return;}
   if(state.pendingDaoChoice){showDaoDraw(); return;}
   if(state.majorDone>=state.targetMajor){
-    if(state.targetMajor===3 && !state.extraChecked){
-      if(maybeExtraEvent()){
-        renderAll(); saveLife(); resetWheelUI(); window.scrollTo({top:0,behavior:"smooth"}); return;
-      } else {
-        finishLife(); return;
-      }
-    } else {
-      finishLife(); return;
+    if(!state.extraChecked&&maybeExtraEvent()){
+      renderAll();saveLife();resetWheelUI();window.scrollTo({top:0,behavior:"smooth"});return;
     }
+    finishLife();return;
   }
   applyDaily();
   renderAll();
