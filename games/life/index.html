@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · v2.0.0</title>
+<title>随机人生模拟器 · v2.1.0</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -363,20 +363,37 @@ input:focus{border-color:var(--purple)}
 .branchUnlockToast{display:none;position:fixed;left:50%;bottom:24px;z-index:10000;transform:translateX(-50%);width:min(92vw,520px);padding:12px 14px;border-radius:16px;color:#fff0bc;background:rgba(30,24,52,.97);border:1px solid rgba(255,209,102,.35);font-size:11px;line-height:1.6;text-align:center}.branchUnlockToast.on{display:block;animation:branchToast 3.8s ease both}@keyframes branchToast{0%{opacity:0;transform:translate(-50%,12px)}10%,82%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,8px)}}
 .motiveDrawModal{display:none;position:fixed;inset:0;z-index:12000;padding:16px;background:rgba(4,8,20,.84);backdrop-filter:blur(10px);align-items:center;justify-content:center}.motiveDrawModal.on{display:flex}.motiveDrawCard{width:min(520px,100%);padding:24px 20px;border-radius:25px;text-align:center;background:linear-gradient(160deg,#1d294c,#11182f);border:1px solid rgba(255,209,102,.28);box-shadow:0 28px 100px rgba(0,0,0,.58),inset 0 0 0 1px rgba(255,255,255,.025);animation:motivePop .35s ease both}.motiveDrawEyebrow{font-size:10px;font-weight:950;letter-spacing:.14em;color:#aab5d7}.motiveDrawIcon{font-size:58px;margin:12px 0 5px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.35))}.motiveDrawCard h2{margin:2px 0 7px;font-size:27px}.motiveDrawTag{display:inline-block;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:900;color:#ffe5a1;background:rgba(255,209,102,.11);border:1px solid rgba(255,209,102,.22)}.motiveDrawDesc{margin-top:13px;font-size:12px;line-height:1.72;color:#c2cce8}.motiveDrawEffects{margin-top:12px;padding:12px;border-radius:15px;font-size:11px;line-height:1.65;color:#dce3f7;background:rgba(139,124,255,.09);border:1px solid rgba(139,124,255,.18)}.motiveDrawNote{margin-top:11px;font-size:9px;line-height:1.55;color:#7f8bae}.motiveDrawActions{margin-top:16px;justify-content:center}.motiveDrawActions .btn{min-width:155px}@keyframes motivePop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
 .footer{text-align:center;color:#6f7ca5;font-size:11px;margin-top:18px}
+
+.journeyNote{margin:14px 0 0;padding:12px 14px;border-left:3px solid var(--green);background:rgba(66,215,170,.065);border-radius:0 12px 12px 0;color:#c6d7dc;font-size:12px;line-height:1.8}
+.storyProgress{margin:12px 0 16px;padding:15px 16px;border:1px solid rgba(255,209,102,.18);border-radius:16px;background:linear-gradient(120deg,rgba(255,209,102,.065),rgba(139,124,255,.045));text-align:left}
+.storyEyebrow{color:#e0c68d;font-size:10px;font-weight:900;letter-spacing:.12em;margin-bottom:7px}
+.storyProgressNext{font-size:12px;line-height:1.8;color:#c7d1e6}.storyProgressNext b{color:#f3e1b5}
+.storyProgressRecent{margin-top:10px;font-size:12px;line-height:1.8;color:#a8e5cf}.storyProgressRecent:empty{display:none}
+.storyProgressNext b,.storyProgressRecent b,.storyProgressNext span,.storyProgressRecent span{display:block}.storyProgressEyebrow{font-size:9px;letter-spacing:.08em;opacity:.65;margin-bottom:2px}.storyProgressRecent{padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
+.storyRecap{margin:12px 0 16px;padding:13px 15px;border:1px solid rgba(139,124,255,.19);border-radius:16px;background:rgba(139,124,255,.045);text-align:left}
+.storyRecap summary{cursor:pointer;font-size:13px;font-weight:800;color:#d4cff4}.recapPage{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
+.recapPage b{font-size:11px;color:#e5ca8b}.recapPage p{font-size:12px;line-height:1.9;color:#bfcbe1;margin:6px 0 0}
+.reviewHead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}.reviewHead h3{margin:0}
+.reviewFilters{display:flex;gap:5px}.reviewFilters button{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:transparent;color:var(--muted);font-size:11px}.reviewFilters button.active{color:#c5f2df;border-color:rgba(66,215,170,.35);background:rgba(66,215,170,.1)}
+.reviewSummary{font-size:11px;color:#a5b4ce;margin:0 0 14px;line-height:1.8}.yearChapter{position:sticky;top:0;z-index:1;padding:12px 8px;margin:8px 0 4px;background:#1b2646;border-bottom:1px solid rgba(255,209,102,.18);color:#e9cf97;font-size:12px;font-weight:900}
+.yearItem{padding:16px 0;grid-template-columns:48px minmax(0,1fr);gap:12px}.yearScene+.yearScene{margin-top:12px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.08)}
+.yearScene p{margin:4px 0;line-height:1.95;overflow-wrap:anywhere}.sceneLabel{display:inline-block;margin-bottom:4px;font-size:9px;letter-spacing:.08em;font-weight:800;color:#8d9dbb}.yearScene.story .sceneLabel{color:#91d7c3}.yearScene.unlock .sceneLabel{color:#e9cf97}.yearScene.major .sceneLabel{color:#b9a8f9}
+.yearItem.story{border-left:2px solid rgba(66,215,170,.3);padding-left:10px}.yearStats{margin-top:10px;opacity:.72;font-size:10px}
+@media(max-width:480px){.yearItem{grid-template-columns:40px minmax(0,1fr);gap:8px}.yearText{font-size:12px}.reviewHead{align-items:flex-start}.storyProgress{padding:13px}.yearScene p{line-height:1.9}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">v2.0.0</div>
+    <div class="badge">v2.1.0</div>
   </div>
 
   <section id="home" class="screen on">
     <div class="card">
       <div id="newBlock">
         <div id="pointStage">
-          <h2>创建人生</h2>
+          <h2>创建人生</h2><div id="newJourneyNote" class="journeyNote">先从一段普通人生开始。新的玩法，会在你经历故事、做出选择之后逐步出现。</div>
           <div class="setupName"><input id="playerName" maxlength="10" placeholder="输入你的名字"></div>
 
           <div class="pointsHead">
@@ -428,12 +445,12 @@ input:focus{border-color:var(--purple)}
         </div>
       </div>
 
-      <div class="card metaCard">
+      <div class="card metaCard" id="legacyHomeCard">
         <h3>轮回传承</h3>
         <div id="metaSummary" class="metaGrid"></div>
         <div class="actions" style="margin-top:12px"><button class="btn red" onclick="resetAllLives()">重置全部人生</button></div>
       </div>
-      <div class="card branchManagerCard">
+      <div class="card branchManagerCard" id="branchHomeCard">
         <div class="branchManagerHead"><div><h3>支线选择</h3><div id="homeBranchSummary" class="branchSummary"></div></div><button id="homeBranchBtn" class="btn gray" onclick="openBranchManager('setup')">选择支线</button></div>
         <div id="homeBranchChips" class="branchStatusBar"></div>
       </div>
@@ -461,6 +478,12 @@ input:focus{border-color:var(--purple)}
       <div class="progress"><span id="majorProgress">重大抉择：0 / 3</span><span id="legendText">精彩度：0</span></div>
       <div id="daily" class="daily">18 岁，你站在这一生的入口。</div>
       <div id="wheelLockedNote" class="wheelLockedNote"></div>
+      <div id="storyProgressPanel" class="storyProgress" aria-live="polite">
+        <div class="storyEyebrow">旅程正在展开</div>
+        <div id="storyProgressNext" class="storyProgressNext"></div>
+        <div id="storyProgressRecent" class="storyProgressRecent"></div>
+      </div>
+      <details id="storyRecap" class="storyRecap"><summary>翻看最近的几页人生</summary><div id="storyRecapPages"></div></details>
       <div id="lifeEndActions" class="lifeEndActions">
         <h3 id="lifeEndTitle">这一生已经走到终点</h3>
         <div id="lifeEndText" class="lifeEndText">请结算完整人生，查看结局、死因、隐藏档案和传承奖励。</div>
@@ -551,8 +574,9 @@ input:focus{border-color:var(--purple)}
       </div>
 
       <div class="card yearReview">
-        <h3>逐年人生回顾</h3>
-        <p class="muted">从出生到死亡，每一岁都会留下记录；紫色条目代表重大抉择，修真与异界经历会单独标记。</p>
+        <div class="reviewHead"><h3>逐年人生回顾</h3><div class="reviewFilters"><button id="reviewAllBtn" class="active" onclick="setReviewFilter('all')">完整人生</button><button id="reviewStoryBtn" onclick="setReviewFilter('stories')">故事与抉择</button></div></div>
+        <p class="muted">有人在某一年与你相遇，有些选择在许多年后才得到回音。沿着这些小事，重新读一遍你的一生。</p>
+        <div id="reviewSummary" class="reviewSummary"></div>
         <div id="yearList" class="yearList"></div>
       </div>
 
@@ -592,7 +616,7 @@ input:focus{border-color:var(--purple)}
 <div id="branchModal" class="branchModal" onclick="closeBranchManager(event)">
   <div class="branchModalCard" onclick="event.stopPropagation()">
     <div class="branchModalHead"><div><h2 id="branchModalTitle">支线选择</h2><div id="branchModalDesc" class="muted" style="font-size:11px;line-height:1.55">支线只能在一生开始前选择。开始模拟后，本世配置将永久锁定。</div></div><button class="btn gray" onclick="closeBranchManager()">关闭</button></div>
-    <div class="branchModalBody"><div id="branchPresetRow" class="branchPresetRow"><button class="branchPreset" onclick="applyBranchPreset('ordinary')">普通生活</button><button class="branchPreset" onclick="applyBranchPreset('ghost')">鬼怪调查</button><button class="branchPreset" onclick="applyBranchPreset('machine')">机械文明</button><button class="branchPreset" onclick="applyBranchPreset('technology')">科技未来</button><button class="branchPreset" onclick="applyBranchPreset('cultivation')">修真远行</button><button class="branchPreset" onclick="applyBranchPreset('all')">全部开启</button></div><div id="branchManagerNotice" class="branchNotice"></div><div id="branchManagerGrid"></div></div>
+    <div class="branchModalBody"><div id="branchPresetRow" class="branchPresetRow"><button class="branchPreset" onclick="applyBranchPreset('ordinary')">普通生活</button><button id="presetGhost" class="branchPreset" onclick="applyBranchPreset('ghost')">鬼怪调查</button><button id="presetMachine" class="branchPreset" onclick="applyBranchPreset('machine')">机械文明</button><button id="presetTechnology" class="branchPreset" onclick="applyBranchPreset('technology')">科技未来</button><button id="presetCultivation" class="branchPreset" onclick="applyBranchPreset('cultivation')">修真远行</button><button class="branchPreset" onclick="applyBranchPreset('all')">全部开启</button></div><div id="branchManagerNotice" class="branchNotice"></div><div id="branchManagerGrid"></div></div>
   </div>
 </div><div id="branchUnlockToast" class="branchUnlockToast"></div>
 <script>
@@ -2613,7 +2637,7 @@ const branchDefinitions=[
 {id:"machine_governance",group:"机械降神",icon:"⚖️",name:"机械文明治理与伦理",desc:"托管、公投、退出权、人格副本和文明协议。",hint:"机械神首次要求文明级决定后开放。"},
 {id:"cultivation_public",group:"修真社会",icon:"🎓",name:"现代社会与公开修真",desc:"修行学院、劳动法、灵性医疗和非人议会。",hint:"修行知识第一次公开后开放。"},
 {id:"otherworld",group:"星海与异界",icon:"🚪",name:"异界、界门与失落城市",desc:"界门、异界文明、时间差和跨界迁徙。",hint:"稳定第一道界门后开放。"},
-{id:"cosmic_endgame",group:"星海与异界",icon:"🌌",name:"诸天与宇宙终局",desc:"归航者、方舟、高层现实战争和机械神终局。",hint:"抵达高阶境界或发现诸天危机后开放。"},{"id":"future_technology","group":"未来科技","icon":"🧬","name":"高度发展科技与未来社会","desc":"人工智能公民、脑机接口、再生医学、自动城市、气候工程和太空基础设施。","hint":"普通人生初始开放，可在开局关闭。","base":true}
+{id:"cosmic_endgame",group:"星海与异界",icon:"🌌",name:"诸天与宇宙终局",desc:"归航者、方舟、高层现实战争和机械神终局。",hint:"抵达高阶境界或发现诸天危机后开放。"},{"id":"future_technology","group":"未来科技","icon":"🧬","name":"高度发展科技与未来社会","desc":"人工智能公民、脑机接口、再生医学、自动城市、气候工程和太空基础设施。","hint":"经历时代变迁或明确的科技线索，读懂时代的来信后开放。"}
 ];
 const defaultUnlockedBranchIds=branchDefinitions.filter(x=>x.base).map(x=>x.id);
 let branchManagerMode="setup";
@@ -2624,7 +2648,7 @@ function activeBranchDefaults(){const o={};branchDefinitions.forEach(b=>o[b.id]=
 function branchEnabled(id){if(!id)return true;if(!branchUnlocked(id))return false;if(state?.activeBranches&&state.activeBranches[id]!==undefined)return state.activeBranches[id]!==false;return metaState?.branchPreferences?.[id]!==false}
 function branchSetupEditable(){return !state}
 function discoverBranch(id,source=""){const b=branchDef(id);if(!b)return "";metaState=normalizeBranchMeta(normalizeMeta(metaState||defaultMeta()));const old=branchUnlocked(id);if(!metaState.unlockedBranches.includes(id))metaState.unlockedBranches.push(id);if(metaState.branchPreferences[id]===undefined)metaState.branchPreferences[id]=true;if(!metaState.newBranchUnlocks.includes(id))metaState.newBranchUnlocks.push(id);saveMeta();renderBranchManager();if(!old){const t=document.getElementById("branchUnlockToast");if(t){t.classList.remove("on");void t.offsetWidth;t.innerHTML=`已解锁下世可选支线：<b>${b.icon} ${escapeHtml(b.name)}</b><br>本世配置不会改变；下一世开始前可决定是否开启。`;t.classList.add("on")}}return old?"":`解锁下世支线：${b.name}${source?`（${source}）`:""}`}
-function toggleBranchSetting(id){if(!branchSetupEditable()||!branchUnlocked(id))return;metaState=normalizeBranchMeta(normalizeMeta(metaState||defaultMeta()));metaState.branchPreferences[id]=metaState.branchPreferences[id]===false;saveMeta();renderBranchManager()}
+function toggleBranchSetting(id){if(!featureUnlocked("branches"))return;if(!branchSetupEditable()||!branchUnlocked(id))return;metaState=normalizeBranchMeta(normalizeMeta(metaState||defaultMeta()));metaState.branchPreferences[id]=metaState.branchPreferences[id]===false;saveMeta();renderBranchManager()}
 function branchChips(id,limit=12){const el=document.getElementById(id);if(!el)return;const active=branchDefinitions.filter(b=>branchUnlocked(b.id)&&branchEnabled(b.id));el.innerHTML=active.length?active.slice(0,limit).map(b=>`<span class="branchChip on ${metaState?.newBranchUnlocks?.includes(b.id)?"new":""}">${b.icon} ${escapeHtml(b.name)}</span>`).join(""):`<span class="branchChip">本世未开启额外支线</span>`}
 function renderBranchManager(){if(!metaState)return;metaState=normalizeBranchMeta(normalizeMeta(metaState));const editable=branchManagerMode==="setup"&&branchSetupEditable();branchChips("homeBranchChips",10);branchChips("branchStatusBar",14);const unlocked=branchDefinitions.filter(b=>branchUnlocked(b.id));const active=unlocked.filter(b=>branchEnabled(b.id));const hs=document.getElementById("homeBranchSummary");const homeBtn=document.getElementById("homeBranchBtn");if(hs)hs.textContent=branchSetupEditable()?`开始模拟前可选择支线：已解锁 ${unlocked.length}/${branchDefinitions.length} 条，当前准备开启 ${active.length} 条。`:`本世支线已经锁定，共开启 ${active.length} 条；返回首页也不能修改。`;if(homeBtn)homeBtn.textContent=branchSetupEditable()?"选择支线":"查看本世支线";
   const title=document.getElementById("branchModalTitle"),desc=document.getElementById("branchModalDesc"),presets=document.getElementById("branchPresetRow"),notice=document.getElementById("branchManagerNotice"),grid=document.getElementById("branchManagerGrid");
@@ -2637,14 +2661,15 @@ function renderBranchManager(){if(!metaState)return;metaState=normalizeBranchMet
   if(!visible.length){grid.innerHTML='<div class="branchPreviewEmpty">本世没有开启额外支线，仍会保留基础成长、健康与通用人生事件。</div>';return}
   const groups=[...new Set(visible.map(b=>b.group))];
   grid.innerHTML=(editable?"":'<div class="branchLockedBanner">🔒 本世支线已经锁定。退出预览后继续人生，不能在模拟中途改变事件池。</div>')+groups.map(group=>`<div class="branchGroupTitle">${escapeHtml(group)}</div><div class="branchGrid">${visible.filter(b=>b.group===group).map(b=>{const a=branchEnabled(b.id),fresh=metaState.newBranchUnlocks.includes(b.id);return editable?`<button class="branchCard ${a?"active":""}" onclick="toggleBranchSetting('${b.id}')"><div class="branchCardTop"><div class="branchName">${b.icon} ${escapeHtml(b.name)}${fresh?'<span class="branchFresh">新解锁</span>':""}</div><div class="branchState">${a?"已开启":"已关闭"}</div></div><div class="branchDesc">${escapeHtml(b.desc)}</div><div class="branchHint">点击切换；开始模拟后本世不能再修改。</div></button>`:`<div class="branchCard active"><div class="branchCardTop"><div class="branchName">${b.icon} ${escapeHtml(b.name)}</div><div class="branchState">本世开启</div></div><div class="branchDesc">${escapeHtml(b.desc)}</div><div class="branchHint">这条路线已进入本世事件池。</div></div>`}).join("")}</div>`).join("")}
-function openBranchManager(mode="setup"){branchManagerMode=(mode==="setup"&&branchSetupEditable())?"setup":"preview";renderBranchManager();document.getElementById("branchModal")?.classList.add("on");document.body.style.overflow="hidden"}
+function openBranchManager(mode="setup"){if(!featureUnlocked("branches"))return;branchManagerMode=(mode==="setup"&&branchSetupEditable())?"setup":"preview";renderBranchManager();document.getElementById("branchModal")?.classList.add("on");document.body.style.overflow="hidden"}
 function closeBranchManager(e){if(e&&e.target!==document.getElementById("branchModal"))return;document.getElementById("branchModal")?.classList.remove("on");document.body.style.overflow="";if(branchManagerMode==="setup"&&metaState?.newBranchUnlocks?.length){metaState.newBranchUnlocks=[];saveMeta();renderBranchManager()}}
-function applyBranchPreset(mode){if(!branchSetupEditable())return;const sets={ordinary:new Set(["ordinary_career","ordinary_family","ordinary_relationship","ordinary_society"]),ghost:new Set(["ordinary_family","ordinary_relationship","occult_urban","occult_creatures","occult_contracts"]),machine:new Set(["ordinary_society","machine_contact","machine_governance","future_technology","cosmic_endgame"]),technology:new Set(["ordinary_career","ordinary_family","ordinary_society","future_technology"]),cultivation:new Set(["ordinary_family","cultivation_hidden","cultivation_public","otherworld","cosmic_endgame"])};branchDefinitions.forEach(b=>{if(!branchUnlocked(b.id))return;metaState.branchPreferences[b.id]=!!(mode==="all"||sets[mode]?.has(b.id))});saveMeta();renderBranchManager()}
+function applyBranchPreset(mode){if(!featureUnlocked("branches"))return;if(!branchSetupEditable())return;const sets={ordinary:new Set(["ordinary_career","ordinary_family","ordinary_relationship","ordinary_society"]),ghost:new Set(["ordinary_family","ordinary_relationship","occult_urban","occult_creatures","occult_contracts"]),machine:new Set(["ordinary_society","machine_contact","machine_governance","future_technology","cosmic_endgame"]),technology:new Set(["ordinary_career","ordinary_family","ordinary_society","future_technology"]),cultivation:new Set(["ordinary_family","cultivation_hidden","cultivation_public","otherworld","cosmic_endgame"])};branchDefinitions.forEach(b=>{if(!branchUnlocked(b.id))return;metaState.branchPreferences[b.id]=!!(mode==="all"||sets[mode]?.has(b.id))});saveMeta();renderBranchManager()}
 function eventBranchKey(e,c){if(e?.branchKey)return e.branchKey;const id=String(e?.id||""),t=String(e?.title||"");if(id.startsWith("future_"))return "future_technology";if(id.startsWith("deus_")||id.startsWith("machine_")||id.startsWith("branch_machine_")||id.includes("simulated_dead")){if(["deus_zero_broadcast","deus_lunar_cathedral","deus_buried_engine","deus_frozen_city"].includes(id)||id.startsWith("machine_contact_"))return "machine_contact";if(["deus_architect_return","deus_final_descent","deus_after_god"].includes(id))return "cosmic_endgame";return "machine_governance"}if(c==="星海")return "cosmic_endgame";if(c==="异界")return "otherworld";if(id.startsWith("public_cultivation_")||id.startsWith("cultivation_public_")||id==="branch_nonhuman_parliament")return "cultivation_public";if(c==="异类"||/(succubus|mirror|hound|moth|faceless|umbrella|ghost_student|face_market)/.test(id))return "occult_creatures";if(/(paper|well|contract|ancestor_tablet|true_name)/.test(id))return "occult_contracts";if(["异象","古法","寻道"].includes(c))return "occult_urban";if(/(startup|cofounder|acquisition|independent|apprentice|research|career|whistleblower|ai_replacement|second_career)/.test(id))return "ordinary_career";if(/(caregiver|family|relative|inheritance|elder|sibling|adoption)/.test(id))return "ordinary_family";if(/(shared_debt|long_distance|friend|love|relationship|fertility|cohousing|partner_care)/.test(id))return "ordinary_relationship";if(/(moved_city|migration|public_|community|documentary|reputation|retirement)/.test(id))return "ordinary_society";if(t.includes("机械神"))return "machine_governance";return ""}
 function branchAnnualAllowed(x){if(x?.branchKey)return branchEnabled(x.branchKey);const k=String(x?.key||"");if(k.startsWith("annual_future_"))return branchEnabled("future_technology");if(k.includes("machine"))return branchEnabled("machine_contact")||branchEnabled("machine_governance");if(/(mirror|hound|succubus|moth|nonhuman|ghost)/.test(k))return branchEnabled("occult_creatures")||branchEnabled("occult_urban");if(/(startup|apprentice|whistleblower|career)/.test(k))return branchEnabled("ordinary_career");if(/(caregiver|family|relative|elder)/.test(k))return branchEnabled("ordinary_family");if(/(shared_debt|friend|cohousing)/.test(k))return branchEnabled("ordinary_relationship");if(/(moved_city|public_archive|community|retirement)/.test(k))return branchEnabled("ordinary_society");if(/(void|otherworld)/.test(k))return branchEnabled("otherworld");return true}
 
 function defaultMeta(){
   return {
+    storyProgress:defaultStoryProgress(),
     lives:0,
     bonus:{body:0,mind:0,charm:0,family:0},
     extraEventChance:0,legendBonus:0,
@@ -2658,8 +2683,10 @@ function defaultMeta(){
   };
 }
 function normalizeMeta(m){
+  const legacy=!!m&&typeof m==="object"&&!Array.isArray(m)&&!m.storyProgress;
   const d=defaultMeta();
   m=m||{};
+  normalizeStoryProgress(m,legacy);
   m.bonus={...d.bonus,...(m.bonus||{})};
   m.inherited=Array.isArray(m.inherited)?m.inherited:[];
   m.unlockedArchives=Array.isArray(m.unlockedArchives)?m.unlockedArchives:[];
@@ -2677,7 +2704,28 @@ function normalizeMeta(m){
   return m;
 }
 function saveMeta(){localStorage.setItem(META_KEY,JSON.stringify(metaState))}
-function loadMeta(){try{return normalizeMeta(JSON.parse(localStorage.getItem(META_KEY)||"null"))}catch(e){return defaultMeta()}}
+function loadMeta(){
+  const freshOrLegacyLife=()=>{
+    const fresh=defaultMeta();
+    const savedLife=loadLife();
+    if(savedLife&&typeof savedLife==="object"&&!Array.isArray(savedLife)&&savedLife.storyProgressVersion!==1){
+      normalizeStoryProgress(fresh,true);
+      // A life may survive after its separate meta save was lost. Preserve
+      // only known routes that this life demonstrably had enabled.
+      branchDefinitions.forEach(branch=>{
+        if(savedLife.activeBranches?.[branch.id]===true&&!fresh.unlockedBranches.includes(branch.id)){
+          fresh.unlockedBranches.push(branch.id);
+        }
+      });
+      normalizeBranchMeta(fresh);
+    }
+    return fresh;
+  };
+  try{
+    const raw=JSON.parse(localStorage.getItem(META_KEY)||"null");
+    return raw&&typeof raw==="object"&&!Array.isArray(raw)?normalizeMeta(raw):freshOrLegacyLife();
+  }catch(e){return freshOrLegacyLife()}
+}
 function saveLife(){localStorage.setItem(SAVE_KEY,JSON.stringify(state))}
 function loadLife(){try{return JSON.parse(localStorage.getItem(SAVE_KEY)||"null")}catch(e){return null}}
 
@@ -2830,29 +2878,7 @@ const childhoodBase=[
   ["成年前的最后一年，你已经能看见人生道路的大致轮廓。","离开少年时代前，你开始为现实选择承担后果。","你站在成年门口，仍不知道未来会从哪条支线展开。"]
 ];
 function childhoodText(age,target){
-  if(age===0){
-    if(target.family>=12)return "你出生在资源充足的家庭。大人们没有意识到，你睁眼时窗外所有电子钟都慢了一秒。";
-    if(target.body<=3)return "你出生时身体很弱，在保温箱里度过了最初一段时间。值班护士后来一直记得那晚窗外异常明亮的星。";
-    return "你在一个普通家庭出生。出生证明背面有一道后来怎么也擦不掉的淡银色纹路。";
-  }
-  const base=childhoodBase[age];
-  let text=Array.isArray(base)?base[(state.childhoodVariantSeed+age*7)%base.length]:(base||"你平稳地长大了一岁。");
-  const dominant=Object.entries(target).sort((a,b)=>b[1]-a[1])[0][0];
-  const additions={
-    body:["你比同龄人更能跑，也更少生病。","你在运动和体力活动中表现突出。"],
-    mind:["你经常提出让大人无法立刻回答的问题。","学习新东西对你而言似乎比别人更容易。"],
-    charm:["你很早就学会观察别人的表情和语气。","同龄人愿意围在你身边听你说话。"],
-    family:["家庭资源让你更早接触到更大的世界。","你比同龄人拥有更多尝试新事物的机会。"]
-  };
-  if([3,6,9,12,15,17].includes(age))text+=" "+additions[dominant][age%2];
-  if(age===7 && target.mind>=12)text+=" 你曾在梦里看见一座悬在云上的城，醒来后准确画出了从未学过的符号。";
-  if(age===13 && target.charm>=12)text+=" 一位陌生老人看到你后称你‘像故人’，却拒绝解释。";
-  if(age===16 && target.body>=12 && target.mind>=12)text+=" 一次意外中，你短暂听见空气里类似潮水的声音。";
-  const motive=motiveById(state.lifeMotive);
-  if(age===8&&motive)text+=` 你对“${motive.name}”相关的事表现出早期倾向。`;
-  if(age===14&&motive?.flags?.anomalyCurious)text+=" 你开始把重复出现的梦和巧合记在同一本笔记里。";
-  if(age===15&&motive?.flags?.machineInterest)text+=" 你制作过一个很简单的程序，却第一次思考机器是否可能拥有自己的目的。";
-  return text;
+  return narrativeChildhoodText(age,target);
 }
 function generateChildhood(target){
   state.yearlyLog=[];
@@ -2873,6 +2899,7 @@ function startLife(){
   closeMotiveDraw();
   const m=metaState||defaultMeta();
   state={
+    storyProgressVersion:1,storyProgressSeenChoices:0,
     name:playerName.value.trim()||"无名旅人",
     avatar:avatars[rand(0,avatars.length-1)],
     age:18, majorDone:0, targetMajor:rand(5,7), legend:(m.startLegend||0),
@@ -2919,6 +2946,14 @@ function startLife(){
   enterGame();
 }
 function normalizeLife(){
+  if(state.storyProgressVersion!==1){
+    // Persist recovered access before upgrading the life marker. Otherwise
+    // reloading a life-only save could look like a new player on the next visit.
+    if(metaState?.storyProgress?.legacy)saveMeta();
+    state.storyProgressVersion=1;
+    state.storyProgressSeenChoices=Array.isArray(state.history)?state.history.length:0;
+  }
+  ensureNarrativeState();
   if(!Array.isArray(state.abilities))state.abilities=[];
   if(!state.era)state.era="modern";
   if(state.awakeningClues===undefined)state.awakeningClues=0;
@@ -3139,6 +3174,8 @@ function renderAll(){
     <div class="logItem"><b>${x.age} 岁 · ${x.category}</b>　${x.title}<br><span class="muted">选择：${x.choice}</span></div>
   `).join("") : `<div class="muted">这一生的关键节点还没有出现。</div>`;
   renderDaoDraw();
+  renderStoryProgress();
+  renderStoryRecap();
 }
 function getRerollLimit(){
   return 1+(metaState?.rerollBonus||0)+(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.rerolls||0),0);
@@ -3147,6 +3184,7 @@ function hasFreeDisasterReroll(){
   return hasAbility("sense") && !state.sixthSenseUsed && currentEvent && ["天灾","人祸"].includes(currentEvent.category);
 }
 function updateRerollButton(){
+  if(!featureUnlocked("reroll")){rerollBtn.style.display="none";rerollBtn.disabled=true;return;}
   const free=hasFreeDisasterReroll();
   const remain=getRerollLimit()-rerollCountThisStage;
   const available=free || remain>0;
@@ -3205,12 +3243,14 @@ function quickRebirth(){
       return;
     }
     state.ended=true;
+    finishNarrativeLife();
   }
   if(!state.lifeCounted){
     metaState.lives=(metaState.lives||0)+1;
     state.lifeCounted=true;
     saveMeta();
   }
+  evaluateStoryProgress("ending");
   localStorage.removeItem(SAVE_KEY);
   location.reload();
 }
@@ -3221,9 +3261,9 @@ function refreshWheelAvailability(){
   const note=document.getElementById("wheelLockedNote");
   const fast=document.getElementById("fastSpinBtn");
   if(!state)return;
-  const locked=wheelStageLocked();
+  const locked=wheelStageLocked()||eventPanel.classList.contains("on")||result.classList.contains("on");
   spinBtn.disabled=locked||spinning;
-  if(fast)fast.disabled=locked||spinning;
+  if(fast)fast.disabled=!featureUnlocked("fast_draw")||locked||spinning;
 
   if(state.pendingDaoChoice){
     spinBtn.textContent="请先选择入道机缘";
@@ -3409,8 +3449,13 @@ function settleWheelEvent(label){
     showEvent();
   }
 }
+function canStartWheelDraw(isReroll=false){
+  if(spinning||wheelStageLocked()||result.classList.contains("on"))return false;
+  return isReroll?!!currentEvent&&eventPanel.classList.contains("on"):!eventPanel.classList.contains("on");
+}
 function fastDrawEvent(){
-  if(spinning||wheelStageLocked()){
+  if(!featureUnlocked("fast_draw"))return;
+  if(!canStartWheelDraw()){
     refreshWheelAvailability();
     return;
   }
@@ -3443,7 +3488,8 @@ function fastDrawEvent(){
   },170);
 }
 function spinWheel(isReroll=false){
-  if(spinning||wheelStageLocked())return;
+  if(isReroll&&!featureUnlocked("reroll"))return;
+  if(!canStartWheelDraw(isReroll))return;
   spinning=true;
   spinBtn.disabled=true;
   const fast=document.getElementById("fastSpinBtn");
@@ -3498,7 +3544,8 @@ function spinWheel(isReroll=false){
   runStep();
 }
 function rerollEvent(){
-  if(spinning)return;
+  if(!featureUnlocked("reroll"))return;
+  if(!canStartWheelDraw(true))return;
   if(hasFreeDisasterReroll()){
     state.sixthSenseUsed=true;
   }else{
@@ -3704,6 +3751,8 @@ function chooseEvent(i){
     resolveCriticalBody(deathCauseFromEvent(currentEvent.category,currentEvent.title),state.age);
   }
 
+  recordNarrativeChoice(currentEvent,c,success,ageAtEvent);
+  evaluateStoryProgress("choice",{event:currentEvent,choice:c,success,age:ageAtEvent});
   const eraAwakened=!state.dead && maybeUnlockCultivation();
   if(state.era==="cultivation"){
     maybeBreakthrough(state.age);
@@ -3743,13 +3792,17 @@ function recordYear(age,text,type="normal"){
   if(!state.yearlyLog)state.yearlyLog=[];
   const existing=state.yearlyLog.find(x=>x.age===age);
   const snapshot={body:state.body,mind:state.mind,charm:state.charm,family:state.family};
-  const priority={normal:0,birth:1,start:1,cultivation:2,world:3,major:4,end:5};
+  const priority={normal:0,story:1,unlock:1,birth:1,start:1,cultivation:2,world:3,major:4,end:5};
   if(existing){
-    if(text && !existing.text.includes(text))existing.text += "；"+text;
+    if(text && !existing.text.includes(text)){
+      if(!Array.isArray(existing.scenes))existing.scenes=[{type:existing.type,text:existing.text}];
+      existing.scenes.push({type,text});
+      existing.text+="；"+text;
+    }
     if((priority[type]??0)>(priority[existing.type]??0))existing.type=type;
     existing.stats=snapshot;
   }else{
-    state.yearlyLog.push({age,text,type,stats:snapshot});
+    state.yearlyLog.push({age,text,type,scenes:[{type,text}],stats:snapshot});
     state.yearlyLog.sort((a,b)=>a.age-b.age);
   }
 }
@@ -4134,16 +4187,19 @@ function maybeMachineModernAnnual(age){
 }
 
 function generateOneYear(age){
+  if(state.dead)return;
   if(state.pendingDaoChoice || state.era==="dao_choice")return;
   if(state.era==="cultivation"){
     generateCultivationYear(age);
     maybeLifeBranchAnnual(age);
+    if(!state.dead)advanceNarrativeYear(age);
     return;
   }
   if(state.era==="awakening"){
     generateAwakeningYear(age);
     maybeMachineModernAnnual(age);
     maybeLifeBranchAnnual(age);
+    if(!state.dead)advanceNarrativeYear(age);
     return;
   }
   const pool=yearlyPool(age);
@@ -4186,7 +4242,7 @@ function generateOneYear(age){
   maybeMachineModernAnnual(age);
   maybeLifeBranchAnnual(age);
   checkExtremeStatEvents(age);
-  if(!state.dead)maybeUnlockCultivation();
+  if(!state.dead){maybeUnlockCultivation();advanceNarrativeYear(age);}
 }
 function advanceYears(years){
   const startAge=state.age;
@@ -4562,6 +4618,7 @@ function finishLife(){
     return;
   }
   state.ended=true;
+  finishNarrativeLife();
   if(!state.lifeCounted){
     metaState.lives += 1;
     state.lifeCounted=true;
@@ -4578,6 +4635,7 @@ function finishLife(){
     }
     saveMeta();
   }
+  evaluateStoryProgress("ending");
   saveLife();
   showEnding();
 }
@@ -4889,16 +4947,45 @@ function renderOverview(){
       <span>竖虚线：重大节点、异界节点或死亡</span>
     </div>`;
 }
+let reviewFilter="all";
+function setReviewFilter(filter){
+  reviewFilter=filter==="stories"?"stories":"all";
+  renderYearReview();
+}
+function reviewScenes(log){
+  return Array.isArray(log.scenes)&&log.scenes.length?log.scenes:[{type:log.type,text:log.text}];
+}
+function yearSceneHtml(scene){
+  const labels={birth:"出生",start:"出发",normal:"日常",story:"故事延续",unlock:"新的领悟",major:"重大抉择",cultivation:"修行",world:"异界",end:"终章"};
+  const type=Object.prototype.hasOwnProperty.call(labels,scene.type)?scene.type:"normal";
+  return '<div class="yearScene '+type+'"><span class="sceneLabel">'+labels[type]+'</span>'+String(scene.text||"").split(/\n+/).filter(Boolean).map(text=>'<p>'+escapeHtml(text)+'</p>').join("")+'</div>';
+}
+function reviewChapter(age){
+  return age<18?"序章 · 长大的地方":age<30?"第一章 · 走进人群":age<50?"第二章 · 选择的重量":age<68?"第三章 · 回望与继续":age<110?"第四章 · 岁月留下的东西":"续章 · 漫长岁月";
+}
+function renderStoryRecap(){
+  const el=document.getElementById("storyRecapPages");
+  if(!el||!state)return;
+  const logs=[...(state.yearlyLog||[])].filter(l=>l.age<=state.age).sort((a,b)=>a.age-b.age).slice(-3);
+  el.innerHTML=logs.map(log=>'<div class="recapPage"><b>'+log.age+' 岁</b>'+reviewScenes(log).filter(s=>s.type!=="normal"||reviewScenes(log).length===1).slice(-2).map(s=>'<p>'+escapeHtml(s.text)+'</p>').join("")+'</div>').join("");
+}
 function renderYearReview(){
-  const logs=[...(state.yearlyLog||[])].sort((a,b)=>a.age-b.age);
-  yearList.innerHTML=logs.map(l=>`
-    <div class="yearItem ${l.type==="major"?"major":l.type==="end"?"end":l.type==="cultivation"?"cultivation":l.type==="world"?"world":""}">
-      <div class="yearAge">${l.age} 岁</div>
-      <div>
-        <div class="yearText">${escapeHtml(l.text)}</div>
-        <div class="yearStats">💪${l.stats?.body??"-"}　🧠${l.stats?.mind??"-"}　✨${l.stats?.charm??"-"}　🏠${l.stats?.family??"-"}</div>
-      </div>
-    </div>`).join("");
+  const allLogs=[...(state.yearlyLog||[])].sort((a,b)=>a.age-b.age);
+  const storyTypes=new Set(["birth","start","story","unlock","major","cultivation","world","end"]);
+  const logs=reviewFilter==="stories"?allLogs.filter(l=>reviewScenes(l).some(s=>storyTypes.has(s.type))):allLogs;
+  document.getElementById("reviewAllBtn")?.classList.toggle("active",reviewFilter==="all");
+  document.getElementById("reviewStoryBtn")?.classList.toggle("active",reviewFilter==="stories");
+  const summary=document.getElementById("reviewSummary");
+  const stories=allLogs.reduce((n,l)=>n+reviewScenes(l).filter(s=>s.type==="story").length,0);
+  if(summary)summary.textContent=allLogs.length+" 个有记录的年份 · "+(state.history||[]).length+" 次重大抉择 · "+stories+" 段故事延续";
+  let chapter="";
+  yearList.innerHTML=logs.map(log=>{
+    const next=reviewChapter(log.age),heading=next!==chapter?'<div class="yearChapter">'+next+'</div>':"";
+    chapter=next;
+    const scenes=reviewScenes(log).filter(s=>reviewFilter==="all"||storyTypes.has(s.type));
+    const type=["major","end","cultivation","world","story"].includes(log.type)?log.type:"";
+    return heading+'<div class="yearItem '+type+'"><div class="yearAge">'+log.age+' 岁</div><div><div class="yearText">'+scenes.map(yearSceneHtml).join("")+'</div><div class="yearStats">💪'+(log.stats?.body??"-")+'　🧠'+(log.stats?.mind??"-")+'　✨'+(log.stats?.charm??"-")+'　🏠'+(log.stats?.family??"-")+'</div></div></div>';
+  }).join("")||'<p class="muted">这一生还没有留下对应的记录。</p>';
 }
 function renderRewards(){
   if(state.rewardClaimed){
@@ -4950,6 +5037,7 @@ function showEnding(){
   renderOverview();
   renderYearReview();
   renderRewards();
+  renderStoryProgress();
   saveMeta();
   saveLife();
 }
@@ -4985,13 +5073,535 @@ function resetAllLives(){
 function restart(){localStorage.removeItem(SAVE_KEY); location.reload();}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 
+// Narrative uses its own stable hash: adding prose never consumes gameplay randomness.
+function narrativeHash(value){
+  let hash=2166136261;
+  for(const char of String(value)){hash^=char.codePointAt(0);hash=Math.imul(hash,16777619)}
+  return hash>>>0;
+}
+function narrativeSelect(items,key,seed){
+  return items[narrativeHash(`${seed}:${key}`)%items.length];
+}
+function ensureNarrativeState(){
+  if(!state)return null;
+  const n=state.narrative&&typeof state.narrative==="object"&&!Array.isArray(state.narrative)?state.narrative:{};
+  n.version=1;
+  if(!Number.isFinite(n.seed))n.seed=Number(state.childhoodVariantSeed)||narrativeHash(`${state.name||"旅人"}:${state.lifeMotive||"生活"}`);
+  if(!n.cast||typeof n.cast!=="object")n.cast={};
+  if(!n.cast.friend)n.cast.friend=narrativeSelect(["林溪","阿遥","小满","陈澄","许禾","叶舟"],"friend",n.seed);
+  if(!n.cast.teacher)n.cast.teacher=narrativeSelect(["顾老师","唐老师","许老师","沈老师"],"teacher",n.seed);
+  if(!n.cast.street)n.cast.street=narrativeSelect(["梧桐巷","河西街","青石路","榕树里","桥南街"],"street",n.seed);
+  if(!n.cast.notebook)n.cast.notebook=narrativeSelect(["蓝皮本","方格本","牛皮纸本","绿封面笔记本"],"notebook",n.seed);
+  for(const key of ["childhood","seen","writtenYears","arcs","choiceKeys"]){if(!n[key]||typeof n[key]!=="object"||Array.isArray(n[key]))n[key]={}}
+  if(!Array.isArray(n.echoes))n.echoes=[];
+  n.endingWritten=!!n.endingWritten;
+  state.narrative=n;
+  return n;
+}
+function narrativeText(text,n=ensureNarrativeState()){
+  return String(text).replace(/\{(friend|teacher|street|notebook)\}/g,(_,key)=>n?.cast?.[key]||"");
+}
+
+const narrativeChildhoodScenes=[
+  [
+    "你出生的那晚，家人把病房窗外的天气写在一张纸上。后来纸张泛黄，背面补满了生活开销，只有最上方那句‘平安到来’一直没有被划掉。",
+    "你的第一张照片拍得有些模糊：脸藏在襁褓里，一只大人的手紧张地扶着你的后脑。那张并不漂亮的照片，后来始终留在相册第一页。",
+    "家人为你的名字讨论了很久。有人希望你走得远，有人只盼你睡得安稳；最后写下名字时，他们还不知道你会把它带进怎样的人生。"
+  ],
+  [
+    "你学会抓着桌沿站起来，最想够到的却不是玩具，而是一串会响的钥匙。大人把危险的东西往高处收，你把新的高度当作明天的目标。",
+    "你开始认得门外的脚步声。有一种声音会让你停止哭闹，另一些则让你抱紧身边的人；世界最初不是地图，而是熟悉与陌生的声音。",
+    "家人发现，只要窗边的风铃响，你就会安静下来。他们把这一小段声音录了下来，多年以后再听，里面还能听见当时忙乱的呼吸。"
+  ],
+  [
+    "你第一次把自己想要的东西说清楚，却仍会在别人听不懂时着急。有人蹲下来等你慢慢说完，你开始相信，说话不只是争取，也是被理解。",
+    "你把积木搭成一扇没有屋顶的门，坚持让所有人从门里经过。大人笑你多此一举，你却因为大家愿意配合而高兴了整个下午。",
+    "一次出门，你在路口突然不肯继续走，因为一只小虫还没爬过地砖缝。大人最终陪你等了一会儿，那是你第一次让整个世界慢下来。"
+  ],
+  [
+    "你在{street}的小店门口第一次自己买东西。硬币被攥得发热，店主等你把句子说完整才把东西递过来；回家后，你反复讲这件独立完成的大事。",
+    "你弄坏了一件常用的小物件，躲了很久才承认。大人没有立刻责怪，而是陪你把碎片收进盒子；你开始分辨犯错和不值得被爱并不是一回事。",
+    "你为一只纸盒画上窗户，称它是自己的房子。有人敲了敲纸门，认真问能不能进来；那一天，你第一次体验到自己的边界被尊重。"
+  ],
+  [
+    "下雨天，你发现{street}不同屋檐落水的声音不一样。你给它们取了名字，带着大人逐一辨认；日常街道第一次在你眼里变成一张只有你知道的地图。",
+    "你在画纸上把所有熟悉的人画得一样大。大人问为什么没有高矮，你说这样谁都不会被挡住；这张画后来折进了家中的旧相册。",
+    "睡前故事讲到一半时，你忽然问那个没有名字的路人后来去了哪里。讲故事的人只好重新编了一段，你由此知道，不起眼的人也可以拥有后续。"
+  ],
+  [
+    "你拥有了第一本{notebook}，第一页只写下歪歪扭扭的名字。后面几页被涂满想去的地方，家人没有撕掉，让你继续把还不存在的未来画下去。",
+    "你把一张捡来的车票夹进{notebook}，说它是通往远方的凭证。大人告诉你车票已经过期，你仍然留着它，因为上面的地名还没有去过。",
+    "有人送你一本{notebook}，你先在封底画了一扇门，然后规定：里面可以写暂时说不出口的话。这个小小的规则，比你想象中陪伴得更久。"
+  ],
+  [
+    "刚进学校时，你忘了带橡皮，旁边的{friend}把自己的掰成两半。放学后你把半块橡皮放进{notebook}的封套，第一次带回了属于家庭以外的善意。",
+    "你在学校操场找不到集合的位置，{friend}从队伍里挥手叫住了你。那天你们交换了名字，回家路上，你终于有一段完全属于自己的故事可以讲。",
+    "你和{friend}同时想坐窗边，最后约定轮流一天。规则写在一张小纸上，执行得并不完美；你们却开始学习，公平可以靠商量慢慢做出来。"
+  ],
+  [
+    "{teacher}把你答错的题留在黑板上，请你讲一讲为什么会那样想。你原以为自己会出丑，却发现错误也有来路；回家后，你在{notebook}上补写了解题过程。",
+    "一次课堂展示，你说到一半忘了下一句。{teacher}没有替你说完，只让大家多等一会儿；你重新开口时，声音仍抖，却终于是自己的声音。",
+    "{teacher}发现你总在页边画小图，便让你给班里的阅读角设计标签。第一次，一个原本可能被批评的小习惯，变成了别人真正需要的能力。"
+  ],
+  [
+    "你与{friend}在{street}尽头发现一间旧书店，店主允许你们站着读完一本书。你们偷偷做了借阅清单，觉得被认真对待的爱好值得坚持很久。",
+    "你开始在{notebook}里记录每天最值得记住的一件事。有时只是一阵晚风，有时是没有说出口的委屈；你发现同一天可以装下不止一种心情。",
+    "你和{friend}用废纸画出一张‘长大后的生活地图’。两人的路线在同一个路口分开，你第一次意识到，亲近的人也可能想去不同的地方。"
+  ],
+  [
+    "你忘记了一次和{friend}的约定，对方没有像平时那样等你。你在{notebook}上认真写下道歉的话，再当面说了一遍；关系的修补比解释更需要行动。",
+    "你参加了一次准备很久却没有获奖的活动。{teacher}把排练时留下的草稿还给你，说这些努力并没有因为一张名单而消失。",
+    "你试着独自修好一件小东西，越着急越出错。大人递来一只空盒，让你先把零件分开放好；许多年后，你仍记得把复杂问题拆开的第一步。"
+  ],
+  [
+    "你和{friend}为一件小事闹翻，几天都没有说话。后来你们重新坐到一起，各自说出真正介意的部分；那次谈话没有谁赢，却让友谊多了一点分寸。",
+    "班里来了一个不熟悉本地方言的同学，你主动解释大家笑过的一个梗。你发现让人融入并不需要盛大的欢迎，有时候只要不把对方留在话题之外。",
+    "你在{notebook}里第一次删掉一个曾经坚信的答案。不是因为有人逼你改变，而是你终于听见了另一段完整的经历。"
+  ],
+  [
+    "你无意间看到家中的收支记录，才明白一些被推迟的愿望并非不被重视。那一年，你开始在想要的东西旁边写下‘可以等一等’。",
+    "一次班级活动让你发现，同样的费用对不同家庭意味着不同难度。你没有公开问谁付不起，而是建议换一种所有人都能参加的办法。",
+    "家里的一次计划因为现实条件改变了。你起初很失望，后来参与重新安排，第一次知道所谓安稳也需要有人不断修补。"
+  ],
+  [
+    "{teacher}让大家保存一份‘暂时做不好但还想继续’的清单。你没有写最擅长的事，而是在{notebook}上留下一个小小的长期目标。",
+    "你把一段爱好坚持了整整一个学期，成果仍然普通。{friend}却记得你第一次尝试的样子；被人看见缓慢的进步，让你愿意再做下去。",
+    "你第一次向大人解释自己为什么喜欢某件事，没有用成绩和名次作理由。说完以后，你知道那个理由还不成熟，却终于属于自己。"
+  ],
+  [
+    "身体和情绪的变化让你有些陌生，你学着拒绝让自己不舒服的玩笑。{notebook}里开始出现更多问号，你不再急着给每个问题编一个确定答案。",
+    "你开始介意别人怎样评价自己，却又不想承认。一次独处的傍晚，你把最刺耳的评价写下来，旁边补了一句：‘这不是我的全部。’",
+    "一位熟悉的大人认真为一次误解向你道歉。你惊讶地发现，年长并不意味着永远正确；关系也可以在双方都愿意修正时变得可靠。"
+  ],
+  [
+    "你和{friend}对未来的看法越来越不一样。散步时，你们约好可以争论，但不要拿对方的脆弱之处取胜；这条约定后来比许多豪言都更有用。",
+    "你在一次讨论中说出了与多数人不同的意见，随后独自担心了很久。第二天有人悄悄告诉你，他也这样想，只是还没有勇气开口。",
+    "整理{notebook}时，你发现小时候想要的生活已经变了。你没有撕掉旧页，而是在旁边写下新的想法，允许过去的自己和现在的自己同时存在。"
+  ],
+  [
+    "你为一个目标安排了连续几周的练习，却也第一次给休息留出位置。{teacher}看过计划后，只提醒你：别把一时做不到，当成永远不值得。",
+    "一次小组任务进展不顺，你没有独自包办，而是把困难分成几部分重新商量。事情最终并不完美，你却第一次看见协作怎样真正发生。",
+    "你向一个懂行的人请教，得到的建议比赞美更具体。回家后，你在{notebook}上改了好几处计划，发现认真对待一件事也包括愿意重新开始。"
+  ],
+  [
+    "你第一次独自办完一件需要问路、排队和核对信息的事。回程经过{street}时，熟悉的路没有变，你却察觉自己能承担的事情多了一点。",
+    "{friend}谈起一条与你不同的求学或生活方向。你们没有许诺永远不变，只说以后若再见，要允许彼此成为不一样的人。",
+    "你在一次现实安排中发现，努力之外还有时间、机会和资源的限制。你仍然继续准备，却不再轻易把别人的困境解释成不够认真。"
+  ],
+  [
+    "成年前，你把{notebook}从头翻了一遍：字迹从歪斜到整齐，页角也在翻动中起毛。你留出最后一页，写下‘以后发生的事，也值得认真记录’。",
+    "你与{friend}沿{street}走了很久，聊到各自可能离开的方向。分别时没有盛大的誓言，只有一句‘遇到难处可以说’，在后来的人生里留下一个可返回的位置。",
+    "{teacher}把一份多年前的旧作交还给你。它稚拙得让你发笑，却也提醒你：现在的自己并不是突然出现，而是由许多被耐心对待的时刻慢慢长成。"
+  ]
+];
+function narrativeChildhoodText(age,target={}){
+  const n=ensureNarrativeState();
+  if(!n)return "";
+  const key=String(age);
+  if(n.childhood[key])return n.childhood[key];
+  const choices=narrativeChildhoodScenes[age];
+  if(!choices)return "";
+  let text=narrativeText(narrativeSelect(choices,`childhood:${age}`,n.seed),n);
+  if(age===0&&target.body<=3)text+=" 最初一段日子里，你需要比别人更多的照护；家人学着把担忧拆成每天能完成的小事。";
+  if(age===3&&target.family<=3)text+=" 家中可支配的东西不多，你学会把用过的纸翻到背面，再画一个新的世界。";
+  if(age===7&&target.mind>=10)text+=" 你还追问了一个超出课本的问题，老师让你先把它留下，等有了新证据再回来。";
+  if(age===10&&target.charm>=10)text+=" 你渐渐学会留意沉默的人，邀请对方加入，又不强迫他们马上说话。";
+  if(age===12&&target.body>=10)text+=" 一次持续的户外练习让你发现，耐力来自规律，也来自知道什么时候停下来。";
+  if(age===16&&target.family>=10)text+=" 你也意识到，自己拥有的支持并非人人都有；这让你更愿意认真使用眼前的机会。";
+  const motive=typeof motiveById==="function"?motiveById(state.lifeMotive):null;
+  if(age===8&&motive)text+=` 后来被你称作“${motive.name}”的人生底色，在这些小事里露出了最早的轮廓。`;
+  n.childhood[key]=text;
+  return text;
+}
+
+const narrativeArcs=[
+  {id:"notebook",title:"写给后来的自己",era:"modern",min:18,max:42,gap:2,steps:[
+    "你找出一本{notebook}，在新的一页写下现在最担心的三件事。没有人要求你马上解决，你只是决定，别让所有念头都挤在心里。",
+    "你重新读到早些年写下的担忧，有一件已经过去，有一件仍然棘手。你给当时的自己写下几行回复，第一次发现成长有时只是更准确地描述问题。",
+    "{notebook}开始夹进现实留下的纸片：一张收据、一段草稿、一份被改过的安排。它们没有统一的成功标准，却逐渐拼出你认真生活的证据。",
+    "你给这本记录编了一个很粗糙的目录，把已经结束与仍在继续的事分开。最后一页没有写‘从此顺利’，只留下一句话：下一次还可以从这里想办法。"
+  ]},
+  {id:"borrowed_book",title:"旧书的下一位读者",era:"modern",min:18,max:48,gap:2,when:()=>state.mind>=5,steps:[
+    "你从旧书摊带回一本有许多页边批注的书。批注里既有答案，也有一个被反复圈起的问题；你没有急着查结论，先尝试理解前一位读者为什么困惑。",
+    "重读旧书时，你发现自己的经历让其中一句话变了意思。你用另一种颜色写下不同意见，没有涂掉旧批注，让两种判断留在同一页。",
+    "有人借走那本书，又在归还时附上一页自己的笔记。你们没有达成一致，却发现讨论一个具体问题，比互相证明谁更聪明更有意思。",
+    "旧书的装订开始松动，你修补好书脊，把它放回可供借阅的地方。书里最厚的一部分已经不是原文，而是几位陌生人认真回应过彼此的痕迹。"
+  ]},
+  {id:"repair_corner",title:"一张不急着丢弃的桌子",era:"modern",min:22,max:56,gap:3,when:()=>state.mind>=6||state.body>=6,steps:[
+    "社区活动室清理出一张摇晃的旧桌子。你和几位愿意帮忙的人先把问题标出来，发现它不是彻底坏了，只是几处连接需要重新固定。",
+    "那张修好的桌子渐渐用来摆放待修的小物件。你在旁边写上‘不一定能修好’，却发现这句坦诚反而让来的人愿意耐心讲清故障。",
+    "一次修理没有成功，你们把拆开的零件和原因都还给了物主。对方说，知道为什么坏掉也有价值；这张桌子开始容得下失败，而不只展示成果。",
+    "新的志愿者接过了工具登记本，你不再需要每次都在场。旧桌子仍会摇晃，但现在总有人知道先检查哪颗螺丝；事情终于可以在你离开时继续。"
+  ]},
+  {id:"rain_map",title:"雨天能走的路",era:"modern",min:23,max:58,gap:2,steps:[
+    "一场大雨让一条常走的路积水。你在纸上画出绕行路线，标明台阶、遮雨处和容易看漏的坑，原本只想下次少走一段冤枉路。",
+    "有人在你的雨天路线旁补充了推车能通过的入口，另一个人标出夜里没有路灯的路段。地图开始记录不同人的身体和出行需要。",
+    "街道施工改变了路线，你们发现旧地图也会误导人。于是每条信息旁边都添上核实日期，保留求证的余地，而不把一份好意当作永久正确。",
+    "下一次雨季，地图已经由更多人轮流更新。你在角落看见自己最早画错的那条线被轻轻划掉，旁边没有责怪，只有一条更可靠的新路。"
+  ]},
+  {id:"letters",title:"没有急着寄出的信",era:"modern",min:25,max:58,gap:3,steps:[
+    "你给一位曾经熟悉的人写了一封没有立即寄出的信。写到一半才发现，自己最想说的不是追问谁对谁错，而是把当时没有表达清楚的感受讲完整。",
+    "几年后再看那封信，你删掉了替对方猜测动机的句子，只留下自己确实经历过的事。信变短了，也少了一些必须得到回应的要求。",
+    "你终于决定如何安放这封信：保留、寄出，或在心里完成告别。你没有把对方的回应当作生活继续的条件，先把仍属于自己的日子接了回来。",
+    "这段旧事不再占满每次回忆。偶尔想起时，你仍然会有情绪，却已经能同时记住那段关系之外，自己还走过许多别的路。"
+  ]},
+  {id:"body_calendar",title:"留给身体的空白",era:"modern",min:28,max:68,gap:2,when:()=>state.body<=9||(state.history||[]).some(h=>h.category==="健康"),steps:[
+    "你翻看近来的安排，发现每一页都写得很满，休息却从来没有自己的位置。你先留出一小块可以不向任何人解释的空白，观察身体怎样回应。",
+    "有些日子你仍然做不到原来的计划。你开始区分‘今天能做多少’和‘自己有没有价值’，也把可以求助的事项单独列出，不再只靠硬撑证明可靠。",
+    "你尝试把生活安排得更有弹性：重要的事提前准备，不重要的允许推迟。改变没有消除所有不适，却让一次状态不好不必拖垮整个星期。",
+    "那份最初只有一小块空白的日历已经改过很多次。你留下真正适合自己的部分，知道照顾身体是一段需要反复协商的关系，而非一项一次通过的考试。"
+  ]},
+  {id:"local_archive",title:"街角的小小档案",era:"modern",min:36,max:68,gap:3,steps:[
+    "你路过一处正在改造的街角，发现自己已经记不清旧招牌的颜色。于是你开始收集公开的老照片，也请愿意讲述的人自己决定哪些内容可以留下。",
+    "整理资料时，同一件旧事出现了两种不同的记忆。你没有急着判定谁记错，而是在记录里保留来源，让后来的人知道记忆本来就有角度。",
+    "有人请求撤下一段涉及私事的口述，你照做了。档案因此少了一页，却多了一条清楚的原则：保存一个地方，不意味着拥有生活在那里的人。",
+    "这份街角档案终于被整理成可继续补充的小册子。你给空白页也编了号，提醒接手的人，不知道的部分可以诚实地留白，不必编成完整的传奇。"
+  ]},
+  {id:"small_class",title:"把会的事慢慢教出去",era:"modern",min:48,max:76,gap:2,steps:[
+    "一位想学习的人问你，能不能从最基础的地方讲起。你起初以为自己没有什么特别的经验，真正动手才发现，许多习惯背后都藏着走过的弯路。",
+    "对方在你觉得最简单的步骤上卡住了。你换了一种讲法，也承认有些解释只是自己沿用多年；教别人，反过来暴露了自己还没想清楚的地方。",
+    "练习中出现了与你不同、却同样可行的方法。你忍住立即纠正的冲动，和对方一起验证边界，发现传授经验不必把后来的人复制成自己。",
+    "对方开始向另一个初学者解释这件事，用的是你从没用过的例子。你退到旁边听了一会儿，觉得一段经验能离开自己继续生长，是很好的结尾。"
+  ]},
+  {id:"awakening_log",title:"异常也需要证据",era:"awakening",min:18,max:1800,gap:2,steps:[
+    "你为已经见过的异象建立了单独的记录页，把亲眼所见、他人转述和自己的猜想分开。纸上的空白比答案多，你却第一次觉得调查有了可靠的起点。",
+    "一次看似吻合的线索被普通原因解释了。你把它从证据栏移到已排除栏，没有因为期待落空而撕掉整页；那些被排除的可能同样帮助你靠近真实。",
+    "你回看最早的异常记录，发现如今能够更准确地说出自己不知道什么。它尚未替你打开新的世界，却让你学会在惊奇与恐惧之间保留判断。"
+  ]},
+  {id:"cultivation_ledger",title:"修行之外的一页账",era:"cultivation",min:18,max:1800,gap:5,steps:[
+    "你在修行记录旁另起一页，记下灵物从哪里来、一次闭关需要谁维持日常。过去只写境界的账本，开始容纳那些没有名字的劳动。",
+    "一项看似节省自己的修炼安排，会把额外负担推给别人。你重新核对约定，发现长久修行不仅考验力量，也考验能否看见力量以外的人。",
+    "你把这页账与功法笔记放在一起保存。后来的阅读者会先看到资源、约定与代价，再看到境界；一条道路因此多了一份可以被追问的来历。"
+  ]},
+  {id:"gate_translation",title:"界门两侧的普通词语",era:"cultivation",min:18,max:1800,gap:5,when:()=>!!state.worldsUnlocked,steps:[
+    "穿过已经开启的界门时，你发现‘回家’在另一侧并不能逐字翻译。你先向当地记录者解释自己的日常，再请对方讲讲这个词包含哪些方向与关系。",
+    "你们整理的词表里，最难的不是力量和战争，而是承诺、借用与道别。一次误解被及时停下来讨论，没有被写成谁的文明更低等。",
+    "词表终于能够被两边的人共同补充。你保留那些暂时无法对应的词，不再强迫它们变成熟悉的意思；界门因此连起了理解，而不只是距离。"
+  ]}
+];
+
+const narrativeScenes=[
+  {id:"young_room",group:"young",text:"你整理了一小块完全由自己安排的空间。东西不多，但每件物品放在哪里都经过你的决定；日子第一次有了可以自己维护的秩序。"},
+  {id:"young_budget",group:"young",text:"你试着记录一段时间的开销，发现最容易忽略的不是大笔花费，而是那些被‘算了’带过的小数目。账目没有让生活立即宽裕，却让取舍变得具体。"},
+  {id:"young_no",group:"young",text:"你第一次认真拒绝了一件已经超出自己精力的请求。开口前的内疚持续很久，对方却比你预想中平静；你开始重新理解可靠和随叫随到的区别。"},
+  {id:"young_meal",group:"young",text:"一顿简单的饭做得并不好，你仍把桌面收拾整齐，坐下来慢慢吃完。没有人评价这一刻，你却知道自己正在学会照顾一个具体的人：自己。"},
+  {id:"young_route",group:"young",text:"你走了一条平时不会选择的回程路线，发现熟悉的城市里藏着另一种生活节奏。后来再经过原来的路，你不再觉得眼前的一条就是唯一的一条。"},
+  {id:"young_question",group:"young",text:"遇到不懂的事情时，你终于没有假装听明白，而是请人从头解释。短暂的难为情过去后，问题真的变得可以处理。"},
+  {id:"young_schedule",group:"young",text:"你为一个计划设定了过分漂亮的时间表，执行两周后不得不重排。你留下了修改痕迹，让它提醒自己：能持续的安排比看起来厉害的安排更有用。"},
+  {id:"young_comparison",group:"young",text:"看到同龄人的消息，你一度觉得自己落在后面。后来你把能看见的成果和看不见的条件分开，开始给自己的生活寻找更合适的刻度。"},
+  {id:"young_errand",group:"young",text:"一件手续因为资料不齐让你跑了两趟。你把需要的材料写成清单，下一次有人遇到同样的困难时，那张清单终于派上用场。"},
+  {id:"young_evening",group:"young",text:"一个没有特别安排的傍晚，你没有急着把时间填满。街灯一盏盏亮起，你第一次觉得，人生可以有不需要证明效率的片刻。"},
+  {id:"adult_boundaries",group:"adult",text:"你发现几件看似独立的烦心事，其实都源于同一个没有说清的边界。一次坦诚的讨论没有立刻解决问题，却让各自承担什么终于有了名字。"},
+  {id:"adult_relearn",group:"adult",text:"你重新学习了一项曾经会、后来很少使用的技能。手生让你有些懊恼，也提醒你熟练不是永久身份，而是可以再次建立的联系。"},
+  {id:"adult_call",group:"adult",text:"你给一位许久未联系的熟人发了问候，没有附带请求。对方只回复了一段普通近况，你们却都因此多了一点被记得的踏实。"},
+  {id:"adult_delay",group:"adult",text:"一件期待很久的事被推迟了。你先允许自己失望，再把暂时能做的部分重新排好；等待开始有了自己的内容。"},
+  {id:"adult_tools",group:"adult",text:"你整理常用的工具和资料，把最重要的一份放在容易找到的位置。一个不起眼的调整，后来替你省去了许多反复寻找的焦躁。"},
+  {id:"adult_apology",group:"adult",text:"你意识到自己曾把压力带进一场无关的谈话。道歉时，你没有用疲惫解释掉对方受到的影响，而是认真说清下一次准备怎样改变。"},
+  {id:"adult_empty",group:"adult",text:"忙碌暂时停下来以后，你反而不知道该做什么。你试着重新拾起一件没有回报承诺的爱好，允许自己从笨拙开始。"},
+  {id:"adult_help",group:"adult",text:"你接受了一次具体的帮助，并询问怎样回报最合适。对方说以后遇到能做的事再说，你发现关系可以不必每一笔都即时结清。"},
+  {id:"adult_plan",group:"adult",text:"你和一位需要共同安排事情的人交换了各自的限制条件。原来彼此的犹豫都不是敷衍，而是此前从未被放到桌面上的现实。"},
+  {id:"adult_ordinary",group:"adult",text:"这一年没有足以写进标题的大事，你却把几件拖延的小事处理完了。日常少了一点阻力，也是一种不容易被别人看见的进步。"},
+  {id:"middle_versions",group:"middle",text:"整理旧资料时，你认出几种曾经的自己：急于证明的、害怕改变的、过分确定的。你没有选一个出来否定其余的人，而是承认他们都曾努力把日子过下去。"},
+  {id:"middle_attention",group:"middle",text:"你开始留意什么事情总在消耗注意力，却从未带来真正的满足。删去其中一项安排以后，你惊讶地发现，世界并没有因此停止运转。"},
+  {id:"middle_explain",group:"middle",text:"一个年轻人问起你以前为什么作出某个决定。你没有把后来知道的答案伪装成当时的远见，而是讲了自己那时真实拥有的信息。"},
+  {id:"middle_objects",group:"middle",text:"你给几件旧物补上来历，不再指望别人能从磨损和划痕里自动读懂故事。写清楚它们，也像重新向自己解释一段生活。"},
+  {id:"middle_change",group:"middle",text:"你发现自己对一件事的态度已经改变，便主动修正了一句过去常说的话。有人有些意外，你却觉得能够更新判断比维持一贯更轻松。"},
+  {id:"middle_rest",group:"middle",text:"一次安排留出更多余地后，你没有因为完成得少而责怪自己。你开始把恢复的时间也算进生活，而不只计算被消耗的部分。"},
+  {id:"middle_oldplace",group:"middle",text:"你重新经过一处熟悉的地方，发现它没有照着记忆停住。你拍下现在的样子，没有拿从前作唯一标准；变化也有属于它的理由。"},
+  {id:"middle_listen",group:"middle",text:"谈话中，你试着在提出建议之前多问一个问题。对方说出的答案改变了你的判断，你庆幸这一次没有急着把自己的经历套上去。"},
+  {id:"middle_papers",group:"middle",text:"你把重要信息整理得更容易查找，也删去了已经无用的备份。那些保留下来的纸张，逐渐从‘怕丢所以留着’变成‘知道为何需要’。"},
+  {id:"middle_season",group:"middle",text:"某个季节来临时，你突然记起很久以前的一次气味。你把它写下来，没有试图恢复整段过去，只感谢记忆还愿意送来这样一个细节。"},
+  {id:"senior_pace",group:"senior",text:"你按照现在的精力重新安排日常，放下几项只是因为习惯才维持的要求。速度变了，并不意味着每一天都失去了自己的形状。"},
+  {id:"senior_archive",group:"senior",text:"你在一张旧照片背面补写了能够确认的日期，对不确定的部分留下问号。记住一生不必假装从未遗忘，诚实的空白也是记录的一部分。"},
+  {id:"senior_beginner",group:"senior",text:"你对一件新事物产生兴趣，问的问题很基础。有人耐心解释以后，你发现好奇心并没有被年龄耗尽，只是需要一个可以从头开始的位置。"},
+  {id:"senior_unfinished",group:"senior",text:"你整理尚未完成的计划，把仍想继续的和可以放下的分开。舍弃其中一项时，你没有称它为失败，而是承认此刻的自己有新的排序。"},
+  {id:"senior_story",group:"senior",text:"你把一段常讲的往事换了个开头，从一个当时没被注意到的人说起。故事因此少了一点自己的光芒，却多了一层终于看见别人的温度。"},
+  {id:"senior_today",group:"senior",text:"你认真记下今天发生的一件小事，没有把它当作过去辉煌的附注。再漫长的回顾，也需要给仍在发生的日子留一个位置。"},
+  {id:"senior_handoff",group:"senior",text:"你把一份愿意分享的经验整理好，也写上哪些地方可能已经过时。留下方法的同时，你把修改它的权利一并交给后来的人。"},
+  {id:"senior_silence",group:"senior",text:"一次安静的午后，你没有强迫自己把所有遗憾解释清楚。那些尚无答案的事暂时被放在一旁，眼前的一杯水和窗外的光也值得被认真感受。"},
+  {id:"awakening_date",group:"awakening",text:"你把异象发生的时间和当日的普通安排写在同一页。奇怪的世界没有替代生活，调查之外，你仍然需要处理吃饭、休息和现实中的约定。"},
+  {id:"awakening_witness",group:"awakening",text:"面对一段无法核实的异常传闻，你没有立刻转述。你先记录来源和不确定之处，提醒自己：恐惧传播得很快，事实却需要慢慢确认。"},
+  {id:"awakening_return",group:"awakening",text:"你为一次调查提前留下返回的安排。真正走进陌生环境时，那份普通的准备比神秘的预感更让你安心。"},
+  {id:"awakening_normal",group:"awakening",text:"你经历了一个没有任何异常的日子。起初你仍四处寻找征兆，后来终于让普通事物保留普通的样子，也让自己获得一点休息。"},
+  {id:"cultivation_food",group:"cultivation",text:"修行间歇，你认真吃完了一顿并不稀奇的食物。境界改变了许多尺度，冷热、饥饱和片刻安稳却仍然具体。"},
+  {id:"cultivation_notes",group:"cultivation",text:"你重读修行初期的一段记录，发现许多笨拙的问题仍有意义。如今能够回答其中一部分，不代表当时的自己就应该早已知道。"},
+  {id:"cultivation_limits",group:"cultivation",text:"你在一次力所能及的事情面前仍然选择先确认边界。拥有力量并没有自动让每一个介入都合理，这个问题无法只靠境界回答。"},
+  {id:"cultivation_years",group:"cultivation",text:"你尝试用日常变化而不只境界衡量时间：修补过的器物、改写的笔记、重新理解的约定。漫长岁月因此没有完全融成模糊的一团。"},
+  {id:"cultivation_unsure",group:"cultivation",text:"有人把你写过的一段见解当作定论，你在旁边补上当时的条件。修行越久，你越不愿让自己的经验变成别人不能追问的命令。"},
+  {id:"cultivation_names",group:"cultivation",text:"你整理一段修行经历时，没有只留下掌握力量的人，也写下那些提供食物、修补道路和保管记录的工作。世界原本就是靠许多种劳动共同维持。"},
+  {id:"world_time",group:"otherworld",text:"你注意到界门两侧记录日期的方式不同，在下一次约定上同时写下两边的时间。一个很小的换算，避免了把误会解释成失信。"},
+  {id:"world_market",group:"otherworld",text:"界门另一侧的集市让你停留许久。你先问清交易里的习惯，再决定是否参与；陌生并不意味着所有规则都可以由来客重新定义。"},
+  {id:"world_memory",group:"otherworld",text:"你为跨界见闻写下一页注释，标明哪些是亲眼所见，哪些只是暂时的理解。读者会看见一个真实的陌生世界，也看见你的视野在哪里结束。"},
+  {id:"world_home",group:"otherworld",text:"在异界，一件再普通不过的日用品勾起你对故乡的联想。你没有急着把两种生活比较高下，只把它们并排记在同一页。"},
+  {id:"machine_manual",group:"machine",text:"已经接触机械文明之后，你仍保留一份不依赖自动系统的普通记录。它不比系统高明，只让你在依赖之外，继续理解事情究竟如何发生。"},
+  {id:"machine_explain",group:"machine",text:"面对一段来自机械文明的建议，你要求看到它使用的前提。一个看似完美的答案，只有在能够理解适用条件时，才真正属于可以选择的生活。"}
+];
+
+const narrativeChoiceEchoes={
+  "学业":["你重新整理当时留下的资料，发现比答案更值得保存的，是自己如何提出问题。","后来再遇到相似的困惑，你已经能分清哪些经验可以沿用，哪些需要重新学习。"],
+  "事业":["你把那次转折里能控制与不能控制的部分分开，重新安排眼前能够落实的事情。","那段经历渐渐变成判断工作的一个参照，你也知道它不能替每一个新处境作答。"],
+  "财富":["你重新核对那次决定涉及的承诺和资源，让一时的情绪慢慢回到可以检查的细节。","此后谈到类似的机会或风险，你会先问清代价由谁承担，而不只看最醒目的数字。"],
+  "爱情":["你试着把那次经历中的期待说得更清楚，也承认关系里有些答案无法由一个人独自完成。","你没有把一段感情经历变成解释所有关系的公式，而是把真正学到的边界留了下来。"],
+  "友情":["你回想那次谈话中被说出和没被说出的部分，发现理解一个人还需要给对方自己的版本留位置。","那次经历让你更在意关系能否容纳坦诚，而不是只在彼此顺利时维持热闹。"],
+  "家庭":["你重新梳理那次决定里各自的责任和难处，开始把笼统的‘为你好’换成具体的讨论。","后来回望，你更能分清关心、责任和替别人作决定之间的距离。"],
+  "健康":["你把当时的感受和现实条件记录下来，提醒自己不要只在身体发出强烈信号时才关注它。","这段经历没有给你一种永远有效的生活方法，却让你更愿意按照实际状态调整安排。"],
+  "迁徙":["你把去留背后的条件重新列出，发现地点之外，支持、资源和愿意承担的代价同样重要。","此后再看地图，你已经不只看距离，也会想到一个人怎样在某处真正生活。"],
+  "名望":["你区分了外界对那件事的描述与自己真实经历的过程，没有急着让两者完全重合。","后来出现新的评价时，你仍会在意，却知道别人的一句概括容纳不下完整的人生。"],
+  "天灾":["你回顾那次处境中真正有帮助的信息，也记下当时无法确认的部分。","这段经历让你更重视具体的准备和互相支持，而不只是事后给自己一个勇敢的称号。"],
+  "人祸":["你把那次处境里的事实、承诺和判断分开，避免让最强烈的情绪成为唯一的证据。","此后面对相似的问题，你更愿意先确认责任和边界，也给修正判断保留余地。"],
+  "default":["你把当时知道的事情与后来才明白的部分分开，不再要求过去的自己拥有未来的答案。","这件事渐渐成为人生的一部分：它影响了你，却没有替你决定所有后来的选择。"]
+};
+function recordNarrativeChoice(event,choice,success,age){
+  const n=ensureNarrativeState();
+  if(!n||!event||!choice)return;
+  const key=`${age}:${event.id||event.title}:${choice.text||""}`;
+  if(n.choiceKeys[key])return;
+  n.choiceKeys[key]=true;
+  n.echoes.push({key,eventId:event.id||event.title,title:event.title||"那次抉择",choice:choice.text||"当时的道路",category:event.category||"奇遇",success:!!success,era:state.era||"modern",age:Number(age),due:Number(age)+1,stage:0});
+}
+function narrativeEligibleArc(arc,age){
+  return arc.era===state.era&&age>=arc.min&&age<=arc.max&&(!arc.when||arc.when());
+}
+function narrativeWrite(n,age,key,text){
+  if(!text||n.seen[key]||n.writtenYears[String(age)])return false;
+  recordYear(age,text,"story");
+  n.seen[key]=true;
+  n.writtenYears[String(age)]=key;
+  return true;
+}
+function narrativeSceneGroup(age){
+  if(state.era==="awakening")return "awakening";
+  if(state.era==="cultivation")return "cultivation";
+  return age<30?"young":age<48?"adult":age<68?"middle":"senior";
+}
+function advanceNarrativeYear(age){
+  if(!state||state.dead||state.ended||state.pendingDaoChoice||state.era==="dao_choice"||age<18)return;
+  const n=ensureNarrativeState();
+  if(n.writtenYears[String(age)])return;
+  // Echoes cite an actual choice. They never invent a new success, relationship or reward.
+  const echo=n.echoes.find(item=>item.stage<2&&age>=item.due);
+  if(echo){
+    const lines=narrativeChoiceEchoes[echo.category]||narrativeChoiceEchoes.default;
+    const timing=echo.stage===0?"这次选择之后":"多年后的回声";
+    const outcome=echo.success?"当时的判定成功了，但生活并没有因此省去后续的整理。":"当时的判定没有成功，那段经历却不必只留下对自己的责怪。";
+    const text=echo.stage===0?`「${timing}」回想 ${echo.age} 岁的“${echo.title}”，你记得自己选择了“${echo.choice}”。${outcome}${lines[0]}`:`「${timing}」${echo.age} 岁的“${echo.title}”又一次被你想起。${lines[1]}`;
+    if(narrativeWrite(n,age,`echo:${echo.key}:${echo.stage}`,text)){echo.stage++;echo.due=age+3}
+    return;
+  }
+  const active=narrativeArcs.filter(arc=>{
+    const progress=n.arcs[arc.id];
+    return progress&&progress.step<arc.steps.length&&narrativeEligibleArc(arc,age)&&age-progress.lastAge>=arc.gap;
+  }).sort((a,b)=>n.arcs[a.id].lastAge-n.arcs[b.id].lastAge);
+  let arc=active[0];
+  if(!arc){
+    const openCount=narrativeArcs.filter(item=>n.arcs[item.id]&&n.arcs[item.id].step<item.steps.length&&narrativeEligibleArc(item,age)).length;
+    const available=narrativeArcs.filter(item=>!n.arcs[item.id]&&narrativeEligibleArc(item,age));
+    if(available.length&&openCount<2&&(age===18||narrativeHash(`${n.seed}:begin:${age}`)%3===0)){
+      arc=narrativeSelect(available,`arc:${age}`,n.seed);
+      n.arcs[arc.id]={step:0,lastAge:age,startedAt:age};
+    }
+  }
+  if(arc){
+    const progress=n.arcs[arc.id];
+    const step=progress.step;
+    if(narrativeWrite(n,age,`arc:${arc.id}:${step}`,`「${arc.title}」${narrativeText(arc.steps[step],n)}`)){
+      progress.step++;
+      progress.lastAge=age;
+      if(progress.step===arc.steps.length)progress.completedAt=age;
+    }
+    return;
+  }
+  const groups=new Set([narrativeSceneGroup(age)]);
+  if(state.era==="cultivation"&&state.worldsUnlocked)groups.add("otherworld");
+  if(["deusSignal","machineContact","machineTreaty","machineRebellion","machineArchive"].some(key=>state.lifeFlags?.[key]))groups.add("machine");
+  const available=narrativeScenes.filter(scene=>groups.has(scene.group)&&!n.seen[`scene:${scene.id}`]);
+  if(available.length){
+    const scene=narrativeSelect(available,`scene:${age}`,n.seed);
+    narrativeWrite(n,age,`scene:${scene.id}`,narrativeText(scene.text,n));
+  }
+  // Do not pad exhausted pools with repeated boilerplate; the original annual events remain.
+}
+function finishNarrativeLife(){
+  const n=ensureNarrativeState();
+  if(!n||n.endingWritten)return;
+  const completed=narrativeArcs.filter(arc=>n.arcs[arc.id]?.completedAt!==undefined);
+  const unfinished=narrativeArcs.filter(arc=>n.arcs[arc.id]&&n.arcs[arc.id].step<arc.steps.length);
+  const history=state.history||[];
+  const parts=[];
+  if(completed.length)parts.push(`回顾这一生，“${completed.slice(-3).map(arc=>arc.title).join("”“")}”都留下了自己的收束`);
+  if(unfinished.length)parts.push(`“${unfinished[0].title}”仍停在未完成的一页；它真实发生过，不必因为没有结尾而被抹去`);
+  if(history.length){const last=history[history.length-1];parts.push(`${last.age} 岁的“${last.title}”是年表中最后记下的重大抉择，和此前的选择一起构成了这段无法重演的人生`)}
+  if(!parts.length)parts.push("这一生还没有来得及展开许多长故事。年表里那些已经留下的相遇、犹豫与普通日子，仍然是完整生命的一部分");
+  recordYear(state.age,`「故事的最后一页」${parts.join("。")}。`,"story");
+  n.endingWritten=true;
+}
+
+
+// Story-led feature discovery. Rendering is deliberately read-only.
+const storyFeatureDefinitions=[
+  {id:"fast_draw",name:"极速抽取",title:"翻页的诀窍",hint:"完成第一次重大抉择，读懂命运留下的第一页。"},
+  {id:"reroll",name:"重新抽取",title:"另一种可能",hint:"再经历一次挫折，或走过第三次重大抉择，学会给自己留一个选择。"},
+  {id:"branches",name:"支线选择",title:"留下的路标",hint:"完整走完一生，把这段旅程留下的路标带到下一世。"}
+];
+
+function defaultStoryProgress(){
+  return {version:1,unlocked:[],moments:{},choices:0,sequence:0,legacy:false};
+}
+
+function normalizeStoryProgress(m,isLegacy=false){
+  if(!m||typeof m!=="object"||Array.isArray(m))return m;
+  const old=m.storyProgress&&typeof m.storyProgress==="object"&&!Array.isArray(m.storyProgress)?m.storyProgress:{};
+  const finiteCount=n=>Number.isFinite(Number(n))?Math.max(0,Math.floor(Number(n))):0;
+  const moments=old.moments&&typeof old.moments==="object"&&!Array.isArray(old.moments)?{...old.moments}:{};
+  const unlocked=[...new Set((Array.isArray(old.unlocked)?old.unlocked:[]).filter(id=>typeof id==="string"))];
+  m.storyProgress={
+    ...old,version:1,unlocked,moments,
+    choices:finiteCount(old.choices),
+    sequence:Math.max(finiteCount(old.sequence),...Object.values(moments).map(item=>finiteCount(item?.order))),
+    legacy:!!old.legacy||!!isLegacy
+  };
+  if(isLegacy){
+    // These controls and the technology branch were available in v2.0.0.
+    storyFeatureDefinitions.forEach(feature=>{
+      if(!unlocked.includes(feature.id))unlocked.push(feature.id);
+    });
+    if(!Array.isArray(m.unlockedBranches))m.unlockedBranches=[];
+    if(!m.unlockedBranches.includes("future_technology"))m.unlockedBranches.push("future_technology");
+    if(!m.branchPreferences||typeof m.branchPreferences!=="object"||Array.isArray(m.branchPreferences))m.branchPreferences={};
+    if(m.branchPreferences.future_technology===undefined)m.branchPreferences.future_technology=true;
+  }
+  return m;
+}
+
+function featureUnlocked(id){
+  return !!metaState?.storyProgress?.unlocked?.includes(id);
+}
+
+function addStoryProgressMoment(id,kind,name,title,text,age){
+  const progress=metaState.storyProgress;
+  if(progress.moments[id])return null;
+  const moment={id,kind,name,title,text,age:Number.isFinite(age)?age:null,life:metaState.lives||0,order:++progress.sequence};
+  progress.moments[id]=moment;
+  return moment;
+}
+
+function unlockStoryFeature(id,text,age){
+  const feature=storyFeatureDefinitions.find(item=>item.id===id);
+  if(!feature||featureUnlocked(id))return null;
+  metaState.storyProgress.unlocked.push(id);
+  const moment=addStoryProgressMoment(id,"feature",feature.name,feature.title,text,age);
+  if(state&&moment)recordYear(age,`【${feature.title}】${text} 解锁：${feature.name}。`,"unlock");
+  return moment;
+}
+
+function evaluateStoryProgress(trigger,detail={}){
+  if(!metaState)return [];
+  normalizeStoryProgress(metaState);
+  const progress=metaState.storyProgress;
+  const unlocked=[];
+  let changed=false;
+  const add=moment=>{if(moment){unlocked.push(moment);changed=true;}};
+
+  if(trigger==="choice"&&state){
+    const history=Array.isArray(state.history)?state.history:[];
+    const seen=Math.max(0,Math.floor(Number(state.storyProgressSeenChoices)||0));
+    if(history.length<=seen)return [];
+    state.storyProgressSeenChoices=history.length;
+    state.storyProgressVersion=1;
+    progress.choices+=history.length-seen;
+    changed=true;
+    const last=history[history.length-1];
+    const age=Number.isFinite(last.age)?last.age:state.age;
+    const title=last.title||detail.event?.title||"这次抉择";
+
+    // Remember an actual ordinary-world encounter. Discovery may follow later,
+    // so a feature and an entire new world are never revealed in the same beat.
+    const hasTechnologyClue=last.category==="时代"||/科技|技术|研究|实验|机器人|算法|人工智能|程序|自动化|数字|能源|太空|卫星/.test(title+" "+(detail.event?.desc||""));
+    if(state.era==="modern"&&hasTechnologyClue&&!progress.moments.tech_glimpse){
+      progress.moments.tech_glimpse={title,category:last.category,age};
+    }
+
+    if(!featureUnlocked("fast_draw")){
+      const text=state.dead
+        ?`“${title}”被留在了人生回顾里。第一次选择让这段旅程有了清晰的章节；下一世，你可以略过转动动画，直接翻到命运的新一页。`
+        :`经历“${title}”后，你把来龙去脉整理成一页记录。下一次面对命运，不必再等待每一格转过眼前，也能读清它停下的位置。`;
+      add(unlockStoryFeature("fast_draw",text,age));
+    }else if(!featureUnlocked("reroll")&&progress.choices>=2&&(last.success===false||progress.choices>=3)){
+      const text=state.dead
+        ?"回顾里留下了一处没有写完的分岔。它不能改写已经结束的人生，却让下一世的你记住：作出决定之前，还可以再看一种可能。"
+        :last.success===false
+          ?`“${title}”没有按期望收尾。你在旧记录旁写下：不能倒转已经发生的事，但下一次落笔之前，可以先看看另一种可能。`
+          :"接连走过几次转折，你发现果断并不等于立刻接受眼前的一切。你在记录末尾留出空白，提醒自己：下次决定之前，还能换一种开场。";
+      add(unlockStoryFeature("reroll",text,age));
+    }else if(!state.dead&&progress.choices>=3&&progress.moments.tech_glimpse&&!branchUnlocked("future_technology")){
+      const glimpse=progress.moments.tech_glimpse;
+      const text=`你再次翻到“${glimpse.title}”留下的那一页，读懂了当时没有展开的技术线索。世界的改变有了可以追踪的来处；下一世开始前，可以选择把这条线索继续写下去。`;
+      add(addStoryProgressMoment("branch_future_technology","branch","未来科技支线","时代的来信",text,age));
+      // Store the specific scene first: discoverBranch may emit a generic
+      // branch-discovery hook, which must not replace this narrative beat.
+      discoverBranch("future_technology","时代的来信");
+      if(unlocked.length)recordYear(age,`【时代的来信】${text} 解锁：未来科技支线（下世可选）。`,"unlock");
+    }
+  }else if(trigger==="ending"&&state?.ended&&state.lifeCounted){
+    add(unlockStoryFeature("branches","这一生的记录终于合上。你发现那些走过的道路并不会消失：下一世开始前，可以挑选已经发现的支线，把尚未到来的世界留给以后。",state.age));
+  }else if(trigger==="branch"&&detail.id&&branchUnlocked(detail.id)){
+    const branch=branchDef(detail.id);
+    if(branch){
+      const text=detail.source?`“${detail.source}”留下了一条新的路标。这条路线可以在下一世开始前选择。`:"这段经历留下了一条新的路标。这条路线可以在下一世开始前选择。";
+      add(addStoryProgressMoment("branch_"+branch.id,"branch",branch.name,"新的路标",text,state?.age));
+    }
+  }
+  if(changed)saveMeta();
+  return unlocked;
+}
+
+function renderStoryProgress(){
+  const progress=metaState?.storyProgress;
+  const next=storyFeatureDefinitions.find(feature=>!featureUnlocked(feature.id));
+  const visible=(id,show)=>{
+    const node=document.getElementById(id);
+    if(node)node.style.display=show?"":"none";
+  };
+  visible("fastSpinBtn",featureUnlocked("fast_draw"));
+  if(!featureUnlocked("reroll"))visible("rerollBtn",false);
+  const canChooseBranches=featureUnlocked("branches");
+  ["branchHomeCard","homeBranchBtn","gameBranchBtn","branchStatusBar"].forEach(id=>visible(id,canChooseBranches));
+  visible("legacyHomeCard",!!progress?.legacy||(metaState?.lives||0)>0);
+  visible("newJourneyNote",!progress?.legacy&&(metaState?.lives||0)===0&&(progress?.choices||0)===0);
+  visible("presetGhost",["occult_urban","occult_creatures","occult_contracts"].some(branchUnlocked));
+  visible("presetMachine",["machine_contact","machine_governance"].some(branchUnlocked));
+  visible("presetTechnology",branchUnlocked("future_technology"));
+  visible("presetCultivation",branchUnlocked("cultivation_hidden"));
+
+  const panel=document.getElementById("storyProgressPanel");
+  const goal=document.getElementById("storyProgressNext");
+  const recent=document.getElementById("storyProgressRecent");
+  const moments=Object.values(progress?.moments||{}).filter(moment=>moment&&["feature","branch"].includes(moment.kind));
+  const latest=moments.sort((a,b)=>(b.order||0)-(a.order||0))[0];
+  if(panel)panel.style.display=progress?.legacy&&!latest?"none":"";
+  if(goal){
+    goal.innerHTML=next
+      ?`<span class="storyProgressEyebrow">下一段经历</span><b>${escapeHtml(next.title)}</b><span>${escapeHtml(next.hint)}</span>`
+      :'<span class="storyProgressEyebrow">旅途仍在继续</span><b>世界会随经历慢慢展开</b><span>你已掌握旅途中的基本方法。尚未发现的路线，会在真正遇到它们时留下路标。</span>';
+  }
+  if(recent){
+    recent.style.display=latest?"":"none";
+    recent.innerHTML=latest
+      ?`<span class="storyProgressEyebrow">最近发现 · ${escapeHtml(latest.name)}</span><b>${escapeHtml(latest.title)}</b><span>${escapeHtml(latest.text)}</span>`
+      :"";
+  }
+}
+
+
 (function init(){
   categories=[...modernCategories];
   renderWheelLabels();
   metaState = loadMeta();
+  if(metaState.storyProgress?.legacy)saveMeta();
   renderMetaSummary();
   renderBranchManager();
   renderAllocation();
+  renderStoryProgress();
   const s=loadLife();
   if(s){
     state=s;
@@ -5004,6 +5614,7 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":
     const continueBtn=document.getElementById("continueLifeBtn");
     const finished=!!(state.ended||state.dead||state.lifeCompleted);
     if(continueBtn)continueBtn.textContent=finished?"查看这一世的结局":"继续人生";
+    renderStoryProgress();
     saveInfo.textContent=finished
       ?`已有存档：${s.avatar} ${s.name}，这一生已经结束。点击上方按钮即可进入完整结局，不会再卡在轮盘。`
       :`已有存档：${s.avatar} ${s.name}，${s.age} 岁，已发生 ${s.majorDone} 次重大抉择。`;

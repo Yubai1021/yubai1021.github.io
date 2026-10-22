@@ -120,7 +120,7 @@ function game(file = htmlPath) {
         timer.fn();
       }
     },
-    draw(mode) { run(mode === 'fast' ? 'fastDrawEvent()' : 'spinWheel()'); api.flush(); },
+    draw(mode) { run('resetWheelUI()'); run(mode === 'fast' ? 'fastDrawEvent()' : 'spinWheel()'); api.flush(); },
     world(settings) {
       context.worldSettings = settings;
       run('Object.assign(state,worldSettings); syncEraCategories();');
@@ -138,6 +138,12 @@ function game(file = htmlPath) {
   };
   run(`
     metaState=defaultMeta();
+    // Geometry tests exercise an existing player's tools; fresh-player locks
+    // are covered separately by story.test.cjs.
+    if(typeof normalizeStoryProgress==='function'){
+      delete metaState.storyProgress;
+      normalizeStoryProgress(metaState,true);
+    }
     state={
       name:'轮盘测试',avatar:'🧪',age:28,majorDone:0,targetMajor:99,legend:0,
       era:'modern',realmIndex:0,cultivationExp:0,worldsUnlocked:false,
@@ -256,6 +262,7 @@ test('mixed consecutive draws and all actual world category layouts stay synchro
 test('rapid repeated activation and locked stages cannot enqueue extra draws or consume probability', () => {
   const g = game();
   for (const mode of ['fastDrawEvent()', 'spinWheel()']) {
+    g.run('resetWheelUI()');
     g.seed(15);
     g.run(mode);
     const calls = g.randomCalls();
@@ -351,7 +358,22 @@ test('life settlement and reward claim remain idempotent after a draw', () => {
   assert.equal(g.errors.length, 0);
 });
 
-test('optional pre-fix comparison: identical RNG stream gives identical events, progress and saves', { skip: !baselinePath }, () => {
+function gameplaySnapshot(g){
+  const snapshot=g.snapshot();
+  const strip=value=>{
+    const copy=JSON.parse(JSON.stringify(value));
+    // v2.1.0 intentionally adds prose and unlock bookkeeping. Compare the
+    // gameplay and persisted gameplay fields independently of these additions.
+    for(const key of ['narrative','storyProgress','storyProgressSeenChoices','storyProgressVersion','yearlyLog'])delete copy[key];
+    return copy;
+  };
+  snapshot.state=strip(snapshot.state);
+  snapshot.meta=strip(snapshot.meta);
+  snapshot.storage=snapshot.storage.map(([key,value])=>[key,strip(JSON.parse(value))]);
+  return snapshot;
+}
+
+test('optional pre-fix comparison: identical RNG stream preserves events and saved gameplay state', { skip: !baselinePath }, () => {
   for (const seed of [1, 7, 42, 20261022]) {
     const fixed = game();
     const original = game(baselinePath);
@@ -367,12 +389,12 @@ test('optional pre-fix comparison: identical RNG stream gives identical events, 
         g.run(`chooseEvent(${choice})`);
         g.run('saveMeta(); saveLife();');
       }
-      assert.deepEqual(fixed.snapshot(), original.snapshot(), `seed=${seed}, mixed draw=${i}`);
+      assert.deepEqual(gameplaySnapshot(fixed), gameplaySnapshot(original), `seed=${seed}, mixed draw=${i}`);
       assert.equal(fixed.errors.length + original.errors.length, 0);
     }
     for (const g of [fixed, original]) {
       g.run("state.dead=true; state.deathAge=state.age; state.deathCause='测试结算'; finishLife(); finishLife(); claimReward(state.rewardOptions[0]);");
     }
-    assert.deepEqual(fixed.snapshot(), original.snapshot(), `seed=${seed}, ending and legacy reward`);
+    assert.deepEqual(gameplaySnapshot(fixed), gameplaySnapshot(original), `seed=${seed}, ending and legacy reward`);
   }
 });
