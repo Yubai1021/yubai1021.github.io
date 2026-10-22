@@ -59,7 +59,7 @@ function element() {
   return node;
 }
 
-function game(file = htmlPath) {
+function game(file = htmlPath, originalPool = false) {
   const { script, ids } = source(file);
   const nodes = Object.fromEntries(ids.map(id => [id, element()]));
   const storage = new Map();
@@ -99,6 +99,9 @@ function game(file = htmlPath) {
   script.runInContext(context);
   const run = expression => vm.runInContext(expression, context);
   const json = expression => JSON.parse(run(`JSON.stringify(${expression})`));
+  // The expansion deliberately changes event candidates. Compare the old
+  // catalog only when proving the unchanged probability/RNG machinery.
+  if (originalPool) run('Object.keys(eventBank).forEach(category=>eventBank[category]=eventBank[category].filter(event=>!String(event.id||" ").startsWith("rich_")));');
   const api = {
     run, json, nodes, storage, warnings, errors,
     seed(seed, values = []) { randomState = seed >>> 0; forcedRandom = [...values]; randomCalls = 0; },
@@ -364,7 +367,7 @@ function gameplaySnapshot(g){
     const copy=JSON.parse(JSON.stringify(value));
     // v2.1.0 intentionally adds prose and unlock bookkeeping. Compare the
     // gameplay and persisted gameplay fields independently of these additions.
-    for(const key of ['narrative','storyProgress','storyProgressSeenChoices','storyProgressVersion','yearlyLog'])delete copy[key];
+    for(const key of ['narrative','storyProgress','storyProgressSeenChoices','storyProgressVersion','yearlyLog','exploration','journeys'])delete copy[key];
     return copy;
   };
   snapshot.state=strip(snapshot.state);
@@ -375,8 +378,8 @@ function gameplaySnapshot(g){
 
 test('optional pre-fix comparison: identical RNG stream preserves events and saved gameplay state', { skip: !baselinePath }, () => {
   for (const seed of [1, 7, 42, 20261022]) {
-    const fixed = game();
-    const original = game(baselinePath);
+    const fixed = game(htmlPath, true);
+    const original = game(baselinePath, true);
     for (const g of [fixed, original]) g.seed(seed);
     for (let i = 0; i < 18; i++) {
       const settings = i < 6 ? { era: 'modern' } : i < 12 ? { era: 'awakening' } :

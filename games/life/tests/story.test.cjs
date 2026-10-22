@@ -101,6 +101,7 @@ function game({ start = true, storageEntries = [] } = {}) {
     choice(success = true, category = '学业') {
       context.testCategory = category;
       run(`
+        resetWheelUI();
         currentEvent=fallbackEvent(testCategory);
         currentEvent.category=testCategory;
         currentEvent.id='test_choice_'+state.history.length;

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>随机人生模拟器 · v2.1.0</title>
+<title>随机人生模拟器 · v2.2.0</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#151d36; --panel2:#1b2646; --text:#f7f8ff; --muted:#aeb7d5;
@@ -380,13 +380,27 @@ input:focus{border-color:var(--purple)}
 .yearScene p{margin:4px 0;line-height:1.95;overflow-wrap:anywhere}.sceneLabel{display:inline-block;margin-bottom:4px;font-size:9px;letter-spacing:.08em;font-weight:800;color:#8d9dbb}.yearScene.story .sceneLabel{color:#91d7c3}.yearScene.unlock .sceneLabel{color:#e9cf97}.yearScene.major .sceneLabel{color:#b9a8f9}
 .yearItem.story{border-left:2px solid rgba(66,215,170,.3);padding-left:10px}.yearStats{margin-top:10px;opacity:.72;font-size:10px}
 @media(max-width:480px){.yearItem{grid-template-columns:40px minmax(0,1fr);gap:8px}.yearText{font-size:12px}.reviewHead{align-items:flex-start}.storyProgress{padding:13px}.yearScene p{line-height:1.9}}
+.explorationHomeCard{background:linear-gradient(125deg,rgba(66,215,170,.06),rgba(139,124,255,.05));border-color:rgba(66,215,170,.2)}
+/* A rotated circular wheel still has a rectangular layout overflow box. */
+.wheelCard{overflow:hidden}
+.wheelWrap{left:50%;margin-left:-145px;margin-right:0}
+.shelfEyebrow{color:#91d7c3;font-size:10px;letter-spacing:.13em;font-weight:800;margin-bottom:8px}.shelfHomeHead,.shelfModalHead{display:flex;align-items:center;justify-content:space-between;gap:16px}.shelfHomeHead h3,.shelfModalHead h2{margin:0}.shelfHomeHead p{font-size:12px;color:#b4c4da;line-height:1.8;margin:8px 0 0}
+#lifeWishDetails{margin-top:15px;border-top:1px solid var(--line);padding-top:13px}#lifeWishDetails summary{font-size:12px;color:#e2cc95;cursor:pointer}.wishIntro{margin-top:15px;font-size:12px}.wishIntro p{color:var(--muted);line-height:1.8;font-size:11px}.wishGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.wishOption{padding:12px;text-align:left;background:#141e35;color:#d8e4f5;border:1px solid var(--line);border-radius:12px;cursor:pointer;min-width:0}.wishOption b{display:block;font-size:12px;margin-bottom:6px}.wishOption span{display:block;font-size:10px;line-height:1.8;color:#a8b7d0}.wishOption.selected{border-color:#7dd6b8;background:rgba(66,215,170,.09)}
+.playerTitle{font-size:10px;color:#e4c98c;margin-top:5px}.lifeWishStatus{padding:14px 16px;margin:14px 0;border-radius:14px;background:rgba(255,209,102,.045);border:1px solid rgba(255,209,102,.14)}.lifeWishStatus span{font-size:10px;color:#c1a970}.lifeWishStatus b{display:block;font-size:14px;color:#efe0bc;margin-top:4px}.lifeWishStatus p{font-size:11px;line-height:1.8;color:#b9c6dc;margin:5px 0 0}.lifeWishStatus strong{color:#dfcc9c;margin-left:8px}
+.journeyPanel{margin:16px 0;padding:20px;border:1px solid rgba(145,215,195,.28);border-radius:18px;background:linear-gradient(135deg,rgba(47,81,75,.32),rgba(28,38,65,.7));text-align:left}.journeyPanel h3{margin:5px 0 10px;font-size:18px;color:#d5f0e5}.journeyPanel h4{color:#d2e2f1;font-size:14px;margin:12px 0}.journeyPanel p{font-size:12px;line-height:1.95;color:#bdcfe0;overflow-wrap:anywhere}.journeyPanel button{cursor:pointer;white-space:normal}.journeyPanel button:disabled{cursor:default;opacity:.5}.journeyPanel .journeyChoice{display:block;width:100%;text-align:left;padding:13px 15px;margin-top:8px;border-radius:12px;border:1px solid rgba(145,215,195,.2);background:rgba(14,25,42,.7);color:#d4e8e2;font-size:12px;line-height:1.8}.journeyPanel .journeyChoice:hover:not(:disabled){border-color:#8bd9bd;background:rgba(66,215,170,.08)}.journeyEyebrow,.journeyMeta,.journeyProgress{font-size:10px;color:#8ed2bc;letter-spacing:.05em}.journeyStatus,.journeyWait,.journeyNote{font-size:11px!important;color:#aebed4!important}.journeyActions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.journeyActions button,.journeyAbandon{background:transparent;color:#98a9c3;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:10px}
+.explorationEnding{margin:22px 0;padding:20px;border-radius:18px;border:1px solid rgba(145,215,195,.22);background:rgba(66,215,170,.035)}.explorationEnding h3{margin:6px 0 10px;font-size:18px}.explorationEnding p{font-size:12px;line-height:1.9;color:#b5c8db}
+.journeyChoices>button{display:block;width:100%;text-align:left;padding:13px 15px;margin-top:8px;border-radius:12px;border:1px solid rgba(145,215,195,.25);background:rgba(14,25,42,.7);color:#d4e8e2;font-size:12px;line-height:1.8}.journeyChoices>button:hover{border-color:#8bd9bd;background:rgba(66,215,170,.08)}.journeyHint{font-size:11px;line-height:1.8;color:#95acc3;margin:13px 0}.journeyRecall{padding:10px 13px;background:rgba(145,215,195,.045);border-left:2px solid rgba(145,215,195,.35);border-radius:0 8px 8px 0;font-size:11px!important}.journeyRecall b{font-size:10px;color:#8ed2bc}.journeyLeave{background:transparent;border:1px solid var(--line);color:#aebed4;border-radius:8px;padding:8px 11px;font-size:10px}
+.journeyChoices>button b{display:block;font-size:12px;font-weight:700}.journeyOptionHint{display:block;font-size:10px;line-height:1.8;color:#94b4b3;margin-top:4px}
+.explorationModal{position:fixed;inset:0;background:rgba(3,7,18,.83);z-index:110;display:none;align-items:center;justify-content:center;padding:20px}.explorationModal.on{display:flex}.explorationModalCard{width:min(840px,100%);max-height:90vh;display:flex;flex-direction:column;border:1px solid #344363;border-radius:22px;background:#151e34;box-shadow:0 24px 90px #0008;overflow:hidden}.shelfModalHead{padding:22px 24px 16px}.shelfModalHead h2{font-size:23px}.shelfTabs{display:flex;gap:7px;padding:0 24px 17px;border-bottom:1px solid var(--line);flex-wrap:wrap}.shelfTabs button,.shelfFilter button,.shelfPager button{border:1px solid var(--line);background:transparent;color:#aebdd6;padding:9px 13px;border-radius:999px;font-size:12px;cursor:pointer}.shelfTabs button.active,.shelfFilter button.active{border-color:#71bca7;color:#b2f1da;background:rgba(66,215,170,.09)}.explorationContent{padding:4px 24px 24px;overflow-y:auto;min-height:180px}.shelfLead,.shelfEmpty{font-size:12px;color:#a7bad3;line-height:1.9;margin:15px 0 20px}.shelfVolume{border:1px solid rgba(156,180,213,.15);border-radius:15px;padding:17px 18px;margin:12px 0;background:rgba(24,36,60,.65);overflow-wrap:anywhere}.shelfVolume>span{font-size:10px;color:#92abbe}.shelfVolume h3{font-size:15px;line-height:1.6;margin:8px 0;color:#e0ebf7}.shelfVolume p{font-size:12px;color:#b5c7dc;line-height:1.9;margin:8px 0}.shelfVolume small{font-size:10px;color:#99a8c1;line-height:1.8}.shelfChips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.shelfChips span{font-size:9px;padding:4px 8px;border-radius:6px;background:rgba(139,124,255,.08);color:#bdb6e0}.shelfEnding{padding-top:10px;border-top:1px solid var(--line);margin-top:11px}.shelfEnding b{font-size:12px;color:#91d7c3}.shelfFilter{display:flex;flex-wrap:wrap;gap:5px}.shelfFilter button{font-size:10px;padding:6px 10px}.shelfPager{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:20px;font-size:12px}.shelfPager button:disabled{opacity:.35;cursor:default}.shelfMilestones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.shelfMilestones .shelfVolume{margin:0}.shelfVolume.earned{border-color:rgba(145,215,195,.35)}.shelfMilestones .btn{padding:9px 12px;font-size:10px}
+@media(max-width:600px){.wishGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.shelfHomeHead{align-items:flex-start}.shelfHomeHead>.btn{font-size:11px;padding:10px;flex-shrink:0}.explorationModal{padding:10px}.explorationModalCard{border-radius:17px;max-height:94vh}.shelfModalHead{padding:18px 16px 13px}.shelfTabs{padding:0 16px 13px;gap:5px}.shelfTabs button{font-size:11px;padding:8px 10px}.explorationContent{padding:3px 16px 20px}.shelfMilestones{grid-template-columns:1fr}.journeyPanel{padding:16px}.journeyPanel h3{font-size:16px}.shelfVolume{padding:14px}.gameHead .actions{flex-wrap:wrap;justify-content:flex-end}.shelfModalHead h2{font-size:20px}}
+
 </style>
 </head>
 <body>
 <div class="app">
   <div class="top">
     <div class="logo">🎡 随机人生<span>模拟器</span></div>
-    <div class="badge">v2.1.0</div>
+    <div class="badge">v2.2.0</div>
   </div>
 
   <section id="home" class="screen on">
@@ -445,6 +459,10 @@ input:focus{border-color:var(--purple)}
         </div>
       </div>
 
+      <div class="card explorationHomeCard" id="explorationHomeCard" style="display:none">
+        <div class="shelfEyebrow">每一世，都是一本新书</div><div class="shelfHomeHead"><div><h3>人生书架</h3><p id="explorationSummary"></p></div><button class="btn gray" onclick="openExploration()">翻开书架</button></div>
+        <details id="lifeWishDetails"><summary>为下一世选一个心愿</summary><div id="lifeWishSetup"></div></details>
+      </div>
       <div class="card metaCard" id="legacyHomeCard">
         <h3>轮回传承</h3>
         <div id="metaSummary" class="metaGrid"></div>
@@ -463,12 +481,12 @@ input:focus{border-color:var(--purple)}
         <div class="person">
           <div id="avatar" class="avatar">🦊</div>
           <div>
-            <div id="name" class="name"></div>
+            <div id="name" class="name"></div><div id="explorationPlayerTitle" class="playerTitle"></div>
             <div id="meta" class="meta"></div>
             <div class="save">● 自动存档已开启</div>
           </div>
         </div>
-        <div class="actions" style="margin:0"><button id="gameBranchBtn" class="btn gray" onclick="openBranchManager('preview')">支线预览</button><button class="btn gray" onclick="goHome()">返回</button></div>
+        <div class="actions" style="margin:0"><button id="explorationGameBtn" class="btn gray" style="display:none" onclick="openExploration()">人生书架</button><button id="gameBranchBtn" class="btn gray" onclick="openBranchManager('preview')">支线预览</button><button class="btn gray" onclick="goHome()">返回</button></div>
       </div>
 
       <div id="stats" class="stats"></div>
@@ -484,6 +502,8 @@ input:focus{border-color:var(--purple)}
         <div id="storyProgressRecent" class="storyProgressRecent"></div>
       </div>
       <details id="storyRecap" class="storyRecap"><summary>翻看最近的几页人生</summary><div id="storyRecapPages"></div></details>
+      <div id="lifeWishStatus" class="lifeWishStatus" style="display:none"></div>
+      <div id="journeyPanel" class="journeyPanel" style="display:none"></div>
       <div id="lifeEndActions" class="lifeEndActions">
         <h3 id="lifeEndTitle">这一生已经走到终点</h3>
         <div id="lifeEndText" class="lifeEndText">请结算完整人生，查看结局、死因、隐藏档案和传承奖励。</div>
@@ -573,6 +593,7 @@ input:focus{border-color:var(--purple)}
         </div>
       </div>
 
+      <div id="explorationEnding" class="explorationEnding" style="display:none"></div>
       <div class="card yearReview">
         <div class="reviewHead"><h3>逐年人生回顾</h3><div class="reviewFilters"><button id="reviewAllBtn" class="active" onclick="setReviewFilter('all')">完整人生</button><button id="reviewStoryBtn" onclick="setReviewFilter('stories')">故事与抉择</button></div></div>
         <p class="muted">有人在某一年与你相遇，有些选择在许多年后才得到回音。沿着这些小事，重新读一遍你的一生。</p>
@@ -619,6 +640,11 @@ input:focus{border-color:var(--purple)}
     <div class="branchModalBody"><div id="branchPresetRow" class="branchPresetRow"><button class="branchPreset" onclick="applyBranchPreset('ordinary')">普通生活</button><button id="presetGhost" class="branchPreset" onclick="applyBranchPreset('ghost')">鬼怪调查</button><button id="presetMachine" class="branchPreset" onclick="applyBranchPreset('machine')">机械文明</button><button id="presetTechnology" class="branchPreset" onclick="applyBranchPreset('technology')">科技未来</button><button id="presetCultivation" class="branchPreset" onclick="applyBranchPreset('cultivation')">修真远行</button><button class="branchPreset" onclick="applyBranchPreset('all')">全部开启</button></div><div id="branchManagerNotice" class="branchNotice"></div><div id="branchManagerGrid"></div></div>
   </div>
 </div><div id="branchUnlockToast" class="branchUnlockToast"></div>
+<div id="explorationModal" class="explorationModal" role="dialog" aria-modal="true" aria-labelledby="explorationHeading" onclick="closeExploration(event)">
+  <div class="explorationModalCard" onclick="event.stopPropagation()"><div class="shelfModalHead"><div><div class="shelfEyebrow">留下经历，继续好奇</div><h2 id="explorationHeading">人生书架</h2></div><button class="btn gray" onclick="closeExploration()">关闭</button></div>
+  <div class="shelfTabs" role="navigation" aria-label="书架分类"><button id="explorationTab_lives" onclick="selectExplorationTab('lives')">历世回顾</button><button id="explorationTab_stories" onclick="selectExplorationTab('stories')">故事结局</button><button id="explorationTab_events" onclick="selectExplorationTab('events')">见闻图鉴</button><button id="explorationTab_milestones" onclick="selectExplorationTab('milestones')">旅途纪念</button></div><div id="explorationContent" class="explorationContent"></div>
+  </div>
+</div>
 <script>
 const SAVE_KEY="random_life_legacy_save_v1";
 const META_KEY="random_life_legacy_meta_v1";
@@ -2669,6 +2695,7 @@ function branchAnnualAllowed(x){if(x?.branchKey)return branchEnabled(x.branchKey
 
 function defaultMeta(){
   return {
+    exploration:{version:1,seenEvents:[],resolvedEvents:[],storyEndings:[],fulfilledWishes:[],milestones:[],lives:[],selectedWish:null,selectedTitle:null,preferredStory:null,totalRecorded:0},
     storyProgress:defaultStoryProgress(),
     lives:0,
     bonus:{body:0,mind:0,charm:0,family:0},
@@ -2694,6 +2721,7 @@ function normalizeMeta(m){
   m.legacyLevels=m.legacyLevels||{};
   m.categoryBonus=m.categoryBonus||{};
   m.globalEventSeenCounts=m.globalEventSeenCounts||{};
+  normalizeExplorationMeta(m);
   m.globalRecentEventIds=Array.isArray(m.globalRecentEventIds)?m.globalRecentEventIds:[];
   m.recentAbilityOfferIds=Array.isArray(m.recentAbilityOfferIds)?m.recentAbilityOfferIds:[];
   m.recentDaoPathIds=Array.isArray(m.recentDaoPathIds)?m.recentDaoPathIds:[];
@@ -2942,10 +2970,15 @@ function startLife(){
   const talentNames=state.abilities.map(id=>abilityById(id)?.name).filter(Boolean).join("、");
   recordYear(18,`你正式成年，并带着三种天赋开始人生：${talentNames}。本世人生底色是“${motive?.name||"未定"}”。${motive?.opening||""}`,"start");
   state.currentDaily=`18 岁，你站在这一生的入口。本世底色：${motive?.icon||"✦"} ${motive?.name||"未定"}。第一次重大抉择还没到来。`;
+  beginExplorationLife();
+  ensureJourneyState();
+  state.journeys.preferredId=metaState.exploration.preferredStory||null;
   saveLife();
   enterGame();
 }
 function normalizeLife(){
+  ensureExplorationLife();
+  ensureJourneyState();
   if(state.storyProgressVersion!==1){
     // Persist recovered access before upgrading the life marker. Otherwise
     // reloading a life-only save could look like a new player on the next visit.
@@ -3108,6 +3141,7 @@ function chooseDaoPath(id){
   if(!path)return;
 
   enterCultivation(path);
+  updateLifeWish();
   renderAll();
   resetWheelUI();
   saveLife();
@@ -3176,6 +3210,8 @@ function renderAll(){
   renderDaoDraw();
   renderStoryProgress();
   renderStoryRecap();
+  renderJourneys();
+  renderExploration();
 }
 function getRerollLimit(){
   return 1+(metaState?.rerollBonus||0)+(state.abilities||[]).reduce((sum,id)=>sum+(abilityById(id)?.rerolls||0),0);
@@ -3243,6 +3279,7 @@ function quickRebirth(){
       return;
     }
     state.ended=true;
+    finalizeJourneys();
     finishNarrativeLife();
   }
   if(!state.lifeCounted){
@@ -3251,6 +3288,7 @@ function quickRebirth(){
     saveMeta();
   }
   evaluateStoryProgress("ending");
+  settleExplorationLife();
   localStorage.removeItem(SAVE_KEY);
   location.reload();
 }
@@ -3288,6 +3326,12 @@ function resetWheelUI(){
   spinCurrent.textContent="等待转动";
   spinTrail.innerHTML="";
   refreshWheelAvailability();
+  updateJourneyOffer();
+  renderJourneys();
+  updateLifeWish();
+  renderExploration();
+  saveLife();
+  saveMeta();
 }
 function appendTrail(category){
   const chip=document.createElement("span");
@@ -3311,6 +3355,8 @@ function meetsTrackRequirement(requirement){
 }
 function eventAvailable(event,category=""){
   if(!event)return false;
+  if(Array.isArray(event.eras)&&!event.eras.includes(state.era))return false;
+  if(event.requiresWorld&&!state.worldsUnlocked)return false;
   const bk=eventBranchKey(event,category);
   if(event.branchDiscovery){if(branchUnlocked(event.branchDiscovery)&&!branchEnabled(event.branchDiscovery))return false}else if(bk&&!branchEnabled(bk))return false;
 
@@ -3428,6 +3474,7 @@ function pickEvent(category){
   state.recentEventIds=[...(state.recentEventIds||[]),id].slice(-14);
   metaState.globalEventSeenCounts[id]=(metaState.globalEventSeenCounts[id]||0)+1;
   metaState.globalRecentEventIds=[...(metaState.globalRecentEventIds||[]),id].slice(-40);
+  recordExplorationDraw(picked);
   saveMeta();
   return picked;
 }
@@ -3460,6 +3507,7 @@ function fastDrawEvent(){
     return;
   }
   spinning=true;
+  renderJourneys();
   spinBtn.disabled=true;
   const fast=document.getElementById("fastSpinBtn");
   if(fast)fast.disabled=true;
@@ -3491,6 +3539,7 @@ function spinWheel(isReroll=false){
   if(isReroll&&!featureUnlocked("reroll"))return;
   if(!canStartWheelDraw(isReroll))return;
   spinning=true;
+  renderJourneys();
   spinBtn.disabled=true;
   const fast=document.getElementById("fastSpinBtn");
   if(fast)fast.disabled=true;
@@ -3578,6 +3627,7 @@ function showEvent(){
   });
   updateRerollButton();
   eventPanel.classList.add("on");
+  renderJourneys();
   eventPanel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
@@ -3659,10 +3709,11 @@ function applyBranchConsequences(choice,success,age){
 }
 
 function chooseEvent(i){
-  rerollBtn.style.display="none";
-  document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
+  if(!state||state.dead||state.ended||spinning||!currentEvent||!eventPanel.classList.contains("on")||result.classList.contains("on")||!Number.isInteger(i)||i<0||i>=currentEvent.choices.length)return;
   const c=currentEvent.choices[i];
   if(choiceLockReason(c))return;
+  rerollBtn.style.display="none";
+  document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
 
   const changes=[];
   const chance=calculateChance(c);
@@ -3752,6 +3803,7 @@ function chooseEvent(i){
   }
 
   recordNarrativeChoice(currentEvent,c,success,ageAtEvent);
+  recordExplorationChoice(currentEvent,c,success);
   evaluateStoryProgress("choice",{event:currentEvent,choice:c,success,age:ageAtEvent});
   const eraAwakened=!state.dead && maybeUnlockCultivation();
   if(state.era==="cultivation"){
@@ -4618,6 +4670,7 @@ function finishLife(){
     return;
   }
   state.ended=true;
+  finalizeJourneys();
   finishNarrativeLife();
   if(!state.lifeCounted){
     metaState.lives += 1;
@@ -4636,6 +4689,7 @@ function finishLife(){
     saveMeta();
   }
   evaluateStoryProgress("ending");
+  settleExplorationLife();
   saveLife();
   showEnding();
 }
@@ -5015,6 +5069,7 @@ function claimReward(id){
   renderRewards();
 }
 function showEnding(){
+  settleExplorationLife();
   go("ending");
   const d=endingData();
   endIcon.textContent=d[1];
@@ -5038,6 +5093,7 @@ function showEnding(){
   renderYearReview();
   renderRewards();
   renderStoryProgress();
+  renderExploration();
   saveMeta();
   saveLife();
 }
@@ -5414,7 +5470,7 @@ function advanceNarrativeYear(age){
   const groups=new Set([narrativeSceneGroup(age)]);
   if(state.era==="cultivation"&&state.worldsUnlocked)groups.add("otherworld");
   if(["deusSignal","machineContact","machineTreaty","machineRebellion","machineArchive"].some(key=>state.lifeFlags?.[key]))groups.add("machine");
-  const available=narrativeScenes.filter(scene=>groups.has(scene.group)&&!n.seen[`scene:${scene.id}`]);
+  const available=[...narrativeScenes.filter(scene=>groups.has(scene.group)&&!n.seen[`scene:${scene.id}`]),...expansionAnnualScenes.filter(scene=>expansionAnnualEligible(scene,age)&&!n.seen[`scene:${scene.id}`])];
   if(available.length){
     const scene=narrativeSelect(available,`scene:${age}`,n.seed);
     narrativeWrite(n,age,`scene:${scene.id}`,narrativeText(scene.text,n));
@@ -5593,6 +5649,1279 @@ function renderStoryProgress(){
 }
 
 
+// v2.2 authored event library. Data registration is idempotent and uses no RNG.
+// Helpers only expand compact authoring tuples into the existing event schema.
+function richChoice(text,need,fx,success,fail,extra={}){
+  const effects={};
+  fx.split(';').filter(Boolean).forEach(pair=>{const [key,value]=pair.split(':');effects[key]=value.split(',').map(Number);});
+  return {text,need,fx:effects,hint:'依赖'+({body:'体质',mind:'智力',charm:'魅力',family:'家境'}[need]||'判断'),success,fail,...extra};
+}
+function richEvent(category,id,title,desc,choices,extra={}){
+  return {category,id:'rich_'+id,title,desc,choices,...extra};
+}
+const expansionEvents=[
+  richEvent('学业','night_class','夜校只剩最后一个名额','白天的工作已经排满，夜校却开出你一直想学的课程。报名表要求写下未来一年的出勤承诺。',[
+    richChoice('调整工时，坚持上完','body','mind:1,3;body:-2,-1','你把散碎时间拼成了完整的学期。','缺课拖慢进度，你开始补上基础。'),
+    richChoice('和同事组成自学小组','charm','mind:1,2;charm:0,1','轮流讲题让几个人都坚持下来。','作息难以统一，小组最终只剩两人。'),
+    richChoice('先试听，再决定投入','mind','mind:0,2;family:-1,0','试听帮你找到了适合自己的方向。','真正想学的内容在下一期才开。')
+  ],{branchKey:'ordinary_career',minAge:22,maxAge:55}),
+  richEvent('学业','oral_history','老师希望你记录一段正在消失的方言','一位退休老师带来旧录音机。会说那种方言的老人越来越少，但他们并不愿意被当作研究标本。',[
+    richChoice('先长期陪伴，再征求录音许可','charm','charm:1,2;family:-1,0','闲谈逐渐成为可以公开的口述史。','信任建立得很慢，只留下少量材料。'),
+    richChoice('学习音标，整理现有录音','mind','mind:1,3;body:-1,0','你做出一份可供后来人使用的索引。','不少词义已无法查证，空白被如实保留。'),
+    richChoice('让当地孩子参与采访','charm','charm:1,3;mind:0,1','孩子们开始听懂祖辈的笑话。','代际误解让采访一度变得尴尬。')
+  ],{branchKey:'ordinary_society',minAge:18}),
+  richEvent('学业','failed_paper','最用心的论文被退回','审稿意见并非全无道理，但其中一句刻薄的话让你几天不愿打开文档。导师问你还想不想继续。',[
+    richChoice('逐条复核数据并重写','mind','mind:1,3;body:-1,0','重写后的论证比最初更扎实。','核心假设站不住脚，你坦承了负结果。'),
+    richChoice('请同行做一次公开讨论','charm','charm:0,2;mind:1,2','不同意见指出了被忽略的变量。','讨论过于分散，你需要重新收拢问题。'),
+    richChoice('缩小题目，先完成可靠的一部分','mind','mind:1,2;family:-1,0','一个小问题终于得到清楚回答。','范围虽然缩小，工作仍比预计复杂。')
+  ],{branchKey:'ordinary_career',minAge:20,maxAge:65}),
+  richEvent('学业','elder_student','你成了班里年纪最大的学生','新同学在群里交流作业，你却还在熟悉登录方式。第一堂课，老师邀请每个人介绍为什么回来读书。',[
+    richChoice('坦然介绍自己的经历','charm','charm:1,2;mind:0,1','同学开始用你的经历理解书里的概念。','热情没有立刻消除隔阂，你仍按时到课。'),
+    richChoice('请年轻同学教你工具','mind','mind:1,2;charm:0,1','互相请教使年龄差变得不再重要。','操作仍不熟练，但你学会了保存草稿。'),
+    richChoice('建立自己的纸质学习系统','mind','mind:1,3;family:-1,0','笔记与线上材料逐渐接上了轨道。','纸笔方法在协作作业中显得笨重。')
+  ],{minAge:55,branchKey:'ordinary_society'}),
+  richEvent('学业','open_workshop','废弃教室要变成社区工坊','有人捐工具，有人提供书，最缺的是愿意制定借用规则并教第一堂课的人。',[
+    richChoice('负责入门课和安全规范','mind','mind:1,2;charm:0,1','课程让初学者敢于动手，也懂得停手。','第一次课程太满，你删去了花哨的内容。'),
+    richChoice('出资添置共用工具','family','family:-2,-1;charm:1,2','工具被妥善登记，工坊慢慢开了起来。','维护费用超出预算，开放时间缩短。'),
+    richChoice('召集不同专长的志愿者','charm','charm:1,3;body:-1,0','轮值表让工坊不再依靠一个人。','志愿者流动很快，你重新安排班次。')
+  ],{branchKey:'ordinary_society',minAge:23}),
+
+  richEvent('事业','repair_apprentice','老维修师傅愿意教你最后一门手艺','店面租约快到期，师傅仍在修一台早已停产的收音机。他说，图纸可以留下，手感却需要有人慢慢学。',[
+    richChoice('每周下班后来学','body','mind:1,2;body:-1,0','你终于听懂师傅说的那一点杂音。','疲惫让练习断续，师傅让你从头再来。',{setLifeFlagsSuccess:{rich_repair_learned:true}}),
+    richChoice('把维修过程拍成教程','mind','mind:1,2;charm:0,1','镜头保存了最容易被省略的细节。','看似简单的动作，在视频里仍讲不明白。'),
+    richChoice('帮他找到合租的新店面','charm','charm:1,2;family:-1,0','几个小店主分摊租金，手艺留在了街上。','合租谈判失败，你留下了备选地址。')
+  ],{branchKey:'ordinary_career',minAge:20,maxAge:55}),
+  richEvent('事业','repair_inheritance','旧店的钥匙被交到你手上','师傅决定退休。柜台里有多年的修理记录，还有一张欠款单；接下店铺，意味着接下这些未完成的工作。',[
+    richChoice('先完成旧订单，再决定去留','body','body:-1,0;family:1,3','老顾客重新找到了可以托付的人。','有些零件再也买不到，你逐一解释并退款。',{lifeTrack:{career:1,stability:1}}),
+    richChoice('把店改成预约制维修室','mind','mind:1,2;family:-2,1','有限的营业时间反而让经营稳定下来。','预约量不足，你保留了另一份工作。'),
+    richChoice('将工具和记录交给共同工坊','charm','charm:1,3;family:-1,0','更多人学会使用这些被留下的工具。','交接费了许多周折，但工具没有散失。')
+  ],{branchKey:'ordinary_career',minAge:30,requiresLife:{rich_repair_learned:true}}),
+  richEvent('事业','quiet_promotion','升职机会要求你离开一线','新职位收入更高，却意味着你最擅长的具体工作要交给别人。团队里有人期待你留下。',[
+    richChoice('接受职位，培养接班人','mind','family:1,3;body:-1,0','你逐渐学会通过别人完成事情。','管理消耗了大部分精力，交接并不顺利。'),
+    richChoice('谈一个保留专业工作的岗位','charm','family:0,2;mind:1,2','双方接受了清楚的职责边界。','公司没有这样的安排，你仍留在原岗。'),
+    richChoice('放弃晋升，专注手中的项目','mind','mind:1,3;family:-1,0','专业成果带来另一条发展道路。','项目没有得到足够资源，你开始寻找外部合作。')
+  ],{branchKey:'ordinary_career',minAge:28,maxAge:58}),
+  richEvent('事业','second_trade','原来的职业不再适合你的身体','工作没有突然消失，但每次恢复都比过去慢。熟人介绍了一份收入较少、作息更稳定的新工种。',[
+    richChoice('接受收入下降，逐步转行','mind','body:1,2;family:-2,-1','新的节奏让身体和生活重新有了余地。','学习期比预计长，积蓄承受了压力。'),
+    richChoice('争取改成培训与指导岗位','charm','family:0,2;body:0,1','过去积累的经验终于能换一种方式使用。','岗位有限，你只获得少量兼职课时。'),
+    richChoice('与同行共同承接较轻的工作','charm','charm:1,2;family:-1,1','分工降低了负担，合作逐渐稳定。','接单忽多忽少，你重新商定了底线。')
+  ],{branchKey:'ordinary_career',minAge:42}),
+  richEvent('事业','credit_meeting','成果汇报里没有你的名字','你完成了最难的那段工作，汇报材料却只列出负责人。对方说这是惯例，劝你别影响团队气氛。',[
+    richChoice('保存记录，正式申请更正','mind','mind:1,2;charm:-1,1','清楚的证据让署名得到修正。','更正迟迟未落实，但你的贡献留下了记录。'),
+    richChoice('私下谈判下一阶段的职责','charm','family:0,2;charm:0,1','你争取到了明确写入合同的权责。','口头承诺很快含糊起来，你拒绝继续加码。'),
+    richChoice('完成交接，寻找新的合作','body','family:-1,1;body:-1,1','新团队更愿意讨论具体贡献。','换环境有成本，你暂时减少了额外投入。')
+  ],{branchKey:'ordinary_career',minAge:23}),
+
+  richEvent('财富','shared_toolbox','邻居提议合买昂贵的工具','每个人一年只用几次，单独购买很浪费。可是谁保管、损坏由谁承担，还没有人愿意先谈。',[
+    richChoice('先写清借用和维修规则','mind','mind:1,2;family:0,2','规则让共享真的省下了开销。','有人觉得麻烦退出，规模缩小了一半。'),
+    richChoice('从一件低价工具试起','family','family:-1,1;charm:0,1','一次小尝试验证了彼此的可靠。','工具损坏后，你及时停止继续购买。'),
+    richChoice('改成按次租用现成服务','mind','family:-1,1;body:0,1','稍高的费用换来了清楚的责任。','服务距离较远，并没有节省多少时间。')
+  ],{branchKey:'ordinary_society',minAge:22}),
+  richEvent('财富','small_lease','小店房东提出长期租约','锁定租金能减少不确定性，但押金会占去大半现金。街道另一端已有几家店正在转让。',[
+    richChoice('核算淡季收入，再谈租期','mind','mind:1,2;family:0,2','你找到一个现金能够承受的期限。','账目显示风险过高，你暂停扩张。'),
+    richChoice('和相邻店铺联合议价','charm','charm:1,2;family:-1,1','共同需求让房东愿意调整条款。','各家的计划不同，联合没有维持太久。'),
+    richChoice('保留流动资金，接受短租','family','family:-1,1;body:0,1','保留的余地帮你渡过生意清淡的月份。','续租时租金上涨，你开始物色别处。')
+  ],{branchKey:'ordinary_career',minAge:26,maxAge:65}),
+  richEvent('财富','family_ledger','一笔长期被忽略的小额支出','你整理账单时发现，几个自动续费已持续多年。有的早已不用，有的却连接着家人的生活习惯。',[
+    richChoice('逐项询问，再取消不用的服务','charm','family:1,2;charm:0,1','节省开销没有打乱家人的安排。','遗漏的一项服务需要重新订购。'),
+    richChoice('建立公开的家庭预算表','mind','mind:1,2;family:0,2','讨论数字比互相猜测轻松了许多。','预算过细让人疲惫，你改成几项大类。'),
+    richChoice('为个人支出保留不解释的额度','charm','charm:1,2;family:-1,1','清楚的边界减少了日常争执。','收入变化迫使大家再次讨论额度。')
+  ],{branchKey:'ordinary_family',minAge:25}),
+  richEvent('财富','retirement_buffer','退休前的一次预算演练','你试着用预期退休收入生活三个月，发现少了通勤费用，也多了原先没注意的照护和维修开销。',[
+    richChoice('先补齐应急储备','mind','family:0,2;mind:1,2','预留的资金让计划变得踏实。','突发开销提前用掉了部分储备。'),
+    richChoice('尝试少量弹性工作','body','family:1,2;body:-1,0','稳定的小收入保留了生活余地。','工作强度超出承诺，你及时减少工时。'),
+    richChoice('和家人商量共享部分资源','charm','charm:1,2;family:0,1','大家找到了互不牺牲隐私的办法。','住处与时间安排暂时无法协调。')
+  ],{branchKey:'ordinary_family',minAge:55}),
+  richEvent('财富','craft_preorders','作品第一次收到大批预订','你做的小物件被转发出去，订单一下超过平时数倍。付款提醒不断弹出，材料和时间却没有随之增加。',[
+    richChoice('限量接单，公布真实交期','mind','family:1,3;mind:0,1','愿意等待的客人支持了稳定生产。','部分订单取消，收入低于最初预期。'),
+    richChoice('邀请熟悉的同行分工','charm','family:0,2;charm:1,2','合作保住了品质，也分摊了压力。','标准难以统一，你承担了返工费用。'),
+    richChoice('退回超量订单，保留创作节奏','body','body:1,2;family:-1,0','你仍然喜欢每天坐在工作台前。','热度很快过去，但手艺还在慢慢进步。')
+  ],{branchKey:'ordinary_career',minAge:20}),
+
+  richEvent('爱情','two_timetables','你们的作息终于完全错开','一个人回家时，另一个人刚要出门。冰箱上的便签越来越多，真正坐下来聊天的时间越来越少。',[
+    richChoice('固定一段谁都不加班的时间','charm','charm:1,2;family:-1,0','短而稳定的相处重新接住了日常。','临时任务打乱约定，你们重谈了可行范围。'),
+    richChoice('讨论一人调整工作安排','mind','body:0,2;family:-2,0','双方算清代价后作出了共同决定。','眼下收入不能减少，只能先改善交接。'),
+    richChoice('记录这一周各自最重要的小事','charm','charm:1,2;mind:0,1','你们终于知道对方最近在为什么烦恼。','文字没能解决疲惫，但提醒你们别猜测。')
+  ],{branchKey:'ordinary_relationship',minAge:24,maxAge:65}),
+  richEvent('爱情','separate_rooms','共同生活需要更多独处','你喜欢安静，对方习惯热闹。争执总围绕一扇门、一次来访和“是不是不愿意陪我”。',[
+    richChoice('把独处时间写进共同约定','charm','charm:1,3;body:0,1','边界清楚后，相处反而更加轻松。','第一次约定仍太模糊，你们补上了例子。'),
+    richChoice('重新安排房间和活动区域','family','family:-2,-1;body:1,2','空间终于容得下两种生活节奏。','房间太小，改善只能先从耳机和灯光开始。'),
+    richChoice('邀请对方体验自己的爱好','charm','charm:0,2;mind:0,1','理解并不需要变得相同。','爱好无法共享，你们学会了礼貌退出。')
+  ],{branchKey:'ordinary_relationship',minAge:25}),
+  richEvent('爱情','past_letter','旧情书在搬家时被找到','纸已经发黄，那些郑重的承诺有些实现，有些被生活改了方向。你们坐在没有拆封的箱子旁，忽然有点沉默。',[
+    richChoice('坦诚谈谈这些年的变化','charm','charm:1,3;mind:0,1','旧承诺变成了新的共同打算。','谈话触及遗憾，需要更多次慢慢说完。'),
+    richChoice('一起重走当年的一段路','body','body:0,1;family:-1,0','熟悉的街道容纳了现在的你们。','旧店已经关门，你们仍找到一家新的小馆。'),
+    richChoice('把今天写成另一封信','mind','mind:1,2;charm:0,1','信里没有宏大的保证，却有具体的关心。','措辞有些生硬，但你没有把信重新藏起来。')
+  ],{branchKey:'ordinary_relationship',minAge:38}),
+  richEvent('爱情','late_companion','晚年的相伴遇到家人顾虑','你与一位相处舒服的人开始认真来往。家人关心财产，也担心你再次失望；你的生活却不只有这些风险。',[
+    richChoice('公开讨论边界与安排','charm','charm:1,2;mind:0,1','坦诚让祝福与担忧都找到了位置。','意见仍不一致，但决定权逐渐被尊重。'),
+    richChoice('先保持各自住处慢慢相处','mind','body:0,1;charm:1,2','合适的距离保住了彼此的生活。','距离也带来不便，你们需要更多协调。'),
+    richChoice('邀请家人一起吃顿普通晚饭','charm','charm:1,3;family:-1,0','具体的人替代了想象中的危险。','席间有些拘谨，关系并未一顿饭就变好。')
+  ],{branchKey:'ordinary_relationship',minAge:60}),
+  richEvent('爱情','shared_dream_cost','两个人的梦想需要同一笔积蓄','一个想重新读书，一个想开小店。谁先开始不只是时间问题，也关乎谁会成为另一个人的后勤。',[
+    richChoice('约定轮流投入并定期复盘','mind','mind:1,2;charm:1,2','明确的时间表减少了隐形牺牲。','收入变化打乱计划，你们重新核算。'),
+    richChoice('各自缩小规模同时试做','family','family:-2,0;mind:1,2','小试验让两个梦想都接触到了现实。','精力被分散，双方都感到了吃力。'),
+    richChoice('暂缓投入，先建立共同底线','charm','charm:0,2;family:0,1','耐心保存了选择的余地。','等待带来焦虑，你们约好下一次讨论日期。')
+  ],{branchKey:'ordinary_relationship',minAge:25,maxAge:60}),
+
+  richEvent('健康','walking_circle','河边的散步队邀请你加入','队里有人走得快，有人需要常常停下。组织者说，重要的是下一周还能在桥头见面。',[
+    richChoice('按自己的节奏定期参加','body','body:1,2;charm:0,1','可持续的运动成了生活的一部分。','天气和工作打断了几次，你从短距离重新开始。'),
+    richChoice('负责陪伴走得慢的人','charm','charm:1,2;body:0,1','你认识了许多平时不会遇到的邻居。','照顾别人时忽略了自己，你调整了轮值。'),
+    richChoice('帮助寻找更安全的路线','mind','mind:1,2;body:0,1','新路线减少了台阶和拥挤路口。','施工封住一段路，你保留了备用方案。')
+  ],{minAge:30}),
+  richEvent('健康','sleep_boundary','你开始认真处理长期疲惫','不是一场惊天动地的大病，而是醒来后仍然很累。你发现工作消息、担忧和熬夜娱乐占据了同一段夜晚。',[
+    richChoice('记录作息并预约专业咨询','mind','body:1,2;family:-1,0','你找到了可以逐步调整的具体原因。','改善比想象慢，你没有把一次反复当作失败。'),
+    richChoice('和团队协商下班后的联系边界','charm','body:0,2;charm:-1,1','不紧急的消息终于能留到白天处理。','有些任务仍会打断休息，你保留了补休记录。'),
+    richChoice('从固定起床和减少一项夜间安排开始','body','body:1,2;mind:0,1','小调整逐渐积累成稳定节奏。','最初几周不太适应，你减小了改变幅度。')
+  ],{minAge:24}),
+  richEvent('健康','rehab_patience','恢复训练比出院更漫长','医生给出的计划很朴素，重复的练习却考验耐心。家人希望你尽快恢复，你也想证明自己已经没事。',[
+    richChoice('按评估后的计划循序练习','body','body:1,3;family:-1,0','细小的进步终于变得看得见。','恢复出现停滞，你重新寻求了专业评估。'),
+    richChoice('请家人帮助记录进度','charm','body:0,2;charm:1,2','陪伴从催促变成了具体支持。','记录引来比较，你们约定只看自己的变化。'),
+    richChoice('先调整工作与家务负担','mind','body:1,2;family:-2,0','留出的恢复时间比逞强更有帮助。','交接不太顺利，你仍减少了最吃力的部分。')
+  ],{minAge:28}),
+  richEvent('健康','hearing_table','饭桌上的话越来越难听清','你常用笑来掩饰没听见，也开始躲开热闹聚会。一个朋友留意到这点，问你愿不愿意一起去做检查。',[
+    richChoice('接受检查并尝试适合的辅助方式','mind','body:0,2;family:-2,-1','适合的帮助让谈话重新变得轻松。','初次适应并不舒服，你预约了后续调整。'),
+    richChoice('先向亲友说明自己的困难','charm','charm:1,3;body:0,1','放慢语速与面对面说话带来了改变。','有人仍会忘记，你耐心提醒具体需要。'),
+    richChoice('把大聚会改成小范围相见','charm','charm:1,2;family:-1,0','安静的场合保住了重要的联系。','少了热闹也有遗憾，你寻找合适的折中。')
+  ],{minAge:58}),
+  richEvent('健康','care_for_caregiver','照顾别人时你忘了休息','陪诊、买菜、处理手续连成一串，没人故意把责任全交给你，但大家都习惯了你会出现。',[
+    richChoice('列出任务，请其他人轮班','charm','body:1,2;charm:0,1','任务终于从一个人的肩上分开。','轮班有缺口，你明确了自己能承担的部分。'),
+    richChoice('寻找可靠的社区支持','mind','body:0,2;family:-1,0','几个小时的喘息让生活重新可持续。','服务资源紧张，你留下了候补申请。'),
+    richChoice('坦诚说明自己也需要帮助','charm','charm:1,2;body:0,1','一句坦白打破了大家的想当然。','理解来得迟，但你不再把疲惫藏起来。')
+  ],{branchKey:'ordinary_family',minAge:35}),
+
+  richEvent('家庭','recipe_book','家里的拿手菜没有人会做了','长辈说做法全凭感觉，你们却总在忙碌中错过那句“下次教你”。这次灶台终于空出一个下午。',[
+    richChoice('边做边记录火候和分量','mind','mind:1,2;charm:0,1','模糊的感觉被整理成可以复现的步骤。','第一锅味道不同，你记下原因继续尝试。'),
+    richChoice('邀请家人一起学一道菜','charm','charm:1,3;family:-1,0','厨房留下了不只是食谱的记忆。','大家手忙脚乱，最后靠外卖补足了晚饭。'),
+    richChoice('录下做菜时讲起的旧故事','charm','charm:1,2;mind:0,1','一道菜连起了几代人的迁徙。','长辈不愿公开某段往事，你尊重地停下录音。')
+  ],{branchKey:'ordinary_family',minAge:20}),
+  richEvent('家庭','empty_room','家里第一次空出一间房','离家的人带走了行李，留下奖状、旧衣服和一把不配套的椅子。你不知道这间房应该等待，还是开始新的用途。',[
+    richChoice('和离家的人一起决定','charm','charm:1,2;mind:0,1','房间保留了一部分记忆，也有了新的生活。','对方暂时无法决定，你先整理了公共部分。'),
+    richChoice('改成自己的学习与兴趣角','mind','mind:1,2;family:-1,0','久违的个人空间带来新的日常。','改动触发了误会，你解释了自己的需要。'),
+    richChoice('先留一箱重要物品，其余慢慢归置','body','body:0,1;charm:0,2','整理让你分清了物品与牵挂。','某件旧物让你停了很久，进度并不重要。')
+  ],{branchKey:'ordinary_family',minAge:45}),
+  richEvent('家庭','sibling_calendar','兄弟姐妹需要重新分担照护','每个人都说忙，也都说自己已经做了不少。群聊不断增加，却没有人清楚下周究竟由谁陪诊。',[
+    richChoice('把任务与可用时间列成日历','mind','mind:1,2;charm:0,1','具体安排让争论减少了许多。','有人临时失约，你补上了替班办法。'),
+    richChoice('承认投入不同，协商补偿方式','charm','charm:1,3;family:-1,0','时间与金钱终于可以放在同一张桌上谈。','旧怨被翻起，你们需要分几次谈清。'),
+    richChoice('请中立亲友帮助主持讨论','charm','charm:1,2;body:0,1','外人的提问打破了反复争执。','并非人人愿意接受协调，先形成了部分共识。')
+  ],{branchKey:'ordinary_family',minAge:38}),
+  richEvent('家庭','child_path','晚辈选择了一条你不熟悉的路','那份职业说明看起来很新，收入也不稳定。你想保护对方，却不愿成为他们以后不再倾诉的原因。',[
+    richChoice('请对方讲清计划与退路','mind','mind:1,2;charm:0,2','认真提问比简单赞成更有帮助。','计划仍很粗糙，你们约定先做小试验。'),
+    richChoice('陪同拜访真正做这行的人','body','body:0,1;charm:1,2','真实的工作日常修正了双方的想象。','受访者看法不同，答案没有立刻出现。'),
+    richChoice('提供有期限的支持并尊重决定','family','family:-2,-1;charm:1,3','清楚的支持让试错有了边界。','期限结束时仍未稳定，你们重新讨论安排。')
+  ],{branchKey:'ordinary_family',minAge:40}),
+  richEvent('家庭','family_archive','旧相册里有一个从未提起的人','照片背后只写了一个名字。几位亲人的说法彼此矛盾，有人希望把相册重新放回柜顶。',[
+    richChoice('分别倾听，不急着确定唯一版本','charm','charm:1,2;mind:1,2','不同记忆拼出了比传闻复杂的人生。','关键一页仍是空白，你标注了不确定。'),
+    richChoice('查阅公开记录并保护隐私','mind','mind:1,3;family:-1,0','几份旧档案澄清了长久的误解。','记录不完整，你没有把猜想写成事实。'),
+    richChoice('尊重沉默，只保存现有材料','charm','charm:0,2;body:0,1','有人在后来主动告诉了你更多。','这段往事暂时没有答案，但照片被妥善保存。')
+  ],{branchKey:'ordinary_family',minAge:22}),
+
+  richEvent('迁徙','last_bus','新住处的末班车比你下班早','房租便宜了一截，回家的时间却成了每天的难题。地图上的距离，终于变成了脚下的距离。',[
+    richChoice('协商错峰上下班','charm','body:1,2;family:0,1','新作息让通勤回到了可承受范围。','岗位不允许调整，你拿到了更明确的排班。'),
+    richChoice('寻找可靠的固定拼车伙伴','charm','charm:1,2;family:-1,1','熟悉的人与路线减少了每日焦虑。','伙伴临时换岗，你保留了备用交通方案。'),
+    richChoice('重新核算搬近工作地的成本','mind','mind:1,2;family:-2,0','较高房租换回的休息比想象重要。','合适房源很少，你延后了搬家决定。')
+  ],{branchKey:'ordinary_society',minAge:20,maxAge:60}),
+  richEvent('迁徙','returning_market','故乡的菜市场已经搬走','你带着回乡生活的打算走过旧街，发现熟悉的地方换了位置，熟悉的人也有了新的生活。',[
+    richChoice('从认识现在的邻居开始','charm','charm:1,2;body:0,1','故乡逐渐从回忆变成了日常。','几次寒暄没有下文，你仍保持了耐心。'),
+    richChoice('先短住一个季节再决定','mind','mind:1,2;family:-1,0','现实的体验帮你修正了计划。','季节差异很大，你发现还需更多准备。'),
+    richChoice('寻找能带回当地的工作','mind','family:0,2;body:-1,0','经验与当地需要找到了连接。','熟人并不等于客户，你重新了解需求。')
+  ],{branchKey:'ordinary_society',minAge:35}),
+  richEvent('迁徙','language_counter','你第一次独自办理异地手续','窗口的术语陌生，排队的人很着急。表格上有一项不清楚的确认，工作人员示意你先签字。',[
+    richChoice('请对方逐项解释再签','mind','mind:1,2;body:-1,0','弄清细节避免了一次不必要的返工。','沟通花了更多时间，你预约了补办。'),
+    richChoice('联系可靠的翻译或协助服务','family','family:-1,0;charm:0,1','专业协助让流程清楚下来。','服务名额有限，你先整理了全部材料。'),
+    richChoice('带走表格，查清后再来','mind','mind:1,3;family:-1,0','第二次到窗口时你已准备充分。','一项规则近期变化，你及时修正了理解。')
+  ],{branchKey:'ordinary_society',minAge:18}),
+  richEvent('迁徙','mobile_library','乡间流动书车缺一名同行者','司机熟悉每一条岔路，却需要有人整理借阅记录、给孩子讲故事。路线会经过你从未住过的村庄。',[
+    richChoice('加入固定线路','body','body:-1,1;charm:1,2','重复的到访建立了真实的信任。','路途比想象辛苦，你调整了参与频率。'),
+    richChoice('负责书目与借阅系统','mind','mind:1,2;family:-1,0','更清楚的记录让书找到了需要的人。','网络时断时续，你补上了纸质备份。'),
+    richChoice('组织当地居民共同选书','charm','charm:1,3;mind:0,1','车上终于有了不只为孩子准备的书。','不同需要难以兼顾，你们开始轮换主题。')
+  ],{branchKey:'ordinary_society',minAge:24}),
+  richEvent('迁徙','accessible_home','你考虑换一处更方便的住处','老房子承载了几十年生活，但楼梯、医院距离和冬天的取暖都越来越费力。搬家意味着重新认识一切。',[
+    richChoice('先试住，再决定是否搬迁','mind','mind:1,2;family:-1,0','亲身体验帮你选中了更适合的地方。','方便之外也有孤独，你暂时保留原住处。'),
+    richChoice('改造当前住处并建立互助联系','family','family:-2,-1;body:1,2','有限的改造明显减轻了日常负担。','楼栋条件限制了方案，你优先处理最急的部分。'),
+    richChoice('与朋友一起寻找相邻住所','charm','charm:1,2;family:-1,1','熟悉的人让新环境有了支点。','彼此预算不同，计划需要更长时间。')
+  ],{branchKey:'ordinary_society',minAge:60}),
+
+  richEvent('友情','borrowed_silence','很久没联系的朋友发来一句求助','消息只说“最近有点难”。你想马上追问，又担心把自己的猜测当成对方真正需要的帮助。',[
+    richChoice('问清对方希望你怎样陪伴','charm','charm:1,3;body:0,1','具体的支持让沉默不再那么沉重。','对方还说不清，你留下了可联系的时间。'),
+    richChoice('约一次不必解释太多的见面','body','body:0,1;family:-1,0','一顿普通饭让话慢慢说了出来。','朋友临时取消，你没有把取消当作拒绝。'),
+    richChoice('提供信息，但不替对方决定','mind','mind:1,2;charm:0,1','整理后的选择让朋友重新有了方向。','信息暂时用不上，你停下了继续催促。')
+  ],{branchKey:'ordinary_relationship',minAge:23}),
+  richEvent('友情','old_argument','当年的争执有了新的说法','多年后，你得知那次误会里还有一封没送到的信。对方也许早已忘记，也许仍然记得你离开时的表情。',[
+    richChoice('承认自己当时做错的部分','charm','charm:1,3;mind:0,1','对话没有抹去往事，却打开了新的关系。','对方还不能原谅，你尊重了这份距离。'),
+    richChoice('写信解释，不要求立刻回应','mind','mind:1,2;charm:0,1','一封迟到的回信让结终于松开。','没有收到回信，你仍完成了该说的话。'),
+    richChoice('请共同朋友先转达问候','charm','charm:0,2;body:0,1','谨慎的问候给彼此留下了选择空间。','转达再次走样，你决定以后亲自表达。')
+  ],{branchKey:'ordinary_relationship',minAge:30}),
+  richEvent('友情','friend_success','朋友成功后，你们的话题变了','你替对方高兴，却发现聚会地点越来越贵，玩笑也开始围绕你不熟悉的生活。嫉妒与疏远混在了一起。',[
+    richChoice('坦白说出自己的预算与感受','charm','charm:1,3;family:0,1','朋友意识到改变，聚会回到双方都舒服的方式。','谈话有点难堪，但你不再勉强自己。'),
+    richChoice('邀请对方做一件共同喜欢的小事','body','body:0,1;charm:1,2','旧爱好提醒你们关系不只建立在近况上。','兴趣也在变化，你们需要寻找新连接。'),
+    richChoice('允许关系变疏，保留善意','mind','mind:1,2;body:0,1','适当距离让你重新看见自己的生活。','失落持续了一段时间，你没有用比较惩罚自己。')
+  ],{branchKey:'ordinary_relationship',minAge:25}),
+  richEvent('友情','neighbour_keys','邻居希望互留一把备用钥匙','一次忘带钥匙让你们认识了。信任渐渐增加，但钥匙意味着进入对方最私人的生活空间。',[
+    richChoice('约定只在明确求助时使用','charm','charm:1,2;body:0,1','清楚的约定让互助安心地持续。','一次误会提醒你们把规则说得更具体。'),
+    richChoice('先从代收包裹等小事开始','mind','mind:0,1;charm:1,2','日常小事慢慢验证了彼此的可靠。','作息不同，你们改成需要时提前询问。'),
+    richChoice('婉拒钥匙，提供其他帮助','charm','charm:0,2;family:-1,0','被尊重的边界没有损害邻里关系。','对方起初有点失落，后来理解了你的习惯。')
+  ],{branchKey:'ordinary_relationship',minAge:22}),
+  richEvent('友情','unfinished_trip','旧友们终于凑出一次旅行时间','当年说好一起走的路线一直没有成行。现在有人膝盖不好，有人要照顾家人，也有人不愿承认预算紧张。',[
+    richChoice('把远行改成附近的慢旅行','mind','body:0,2;charm:1,2','目的地变近，相处的时间却没有减少。','少了当年的冒险感，你们仍留下了新照片。'),
+    richChoice('先匿名收集预算和需求','charm','charm:1,3;family:-1,0','没人需要为自己的限制感到难堪。','安排仍无法满足所有人，部分朋友选择下次。'),
+    richChoice('拆成几段，允许自由加入','mind','mind:1,2;charm:0,2','弹性的计划让更多人找到合适的位置。','集合有些混乱，你们后来学会了少排活动。')
+  ],{branchKey:'ordinary_relationship',minAge:45}),
+
+  richEvent('名望','accidental_interview','一次采访把普通经历讲成了传奇','报道传开后，陌生人不断称赞你。只有你知道，其中省去了别人的帮助，也把一次偶然写成了远见。',[
+    richChoice('公开补充被省略的人与细节','charm','charm:1,2;mind:0,1','真实的故事虽然不那么传奇，却更值得信任。','补充说明传播得很慢，你仍保留了完整版本。'),
+    richChoice('联系记者修改关键错误','mind','mind:1,2;charm:0,1','更正后的报道让合作伙伴松了口气。','编辑只修改了部分文字，你继续保留沟通记录。'),
+    richChoice('减少曝光，回到手中的工作','body','body:1,2;family:-1,0','具体工作让热闹慢慢降温。','邀请仍不断到来，你学习了清楚拒绝。')
+  ],{branchKey:'ordinary_society',minAge:22}),
+  richEvent('名望','community_award','邻里奖项只允许写一个名字','这件事明明由许多人一起完成，组织方却想推出一个代表。大家让你上台，你知道有些人已经很久没被看见。',[
+    richChoice('领奖时逐一介绍共同参与者','charm','charm:1,3;mind:0,1','掌声终于落到了具体的人身上。','时间限制打断发言，你事后补发了完整名单。'),
+    richChoice('争取把奖项改成团队奖','mind','mind:1,2;charm:0,2','组织方接受了一个新做法。','规则暂时改不了，你们决定共享荣誉。'),
+    richChoice('推荐一直做幕后工作的人','charm','charm:1,2;family:0,1','对方第一次得到公开的肯定。','对方不愿上台，你尊重了这种选择。')
+  ],{branchKey:'ordinary_society',minAge:28}),
+  richEvent('名望','public_mistake','你曾分享的经验出现了明显错误','一位读者指出，你的做法在另一种情况下会带来麻烦。评论区已经分成两派，等待你回应。',[
+    richChoice('核实后明确更正适用范围','mind','mind:1,3;charm:0,1','更正帮助更多人避免误用经验。','解释仍引来误解，你把修订写得更具体。'),
+    richChoice('邀请有不同经历的人补充','charm','charm:1,2;mind:1,2','讨论从争输赢变成了补全信息。','争吵没有立刻停止，你关闭了人身攻击的评论。'),
+    richChoice('暂停传播，重新整理完整材料','body','body:0,1;family:-1,0','慢下来后，你给出了更可靠的说明。','热度散去之前没能完成，但更正仍然发布了。')
+  ],{branchKey:'ordinary_society',minAge:20}),
+  richEvent('名望','small_exhibition','你的作品被邀请参加小型展览','场地不大，费用也不低。策展人希望你解释作品的来历，而你一直不擅长把自己的经历讲给陌生人听。',[
+    richChoice('自己写一段诚实的作品说明','mind','mind:1,2;charm:0,1','几句具体的话让观众真正停了下来。','文字仍有些生涩，你听取反馈后重写。'),
+    richChoice('与其他创作者合办分享会','charm','charm:1,3;family:-1,0','彼此的经验让展览多了温度。','观众很少，但你认识了可靠的同行。'),
+    richChoice('缩小展出规模，保留制作预算','family','family:-1,1;mind:0,2','有限的作品反而形成了清楚的主题。','展位不显眼，你慢慢积累了愿意回访的人。')
+  ],{branchKey:'ordinary_society',minAge:18}),
+  richEvent('名望','elder_speaker','年轻人请你讲一场失败的经验','他们听够了成功学，想知道那些没有成为成就的年份。你开始翻找一段自己平时也不愿回顾的经历。',[
+    richChoice('讲清当时的限制与误判','mind','mind:1,2;charm:1,2','具体的教训比结论更能帮助后来人。','有些细节仍会刺痛，你保留了可以不谈的部分。'),
+    richChoice('用匿名案例组织讨论','charm','charm:1,2;mind:0,2','听众在讨论中看见了不同处境。','有人急着下判断，你提醒他们信息并不完整。'),
+    richChoice('把材料留给小范围读书会','body','body:0,1;charm:0,2','缓慢的交流让问题得到充分展开。','参加者来来去去，你没有把人数当成价值。')
+  ],{branchKey:'ordinary_society',minAge:58}),
+
+  richEvent('奇遇','lost_notebook','旧书摊夹着一本无主的笔记','里面不是秘密，而是一个人连续十年的种植记录。最后一页留着地址，附近那片空地却早已改建。',[
+    richChoice('寻找作者或其家人','charm','charm:1,2;family:-1,0','笔记回到了仍然记得那片园子的人手里。','地址线索断了，你留下了可联系的信息。'),
+    richChoice('按记录试种一小块菜地','mind','mind:1,2;body:0,1','一季收成让陌生人的耐心有了回音。','土壤与气候不同，你补写了自己的观察。'),
+    richChoice('捐给地方资料馆保存','mind','mind:1,2;charm:0,1','平凡生活也被纳入了城市的记忆。','资料馆空间有限，你先完成了数字扫描。')
+  ],{branchKey:'ordinary_society',minAge:18}),
+  richEvent('奇遇','broken_piano','车站候车厅里有一架走音的钢琴','一位路过的调律师听出了问题，愿意免费修一半。剩下的零件和管理许可，需要有人去协调。',[
+    richChoice('向车站提出长期维护方案','mind','mind:1,2;charm:0,1','钢琴重新发声，也有了定期维护的人。','许可没有立刻批下，你留下了完整方案。'),
+    richChoice('联合路过的演奏者筹集零件','charm','charm:1,3;family:-1,0','零散的善意完成了一次小修复。','筹集进度缓慢，你们先修好了最常用的音区。'),
+    richChoice('帮调律师记录维修过程','mind','mind:1,2;body:0,1','一段记录让更多人理解了维护的价值。','噪声盖过了琴音，你后来重新补录。')
+  ],{minAge:20}),
+  richEvent('奇遇','wrong_delivery','一个寄错的包裹装着比赛作品','收件地址只差一个数字，比赛截止就在明天。寄件人远在另一座城市，电话里急得说不清话。',[
+    richChoice('联系主办方确认交接办法','mind','mind:1,2;charm:0,1','清楚的记录让作品赶上了提交。','时间仍然不够，主办方保留了延期说明。'),
+    richChoice('在能力范围内亲自送达','body','body:-1,0;charm:1,2','陌生人的努力因为一段路得以继续。','交通耽误了行程，你没有隐瞒真实进度。'),
+    richChoice('协助安排可靠的同城转送','family','family:-1,0;mind:0,2','转送顺利完成，你收到了作品照片。','中途需要重新确认地址，但包裹没有丢失。')
+  ],{minAge:18}),
+  richEvent('奇遇','projection_night','村里的露天电影临时缺了放映员','电源、幕布和旧放映设备都在，孩子们已经摆好小板凳。你只有一些相关经验，却是现场最熟悉设备的人。',[
+    richChoice('先检查设备，再尝试放映','mind','mind:1,2;charm:0,2','晚开的电影仍等来了整片掌声。','老设备无法稳定工作，你及时停止了试机。'),
+    richChoice('联系附近懂技术的人支援','charm','charm:1,2;family:-1,0','几个人一起让银幕亮了起来。','支援来不及赶到，你们改约了下一场。'),
+    richChoice('把等候变成一场讲故事的夜晚','charm','charm:1,3;body:0,1','没有电影的晚上也留下了值得记住的片段。','孩子们仍有些失望，你认真兑现了补场承诺。')
+  ],{branchKey:'ordinary_society',minAge:20}),
+  richEvent('奇遇','seed_exchange','一封旧信里藏着一小包种子','写信的人说，这种花曾经长满家门口。你不知道种子是否还活着，也不知道信中的那栋房子是否仍在。',[
+    richChoice('向植物园咨询后尝试培育','mind','mind:1,2;family:-1,0','一株嫩芽让多年以前的赠礼延续下来。','种子没有发芽，你保存了信和培育记录。'),
+    richChoice('寻找当地的种子交换小组','charm','charm:1,2;body:0,1','你遇见了许多认真保存普通植物的人。','品种未能确认，小组提醒你谨慎处理。'),
+    richChoice('沿着信中地址找一找','body','body:0,1;family:-1,0','旧院子仍在，住户给你讲了花的来历。','房子已经拆除，你从街坊处找回一张旧照片。')
+  ],{minAge:25}),
+
+  richEvent('时代','ticket_machine','熟悉的窗口被自助机器取代','效率提高了，却有人站在机器前反复退出。你赶时间，也看见身后队伍越来越急躁。',[
+    richChoice('先帮助一位需要协助的人','charm','charm:1,2;body:-1,0','一次清楚演示让后面几个人也学会了。','规则临时变化，你与对方一起找到工作人员。'),
+    richChoice('向机构反馈保留人工入口的需求','mind','mind:1,2;charm:0,1','建议促成了一个固定协助时段。','反馈暂时没有回应，你保留了具体问题记录。'),
+    richChoice('制作简单的图示指南','mind','mind:1,2;family:-1,0','贴在旁边的几张图帮到了许多人。','界面更新后指南过时，你补上了日期标记。')
+  ],{branchKey:'ordinary_society',minAge:18}),
+  richEvent('时代','local_energy','社区开始讨论共享太阳能项目','方案承诺节省费用，但屋顶归属、维修责任和阴雨天的收益都写在不易读懂的附件里。',[
+    richChoice('请专业人员解释成本与责任','mind','mind:1,2;family:-1,0','公开讨论排除了几个不切实际的承诺。','报价仍不明确，大家暂缓了签约。'),
+    richChoice('推动一小部分住户先行试点','charm','charm:1,2;family:-1,1','实际数据让后续决定有了依据。','试点收益低于预期，但避免了更大的投入。'),
+    richChoice('先做不用大投资的节能改造','family','family:0,2;body:0,1','小改动带来稳定而可见的节省。','效果不如宣传明显，你按账单调整了判断。')
+  ],{branchKey:'ordinary_society',minAge:24}),
+  richEvent('时代','digital_afterlife','亲人留下的账号需要被整理','照片、欠费提醒和多年没打开的云盘同时出现。家人希望保存记忆，却不确定哪些内容本来就不该被别人读到。',[
+    richChoice('先确认授权，只处理必要事项','mind','mind:1,2;charm:0,1','清楚的边界让整理少了许多伤害。','部分平台流程复杂，你分批完成了申请。'),
+    richChoice('共同挑选愿意保存的公开记忆','charm','charm:1,3;body:0,1','一本相册承接了各自不同的怀念。','选择引起分歧，你们保留了多个版本。'),
+    richChoice('据此整理自己的数字身后安排','mind','mind:1,2;family:-1,0','你给未来的亲友留下了明确说明。','整理范围很大，你先完成了最重要的部分。')
+  ],{branchKey:'ordinary_family',minAge:30}),
+  richEvent('时代','town_factory','老工厂停产后的空地如何使用','有人要建商业区，有人希望保留厂房和工人活动室。你在这里生活多年，知道每个方案都有被遗漏的人。',[
+    richChoice('组织居民表达不同需求','charm','charm:1,3;body:-1,0','收集到的意见改变了部分规划。','讨论被少数声音占据，你补做了入户访谈。'),
+    richChoice('提出分期改造和公共空间方案','mind','mind:1,3;family:-1,0','可执行的阶段计划获得了支持。','资金不足，方案只落实了最小的一块。'),
+    richChoice('先保存工厂的口述与物件','mind','mind:1,2;charm:0,1','搬迁发生之前，一段集体生活被留下。','不少材料已经散失，你如实记录了缺口。')
+  ],{branchKey:'ordinary_society',minAge:28}),
+  richEvent('时代','skill_algorithm','平台开始用评分决定你的机会','评分条目看似清楚，却无法解释为什么一次小失误会影响很久。同行各自猜测规则，也各自承受焦虑。',[
+    richChoice('保存案例并申请人工复核','mind','mind:1,2;family:0,1','完整记录让异常评分得到纠正。','复核未能改变结果，但你获得了更明确的说明。'),
+    richChoice('和同行共同提出改进建议','charm','charm:1,2;body:-1,0','集中的反馈促成了申诉入口。','平台回应缓慢，你们保持了事实核对。'),
+    richChoice('逐步减少对单一平台的依赖','family','family:-2,1;mind:1,2','多种渠道给你留下了选择余地。','新渠道起步困难，你控制了试错成本。')
+  ],{branchKey:'ordinary_career',minAge:20}),
+
+  richEvent('危机','power_lift','停电时你和陌生人困在电梯里','灯灭后有人急着扒门，也有人开始呼吸急促。求助按钮已经接通，但救援需要时间。',[
+    richChoice('保持联系并协助大家等待救援','charm','charm:1,2;body:-1,1','稳定的信息让等待没有变成混乱。','焦虑仍在蔓延，你反复转达了救援进度。'),
+    richChoice('确认位置和人数，向救援方清楚报告','mind','mind:1,2;body:0,1','准确的信息帮助救援人员迅速判断。','通话断续，你用简短信息完成了必要报告。'),
+    richChoice('照看最不舒服的人并听从救援指示','body','body:-1,1;charm:1,2','互相照应让所有人等到了开门。','你的安抚不够有效，但没有擅自进行危险操作。')
+  ],{minAge:18}),
+  richEvent('危机','missing_backup','重要材料在提交前突然损坏','屏幕提示文件无法读取。截止时间就在今晚，而最后一个确定可用的版本停在一周以前。',[
+    richChoice('先保护原文件，再尝试专业恢复','mind','mind:1,2;family:-1,0','大部分资料被找回，你补上了缺失部分。','恢复不完整，你及时说明了情况。'),
+    richChoice('组织伙伴按分工重建最重要的内容','charm','charm:1,2;body:-2,-1','共同重建保住了核心成果。','时间不够，只能提交可验证的部分。'),
+    richChoice('申请延期并提供已有证据','charm','charm:0,2;mind:1,2','清楚的说明换来了合理的补交时间。','延期未获批准，你提交了可靠的旧版本。')
+  ],{branchKey:'ordinary_career',minAge:20}),
+  richEvent('危机','station_separation','同行的人在车站与你失散','广播很吵，手机电量接近耗尽。你记得约定过集合地点，却不确定对方是否还记得。',[
+    richChoice('留在约定地点并联系车站工作人员','mind','mind:1,2;body:0,1','清楚的集合规则让你们重新会合。','等待比预计久，工作人员帮忙确认了线路。'),
+    richChoice('用最后的电量发送简短位置信息','mind','mind:1,2;charm:0,1','一句明确的位置避免了反复错过。','消息延迟到达，你转而寻求站方协助。'),
+    richChoice('请可信的同行分工联络','charm','charm:1,2;body:-1,0','有人负责等待，有人负责求助，搜索有了秩序。','重复联络制造了混乱，你重新统一了集合点。')
+  ],{minAge:18}),
+  richEvent('危机','urgent_relocation','住处被临时认定需要维修疏散','通知来得突然，行李只来得及收一小部分。你最担心的不是物品，而是接下来几天工作和照护如何继续。',[
+    richChoice('先确认安全住处和必要证件','mind','mind:1,2;family:-1,0','最重要的安排迅速稳定下来。','临时住宿紧张，你逐项联系了可用资源。'),
+    richChoice('与邻居共享交通和信息','charm','charm:1,3;body:-1,0','互助让几户人家的难题一起得到缓解。','信息真假混杂，你们设定了核实后再转发的规则。'),
+    richChoice('记录损失与承诺，申请后续协助','mind','mind:1,2;family:0,1','完整资料帮助你追回部分支出。','流程比预计长，你保留了每次办理的凭据。')
+  ],{branchKey:'ordinary_society',minAge:22}),
+  richEvent('危机','festival_crowd','节庆活动的人流突然拥挤','前方停下了，后面却还在向前。你和同伴之间只隔几步，周围的声音已经盖过普通交谈。',[
+    richChoice('听从现场疏导并保护同行者','body','body:-1,1;charm:0,1','缓慢退离拥挤区域后，你们终于能正常呼吸。','过程十分紧张，离开后你们停止了当天行程。'),
+    richChoice('向工作人员报告拥堵位置','mind','mind:1,2;body:-1,0','及时的报告促成了入口限流。','信号不稳，你找到最近的现场人员说明情况。'),
+    richChoice('放弃原定活动，寻找安全出口','mind','body:0,2;family:-1,0','错过演出换来了一次平安离开。','绕行耗费很久，但你们没有重返人群。')
+  ],{minAge:18}),
+
+  richEvent('天灾','heat_neighbours','热浪让独居邻居几天没有出门','楼道里闷热，社区正在统计需要帮助的人。你想去看看，又不愿把关心变成擅自进入别人生活的理由。',[
+    richChoice('先联系本人并转达正规求助渠道','charm','charm:1,2;body:0,1','对方接受了协助，社区跟进了实际需要。','电话无人接听，你请物业和社区按流程核查。'),
+    richChoice('协助建立自愿的每日联络名单','mind','mind:1,2;charm:0,2','简短的确认让几位居民不再被遗漏。','名单维护很费力，你缩小到能够负责的范围。'),
+    richChoice('帮助准备避暑点的基本物资','family','family:-2,-1;charm:1,2','物资很快用在了需要的人身上。','部分物品不合适，你依据现场反馈重新采购。')
+  ],{branchKey:'ordinary_society',minAge:20}),
+  richEvent('天灾','flood_documents','暴雨预警到来时，你发现证件散在各处','上一场雨已经让储物间进水。家人一边收拾，一边争论究竟哪些东西必须带走。',[
+    richChoice('按官方预警安排转移并整理必需品','mind','mind:1,2;family:-1,0','提前准备让临时离开有了秩序。','时间仍很紧，你优先带走了最必要的物品。'),
+    richChoice('协助行动不便的人联系转移支持','charm','charm:1,3;body:-1,0','对接好的车辆和人员及时到位。','资源调度延迟，你持续保持联络没有冒险行动。'),
+    richChoice('为重要资料做防水和备份','mind','mind:1,2;family:0,1','后续补办手续时，备份减少了很多困难。','部分资料仍受损，但核心信息得以保留。')
+  ],{minAge:22}),
+  richEvent('天灾','storm_cleanup','风暴过后的街道需要恢复','断枝、损坏的招牌和淤泥挡住了路。志愿者越来越多，现场负责人却在反复强调先等专业排险。',[
+    richChoice('参与排险后划定的安全工作','body','body:-1,1;charm:1,2','有序清理让街区逐段恢复通行。','天气再次变化，你按要求及时停止作业。'),
+    richChoice('负责登记居民需求与物资','mind','mind:1,2;charm:0,1','清楚的清单减少了重复配送。','需求不断变化，你增加了更新记录。'),
+    richChoice('提供餐食和休息场所','family','family:-2,-1;charm:1,2','持续的后勤让恢复工作得以进行。','准备量一度失衡，你与现场协调了数量。')
+  ],{branchKey:'ordinary_society',minAge:20}),
+  richEvent('天灾','water_ration','持续干旱改变了整个小区的用水','限水时段让老人和上班族各有困难。有人囤得很多，有人直到停水才发现容器不够。',[
+    richChoice('协调共享信息和合法供水时段','charm','charm:1,2;mind:0,1','清楚的信息减少了不必要的抢购。','通知临时调整，你们标明了消息更新时间。'),
+    richChoice('调整家务安排并修复漏水点','mind','mind:1,2;family:0,1','日常的小调整节省了可观用量。','老管道问题更复杂，你联系了专业维修。'),
+    richChoice('帮助难以取水的人联系配送','body','body:-1,0;charm:1,2','几户居民的基本需要得到了保障。','配送排队很久，你没有许诺无法保证的时间。')
+  ],{branchKey:'ordinary_society',minAge:22}),
+  richEvent('天灾','snow_route','大雪封住了常走的归家路线','交通部门建议推迟出行，家中却有人等你回去照料。焦急并不能让道路变得安全。',[
+    richChoice('留在安全地点，远程协调照护','mind','mind:1,2;family:-1,0','替代安排撑过了最困难的一夜。','协调并不顺利，但你没有冒险上路。'),
+    richChoice('与邻里互助联系人沟通','charm','charm:1,3;body:0,1','熟悉的邻居帮忙完成了必要照看。','大家都受大雪影响，你们只安排了最急的事项。'),
+    richChoice('准备延期行程并持续关注官方信息','family','family:-2,0;body:0,2','改签和临时住宿换来了平安返程。','费用增加了，但路况好转后行程顺利完成。')
+  ],{minAge:23}),
+
+  richEvent('人祸','borrowed_identity','有人借你的名字承诺了一件事','你第一次听到这件事时，已经有几个人带着期待来找你。冒名的人说只是帮你“拓展关系”。',[
+    richChoice('明确澄清并留下书面记录','mind','mind:1,2;charm:0,1','当事人知道了真实情况，误会逐渐结束。','澄清影响了部分关系，但避免了继续扩大。'),
+    richChoice('共同核对事实后要求撤回承诺','charm','charm:1,2;body:-1,0','各方接受了清楚的更正与安排。','对方试图含糊过去，你坚持了可核实的事实。'),
+    richChoice('停止合作并寻求正规协助','family','family:-1,0;mind:1,2','明确的边界阻止了再次冒用。','处理过程缓慢，你保存了每次沟通材料。')
+  ],{branchKey:'ordinary_society',minAge:22}),
+  richEvent('人祸','workplace_rumour','未经核实的传闻开始影响同事','群聊里人人都说听别人讲过，却没人能指出最初出处。沉默似乎会被当成默认，辩解又可能扩大传播。',[
+    richChoice('停止转发，要求核实具体事实','mind','mind:1,2;charm:0,1','几处明显矛盾让传播慢了下来。','有人仍坚持猜测，你拒绝加入讨论。'),
+    richChoice('私下支持当事人并询问需要','charm','charm:1,3;body:0,1','当事人不再独自面对整个环境。','对方暂时不愿谈，你保留了尊重的距离。'),
+    richChoice('通过正式渠道报告骚扰情况','mind','mind:1,2;family:-1,0','有记录的处理让问题不再只靠私下争辩。','调查进展缓慢，你持续补充可验证的证据。')
+  ],{branchKey:'ordinary_career',minAge:20}),
+  richEvent('人祸','unsafe_shortcut','施工负责人让你签一份没看过的验收单','对方说大家都这么做，耽误一天就要增加很多成本。你知道自己的名字会一直留在那张纸上。',[
+    richChoice('要求实际核验后再签','mind','mind:1,3;charm:-1,1','核验发现了需要修正的问题。','关系变得紧张，但你没有承担未经确认的责任。'),
+    richChoice('请第三方参与检查','family','family:-1,0;mind:1,2','独立意见让争论回到具体标准。','检查排期延迟，你留下了暂缓验收的说明。'),
+    richChoice('明确退出不符合职责的签字环节','charm','charm:0,2;family:-1,1','负责人重新安排了合规的验收。','你失去一次合作，但保存了自己的底线。')
+  ],{branchKey:'ordinary_career',minAge:24}),
+  richEvent('人祸','neighbour_dispute','楼上的漏水变成了激烈争吵','损坏的天花板需要维修，责任还没查清，双方已经把过去所有不满都搬到了楼道里。',[
+    richChoice('先请专业人员定位原因','mind','mind:1,2;family:-1,0','清楚的原因让维修和分担有了依据。','问题涉及公共管道，需要更多方共同处理。'),
+    richChoice('通过物业安排有记录的协商','charm','charm:1,2;body:0,1','具体的时间表终止了反复争吵。','承诺一度落空，你继续按记录跟进。'),
+    richChoice('先保护必要物品并保存损失证据','mind','mind:1,2;family:0,1','后续协商没有因为证据不足陷入僵局。','维修仍然拖延，但损失没有继续扩大。')
+  ],{branchKey:'ordinary_society',minAge:23}),
+  richEvent('人祸','pressure_favour','熟人希望你替一项不明合作背书','对方强调多年交情，还说只是转发几句话。材料里既没有清楚责任，也没有可以核实的成绩。',[
+    richChoice('要求核实材料，拒绝空白背书','mind','mind:1,2;charm:-1,1','核实过程暴露了宣传中的夸大。','熟人感到不快，但你没有传递无法确认的信息。'),
+    richChoice('只介绍真实了解的部分','charm','charm:0,2;mind:1,2','准确的边界避免了信誉被借走。','对方希望你说得更多，你坚持原来的表述。'),
+    richChoice('婉拒转发，提供不涉及承诺的帮助','charm','charm:1,2;body:0,1','关系经受住了一次清楚的拒绝。','这段交情暂时冷淡，你接受了结果。')
+  ],{branchKey:'ordinary_relationship',minAge:25}),
+
+  richEvent('异象','unlit_floor','停用的楼层每晚亮起同一盏灯','楼层图上那一层仍写着检修。你在灯光熄灭前看见窗边有人擦拭一张从未有人使用的课桌。',[
+    richChoice('记录亮灯规律，不贸然进入','mind','mind:1,2;body:-1,0','规律里藏着一个已经停用的校历日期。','日期对不上任何档案，你保留了原始记录。',{addClues:{success:1,fail:0}}),
+    richChoice('寻找当年使用过这里的人','charm','charm:1,2;mind:0,1','一位旧职员记起了没有办成的毕业典礼。','相关的人已经搬走，线索暂时中断。'),
+    richChoice('在门外留下可以回应的空白纸','mind','mind:1,2;family:-1,0','纸上出现了一个请求，而非威胁。','纸被风吹走，你没有把巧合认作回应。')
+  ],{branchKey:'occult_urban',eras:['awakening']}),
+  richEvent('异象','repeating_crossing','每天黄昏你都会看见同一次告别','不同日期，同一个路口，同样的两个人。第三次见到时，其中一人忽然转头问你：这次应该说什么？',[
+    richChoice('询问他们究竟想留下什么','charm','charm:1,2;mind:0,1','一句未说出的道歉终于改变了画面。','他们又回到沉默，但你听清了一个名字。',{addClues:{success:1,fail:0}}),
+    richChoice('寻找路口过去发生的真实事件','mind','mind:1,3;body:-1,0','档案证明这段重复来自一场错过。','记录有缺页，你拒绝用猜测补齐结局。'),
+    richChoice('说明你无权替他们作答','charm','charm:0,2;body:0,1','对方第一次独自走过了路口。','重复仍在继续，但没有把你困在其中。')
+  ],{branchKey:'occult_urban',eras:['awakening']}),
+  richEvent('异类','roof_wings','住在屋顶的异类想学人类的节日','它收集了彩灯、纸花和许多不属于同一个节日的礼物。它担心，只要准备错一件，就再也不会有人邀请它。',[
+    richChoice('解释节日并不要求完美表演','charm','charm:1,3;mind:0,1','它第一次放下礼物，认真听你讲家常。','它仍然不安，你从一个简单约定开始。'),
+    richChoice('邀请愿意知情参与的人一起吃饭','charm','charm:1,2;family:-1,0','边界说清之后，陌生的客人有了座位。','有人临时退出，你没有强迫任何一方。'),
+    richChoice('和它创造一个属于屋顶的小仪式','mind','mind:1,2;body:0,1','一盏灯与一段歌足够标记相聚。','仪式一度失败，你们笑着重新安排。')
+  ],{branchKey:'occult_creatures',eras:['awakening','cultivation']}),
+  richEvent('异类','voice_keeper','保管声音的生物不愿继续营业','它替人收藏过告白、遗言和谎话，却再也分不清哪一段声音属于自己。柜台外仍有人排队。',[
+    richChoice('帮助归还能够确认主人的声音','mind','mind:1,3;body:-1,0','柜台逐渐清空，它终于听见自己的呼吸。','有些主人已经不在，你们单独封存了那些声音。'),
+    richChoice('协调停业并解释归还流程','charm','charm:1,2;family:-1,0','等待的人理解了这不是无限的服务。','不满仍然存在，你没有替它许诺复工。'),
+    richChoice('陪它寻找一段自己愿意发出的声音','charm','charm:1,3;mind:0,1','一个陌生的音节成了新名字。','它暂时只能沉默，而沉默也获得了尊重。')
+  ],{branchKey:'occult_creatures',eras:['awakening','cultivation']}),
+  richEvent('古法','margin_contract','古老契约的边注比正文更长','契约要求履行一个小小承诺，旁边却挤满历代签署者留下的修订。每一条都在防止一种曾经发生的伤害。',[
+    richChoice('先整理边注，再决定是否签署','mind','mind:1,3;body:-1,0','你发现了一条保障退出权的遗漏条款。','解释存在冲突，你选择暂不签字。',{addClues:{success:1,fail:0}}),
+    richChoice('寻找仍在世的旧签署者','charm','charm:1,2;family:-1,0','亲历者说明了正文没有写出的代价。','旧签署者不愿重提，你尊重了拒绝。'),
+    richChoice('提出限定期限和范围的新约定','mind','mind:1,2;charm:0,1','契约接受了更窄也更清楚的承诺。','旧法无法兼容修改，交易就此终止。')
+  ],{branchKey:'occult_contracts',eras:['awakening','cultivation']}),
+  richEvent('古法','name_bridge','旧桥只允许知道自己真名的人通过','桥边的人已经报过几十个名字。你发现桥并不追问户籍，它似乎在分辨人是否愿意承认自己的经历。',[
+    richChoice('讲述一段不愿被抹去的真实往事','charm','charm:1,2;mind:1,2','桥面在话音落下时变得坚实。','你仍在回避其中一部分，桥让你再等一会儿。'),
+    richChoice('研究桥旁碑文留下的解释','mind','mind:1,3;body:-1,0','碑文说真名也可以随人生改变。','残缺的字难以辨认，你没有凭空补完。'),
+    richChoice('选择绕路，保留自己的秘密','body','body:-1,1;mind:0,1','长路让你明白并非所有考验都必须接受。','绕路耗费了时间，但秘密仍属于你。')
+  ],{branchKey:'occult_contracts',eras:['awakening','cultivation']}),
+  richEvent('寻道','ordinary_breath','你在洗碗时第一次察觉灵息','没有雷光，也没有仙人。温水里的波纹与呼吸短暂重合，你却越想抓住它，越是什么都感觉不到。',[
+    richChoice('记录环境，保持平常练习','mind','mind:1,2;body:0,1','数次重复之后，你辨认出自己的节奏。','感应时有时无，你没有因此透支休息。',{addClues:{success:1,fail:0}}),
+    richChoice('向可靠的寻道者请教','charm','charm:1,2;family:-1,0','对方教你分辨感应与期待造成的错觉。','意见并不一致，你保留了自己的观察。'),
+    richChoice('先照常生活，不追逐异样','body','body:1,2;mind:0,1','放松之后，那种细微感觉再次出现。','感应暂时消失，但生活并未因此失去价值。')
+  ],{branchKey:'cultivation_hidden',eras:['awakening']}),
+  richEvent('寻道','teacher_refusal','你找到的前辈拒绝立刻收徒','对方只让你去照看一处普通菜园，三个月后再谈。你不确定这是考验，还是委婉的拒绝。',[
+    richChoice('询问安排的意义与退出条件','charm','charm:1,2;mind:0,1','前辈愿意说明，修行从清楚的约定开始。','对方仍然含糊，你决定另寻可验证的道路。'),
+    richChoice('在不耽误生活的范围内尝试','body','body:0,2;mind:1,2','你从季节与耐心里学到了入门的方法。','三个月没有奇迹，但菜园确实长好了。',{addClues:{success:1,fail:0}}),
+    richChoice('礼貌辞别，整理已有线索','mind','mind:1,2;charm:0,1','独立梳理让你看见另一条入口。','线索仍不完整，你没有急着购买承诺。')
+  ],{branchKey:'cultivation_hidden',eras:['awakening']}),
+
+  richEvent('修炼','slow_meridian','旧功法开始不适合新的经脉','过去顺畅的运转如今处处滞涩。书上说这是进境之兆，你却知道继续强行推进并不一定正确。',[
+    richChoice('停下进境，重新检查运行路径','mind','mind:1,3;body:0,1','调整后的路线恢复了稳定。','适应比预计慢，你保留了安全的基础练习。',{cultivationGain:{success:3,fail:1}}),
+    richChoice('请同道交叉观察灵息','charm','charm:1,2;mind:0,1','外部观察发现了自己看不见的偏差。','两种判断不一致，你们先排除了危险步骤。'),
+    richChoice('暂时转向体魄与休养','body','body:1,2;family:-1,0','稳固的身体重新承接住了灵力。','进度放慢，但不适逐渐减轻。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('修炼','practice_partner','同修总在你失误时提前收手','你以为对方看不起你，直到一次交流才知道，他们曾在切磋中失去过朋友。你们的训练需要新的规则。',[
+    richChoice('明确停止信号与练习强度','mind','mind:1,2;body:0,1','清楚的规则让双方都敢认真练习。','适应需要时间，你们先从基础招式开始。',{cultivationGain:{success:3,fail:1}}),
+    richChoice('先听完那次经历再商量','charm','charm:1,3;mind:0,1','被理解的担忧不再藏在每次收手里。','对方还不能完整讲述，你没有追问。'),
+    richChoice('寻找第三位同道负责观察','charm','charm:1,2;family:-1,0','独立观察帮助你们纠正了习惯。','协调日程并不容易，切磋频率降低了。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('宗门','library_rotation','藏书阁的借阅规则偏向老弟子','新人只能借到过时抄本，资深弟子却担心珍贵典籍受损。争论已经从书籍变成身份之争。',[
+    richChoice('提出分级借阅和修复制度','mind','mind:1,3;charm:0,1','新规则同时保护了书与学习机会。','维护人手不足，制度只能先试行一部分。'),
+    richChoice('组织公开讲解代替私下传阅','charm','charm:1,2;mind:1,2','共同学习减少了对单一本子的争夺。','讲解被质疑藏私，你们公开了课程记录。'),
+    richChoice('参与制作可靠的新副本','body','body:-1,0;mind:1,3','校对后的抄本让更多人有书可读。','古字难辨，你请前辈逐段核实。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('宗门','kitchen_vote','宗门饭堂要取消低阶弟子的补贴','账房认为开支过高，饭堂却说不少弟子依靠这顿饭维持训练。你被推举参加一次并不光彩的预算讨论。',[
+    richChoice('公开核算浪费与必要支出','mind','mind:1,2;family:0,1','节省从真正的浪费处开始。','账目混乱，你先建立了可追踪的记录。'),
+    richChoice('让受影响的弟子直接陈述情况','charm','charm:1,3;body:-1,0','抽象数字背后的人终于被听见。','意见未能马上改变预算，但形成了正式异议。'),
+    richChoice('组织自愿劳作换取部分供给','body','body:-1,1;charm:1,2','有限的补充保住了最困难弟子的饭食。','额外劳作影响训练，你们限制了投入时间。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('秘境','season_room','秘境里的房间各自停在不同季节','一扇门后是雪，另一扇门后麦子刚熟。同行者只想找到灵药，你却看见有人留下过生活的痕迹。',[
+    richChoice('先绘制季节变化的安全地图','mind','mind:1,3;body:-1,0','地图让队伍避开了突然变化的边界。','季节会随进入者改变，你标记了不确定区域。'),
+    richChoice('只收集确定不会破坏环境的样本','mind','mind:1,2;family:0,2','克制的探索带回了可靠成果。','收获不多，但没有扰乱秘境的平衡。'),
+    richChoice('寻找留下生活痕迹的人','charm','charm:1,2;mind:0,1','你找到了一位不愿再赶路的旧探险者。','踪迹已经太久，只有一页记录仍可辨认。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('秘境','borrowed_exit','秘境出口需要归还一件借来的东西','队伍检查法器与灵石，却没人承认拿走什么。你想起进入时，每个人都借过一个陌生人的影子避雨。',[
+    richChoice('按原路寻找影子的主人','body','body:-1,1;mind:1,2','归还之后，出口重新变得清晰。','路径已经变化，你靠记录找回了关键位置。'),
+    richChoice('与守门者商议可验证的归还方式','charm','charm:1,2;mind:0,1','契约允许以正式交接完成归还。','守门者拒绝含糊承诺，你补齐了条件。'),
+    richChoice('先让队伍停下，逐一核对经历','mind','mind:1,3;body:-1,0','被当作小事的借取终于浮现。','记忆互相矛盾，你们从共同部分开始查证。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:2}),
+  richEvent('灵兽','old_companion','灵兽不愿再参加远行','它没有受伤，也没有失去能力，只是在行囊收好时安静地坐在门边。漫长的陪伴并不意味着每次都要同行。',[
+    richChoice('尊重它的选择并安排安心住处','charm','charm:1,3;family:-1,0','离开与归来都不再伴随强迫。','安置需要调整，你耐心寻找它愿意接受的地方。'),
+    richChoice('改变路线，先做一次短途尝试','body','body:0,1;mind:1,2','短途帮你理解了它真正抗拒的部分。','它仍然选择留下，你接受了答案。'),
+    richChoice('暂停远行，陪它度过这一季','body','body:1,2;family:-1,0','没有冒险的日子也延续了你们的关系。','计划因此推迟，但陪伴不再只是一句承诺。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('灵兽','river_nest','迁徙灵兽在新建河堤上筑巢','巢穴影响通行，拆除又可能让幼兽无法渡过这一季。两边都认为自己没有别的选择。',[
+    richChoice('协商季节性绕行与保护范围','charm','charm:1,3;body:-1,0','清楚的期限让人群愿意暂时让路。','绕行成本引发不满，你们补充了实际支持。'),
+    richChoice('请熟悉习性的修士评估迁移','mind','mind:1,2;family:-1,0','专业判断找到了不伤幼兽的窗口。','当前条件不适合迁移，计划被及时叫停。'),
+    richChoice('帮助改造一小段通道','family','family:-2,-1;charm:1,2','有限的改造容纳了两种通行需求。','施工比预计困难，你们先完成最必要的部分。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('因果','returned_kindness','你收到一份不记得施予过的报答','来者说，你多年前的一个小动作改变了他的路。你却记不起那一天，甚至担心对方认错了人。',[
+    richChoice('坦白记忆模糊，请他讲述经过','charm','charm:1,3;mind:0,1','那段普通往事重新拥有了具体的形状。','细节仍对不上，你们没有强求唯一解释。'),
+    richChoice('只接受心意，不接受重大的交换','mind','mind:1,2;charm:0,1','感谢不再变成新的负担。','对方起初不理解，你耐心说明了界限。'),
+    richChoice('把帮助转给眼前更需要的人','family','family:-1,1;charm:1,2','一份报答成为了可继续传递的支持。','安排并不容易，你先核实了真实需要。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('因果','unlived_memory','一段没有发生过的人生闯入梦中','你记得另一份职业、另一座城和一个从未相识的人。醒来后，遗憾真实得像确实失去了什么。',[
+    richChoice('记录梦境，但不据此改写现实关系','mind','mind:1,3;body:0,1','你分清了可能性与正在拥有的生活。','梦仍会回来，但不再替你作决定。'),
+    richChoice('与可信同道讨论记忆来源','charm','charm:1,2;mind:0,2','核对后发现梦境属于一处因果回响。','来源没有查明，你们保留了不确定。'),
+    richChoice('把梦里喜欢的部分化成小尝试','body','body:0,1;mind:1,2','一种新爱好让遗憾有了现实出口。','体验与梦不同，你也因此重新看清了自己。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:2}),
+  richEvent('丹道','bitter_formula','人人嫌弃的苦丹配方更稳定','香甜的替代配方更好卖，却对储存环境要求苛刻。药堂请你决定下一批丹药采用哪一种。',[
+    richChoice('公开效果与储存条件，让使用者选择','mind','mind:1,3;family:0,1','清楚说明减少了误用，也建立了信任。','说明太复杂，你重新制作了简明标识。'),
+    richChoice('优先生产容易妥善保存的版本','family','family:-1,1;body:0,1','远行者获得了更可靠的补给。','销量暂时下降，药堂开始解释选择的理由。'),
+    richChoice('小批测试改良口感的辅料','mind','mind:1,2;family:-2,0','改良没有牺牲原本的稳定性。','辅料影响药性，你们及时停止了试配。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('丹道','herb_garden','稀有灵草的采收伤到了整片药园','高价收购吸引了很多人，土里的幼根却越来越少。再这样下去，几年后可能谁也采不到。',[
+    richChoice('建立轮采和留种记录','mind','mind:1,3;body:-1,0','药园开始恢复能持续生长的节奏。','记录难以覆盖全部采集者，你先保护了核心区域。'),
+    richChoice('协调药堂接受替代材料','charm','charm:1,2;family:0,1','需求减少给药园留下了恢复时间。','替代品效果有限，只能分担一部分用途。'),
+    richChoice('投入资源培育人工药圃','family','family:-2,-1;mind:1,2','第一批幼苗证明了方案可行。','成活率不高，你重新研究了土壤条件。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('炼器','repairable_sword','剑主希望法器以后可以自行维修','原制作者认为开放结构会让技艺外流，使用者却已经为一个小零件等待了数年。',[
+    richChoice('设计可替换的基础组件','mind','mind:1,3;family:-1,0','常见故障终于可以独立处理。','接口不兼容，你先完成一类零件的标准化。',{setLifeFlagsSuccess:{rich_modular_craft:true}}),
+    richChoice('协调公开维护说明与授权范围','charm','charm:1,2;mind:0,1','双方接受了既能维修又保留核心技艺的安排。','信任仍不足，你们先签下小范围试行约定。'),
+    richChoice('教授使用者日常保养','body','body:0,1;charm:1,2','及时维护减少了许多本可避免的损坏。','旧伤已经很深，保养不能代替必要维修。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('炼器','tools_for_many','你的组件方案被用于灾后重建','有人希望快速复制，有人担心低价仿制伤人。旧图纸从一件法器，变成了许多人的屋顶与桥梁。',[
+    richChoice('公开检验步骤并培训维护者','mind','mind:1,3;charm:0,1','能够被检查的结构走进了更多地方。','培训进度跟不上需求，你优先保证必要环节。'),
+    richChoice('联合各地工坊分担制造','charm','charm:1,3;family:-1,0','分布式协作缩短了等待时间。','质量差异明显，你们建立了返工与追溯制度。'),
+    richChoice('先完成一个可长期观察的示范','family','family:-2,-1;mind:1,2','真实使用记录帮助方案继续改进。','示范规模有限，却避免了未经验证的大量复制。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:2,requiresLife:{rich_modular_craft:true}}),
+  richEvent('人间','mortal_deadline','凡人朋友的项目等不起修士的十年','对你而言十年只是一次闭关，对方却说那是孩子长大、父母老去和积蓄耗尽的全部时间。',[
+    richChoice('按对方的时间重新制定承诺','charm','charm:1,3;mind:0,1','具体的交付让两种寿命重新能够合作。','你低估了工作量，于是主动缩小承诺范围。'),
+    richChoice('交接能够独立使用的部分','mind','mind:1,2;family:-1,0','项目不再依靠你每次恰好出关。','交接资料不够清楚，你补做了完整示范。'),
+    richChoice('坦诚无法承担，帮助寻找替代者','charm','charm:1,2;body:0,1','及时的拒绝给对方留下了真正的选择。','合适人选难找，你没有再许诺无法兑现的日期。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:1}),
+  richEvent('人间','changed_hometown','闭关后故乡已经换了几代店主','街名没有变，熟悉的招牌却只剩墙上的印子。有人礼貌地叫你前辈，却不知道你曾经住在隔壁。',[
+    richChoice('以普通住客身份重新认识这里','charm','charm:1,3;body:0,1','新的关系让故乡不只属于过去。','相处仍有距离，你不再要求别人继承旧熟悉。'),
+    richChoice('把旧记忆交给地方档案','mind','mind:1,3;family:-1,0','修士的长寿成为了可以共享的历史。','记忆也会错，你接受了年轻研究者的核对。'),
+    richChoice('帮助修复一处仍被需要的设施','family','family:-2,-1;charm:1,2','实用的帮助比巨大的纪念碑更受欢迎。','旧设施已不适合当下，你调整了方案。')
+  ],{branchKey:'cultivation_hidden',eras:['cultivation'],minRealm:2}),
+
+  richEvent('异界','calendar_exchange','异界商队带来两本不同的年历','同一次交货，在你这里过去一年，在对方那里已经是一代人的等待。旧合同从一开始就没有写清时间。',[
+    richChoice('以共同可观测的天象重订日期','mind','mind:1,3;family:0,1','双方终于有了可以核对的时限。','天象受界门扰动，你们补充了误差范围。'),
+    richChoice('缩短合作周期并分段交付','charm','charm:1,2;family:-1,1','较小的承诺降低了跨界等待的代价。','运输成本上升，但争议明显减少。'),
+    richChoice('暂停长约，先建立往返记录','mind','mind:1,2;body:-1,0','真实记录揭示了时间差的变化规律。','规律仍不稳定，你们保留了退出条款。')
+  ],{branchKey:'otherworld',eras:['cultivation'],minRealm:3,requiresWorld:true}),
+  richEvent('异界','translation_garden','异界居民用植物排列来表达歉意','你的口头解释被误当成新的指责。向导指出，在这里，承诺要种下，撤回则必须说明谁来照料留下的植物。',[
+    richChoice('请对方示范，再认真完成表达','charm','charm:1,3;mind:0,1','一小片重新排列的花圃化解了误会。','你仍弄错了次序，但认真求教获得了理解。'),
+    richChoice('与向导整理双向翻译说明','mind','mind:1,3;family:-1,0','后来者终于有了不会轻易冒犯人的起点。','含义随季节变化，你们给说明加上适用范围。'),
+    richChoice('先停止争辩，用共同劳动回应','body','body:-1,1;charm:1,2','照料花圃的时间让双方重新愿意交流。','劳动不能替代解释，你随后补上了必要沟通。')
+  ],{branchKey:'otherworld',eras:['cultivation'],minRealm:3,requiresWorld:true}),
+  richEvent('星海','small_signal','星海里最弱的信号来自一座小温室','各方都在追踪宏大的文明遗迹，只有这段信号反复询问一种普通作物的授粉方法。',[
+    richChoice('核实环境后分享可适用的知识','mind','mind:1,3;family:-1,0','一季收成成为了两个世界的第一封回信。','当地条件不同，你及时修正了建议。'),
+    richChoice('建立缓慢而稳定的双向交流','charm','charm:1,3;body:0,1','彼此开始分享不只关于生存的问题。','信号延迟很长，你们学会标明信息的日期。'),
+    richChoice('帮他们联系更合适的研究者','charm','charm:1,2;mind:0,2','真正懂得作物的人接上了这段微弱联系。','接口协议不兼容，你协调了基础翻译。')
+  ],{branchKey:'cosmic_endgame',eras:['cultivation'],minRealm:4,requiresWorld:true}),
+  richEvent('星海','museum_of_departure','远航者的博物馆只收藏离别物品','一把家门钥匙、一份未送出的礼物、一块写着日期的石头。馆长邀请你留下东西，也允许你什么都不交。',[
+    richChoice('留下物件，并写清它的来历','mind','mind:1,2;charm:1,2','一段私人经历成为了后来者能够理解的记忆。','文字难以传达全部，你保留了无法翻译的名字。'),
+    richChoice('帮助归还能够找到主人的藏品','charm','charm:1,3;family:-1,0','几件离别之物终于完成了另一种归航。','大部分地址失效，你保存了可继续寻找的线索。'),
+    richChoice('不留下物件，只认真听完几段故事','body','body:0,1;mind:1,2','你离开时更清楚自己仍想带走什么。','陌生的悲伤难以承受，你在途中停下来休息。')
+  ],{branchKey:'cosmic_endgame',eras:['cultivation'],minRealm:4,requiresWorld:true}),
+
+  richEvent('时代','future_memory_license','记忆辅助服务开始对旧回忆收费','系统一直帮你整理照片与片段，如今订阅降级会隐藏部分索引。回忆仍属于你，却不再容易被找到。',[
+    richChoice('导出原始资料，建立自己的索引','mind','mind:1,3;family:-1,0','费力的迁移让记忆重新掌握在自己手里。','格式缺少说明，你分批完成了重要部分。'),
+    richChoice('联合用户要求透明的退出方式','charm','charm:1,2;mind:0,1','集体反馈推动了可用的导出入口。','改进缓慢，你们持续记录了实际障碍。'),
+    richChoice('只保留必要服务，把日常记回纸上','family','family:0,1;body:0,1','技术与纸笔形成了更可靠的分工。','手工整理很慢，你接受了不必保存每个细节。')
+  ],{branchKey:'future_technology',eras:['modern'],minAge:25}),
+  richEvent('事业','future_robot_colleague','服务机器人希望修改自己的排班','它发现自己总被安排到最不受欢迎的时段，系统却说它没有疲惫记录。团队第一次讨论效率之外的公平。',[
+    richChoice('公开排班依据并允许申诉','mind','mind:1,3;charm:0,1','透明规则减少了人类与机器之间的猜疑。','旧系统无法记录新需求，你们先采用人工审核。'),
+    richChoice('试行共同轮换并观察实际影响','charm','charm:1,3;family:-1,0','轮换并未降低服务，反而改善了协作。','某些岗位要求不同，方案需要进一步细分。'),
+    richChoice('请机器人自己参与方案设计','charm','charm:1,2;mind:1,2','它提出了人类没有注意到的维护与学习需要。','表达接口受限，你们先解决了沟通障碍。')
+  ],{branchKey:'future_technology',eras:['modern'],minAge:23})
+];
+
+function registerExpansionEvents(){
+  const known=new Set(Object.values(eventBank).flat().map(event=>event.id));
+  for(const event of expansionEvents){
+    if(known.has(event.id))continue;
+    if(!Array.isArray(eventBank[event.category]))throw new Error('Unknown expansion category: '+event.category);
+    eventBank[event.category].push(event);known.add(event.id);
+  }
+}
+
+const expansionAnnualScenes=[
+  {id:'rich_year_first_receipt',ageMin:18,ageMax:27,era:'modern',text:'你保存了独立生活后的第一张缴费凭据。金额并不大，可那个下午，你第一次完整地安排了从收入到生活的一小段距离。'},
+  {id:'rich_year_night_window',ageMin:18,ageMax:30,era:'modern',text:'夜归时，你注意到同一扇窗总在相近时间亮起。后来你认识了那位轮班工作的邻居，知道每一盏看似孤独的灯都有自己的作息。'},
+  {id:'rich_year_wrong_stop',ageMin:18,ageMax:35,era:'modern',text:'一次坐过站让你发现了新的河边小路。你没有把这次失误解释成命运，只在以后不赶时间的日子里，多留了一站给自己。'},
+  {id:'rich_year_small_table',ageMin:20,ageMax:38,era:'modern',text:'你终于把摇晃的小桌子修好了。桌面仍有旧划痕，但写字时不再需要垫住桌角；生活的改变有时小到不会被写进履历。'},
+  {id:'rich_year_first_no',ageMin:20,ageMax:42,era:'modern',text:'你拒绝了一件其实不愿答应的小事，并认真说明了原因。对方没有像你担心的那样立刻离开，你开始重新衡量习惯性勉强自己的代价。'},
+  {id:'rich_year_lunch_exchange',ageMin:23,ageMax:55,era:'modern',branchKey:'ordinary_career',text:'同事们交换了一次各自带来的午饭。话题从配料走到故乡，平时只在工作流程里出现的人，忽然拥有了厨房和家乡的气味。'},
+  {id:'rich_year_unfinished_hobby',ageMin:24,ageMax:60,era:'modern',text:'你翻出一件做了一半的手工作品。这次没有要求自己立刻完成，只添了几笔，再把工具放在容易拿到的地方。'},
+  {id:'rich_year_neighbour_weather',ageMin:25,ageMax:70,era:'modern',branchKey:'ordinary_society',text:'邻居教你从楼下树叶的翻动判断风向。你仍会查看天气预报，却也开始抬头看看那些每天经过、很少真正注意的树。'},
+  {id:'rich_year_shared_recipe',ageMin:25,ageMax:70,era:'modern',branchKey:'ordinary_relationship',text:'朋友发来一道总是失败的食谱，你们隔着屏幕各做一遍。成品仍不太像图片，但你们找到了同一个被省略的步骤。'},
+  {id:'rich_year_changing_words',ageMin:28,ageMax:65,era:'modern',branchKey:'ordinary_family',text:'你发现自己开始使用长辈常说的一句话。第一次听见自己这样说时，你有些惊讶；后来你保留了其中的关心，改掉了让人难受的语气。'},
+  {id:'rich_year_waiting_bench',ageMin:30,ageMax:75,era:'modern',text:'公园新增了一张带靠背的长椅。它让一段路对更多人变得可走，你也终于意识到，方便不是所有人天生就能享有的东西。'},
+  {id:'rich_year_slow_answer',ageMin:32,ageMax:80,era:'modern',branchKey:'ordinary_relationship',text:'一位朋友隔了很久才回复你的消息。你正要把沉默理解成疏远，对方却说起了一段艰难的照护生活；你把准备好的抱怨换成了一个具体的问题。'},
+  {id:'rich_year_old_skill',ageMin:38,ageMax:85,era:'modern',branchKey:'ordinary_career',text:'一项以为已经过时的技能，意外解决了眼前的问题。你没有因此否定新工具，只更清楚地看见经验仍然可以换一种位置发挥作用。'},
+  {id:'rich_year_new_photograph',ageMin:40,ageMax:90,era:'modern',branchKey:'ordinary_family',text:'拍合照时，大家终于不再要求每个人都看向同一个方向。那张照片里有人笑，有人走神，反而比过去整齐的姿势更像真实的一家人。'},
+  {id:'rich_year_small_celebration',ageMin:45,ageMax:95,era:'modern',text:'你为一件没有奖状、没有升职的小进步买了喜欢的点心。庆祝不必等到别人能够看见的成绩，这个道理你用了许多年才接受。'},
+  {id:'rich_year_route_change',ageMin:55,ageMax:100,era:'modern',text:'你给常走的路线加上了几个可以休息的地方。路变长了一点，出门却不再像一次需要证明体力的考试。'},
+  {id:'rich_year_learning_song',ageMin:60,ageMax:110,era:'modern',branchKey:'ordinary_society',text:'合唱排练时，你错过了几次进入的拍子。旁边的人轻轻示意，没有人要求你为年龄道歉；一首新歌慢慢住进了生活。'},
+  {id:'rich_year_open_drawer',ageMin:65,ageMax:120,era:'modern',branchKey:'ordinary_family',text:'你开始给抽屉里的旧物写标签。不是急着告别，而是希望以后打开它们的人，知道照片背后的名字，也知道哪些东西其实可以放心丢掉。'},
+  {id:'rich_year_odd_reflection',ageMin:18,ageMax:200,era:'awakening',branchKey:'occult_urban',text:'雨后的倒影比街上的人慢了一拍。你先确认自己没有过度疲惫，再把时间和地点记下来；寻找异常，不必放弃对普通原因的检查。'},
+  {id:'rich_year_empty_address',ageMin:18,ageMax:200,era:'awakening',branchKey:'occult_urban',text:'一封寄往不存在地址的信又被退回。你在旧地图上找到那条街曾用过的名字，第一次意识到，有些异常也会被城市改名弄得无处可去。'},
+  {id:'rich_year_first_clue_box',ageMin:18,ageMax:200,era:'awakening',branchKey:'cultivation_hidden',text:'你为难以解释的见闻准备了一个小盒子，里面既放证据，也放被自己否定的猜想。盒子没有让世界立刻清楚，却让记忆不再随期待改变。'},
+  {id:'rich_year_wrong_omen',ageMin:18,ageMax:200,era:'awakening',branchKey:'cultivation_hidden',text:'你追查了很久的一种预兆，最后只是旧水管的振动。失望之后，你把这次排除也写进记录；能认出不是答案的东西，同样是一种进展。'},
+  {id:'rich_year_unusual_neighbour',ageMin:18,ageMax:200,era:'awakening',branchKey:'occult_creatures',text:'楼道里一位不太像人类的住客认真询问垃圾分类时间。你回答完才发现，神秘的来历并不会自动免除日常生活的麻烦。'},
+  {id:'rich_year_margin_copy',ageMin:18,ageMax:200,era:'awakening',branchKey:'occult_contracts',text:'古书最有用的部分竟是前人写在页边的提醒：哪些承诺不要急着作，哪些要求必须问清。你把这些边注抄得比正文还认真。'},
+  {id:'rich_year_cultivation_clock',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'cultivation_hidden',text:'你给修炼室放了一只普通的钟。灵力能够改变许多东西，却不能代替与你约好时间的人；你开始在闭关计划里留出清楚的边界。'},
+  {id:'rich_year_repaired_sandal',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'cultivation_hidden',text:'一双旧鞋比某件法器更早需要修理。补鞋人并不关心你的境界，只提醒你下一次别等到鞋底完全磨穿。'},
+  {id:'rich_year_spirit_weather',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'cultivation_hidden',text:'你开始记录灵气变化与普通天气的差异。记录里大部分日子都没有奇迹，这些平静的年份反而帮助你辨认真正的变化。'},
+  {id:'rich_year_beginner_question',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'cultivation_hidden',text:'一个初学者的问题让你答不上来。你翻遍旧笔记后承认，自己一直沿用的解释只是方便记忆的说法；你们一起重新查证。'},
+  {id:'rich_year_safe_practice',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'cultivation_hidden',text:'你在练习场划出停止区域，告诉同道任何人都可以提前结束切磋。规则没有削弱认真，反而让练习少了不必要的逞强。'},
+  {id:'rich_year_library_dust',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'cultivation_hidden',text:'整理藏书时，你发现珍贵典籍也会记错页码、漏抄一行。那些使人敬畏的名字背后，同样有人在疲惫的夜里犯过普通错误。'},
+  {id:'rich_year_stationary_season',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'cultivation_hidden',text:'这一年没有突破。你修好了门，学会一道菜，回过几封一直拖延的信；修行没有前进的年份，也并非完全没有生活。'},
+  {id:'rich_year_outdated_map',ageMin:100,ageMax:1800,era:'cultivation',branchKey:'cultivation_hidden',text:'你的旧地图仍标着几百年前的道路。你请当代的向导重新注记，明白长寿能保存记忆，也可能让人迟迟不肯承认世界已经改变。'},
+  {id:'rich_year_otherworld_units',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'otherworld',requiresWorld:true,text:'异界商人把计量单位写在货箱外，还附上人类看得懂的换算。没有壮阔宣言，跨界合作从少算错一笔账开始变得可靠。'},
+  {id:'rich_year_otherworld_recipe',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'otherworld',requiresWorld:true,text:'你带回一份异界食谱，发现其中最重要的步骤不是神秘调料，而是等食客全部坐好。陌生文明也会认真对待一顿不被催促的饭。'},
+  {id:'rich_year_otherworld_sign',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'otherworld',requiresWorld:true,text:'界门旁新增了几种文字的问路牌。你纠正了一个自己熟悉的译名，旁边的异界旅客也纠正了一处你的误解。'},
+  {id:'rich_year_starlight_letter',ageMin:18,ageMax:1800,era:'cultivation',branchKey:'cosmic_endgame',requiresWorld:true,text:'一封跨星海的回信终于抵达。你先看发送日期，再读问候，避免用今天的处境责怪一个还不知道后来变化的远方人。'}
+];
+
+
+// Optional, authored stories. Their choices affect only story routes, never
+// the wheel's random stream, attributes, life count or inherited rewards.
+const journeyDefinitions=[
+  {
+    id:"repair_shop",title:"修不好的那只钟",summary:"一间修理铺、一只停摆的钟，以及手艺该交给谁的问题。",era:"modern",branchKey:"ordinary_career",minAge:18,
+    chapters:[
+      {title:"第一章 · 柜台下的布包",text:"杜师傅准备关掉修理铺。清理柜台时，他拿出一只用毛巾包着的挂钟：一位客人说过会回来取，却再也没有出现。师傅问你，铺子最后这段时间该怎样用。",choices:[
+        {text:"留下来学修钟，先把它重新修响",reply:"你从清洗齿轮开始。杜师傅没有立刻交出秘诀，只给了你一张已经磨软的凳子。",route:"craft"},
+        {text:"沿着收据去找挂钟的主人",reply:"旧收据上的地址已经拆迁。你把姓名和日期抄进本子，准备一户一户问过去。",route:"return"},
+        {text:"邀请街坊带来旧物，一起办修理日",reply:"第一次修理日只来了三个人。有人负责照明，有人煮水，店门第一次开到了天黑。",route:"commons"}
+      ]},
+      {title:"第二章 · 新铺面的价钱",text:"几年后，街区翻修给出一笔搬迁补助。新铺面的租金更高，杜师傅的眼睛却越来越不适合做细活。挂钟仍在柜台后，他让你决定它下一次响起时，周围应该是什么地方。",choices:[
+        {text:"租一间小工作室，把手艺继续做下去",reply:"你只留下够两个人转身的空间，把常用工具按师傅伸手的顺序挂好。",route:"craft"},
+        {text:"先把未领取旧物逐件送回原主",reply:"有几户人家已经不记得收据，却一眼认出了旧物。你把没有找到主人的物件另存一柜。",route:"return"},
+        {text:"请社区提供桌子，让修理日轮流借场地",reply:"铺面没能保住，约定的周末却保住了。工具箱开始跟着大家在不同院子间移动。",route:"commons"}
+      ]},
+      {title:"第三章 · 谁来上发条",text:"杜师傅把挂钟的钥匙交给你。他不再要求你按他的方式安排生活，只问了一句：以后，谁会记得给它上发条？你需要为这段手艺定下最后一种去处。",choices:[
+        {text:"把钟挂进自己的工作室，收第一位学徒",reply:"你把钥匙放在学徒能够够到的地方，先教他怎样听出钟摆的不对劲。",route:"craft"},
+        {text:"连同整理好的来历，交给原主的家人",reply:"接钟的人读了很久那张来历说明。交接时，你没有给这段等待标价。",route:"return"},
+        {text:"把它挂在公共修理日的签到桌旁",reply:"每次活动换一个人上发条。钟的走时仍不完美，却不再只靠一个人记得。",route:"commons"}
+      ]}
+    ],
+    endings:{
+      craft:{id:"second_bench",title:"第二张凳子",text:"小工作室的门牌上没有写大师。你留下了杜师傅的旧凳子，又摆上一张新的；手艺因此多活过了一个人的工期。"},
+      return:{id:"clock_home",title:"归家的钟声",text:"你没有继承一间店，却让一批被搁置的物件重新有了来处。挂钟回家的那天，收据背面终于补上了领取日期。"},
+      commons:{id:"shared_tools",title:"周末照常开门",text:"修理铺从地图上消失，修理日却成了街坊共同的约定。以后有人修好东西，会先问下周还有谁需要帮忙。"}
+    }
+  },
+  {
+    id:"river_library",title:"河边最后一间阅览室",summary:"旧阅览室要改建，书、场地和读者只能一起重新寻找位置。",era:"modern",branchKey:"ordinary_society",minAge:18,
+    chapters:[
+      {title:"第一章 · 一张停办通知",text:"河边阅览室贴出停办通知。管理员沈姨在门口清点借书卡，问你是否愿意留下几箱没人来领的旧书。雨快下来了，你先能做一件事。",choices:[
+        {text:"把书编目，找愿意接手的学校与馆舍",reply:"你记录的不只是书名，还有扉页上的赠语。有几本旧书因此找到了愿意珍惜它们的新地方。",route:"archive"},
+        {text:"约老读者一起争取保留阅览空间",reply:"来的人比预想的少，但有人带来了二十年前的借书卡。会议第一次有了具体的读者姓名。",route:"place"},
+        {text:"先带一箱书，试办流动阅读摊",reply:"你把第一箱书搬到河边长椅旁。书没有柜门保护，也因此被更多路过的人翻开。",route:"mobile"}
+      ]},
+      {title:"第二章 · 书到了别处",text:"这几年，改建争议几经变化。沈姨把最后一份借阅册递给你：有的人记得的是书，有的人记得冬天能坐一下午的暖气。你的下一步准备照顾谁的需要？",choices:[
+        {text:"整理借阅册，保存旧馆与读者的口述",reply:"你没有把每一次回忆都润色成美谈，连争吵和失望也按讲述者的原意留下。",route:"archive"},
+        {text:"争取一个固定的开放房间和冬季取暖",reply:"谈判落到插座、开放时间和钥匙保管人上。那些不起眼的细节决定了门能否每天打开。",route:"place"},
+        {text:"让阅读摊轮流去集市、诊所与公交站",reply:"你们按人们等候的时间挑选书。许多读者只读完几页，下一次还会来问那本书。",route:"mobile"}
+      ]},
+      {title:"第三章 · 新的借书卡",text:"沈姨终于决定退休，空白借书卡还剩一小盒。她不要求你恢复过去的规模，只希望后来的人知道，这些书不是突然出现在这里的。",choices:[
+        {text:"为资料建立长期寄存约定，署上所有整理者",reply:"你把纸本和备份交给不同的保管人，约定一方关门时，另一方继续开放查阅。",route:"archive"},
+        {text:"把房间交给轮值小组，让读者共同管理",reply:"新规则没有写满墙，只列清谁开门、谁处理争议，以及任何人怎样提出修改。",route:"place"},
+        {text:"把借书卡交给新的带队人，继续走到人群里",reply:"你不再跟着每一次出摊。几条线路开始出现你没有到过的新站点。",route:"mobile"}
+      ]}
+    ],
+    endings:{
+      archive:{id:"readers_archive",title:"读者也在书里",text:"旧馆的墙不在了，借阅册、争论和赠语还可以被查到。多年后，一位研究者在资料末页读见普通读者的名字。"},
+      place:{id:"room_lit",title:"总有一盏灯亮着",text:"新的阅览室比从前小，却有确定的开门时间。冬天有人走进来，只为安静坐一会儿，也被当作理所当然。"},
+      mobile:{id:"books_travel",title:"书跟着人走",text:"阅览室变成了许多可以收起的箱子。它没有完整地址，却在城市不同角落拥有按时出现的读者。"}
+    }
+  },
+  {
+    id:"night_kitchen",title:"凌晨四点的厨房",summary:"你与朋友经营一段小生意，也学习怎样给合作留下边界。",era:"modern",branchKey:"ordinary_career",minAge:22,
+    chapters:[
+      {title:"第一章 · 第一锅粥",text:"朋友阿禾想租下车站旁的早餐窗口，拉你一起试做一个月。第一次开火时，来买早餐的夜班工人比上班族还多。钱、人手和菜单都不够，你先定哪条规则？",choices:[
+        {text:"把成本和分工写清，先让店能稳稳活下来",reply:"你们连临时垫的钱也记下，不把亲近当成可以省掉账本的理由。",route:"trade"},
+        {text:"留出夜班套餐，听常客真正需要什么",reply:"有司机说自己吃不了太烫的东西。第二天，你们多备了一只盛温粥的小桶。",route:"table"},
+        {text:"约定做完试营业再决定，不用友情绑住彼此",reply:"阿禾先是意外，随后松了一口气。你们第一次认真讨论各自还有哪些想做的事。",route:"boundary"}
+      ]},
+      {title:"第二章 · 扩店的邀请",text:"窗口渐渐有了熟客。有人提出投资开分店，阿禾很兴奋，却没人知道谁该承担凌晨的备料。一次争执后，你们把钥匙放在桌上，重新谈合作。",choices:[
+        {text:"先试一套别人也能执行的备料流程",reply:"你亲手改掉几处只有自己才懂的习惯。小店开始有了不依靠谁硬撑的工作表。",route:"trade"},
+        {text:"不扩店，把现有座位和工时安排好",reply:"你们添了两把能靠背的椅子，也给员工留出了完整休息日。营业额没有立刻变得漂亮。",route:"table"},
+        {text:"允许彼此退出，谈清份额与交接",reply:"退出不再等于翻脸。你们请第三个人核对账目，把迟早要说的话一次说完。",route:"boundary"}
+      ]},
+      {title:"第三章 · 那把备用钥匙",text:"多年后，车站改建使旧窗口必须搬走。阿禾把备用钥匙递还给你，你们都比最初更清楚自己能承担什么。这次，厨房会以怎样的形式继续？",choices:[
+        {text:"带着成熟流程搬进新铺面，聘请稳定团队",reply:"新店第一次开门时，你没有站在每个锅旁检查。大家照着自己的分工完成了早高峰。",route:"trade"},
+        {text:"保留一张大桌子，继续服务熟悉的夜班客",reply:"招牌换了，夜班套餐和那桶温粥没有撤下。老客人很快认出了新门口。",route:"table"},
+        {text:"完成最后一轮营业，按约定各自出发",reply:"你们把剩余食材和账款处理妥当，最后为彼此煮了一碗不用计入营业额的粥。",route:"boundary"}
+      ]}
+    ],
+    endings:{
+      trade:{id:"steady_fire",title:"灶火不必靠一个人",text:"小店终于能在你休息时照常营业。留下来的不只有招牌，还有可以让后来员工正常生活的做事方法。"},
+      table:{id:"night_table",title:"夜班人的桌子",text:"厨房没有扩成连锁，却成了许多人交班后的落脚处。有人换了工作，仍偶尔绕路回来吃一顿安稳早饭。"},
+      boundary:{id:"last_bowl",title:"最后一碗仍是朋友",text:"生意结束，合作没有被写成谁辜负了谁。以后见面，你与阿禾还能谈新的打算，不必绕开那段开店的日子。"}
+    }
+  },
+  {
+    id:"care_calendar",title:"贴在冰箱上的日历",summary:"照护需要爱，也需要能够持续的安排与被照护者自己的决定。",era:"modern",branchKey:"ordinary_family",minAge:28,
+    chapters:[
+      {title:"第一章 · 空出来的星期三",text:"一位亲近的长辈需要固定复诊，原本轮流陪同的安排逐渐落到你一个人身上。冰箱日历上，星期三被反复圈起。你决定先做什么？",choices:[
+        {text:"把任务拆开，召集家人重新排班",reply:"你把预约、做饭、接送和陪伴分别列出，让不能到场的人也有可以承担的具体事情。",route:"network"},
+        {text:"先询问长辈最想保留哪些生活安排",reply:"长辈最在意的不是某一顿饭，而是不要让所有人替自己回答问题。你把这句话写在日历旁。",route:"voice"},
+        {text:"寻找专业支持，为自己留出固定休息",reply:"第一次把任务交给别人时你并不放心，却终于可以在一个下午做完自己的事情。",route:"rest"}
+      ]},
+      {title:"第二章 · 谁替谁决定",text:"几年间，照护方式需要不断调整。家人提出一个更省事的安排，长辈却不喜欢它。你发现争执里混在一起的，是安全、费用和每个人快要耗尽的耐心。",choices:[
+        {text:"把不同方案的工作量公开，让大家共同承担",reply:"有人第一次发现，所谓简单方案只是把额外劳动藏在了一个人的晚上。",route:"network"},
+        {text:"请长辈参与试用，再按反馈修改",reply:"你们没有用一次谈话解决全部问题，而是约定试行一段时间，再把不合适的地方改掉。",route:"voice"},
+        {text:"明确自己能做的范围，补上外部照护服务",reply:"你说出了自己也需要就医与休息的事实。讨论终于不再默认你有无限精力。",route:"rest"}
+      ]},
+      {title:"第三章 · 下一张日历",text:"又到了换日历的时候。多年的安排有过顺利也有过怨气，长辈请你把一张旧日历留下，上面有一次难得的共同出游。你准备怎样继续这段关系？",choices:[
+        {text:"把轮值规则整理好，让新加入的人也能接手",reply:"安排表里写上了替补和请假方式，不再要求任何一个人永远守着空缺。",route:"network"},
+        {text:"留一栏只写长辈自己选择的事情",reply:"那一栏有时只是去河边坐坐，却让整张日历不再只由病历与别人的时间组成。",route:"voice"},
+        {text:"保留自己的生活，也约定稳定的相聚时间",reply:"你们逐渐学会区分离开一下午和不再关心。相聚时，彼此都有新的事情可以说。",route:"rest"}
+      ]}
+    ],
+    endings:{
+      network:{id:"shared_calendar",title:"没有唯一值班人",text:"照护没有变得轻松，却不再依赖一个人的不断透支。旧日历后面，多了几种不同笔迹。"},
+      voice:{id:"own_square",title:"属于自己的那一格",text:"复诊和照料仍在继续，被照护者也保有自己的决定。你记住的不是替谁安排好一切，而是怎样把话筒递回去。"},
+      rest:{id:"sustainable_care",title:"仍能好好相见",text:"你承认了精力的限度，关系因此没有在长年的耗损里悄悄失去温度。那张出游日历被留了下来。"}
+    }
+  },
+  {
+    id:"unfinished_film",title:"没有拍完的电影",summary:"一次旧承诺重新找上你：替朋友拍一部关于故乡的电影。",era:"modern",branchKey:"ordinary_relationship",minAge:20,
+    chapters:[
+      {title:"第一章 · 硬盘里的十七分钟",text:"旧友孟舟找回了年轻时拍摄的十七分钟素材。镜头摇晃，收音也不好，但画面里的街道已经变了。他问你，愿不愿意一起把未完成的电影继续拍下去。",choices:[
+        {text:"找到当年入镜的人，听他们现在怎样讲述",reply:"第一位受访者看完旧画面后，纠正了你们一直记错的一件小事。电影的开头因此改了。",route:"witness"},
+        {text:"保留旧素材的稚拙，把你们的变化也拍进去",reply:"你把重新相见时的尴尬留在镜头里，不再假装拍摄者始终知道自己在做什么。",route:"friendship"},
+        {text:"重新写剧本，让旧片段长成一部虚构作品",reply:"你们约定明确标注改编，不把想象当作当事人的证词。第一场新戏在黄昏试拍。",route:"create"}
+      ]},
+      {title:"第二章 · 不愿公开的一段",text:"拍摄拖过了几个季节。一位受访者看过初剪后，希望删去谈论家庭的片段；孟舟担心删掉之后，整部片子的力量都会变弱。你们需要作出选择。",choices:[
+        {text:"尊重撤回，再寻找不侵犯当事人的讲述方式",reply:"你删掉了已经花很久剪好的段落，把空缺本身留成一道需要解释的边界。",route:"witness"},
+        {text:"先停工，把合作中的分歧认真谈清",reply:"那晚没有拍出任何镜头。你们却终于承认，对这部片子抱着不同的期待。",route:"friendship"},
+        {text:"将核心冲突改写成明确虚构的场景",reply:"演员没有模仿原来的受访者，你们让故事承担想象的责任，也承担改写后的陌生感。",route:"create"}
+      ]},
+      {title:"第三章 · 第一场放映",text:"电影终于能从头放到尾。有人愿意提供展映机会，故乡的老邻居也想先看看。孟舟让你写最后一张字幕，你会把它交给怎样的观众？",choices:[
+        {text:"先邀请受访者看片，把资料留给当地保存",reply:"你们留出足够长的讨论时间。字幕结束后，观众继续补充镜头外发生过的事情。",route:"witness"},
+        {text:"办一场小放映，邀请一起度过这些年的人",reply:"有人只帮忙搬过一次设备，也认真收到了邀请。你们为每个人留了位置。",route:"friendship"},
+        {text:"带着明确的创作说明，投向更多展映空间",reply:"你们开始回答陌生观众的问题，也接受这部片子会被读出自己没想到的意思。",route:"create"}
+      ]}
+    ],
+    endings:{
+      witness:{id:"town_copy",title:"留在故乡的一份",text:"电影成为了当地资料的一部分，片中人保有修正和补充自己故事的机会。你们没有替故乡作最后的定论。"},
+      friendship:{id:"credits_full",title:"片尾不只两个名字",text:"这部电影没有使谁一举成名，却把松散多年的朋友重新聚在一起。以后有人问起，你们会先讲拍摄之外的那几晚。"},
+      create:{id:"film_sets_out",title:"故事自己远行",text:"电影进入了陌生的放映厅。它不再只是旧友之间的承诺，也成了一件可以被喜欢、质疑和重新理解的作品。"}
+    }
+  },
+  {
+    id:"wrong_address",title:"一直寄错地址的信",summary:"一次代收让你卷入漫长失联，决定怎样对待别人的秘密。",era:"modern",branchKey:"ordinary_relationship",minAge:18,
+    chapters:[
+      {title:"第一章 · 信封没有拆开",text:"搬家后，你总收到寄给前住户的信。发信地址是一座很远的小城，字迹每次都相同。某天邮差问你是否愿意协助寻找收件人。信封仍完整封着。",choices:[
+        {text:"只通过合法联系信息转交，不窥看信的内容",reply:"你留下自己的转交电话，几次查询都没有结果。封好的信被放进单独的纸袋。",route:"privacy"},
+        {text:"写信告诉寄信人，对方已经搬离",reply:"你只写了自己知道的事实。几周后，一封感谢回信说，至少终于知道地址出了问题。",route:"bridge"},
+        {text:"联系社区建立退信登记，帮助更多错投邮件",reply:"你发现还有几户人家遇到同样的问题。信件开始按照去向登记，而不是散落在窗台。",route:"system"}
+      ]},
+      {title:"第二章 · 不想被找到的人",text:"几年后，你终于联系上前住户。对方承认认识寄信人，却说自己还没有准备好恢复联系。你不能替任何一方解释失联，只能决定接下来怎样处理。",choices:[
+        {text:"尊重拒绝，把是否收信的决定交还本人",reply:"你询问是否需要代退信件，不向寄信人泄露新的住址。寻找没有自动变成和解。",route:"privacy"},
+        {text:"征得双方同意，只转交一次不带地址的消息",reply:"你让双方各自确认愿意公开的内容，然后照原样转交，没有补上一句劝和。",route:"bridge"},
+        {text:"退出私人沟通，把安全退转流程交给邮务人员",reply:"你说明了已知情况和隐私要求，让后续联系有了明确的渠道与负责人。",route:"system"}
+      ]},
+      {title:"第三章 · 邮箱终于空了",text:"后来，寄错的信渐渐不再出现。一位当事人给你寄来没有要求回复的感谢卡。你准备搬走，纸袋里还有几封无法转交的旧信。",choices:[
+        {text:"依照当事人意愿退还或妥善处置旧信",reply:"你核对了每一封的处置安排，没有把别人的秘密当成自己经历的纪念品。",route:"privacy"},
+        {text:"把最后一份获准转交的消息送到，然后退出",reply:"你在信封外注明这是最后一次代转。之后的相逢或告别，都留给当事人自己决定。",route:"bridge"},
+        {text:"把退转登记交给新住户与社区，留下联系方式",reply:"你交接的是方法，不是信件内容。以后再有错投邮件，便不用从头求人帮忙。",route:"system"}
+      ]}
+    ],
+    endings:{
+      privacy:{id:"sealed_respect",title:"没有拆开的尊重",text:"你没有得知故事的全部，也没有替谁完成和解。那几封信教会你的，是关心有时也需要停在门外。"},
+      bridge:{id:"temporary_bridge",title:"一座会退场的桥",text:"你为两个愿意说话的人留过一次通道，随后按约定退出。联系能否继续，不再由中间人的热心决定。"},
+      system:{id:"mail_route",title:"后来者不再迷路",text:"一段私人插曲留下了公开可用的退转方法。社区的窗台上，终于少了那些被忘记的信封。"}
+    }
+  },
+  {
+    id:"flood_steps",title:"水位线以上",summary:"一场积水退去后，社区如何记住灾害，也记住彼此。",era:"modern",branchKey:"ordinary_society",minAge:22,
+    chapters:[
+      {title:"第一章 · 墙上的铅笔线",text:"一场严重积水退去，楼道墙上留下了水位线。邻居们忙着晾晒物品，有人急着重新粉刷，也有人说这条线应该留下。你愿意承担哪部分后续工作？",choices:[
+        {text:"整理风险点和撤离需求，交给有资质的人员评估",reply:"你记录了坡道、独居住户和失效照明，把传言与亲眼见到的事实分开标注。",route:"prepare"},
+        {text:"逐户确认谁还需要吃饭、搬运和临时照料",reply:"有些人没有主动求助。你们约定先问需要什么，再决定怎样搭把手。",route:"neighbors"},
+        {text:"征得同意后收集照片和口述，保存受灾记忆",reply:"你没有只挑最震撼的画面，连谁帮谁找回药袋这样的细节也录了下来。",route:"memory"}
+      ]},
+      {title:"第二章 · 不下雨的时候",text:"几年没有发生同样的积水，旧水位线渐渐被广告遮住。新住户觉得防灾安排麻烦，老住户也不愿总被提醒那段狼狈。你怎样让这件事继续被认真对待？",choices:[
+        {text:"把安排变成短而清楚的演练与维修清单",reply:"每次只检查少数关键项目，结果公开记录，没人需要假装整场演练毫无问题。",route:"prepare"},
+        {text:"把互助联系人融入平时的邻里照应",reply:"名单也用于搬家、接送和临时照料。人们先认识彼此，才愿意在紧急时互相敲门。",route:"neighbors"},
+        {text:"办一次居民自愿参加的小展览，不强迫重述创伤",reply:"有人借出照片，有人只愿匿名，有人没有来。你在展板上留了空白，而不是替他们发言。",route:"memory"}
+      ]},
+      {title:"第三章 · 留给新住户的东西",text:"你逐渐不再负责楼里的日常事务。接手的人问起墙上那条淡淡的线，你意识到，自己应该交出去的是一份可以继续使用的经验，而不只是一次故事。",choices:[
+        {text:"交接检查记录、专业评估与更新日期",reply:"你在文件首页写上下一次应该核对什么，也写明哪些地方仍没有解决。",route:"prepare"},
+        {text:"请新旧联系人一起吃顿饭，完成真实的认识",reply:"名单上的号码终于对应上了面孔。后来谁搬走、谁加入，也有人愿意主动更新。",route:"neighbors"},
+        {text:"留下可补充的口述档案与水位标记",reply:"你们保留了一小段墙面，并写明线条记录的只是那一次水位，不是永远的安全边界。",route:"memory"}
+      ]}
+    ],
+    endings:{
+      prepare:{id:"usable_plan",title:"能翻出来使用的那一页",text:"经验没有被锁在一份漂亮总结里，而变成持续更新的检查安排。后来的人知道从哪里开始，也知道不能只凭旧经验作保证。"},
+      neighbors:{id:"known_doors",title:"知道该敲哪扇门",text:"互助没有随着新闻热度消失。楼里的人慢慢记住了彼此的名字，日常里那些小小的照应成了更可靠的准备。"},
+      memory:{id:"water_mark",title:"墙还记得",text:"那条线被认真标注并保存下来。人们不必永远停在灾难里，也不必靠遗忘才能重新生活。"}
+    }
+  },
+  {
+    id:"late_class",title:"最后一排的新同学",summary:"成年后的课堂，让你重新思考学习是为了证明、创造还是连接。",era:"modern",branchKey:"ordinary_career",minAge:30,
+    chapters:[
+      {title:"第一章 · 写错的姓名栏",text:"你报名参加一门长期课程，第一次进教室时坐在最后一排。邻座的学员比你年轻许多，也有人比你更年长。老师发下一张目标表，请你写下为什么回来学习。",choices:[
+        {text:"为了获得真正需要的资格，给职业留一条新路",reply:"你把考试时间、基础差距和能够投入的工时写得很具体，不再只写一句改变人生。",route:"qualification"},
+        {text:"为了完成一件一直想亲手做出的作品",reply:"目标表上画着一个粗糙草图。老师圈出最难的一处，让你先从小样开始。",route:"project"},
+        {text:"为了重新与人讨论，找到能一起学习的伙伴",reply:"课后你没有立刻离开，而是留下来问别人怎样理解刚才那道题。",route:"peers"}
+      ]},
+      {title:"第二章 · 落下的几堂课",text:"学习持续了一段时间，生活却没有为课程让路。你因工作和家事落下几堂课，第一次测验也不理想。班群里有人退课，你需要重新安排接下来的路。",choices:[
+        {text:"承认基础不足，拆小复习范围再补考",reply:"你开始记录自己具体错在哪里。进度变慢，盲目重复的练习却减少了。",route:"qualification"},
+        {text:"缩小作品范围，先完成可以展示的一部分",reply:"你删去最耀眼也最不现实的设计，终于看到一个真正能运作的小样。",route:"project"},
+        {text:"组织互助小组，让不同人轮流讲解难点",reply:"你有时负责提问，有时负责解释。大家发现听懂和讲清楚之间，还有很长一段路。",route:"peers"}
+      ]},
+      {title:"第三章 · 毕业之后的星期二",text:"最后一学期结束，星期二晚上忽然空了出来。教室即将迎来下一批学员，老师问你愿不愿意留下一件东西，让后来的人知道成年后重新开始并非一句轻巧的话。",choices:[
+        {text:"留下真实的学习计划与补考记录，继续走职业新路",reply:"你没有藏起失误，而是标出哪些安排最后确实有用。下一份申请因此写得更踏实。",route:"qualification"},
+        {text:"公开作品和制作过程，接受使用者的修改建议",reply:"有人指出你早已习惯的一处不便，你回去又改了一版。毕业并没有让作品停止生长。",route:"project"},
+        {text:"延续学习小组，让新同学也能加入",reply:"你们给小组换了一个不含届数的名字，约定任何人都可以带来不会的问题。",route:"peers"}
+      ]}
+    ],
+    endings:{
+      qualification:{id:"late_pass",title:"迟到但有效的证明",text:"新的资格没有抹去过去，却让你多了一条可以申请的路。你最珍惜的不是被夸聪明，而是自己能持续学会困难的东西。"},
+      project:{id:"work_exists",title:"它终于存在了",text:"作品不再只活在年轻时的想象里。它有缺点、有人使用，也有下一版的空间，这已经和从未开始完全不同。"},
+      peers:{id:"open_class",title:"没有散场的课堂",text:"课程结束，讨论还在继续。后来有人先教你一个新方法，再笑着承认另一道题仍然不会。"}
+    }
+  },
+  {
+    id:"missing_platform",title:"不存在的站台",summary:"异常列车每隔几年出现一次，乘客寻找的并不总是同一个归处。",era:"awakening",branchKey:"occult_urban",minAge:18,
+    chapters:[
+      {title:"第一章 · 末班车之后",text:"末班车离开后，电子牌上亮起一个从未见过的站名。穿旧制服的检票员说，车上的乘客已经等了很久。你能听懂他的话，却不知道他是否同样理解人间的规则。",choices:[
+        {text:"询问乘客意愿，先听清他们为何停留",reply:"第一位乘客说不出目的地，只记得自己答应替人带一把伞。你把这句话原样记下。",route:"listen"},
+        {text:"核对站名和车次，寻找异常运行的规则",reply:"你发现时刻表并不按钟点重复，而是随某些名字被记起时改变。",route:"rules"},
+        {text:"先划清人间入口，避免不知情的人误上车",reply:"你没有宣布自己知道车的来历，只留下明确提醒，并约定下一次出现时如何通报。",route:"border"}
+      ]},
+      {title:"第二章 · 名字少了一行",text:"列车再次出现时，站牌少了一个名字，车厢里却多了一位不知道自己已经失联的人。检票员要你决定：谁有资格替乘客填写终点？",choices:[
+        {text:"不替乘客作决定，协助他们确认仍想完成的事",reply:"有的愿望只能被承认，不能再被实现。你让乘客自己决定是否继续等下去。",route:"listen"},
+        {text:"要求公开运行规则与改写站名的后果",reply:"检票员第一次交出背面的时刻表，上面还有几条他自己也不能越过的限制。",route:"rules"},
+        {text:"优先送误入的生者离开，再限制站台开放",reply:"你盯着每一位离开的人走过真实车站的灯光，才回头继续处理无法确认身份的乘客。",route:"border"}
+      ]},
+      {title:"第三章 · 最后一班是否发车",text:"检票员的制服逐渐褪色，他说自己不能永远守着这条线路。站牌留着一个空白位置，既可以写你的名字，也可以写下一条新规则。",choices:[
+        {text:"让乘客共同选择下一程，把未尽之事认真告别",reply:"你没有坐上检票员的位置，而是陪他们把愿望逐一说完，再由他们决定是否登车。",route:"listen"},
+        {text:"订立可退出、可核对的临时站台约定",reply:"你把约定写在两边都能看见的地方，并留下规则失效时关闭入口的方法。",route:"rules"},
+        {text:"完成生者核对后封闭入口，保存异常记录",reply:"最后一扇门合上时，你没有把所有谜团解释清楚，只确认不再有人因无知而被带走。",route:"border"}
+      ]}
+    ],
+    endings:{
+      listen:{id:"passengers_leave",title:"乘客自己选的终点",text:"列车带着愿意离开的乘客驶入黑暗。站台没有留下救世者的名字，只留下一把终于不必再代送的伞。"},
+      rules:{id:"transparent_station",title:"写在两边的时刻表",text:"异常没有被消灭，却第一次有了双方能够核对的约定。你知道规则仍需被检查，而不是相信它从此不会出错。"},
+      border:{id:"closed_platform",title:"末班之后请勿候车",text:"陌生站名从电子牌上退去。你留下详尽记录，把未解之处明确标出，让后来者不必靠好奇心盲目重开入口。"}
+    }
+  },
+  {
+    id:"mountain_spring",title:"山门外的一眼泉",summary:"宗门与山下村落共享水源，修为不能替你回答分配的问题。",era:"cultivation",branchKey:"cultivation_hidden",minAge:18,
+    chapters:[
+      {title:"第一章 · 灵泉改道",text:"山门新阵法使泉水灵气更盛，却让山下几户人家的井逐渐干涸。管事说阵法没有越界，村民却拿着空桶等在山门外。你决定从哪里开始？",choices:[
+        {text:"实测水脉变化，把凡人的用水也算进阵图",reply:"你在阵图上添了常被忽略的水井和田渠，第一次看见代价具体落在哪里。",route:"share"},
+        {text:"组织凡人与修士共同维护低耗水的支脉",reply:"村里的老水匠指出一处你没注意到的季节性回流。修为没有让这条经验变得多余。",route:"cooperate"},
+        {text:"先停掉自己负责的阵段，再论证是否值得保留",reply:"你的修炼进度慢了下来，但干涸的井水终于有了一次可对照的变化。",route:"restraint"}
+      ]},
+      {title:"第二章 · 大旱之年",text:"几年后，大旱使原有安排都显得不足。宗门想扩大取水，村落担心下一季收成。双方都拿出过去的约定，却各自圈起不同的句子。",choices:[
+        {text:"先满足基本用水，再公开分配剩余灵泉",reply:"你把宗门也写进限额，没有要求别人用忍耐证明自己的通情达理。",route:"share"},
+        {text:"共同调整水渠与阵法，让两种经验都能参与",reply:"有人改阵，有人修渠，争执没有消失，却开始围绕可以实测的结果展开。",route:"cooperate"},
+        {text:"让阵法退回较低规模，承担修行上的损失",reply:"你没有宣称损失毫无痛感，只公开记录自己与宗门究竟让出了多少便利。",route:"restraint"}
+      ]},
+      {title:"第三章 · 后来者守的约",text:"山门换了新管事，村里也有年轻人开始接手水渠。泉水还在流，旧约若只靠你的威望维持，迟早会失效。你怎样把它交出去？",choices:[
+        {text:"建立双方都能查看的水量账与争议程序",reply:"你把修为高低从表决规则里移开，让实际使用者保有提出异议的渠道。",route:"share"},
+        {text:"建立共同维护的小组，让学徒互换学习位置",reply:"年轻修士第一次蹲进田渠清淤，水匠学徒也第一次在阵盘上标注自己的判断。",route:"cooperate"},
+        {text:"永久撤除过度取水的阵段，并留下恢复边界",reply:"你们把不应重新启用的阵眼封存，并写明需要怎样的共同论证才能改变决定。",route:"restraint"}
+      ]}
+    ],
+    endings:{
+      share:{id:"water_ledger",title:"泉水也有凡人的份",text:"水量账保存在山门与村中两处。你离开之后，争论仍会发生，却不必等到一位强者愿意主持公道。"},
+      cooperate:{id:"two_crafts",title:"阵图上的田渠",text:"灵泉边出现了一种两边都能传授的手艺。山门与村落不再只在出事时见面，也会在修好一段水渠后坐下吃饭。"},
+      restraint:{id:"unused_eye",title:"不再启动的阵眼",text:"你留下的不是更壮观的法阵，而是一部分主动放弃的便利。泉边后来长出的草，并不知道这曾是一项很难作出的决定。"}
+    }
+  },
+  {
+    id:"gate_clock",title:"界门两侧的钟",summary:"不同世界流逝的时间不一致，一份普通承诺因此变得沉重。",era:"cultivation",branchKey:"otherworld",requiresWorlds:true,minAge:18,
+    chapters:[
+      {title:"第一章 · 迟到的回信",text:"你通过稳定界门结识了一位异界抄图人。你离开不过一季，回来时他却说已经等了几年。两边的钟都没有坏，失约也并非出于恶意。",choices:[
+        {text:"先校准时间差，再给承诺写明两侧日期",reply:"你们把约定同时记在两张历表上，第一次知道一句很快回来究竟可能有多长。",route:"measure"},
+        {text:"减少跨界往返，留出一段完整的陪伴时间",reply:"你没有一边停留一边盘算下一次出发，而是跟着抄图人走完了他熟悉的街巷。",route:"stay"},
+        {text:"建立稳定的信息中转，让联系不只依赖亲自到场",reply:"你们试着按批次投递回信，并为无法及时回复的情况留下清楚说明。",route:"relay"}
+      ]},
+      {title:"第二章 · 不同时到来的旧年",text:"再次相见时，抄图人的学生已经能够独立工作，而你仍觉得上一次谈话很近。有人要求关闭界门，以免继续承受时间错位；也有人靠它维持联系。",choices:[
+        {text:"公开实际时间差与风险，让往来者自己选择",reply:"你不再用修士的寿命经验替普通旅行者估算代价，而把他们可能错过的年份写出来。",route:"measure"},
+        {text:"选择一侧长期留下，接受另一侧生活继续变化",reply:"留下不是冻结世界。你把无法同时出席的事情认真告知，不再许诺两边都不会缺席。",route:"stay"},
+        {text:"为信件设立双方负责的交接与遗失追查",reply:"通道第一次有了不依赖你个人记忆的登记。名字相同、日期不同的信件被谨慎区分。",route:"relay"}
+      ]},
+      {title:"第三章 · 交接一张未完成的地图",text:"抄图人把尚未画完的地图交给下一代。他给你留下一处空白，那里可以画界门，也可以画一个家。你需要决定自己以后怎样与这些时间相处。",choices:[
+        {text:"留下双历法与校验方法，让后来者能更新",reply:"你明确标出数据何时失效，以及遇到新偏差时如何重新测量。地图不再假装拥有永久正确的尺度。",route:"measure"},
+        {text:"在选择的世界安顿下来，认真过无法兼得的生活",reply:"你保留另一侧的来信，却不再把每一次错过都当作必须立刻偿还的债。",route:"stay"},
+        {text:"把中转交给两侧共同的守信人",reply:"最后一次亲自押送信箱后，你见到新的守信人核对封条，知道通道不再需要只等你回来。",route:"relay"}
+      ]}
+    ],
+    endings:{
+      measure:{id:"double_calendar",title:"写明日期的约定",text:"双历法没能取消离别，却让承诺多了一层可以理解的尺度。旅行者终于能够在出发前知道自己将错过什么。"},
+      stay:{id:"one_home",title:"选择一边的清晨",text:"你不再同时追赶两个世界的钟。留下的生活有明确的缺憾，也有终于能够按时出席的普通清晨。"},
+      relay:{id:"letters_cross",title:"信比旅人走得远",text:"界门两侧形成了共同维护的往来。有人终其一生没有跨门，却通过一封封标明日期的信，认识了另一边真实的人。"}
+    }
+  },
+  {
+    id:"algorithm_street",title:"街道推荐给谁",summary:"一套便利的城市系统开始替居民选择，你可以帮助它学会说明和退出。",era:"modern",branchKey:"future_technology",minAge:22,
+    chapters:[
+      {title:"第一章 · 消失的小店",text:"城市启用个性化路线系统后，你常去的小店逐渐没有了过路客。系统说推荐只反映人们的偏好，店主却发现自己连申诉入口都找不到。你准备先做什么？",choices:[
+        {text:"要求解释推荐依据，并核查影响是否被遗漏",reply:"你把具体的路线变化和客流记录放在一起，让讨论有了可以反驳和修正的事实。",route:"explain"},
+        {text:"制作无需个性化推荐也能使用的街区地图",reply:"地图上允许商户和居民自行补充，你特别标明哪些信息来自体验，哪些仍待核实。",route:"choice"},
+        {text:"邀请居民、商户和技术人员一起试改规则",reply:"第一场讨论很乱，但不同的人终于坐到同一张地图前，看见了彼此被系统忽略的需要。",route:"govern"}
+      ]},
+      {title:"第二章 · 方便的代价",text:"几年后，系统确实让许多人的出行更方便，也把不同收入的人带往越来越分隔的街区。开发团队愿意合作，却希望把调整权留在公司内部。",choices:[
+        {text:"建立可独立核验的影响报告与解释窗口",reply:"你坚持报告不只展示平均改善，还要列出哪些群体承担了新的不便。",route:"explain"},
+        {text:"保留关闭推荐、手动选路和迁移数据的权利",reply:"退出不再需要放弃整座城市的服务。你们把最普通的无推荐路径重新做得清楚可用。",route:"choice"},
+        {text:"让受影响者参与规则修改和定期评议",reply:"技术人员需要解释取舍，居民也要面对预算与现实限制。决定开始有了可追溯的讨论记录。",route:"govern"}
+      ]},
+      {title:"第三章 · 下一个版本",text:"新一代系统即将接管旧服务。你参与的试点被要求写成可推广方案，项目负责人问：哪一条原则即使拖慢上线，也不能被省略？",choices:[
+        {text:"结论必须能被外部检查，出错必须有人回应",reply:"方案把纠错责任和期限写在功能清单旁，而不是藏进看不完的条款里。",route:"explain"},
+        {text:"每个人都可以选择不用它，并保有基本服务",reply:"演示会上，你主动关掉推荐开关，完整走完了没有个性化安排的一天。",route:"choice"},
+        {text:"规则的受影响者必须持续拥有发言与修订渠道",reply:"你们为接任者留下公开议程与交接办法，让参与不依赖某一届负责人愿意倾听。",route:"govern"}
+      ]}
+    ],
+    endings:{
+      explain:{id:"answerable_city",title:"愿意回答的城市",text:"系统仍可能犯错，但居民不再只能接受一句模型如此判断。具体的问题能够找到具体的责任人和复核过程。"},
+      choice:{id:"walk_own_way",title:"可以自己走的路",text:"推荐继续服务愿意使用它的人，关闭开关也不再意味着被城市排除。你常去的小店重新出现在一张普通地图上。"},
+      govern:{id:"shared_revision",title:"版本号后面的人",text:"城市更新不再只用新功能数量证明成功。规则每一次改动，都需要面对那些真正沿着街道生活的人。"}
+    }
+  }
+];
+
+const journeyIntentHints={
+  repair_shop:{craft:"把时间留给手艺与传授",return:"追索来处，尊重原主的联系",commons:"让更多人共同参与和维护"},
+  river_library:{archive:"保存可查证的记忆与资料",place:"争取稳定、可进入的公共空间",mobile:"把书送到更多人的日常里"},
+  night_kitchen:{trade:"优先考虑经营与分工的持续性",table:"照顾具体食客和劳动者的需要",boundary:"为合作保留边界与退出空间"},
+  care_calendar:{network:"让照护责任被看见并共同承担",voice:"保留被照护者自己的声音",rest:"承认精力限制，寻找长期安排"},
+  unfinished_film:{witness:"对讲述者和真实资料负责",friendship:"先照顾合作关系与彼此期待",create:"用明确的创作承担新的表达"},
+  wrong_address:{privacy:"尊重本人意愿与信息边界",bridge:"只在双方同意的范围内代为联系",system:"留下可靠、可以交接的处理方法"},
+  flood_steps:{prepare:"把经验变成能执行的准备",neighbors:"建立平时也能使用的互助关系",memory:"保存记忆，也尊重不愿讲述的人"},
+  late_class:{qualification:"为未来的职业选择积累能力",project:"让具体的作品逐步成为现实",peers:"寻找能够长期互相学习的人"},
+  missing_platform:{listen:"先听见乘客自己的愿望",rules:"查清规则，并留下核对与退出方法",border:"优先守住不知情者的安全边界"},
+  mountain_spring:{share:"把凡人与修士都纳入分配规则",cooperate:"让不同的经验参与共同维护",restraint:"接受放弃一部分便利的代价"},
+  gate_clock:{measure:"把时间差和承诺说得更清楚",stay:"接受无法同时在场，认真选择停留",relay:"建立不只依靠个人的往来"},
+  algorithm_street:{explain:"要求决定能够被解释与纠正",choice:"保留自主选择和不用系统的权利",govern:"让受影响者持续参与规则修改"}
+};
+
+function journeyById(id){return journeyDefinitions.find(story=>story.id===id)}
+function journeyStage(){return Math.max(0,Math.floor(Number(state?.majorDone)||0))}
+function ensureJourneyState(){
+  if(!state)return null;
+  const raw=state.journeys&&typeof state.journeys==="object"&&!Array.isArray(state.journeys)?state.journeys:{};
+  raw.version=1;
+  for(const key of ["completed","seen","abandoned"])if(!Array.isArray(raw[key]))raw[key]=[];
+  raw.seen=[...new Set(raw.seen.filter(id=>!!journeyById(id)))];
+  raw.completed=raw.completed.filter(item=>item&&typeof item==="object"&&journeyById(item.id));
+  raw.abandoned=raw.abandoned.filter(item=>item&&typeof item==="object"&&journeyById(item.id));
+  const finiteCount=value=>Number.isFinite(Number(value))?Math.max(0,Math.floor(Number(value))):0;
+  raw.offered=Math.max(raw.seen.length,finiteCount(raw.offered));
+  raw.lastOfferStage=Number.isFinite(raw.lastOfferStage)?Math.floor(raw.lastOfferStage):-1;
+  raw.lastChoiceStage=Number.isFinite(raw.lastChoiceStage)?Math.floor(raw.lastChoiceStage):-1;
+  raw.preferredId=journeyById(raw.preferredId)?raw.preferredId:null;
+  raw.finalized=!!raw.finalized;
+  const active=raw.active,story=journeyById(active?.id);
+  if(!story||!Number.isInteger(active?.chapter)||active.chapter<0||active.chapter>=story.chapters.length){
+    raw.active=null;
+  }else{
+    active.choices=Array.isArray(active.choices)?active.choices.filter(choice=>choice&&typeof choice==="object"):[];
+    active.scores=active.scores&&typeof active.scores==="object"&&!Array.isArray(active.scores)?active.scores:{};
+    for(const route of Object.keys(story.endings))active.scores[route]=finiteCount(active.scores[route]);
+    active.nextAge=Number.isFinite(active.nextAge)?active.nextAge:Number(state.age)||18;
+    active.startedAt=Number.isFinite(active.startedAt)?active.startedAt:Number(state.age)||18;
+    active.lastReply=typeof active.lastReply==="string"?active.lastReply:"";
+  }
+  state.journeys=raw;
+  return raw;
+}
+function journeyWorldMatches(story){
+  return !!story&&!!state&&state.era===story.era&&(!story.requiresWorlds||state.worldsUnlocked)&&(!story.branchKey||branchEnabled(story.branchKey));
+}
+function journeyFlowOpen(){
+  return !!state&&!state.dead&&!state.ended&&!state.lifeCompleted&&!state.pendingDaoChoice&&!spinning&&journeyStage()>=2&&
+    !eventPanel.classList.contains("on")&&!result.classList.contains("on");
+}
+function journeyReady(){
+  const j=state?.journeys,a=j?.active,story=journeyById(a?.id);
+  return !!(journeyFlowOpen()&&story&&journeyWorldMatches(story)&&Number.isInteger(a.chapter)&&a.chapter>=0&&a.chapter<story.chapters.length&&state.age>=a.nextAge&&j.lastChoiceStage<journeyStage());
+}
+function updateJourneyOffer(){
+  if(!journeyFlowOpen())return false;
+  const j=ensureJourneyState();
+  if(j.finalized)return false;
+  if(j.active){renderJourneys();return false;}
+  if(j.offered>=3||j.lastOfferStage>=journeyStage()||j.lastChoiceStage>=journeyStage())return false;
+  let candidates=journeyDefinitions.filter(story=>journeyWorldMatches(story)&&state.age>=(story.minAge||18)&&state.age<=(story.maxAge??Infinity)&&!j.seen.includes(story.id));
+  if(!candidates.length)return false;
+  // Count collected endings, if the exploration module is present, without
+  // introducing a second random roll or changing main-game event weights.
+  const book=Array.isArray(metaState?.exploration?.storyEndings)?metaState.exploration.storyEndings:[];
+  const collected=new Set(book.filter(item=>item&&typeof item.id==="string").map(item=>item.id));
+  const known=story=>Object.values(story.endings).filter(ending=>collected.has(story.id+":"+ending.id)).length;
+  const preferred=candidates.find(story=>story.id===j.preferredId);
+  if(preferred)candidates=[preferred];
+  else{
+    const least=Math.min(...candidates.map(known));
+    candidates=candidates.filter(story=>known(story)===least);
+  }
+  const seed=state.narrative?.seed??state.childhoodVariantSeed??0;
+  const index=narrativeHash(seed+":journey:"+j.offered+":"+journeyStage()+":"+(metaState?.lives||0))%candidates.length;
+  const story=candidates[index];
+  j.active={id:story.id,chapter:0,choices:[],scores:Object.fromEntries(Object.keys(story.endings).map(route=>[route,0])),startedAt:state.age,nextAge:state.age,lastReply:""};
+  j.seen.push(story.id);j.offered++;j.lastOfferStage=journeyStage();
+  saveLife();renderJourneys();return true;
+}
+function journeyEndingFor(story,active){
+  // A final action must never be contradicted by an earlier majority score.
+  // Earlier decisions survive in the chapter replies and ending recollection.
+  const latest=[...(active.choices||[])].reverse().find(choice=>Object.prototype.hasOwnProperty.call(story.endings,choice.route));
+  return story.endings[latest?.route||Object.keys(story.endings)[0]];
+}
+function chooseJourneyOption(index){
+  if(!Number.isInteger(index)||!journeyReady())return false;
+  const j=state.journeys,active=j.active,story=journeyById(active.id),chapter=story.chapters[active.chapter];
+  if(index<0||index>=chapter.choices.length)return false;
+  const choice=chapter.choices[index];
+  j.lastChoiceStage=journeyStage();
+  active.scores[choice.route]=(active.scores[choice.route]||0)+1;
+  active.choices.push({chapter:active.chapter,chapterTitle:chapter.title,index,text:choice.text,route:choice.route,age:state.age});
+  active.lastReply=choice.reply;
+  recordYear(state.age,`【${story.title} · ${chapter.title}】${chapter.text}\n你选择了“${choice.text}”。${choice.reply}`,"story");
+  active.chapter++;
+  if(active.chapter===story.chapters.length){
+    const ending=journeyEndingFor(story,active);
+    const earlier=active.choices.slice(0,-1).map(choice=>'“'+choice.text+'”').join('、');
+    const text=ending.text+(earlier?'\n回望来路，你也记得自己曾决定'+earlier+'；那些已经发生的经过，同样留在了这段故事里。':'');
+    const completion={id:story.id,title:story.title,endingId:ending.id,endingTitle:ending.title,endingText:text,text,age:state.age,startedAt:active.startedAt,choices:active.choices.map(choice=>({...choice}))};
+    j.completed.push(completion);
+    recordYear(state.age,`【${story.title} · 结局：${ending.title}】${text}`,"story");
+    j.active=null;j.lastOfferStage=journeyStage();
+    if(typeof recordJourneyEnding==="function")recordJourneyEnding(story,completion);
+  }else active.nextAge=state.age+4;
+  saveLife();renderJourneys();
+  if(typeof renderExploration==="function")renderExploration();
+  if(typeof renderStoryRecap==="function")renderStoryRecap();
+  return true;
+}
+function abandonJourney(){
+  if(!journeyFlowOpen()||!state.journeys?.active)return false;
+  const j=state.journeys,active=j.active,story=journeyById(active.id);
+  if(!story||j.lastChoiceStage>=journeyStage())return false;
+  const text=active.chapter?`你把已经走过的 ${active.chapter} 章留在回顾中，决定暂别这段故事。那些未作出的决定仍然没有答案。`:"你决定不在此时走进这段故事，留下它尚未展开的可能。";
+  recordYear(state.age,`【${story.title} · 暂别】${text}`,"story");
+  j.abandoned.push({id:story.id,title:story.title,age:state.age,chapter:active.chapter,reason:"choice"});
+  j.active=null;j.lastOfferStage=journeyStage();j.lastChoiceStage=journeyStage();
+  saveLife();renderJourneys();
+  if(typeof renderStoryRecap==="function")renderStoryRecap();
+  return true;
+}
+function finalizeJourneys(){
+  if(!state||!(state.ended||state.dead||state.lifeCompleted))return;
+  const j=ensureJourneyState();
+  if(j.finalized)return;
+  j.finalized=true;
+  const active=j.active,story=journeyById(active?.id);
+  if(story){
+    const text=active.chapter?`这段故事停在第 ${active.chapter} 章之后。你已经作出的 ${active.choices.length} 次选择仍留在这一生里，后面的道路没有被替你补写。`:"你曾走到这段故事门口，却还没有作出其中的选择。它成为这一生里一件没有展开的小事。";
+    recordYear(state.age,`【${story.title} · 未完的一页】${text}`,"story");
+  }
+}
+function renderJourneys(){
+  const panel=document.getElementById("journeyPanel");
+  if(!panel)return;
+  const j=state?.journeys,active=j?.active,story=journeyById(active?.id);
+  if(!state||state.ended||state.dead||(!story&&!j?.completed?.length)){panel.style.display="none";panel.innerHTML="";return;}
+  panel.style.display="";
+  if(!story){
+    const last=j.completed[j.completed.length-1];
+    panel.innerHTML='<div class="journeyEyebrow">一段故事已经写完</div><h3>'+escapeHtml(last.endingTitle)+'</h3><p>'+escapeHtml(last.endingText)+'</p><div class="journeyHint">'+(j.offered>=3?'本世已遇见足够多的同行者。下一世还会有别的可能。':'继续人生，往后的阶段还会遇见新的故事。')+'</div>';
+    return;
+  }
+  const chapter=story.chapters[active.chapter];
+  if(!chapter){panel.style.display="none";return;}
+  const ready=journeyReady(),world=journeyWorldMatches(story);
+  let hint="这些选择决定故事去向，不消耗重抽次数，也不改变属性。";
+  if(!world)hint="你已走入另一条世界线，这段故事暂时停在这里。可以保留这一页，或选择暂别。";
+  else if(!journeyFlowOpen())hint="先完成眼前的重大事件并进入下一阶段，再继续这段故事。";
+  else if(state.age<active.nextAge)hint=`故事还需要一点时间。到 ${active.nextAge} 岁以后，进入新的重大阶段即可继续。`;
+  else if(j.lastChoiceStage>=journeyStage())hint="这一章已写下。继续人生，进入下一个重大阶段后再来。";
+  const canAbandon=journeyFlowOpen()&&j.lastChoiceStage<journeyStage();
+  const opening='<div class="journeyEyebrow">旅途支线 · 可选 · 第 '+(active.chapter+1)+' / '+story.chapters.length+' 章</div><h3>'+escapeHtml(story.title)+'</h3>';
+  const reply=active.lastReply?'<p class="journeyRecall"><b>上一章留下的回声</b><br>'+escapeHtml(active.lastReply)+'</p>':"";
+  const content=ready?'<h4>'+escapeHtml(chapter.title)+'</h4><p>'+escapeHtml(chapter.text)+'</p><div class="journeyChoices">'+chapter.choices.map((choice,index)=>'<button type="button" onclick="chooseJourneyOption('+index+')"><b>'+escapeHtml(choice.text)+'</b><span class="journeyOptionHint">'+escapeHtml(journeyIntentHints[story.id]?.[choice.route]||'')+'</span></button>').join("")+'</div>':(!active.chapter?'<p>'+escapeHtml(story.summary)+'</p>':"");
+  panel.innerHTML=opening+reply+content+'<div class="journeyHint">'+escapeHtml(hint)+'</div><button type="button" class="journeyLeave" onclick="abandonJourney()" '+(canAbandon?'':'disabled')+'>暂别这段故事</button>';
+}
+
+
+// Cross-life discovery is separate from rewards and the gameplay random stream.
+const lifeWishDefinitions=[
+  {id:'long_view',name:'把日子过长',description:'走到 60 岁，留下一段可以慢慢回看的生活。',kind:'age',target:60},
+  {id:'many_roads',name:'把路走宽',description:'在一生中经历 5 种不同类别的重大抉择。',kind:'categories',target:5},
+  {id:'keep_learning',name:'一直做学生',description:'完成 3 次学业或时代类抉择。',kind:'category',categories:['学业','时代'],target:3},
+  {id:'with_people',name:'有人同行',description:'完成 3 次家庭、友情或爱情类抉择。',kind:'category',categories:['家庭','友情','爱情'],target:3},
+  {id:'craft_life',name:'靠自己的双手',description:'完成 3 次事业或财富类抉择。',kind:'category',categories:['事业','财富'],target:3},
+  {id:'faraway',name:'远方有回音',description:'完成 2 次迁徙或奇遇类抉择。',kind:'category',categories:['迁徙','奇遇'],target:2},
+  {id:'second_wind',name:'跌倒以后',description:'经历一次判定失败之后，再完成 2 次成功的抉择。',kind:'recover',target:2},
+  {id:'late_bloom',name:'岁月仍有新页',description:'60 岁以后，再作出一次重大抉择。',kind:'late',target:1},
+  {id:'story_end',name:'把故事讲完',description:'亲手完成一条连载支线的三章故事。',kind:'journey',target:1},
+  {id:'story_again',name:'另一种答案',description:'完成一个人生书架里尚未收藏的连载结局。',kind:'newEnding',target:1},
+  {id:'ask_dao',name:'走近山门',description:'在本世真正踏入修行。',kind:'dao',target:1,requires:'cultivation_hidden'},
+  {id:'beyond_gate',name:'界门之外',description:'在本世打开异界之门。',kind:'gate',target:1,requires:'otherworld'}
+];
+const explorationMilestones=[
+  {id:'first_shelf',name:'第一本人生',hint:'完成并保存一世人生。',title:'留页人',test:e=>e.lives.length>=1},
+  {id:'twenty_sights',name:'二十种相遇',hint:'见过 20 个不同重大事件。',title:'见闻拾穗者',test:e=>e.seenEvents.length>=20},
+  {id:'fifty_sights',name:'五十扇窗',hint:'见过 50 个不同重大事件。',title:'人间观察者',test:e=>e.seenEvents.length>=50},
+  {id:'hundred_sights',name:'百页人间',hint:'见过 100 个不同重大事件。',title:'百页行者',test:e=>e.seenEvents.length>=100},
+  {id:'one_story',name:'终于写完',hint:'完成一条连载支线。',title:'故事旅人',test:e=>e.storyEndings.length>=1},
+  {id:'another_answer',name:'同路不同归',hint:'为同一条连载找到两种结局。',title:'歧路读者',test:e=>new Set(e.storyEndings.map(x=>x.storyId)).size<e.storyEndings.length},
+  {id:'six_endings',name:'六封回信',hint:'收藏 6 种连载结局。',title:'回声收集者',test:e=>e.storyEndings.length>=6},
+  {id:'twelve_endings',name:'十二个句号',hint:'收藏 12 种连载结局。',title:'长篇叙事者',test:e=>e.storyEndings.length>=12},
+  {id:'wish_one',name:'如愿一回',hint:'完成一个主动选择的人生心愿。',title:'践约者',test:e=>e.fulfilledWishes.length>=1},
+  {id:'wish_three',name:'不同的活法',hint:'完成 3 种不同人生心愿。',title:'多面人生',test:e=>e.fulfilledWishes.length>=3},
+  {id:'five_volumes',name:'五世成册',hint:'在书架中留下 5 世人生。',title:'五世记事者',test:e=>e.totalRecorded>=5},
+  {id:'ten_volumes',name:'十世仍好奇',hint:'在书架中留下 10 世人生。',title:'岁月藏书家',test:e=>e.totalRecorded>=10}
+];
+function normalizeExplorationMeta(m){
+  if(!m||typeof m!=='object')return m;
+  const old=m.exploration&&typeof m.exploration==='object'&&!Array.isArray(m.exploration)?m.exploration:{};
+  const strings=value=>[...new Set((Array.isArray(value)?value:[]).filter(x=>typeof x==='string'))];
+  const records=(value,key)=>[...new Map((Array.isArray(value)?value:[]).filter(x=>x&&typeof x==='object'&&typeof x[key]==='string').map(x=>[x[key],x])).values()];
+  const count=n=>Number.isFinite(Number(n))?Math.max(0,Math.floor(Number(n))):0;
+  const lives=records(old.lives,'id').slice(-24).map(l=>({...l,number:count(l.number),name:typeof l.name==='string'?l.name:'无名旅人',age:count(l.age),ending:typeof l.ending==='string'?l.ending:'留在岁月中的人生',choices:count(l.choices),newEvents:count(l.newEvents),categories:strings(l.categories),stories:(Array.isArray(l.stories)?l.stories:[]).filter(s=>s&&typeof s.title==='string'&&typeof s.endingTitle==='string')}));
+  const seen=strings(old.seenEvents);
+  if(!old.version)Object.entries(m.globalEventSeenCounts||{}).forEach(([id,count])=>{if(count>0&&!seen.includes(id))seen.push(id)});
+  m.exploration={...old,version:1,seenEvents:seen,resolvedEvents:strings(old.resolvedEvents),storyEndings:records(old.storyEndings,'id').filter(x=>typeof x.storyId==='string'&&typeof x.endingTitle==='string'),fulfilledWishes:strings(old.fulfilledWishes),milestones:strings(old.milestones),lives,selectedWish:lifeWishDefinitions.some(w=>w.id===old.selectedWish)?old.selectedWish:null,selectedTitle:explorationMilestones.some(x=>x.id===old.selectedTitle)?old.selectedTitle:null,totalRecorded:Math.max(lives.length,count(old.totalRecorded))};
+  m.exploration.preferredStory=journeyDefinitions.some(s=>s.id===old.preferredStory)&&m.exploration.storyEndings.some(s=>s.storyId===old.preferredStory)?old.preferredStory:null;
+  return m;
+}
+function ensureExplorationLife(){
+  if(!state||!metaState)return null;
+  normalizeExplorationMeta(metaState);
+  const e=metaState.exploration;
+  if(!state.exploration||typeof state.exploration!=='object'||Array.isArray(state.exploration)){
+    state.exploration={version:1,lifeId:`${metaState.lives||0}:${state.childhoodVariantSeed||0}:${narrativeHash(state.name||'')}`,settled:false,wishId:null,wishFulfilled:false,seenAtStart:[...e.seenEvents],newEvents:[],newEndings:[],processedChoices:0};
+  }
+  const x=state.exploration;
+  x.version=1;
+  if(typeof x.lifeId!=='string'||!x.lifeId)x.lifeId=`${metaState.lives||0}:${state.childhoodVariantSeed||0}:${narrativeHash(state.name||'')}`;
+  x.settled=x.settled===true;x.wishFulfilled=x.wishFulfilled===true;
+  for(const key of ['seenAtStart','newEvents','newEndings'])x[key]=[...new Set((Array.isArray(x[key])?x[key]:[]).filter(id=>typeof id==='string'))];
+  if(!lifeWishDefinitions.some(w=>w.id===x.wishId))x.wishId=null;
+  x.processedChoices=Number.isFinite(Number(x.processedChoices))?Math.max(0,Math.floor(Number(x.processedChoices))):0;
+  return x;
+}
+function beginExplorationLife(){
+  const x=ensureExplorationLife();
+  if(!x)return;
+  const wish=lifeWishDefinitions.find(w=>w.id===metaState.exploration.selectedWish);
+  if((metaState.lives||0)>0&&wish&&(!wish.requires||branchUnlocked(wish.requires))){
+    x.wishId=wish.id;
+    recordYear(state.age,`「这一世的心愿」${wish.name}：${wish.description} 你为这一生留了一个方向，也允许旅途走向意料之外。`,'story');
+  }
+}
+function wishProgress(wishId,stateValue=state){
+  const wish=lifeWishDefinitions.find(w=>w.id===wishId);
+  if(!wish||!stateValue)return {value:0,target:1,done:false};
+  const history=stateValue.history||[];
+  let value=0;
+  if(wish.kind==='age')value=stateValue.age||0;
+  if(wish.kind==='categories')value=new Set(history.map(x=>x.category)).size;
+  if(wish.kind==='category')value=history.filter(x=>wish.categories.includes(x.category)).length;
+  if(wish.kind==='recover'){const first=history.findIndex(x=>x.success===false);value=first<0?0:history.slice(first+1).filter(x=>x.success).length;}
+  if(wish.kind==='late')value=history.filter(x=>x.age>=60).length;
+  if(wish.kind==='journey')value=(stateValue.journeys?.completed||[]).length;
+  if(wish.kind==='newEnding')value=(stateValue.exploration?.newEndings||[]).length;
+  if(wish.kind==='dao')value=stateValue.era==='cultivation'||!!stateValue.daoChosen?1:0;
+  if(wish.kind==='gate')value=stateValue.worldsUnlocked?1:0;
+  return {value:Math.min(wish.target,value),target:wish.target,done:value>=wish.target};
+}
+function checkExplorationMilestones(){
+  const e=metaState?.exploration;if(!e)return;
+  explorationMilestones.forEach(m=>{if(!e.milestones.includes(m.id)&&m.test(e))e.milestones.push(m.id)});
+}
+function updateLifeWish(){
+  const x=state?.exploration,e=metaState?.exploration;
+  if(!x||!e||!x.wishId||x.wishFulfilled||!wishProgress(x.wishId).done)return;
+  x.wishFulfilled=true;
+  if(!e.fulfilledWishes.includes(x.wishId))e.fulfilledWishes.push(x.wishId);
+  const wish=lifeWishDefinitions.find(w=>w.id===x.wishId);
+  recordYear(state.age,`「心愿达成」${wish.name}。这不是人生必须交出的答卷，只是你与自己的一次约定终于有了回音。`,'unlock');
+}
+function recordExplorationChoice(event,choice,success){
+  const x=ensureExplorationLife();if(!x)return;
+  const history=state.history||[];if(history.length<=x.processedChoices)return;
+  x.processedChoices=history.length;
+  const e=metaState.exploration;
+  for(const item of history){const id=item.eventId||item.title;if(id&&!e.resolvedEvents.includes(id))e.resolvedEvents.push(id);}
+  const id=event.id||event.title;
+  if(id&&!e.seenEvents.includes(id))e.seenEvents.push(id);
+  if(id&&!x.seenAtStart.includes(id)&&!x.newEvents.includes(id))x.newEvents.push(id);
+  updateLifeWish();checkExplorationMilestones();saveMeta();
+}
+function recordExplorationDraw(event){
+  if(!metaState||!event)return;
+  normalizeExplorationMeta(metaState);
+  const id=event.id||event.title,e=metaState.exploration;
+  if(id&&!e.seenEvents.includes(id))e.seenEvents.push(id);
+  checkExplorationMilestones();
+}
+function recordJourneyEnding(story,completion){
+  const x=ensureExplorationLife();if(!x)return;
+  const e=metaState.exploration,id=story.id+':'+completion.endingId;
+  if(!e.storyEndings.some(item=>item.id===id)){
+    e.storyEndings.push({id,storyId:story.id,title:story.title,endingTitle:completion.endingTitle,text:completion.text||'',age:completion.age,firstLife:(metaState.lives||0)+1});
+    if(!x.newEndings.includes(id))x.newEndings.push(id);
+  }
+  updateLifeWish();checkExplorationMilestones();saveMeta();
+}
+function settleExplorationLife(){
+  if(!state?.ended||!state.lifeCounted)return;
+  const x=ensureExplorationLife();if(!x||x.settled)return;
+  const e=metaState.exploration;
+  updateLifeWish();
+  if(!e.lives.some(item=>item.id===x.lifeId)){
+    const d=endingData();
+    e.lives.push({id:x.lifeId,number:metaState.lives,name:state.name,age:state.age,ending:d[2],era:state.era,realm:currentRealm(),legend:state.legend,choices:(state.history||[]).length,categories:[...new Set((state.history||[]).map(item=>item.category))],wishId:x.wishId,wishFulfilled:x.wishFulfilled,newEvents:x.newEvents.length,stories:(state.journeys?.completed||[]).map(item=>({title:item.title,endingTitle:item.endingTitle})),lastChoice:state.history?.at(-1)?.title||''});
+    e.lives=e.lives.slice(-24);e.totalRecorded++;
+  }
+  x.settled=true;checkExplorationMilestones();saveMeta();
+}
+function selectLifeWish(id){
+  if(state||(metaState?.lives||0)<1)return;
+  const wish=lifeWishDefinitions.find(w=>w.id===id);
+  if(id!==null&&(!wish||(wish.requires&&!branchUnlocked(wish.requires))))return;
+  normalizeExplorationMeta(metaState);metaState.exploration.selectedWish=id;saveMeta();renderExploration();
+}
+function selectExplorationTitle(id){
+  const e=metaState?.exploration;
+  if(!e||(id!==null&&!e.milestones.includes(id)))return;
+  e.selectedTitle=id;saveMeta();renderExploration();
+}
+function selectJourneyRevisit(id){
+  const e=metaState?.exploration;
+  if(state||!e||(metaState.lives||0)<1||(id!==null&&(!journeyDefinitions.some(s=>s.id===id)||!e.storyEndings.some(s=>s.storyId===id))))return;
+  e.preferredStory=id;saveMeta();renderExploration();
+}
+let explorationTab='lives',explorationEventCategory='全部',explorationPage=0;
+function explorationUnlocked(){return (metaState?.lives||0)>0;}
+function openExploration(tab='lives'){
+  if(!explorationUnlocked())return;
+  explorationTab=['lives','stories','events','milestones'].includes(tab)?tab:'lives';
+  renderExploration();document.getElementById('explorationModal')?.classList.add('on');document.body.style.overflow='hidden';
+}
+function closeExploration(event){
+  if(event&&event.target!==document.getElementById('explorationModal'))return;
+  document.getElementById('explorationModal')?.classList.remove('on');document.body.style.overflow='';
+}
+function selectExplorationTab(tab){if(!['lives','stories','events','milestones'].includes(tab))return;explorationTab=tab;explorationPage=0;renderExploration();}
+function filterExplorationEvents(category){explorationEventCategory=category;explorationPage=0;renderExploration();}
+function pageExplorationEvents(delta){explorationPage=Math.max(0,explorationPage+delta);renderExploration();}
+function explorationEventIndex(){
+  const entries=new Map();
+  Object.entries(eventBank).forEach(([category,events])=>events.forEach(event=>{const id=event.id||event.title;if(!entries.has(id))entries.set(id,{...event,id,category})}));
+  return entries;
+}
+function renderExploration(){
+  const e=metaState?.exploration;if(!e)return;
+  const el=id=>document.getElementById(id),esc=escapeHtml,available=explorationUnlocked();
+  ['explorationHomeCard','explorationGameBtn'].forEach(id=>{if(el(id))el(id).style.display=available?'':'none'});
+  if(el('explorationSummary')){const revisit=journeyDefinitions.find(s=>s.id===e.preferredStory);el('explorationSummary').textContent=`${e.seenEvents.length} 种见闻 · ${e.storyEndings.length} 种故事结局 · ${e.fulfilledWishes.length} 个已完成心愿`+(!state&&revisit?` · 下世重访：${revisit.title}`:'');}
+  const title=explorationMilestones.find(x=>x.id===e.selectedTitle&&e.milestones.includes(x.id));
+  if(el('explorationPlayerTitle')){el('explorationPlayerTitle').textContent=title?'「'+title.title+'」':'';el('explorationPlayerTitle').style.display=title?'':'none';}
+  const editable=!state&&(metaState.lives||0)>0;
+  if(el('lifeWishDetails'))el('lifeWishDetails').style.display=editable?'':'none';
+  if(el('lifeWishSetup')){
+    el('lifeWishSetup').style.display=editable?'':'none';
+    const eligible=lifeWishDefinitions.filter(w=>!w.requires||branchUnlocked(w.requires));
+    el('lifeWishSetup').innerHTML='<div class="wishIntro"><b>下一世，给自己一个小小的方向</b><p>可以选择一个心愿，也可以顺其自然。它只留下纪念，不改变属性和判定。</p></div><div class="wishGrid">'+eligible.map(w=>`<button class="wishOption ${e.selectedWish===w.id?'selected':''}" onclick="selectLifeWish('${w.id}')"><b>${esc(w.name)} ${e.fulfilledWishes.includes(w.id)?'✓':''}</b><span>${esc(w.description)}</span></button>`).join('')+`<button class="wishOption ${e.selectedWish===null?'selected':''}" onclick="selectLifeWish(null)"><b>顺其自然</b><span>这一世不设目标，看看生活会带你去哪里。</span></button></div>`;
+  }
+  const x=state?.exploration,wish=lifeWishDefinitions.find(w=>w.id===x?.wishId);
+  if(el('lifeWishStatus')){
+    el('lifeWishStatus').style.display=wish?'':'none';
+    if(wish){const p=wishProgress(wish.id);el('lifeWishStatus').innerHTML=`<span>${x.wishFulfilled?'✓ 心愿已完成':'本世心愿'}</span><b>${esc(wish.name)}</b><p>${esc(wish.description)} <strong>${p.value} / ${p.target}</strong></p>`;}
+  }
+  if(el('explorationEnding')){
+    el('explorationEnding').style.display=state?.ended?'':'none';
+    el('explorationEnding').innerHTML=state?.ended?`<div class="shelfEyebrow">这一生，已经上架</div><h3>每一世都有留下的东西</h3><p>你亲历了 ${x?.newEvents?.length||0} 个此前未曾见过的事件，收藏了 ${x?.newEndings?.length||0} 个新故事结局。${wish?`本世心愿「${esc(wish.name)}」${x.wishFulfilled?'已经完成':'仍留有余地，不必把遗憾当成失败'}。`:''}</p><button class="btn gray" onclick="openExploration('lives')">翻开人生书架</button>`:'';
+  }
+  if(!el('explorationContent'))return;
+  for(const tab of ['lives','stories','events','milestones'])el('explorationTab_'+tab)?.classList.toggle('active',tab===explorationTab);
+  const empty=text=>'<p class="shelfEmpty">'+esc(text)+'</p>';
+  let markup='';
+  if(explorationTab==='lives'){
+    markup='<p class="shelfLead">最近 24 世的故事摘要会留在这里。完整年表仍保存在当前人生的回顾中。</p>'+([...e.lives].reverse().map(l=>`<article class="shelfVolume"><span>第 ${l.number} 世 · ${l.age} 岁 · ${esc(l.realm||'凡人')}</span><h3>${esc(l.name)} · ${esc(l.ending)}</h3><p>${l.choices} 次重大抉择 · ${l.newEvents} 个新见闻${l.wishId?' · '+(l.wishFulfilled?'心愿已达成':'带着心愿走过'):''}</p><div class="shelfChips">${l.categories.map(c=>'<span>'+esc(c)+'</span>').join('')}</div>${l.stories.map(s=>'<p>「'+esc(s.title)+'」→ '+esc(s.endingTitle)+'</p>').join('')}${l.lastChoice?'<small>最后的转折：'+esc(l.lastChoice)+'</small>':''}</article>`).join('')||empty('已有的轮回进度仍然保留。从本版完成的下一世开始，书架会留下人生摘要。'));
+  }else if(explorationTab==='stories'){
+    markup='<p class="shelfLead">同一段相遇，可以因为不同选择走向不同结局。这里只展示你真正走过的结尾。</p>'+journeyDefinitions.map(story=>{
+      const found=e.storyEndings.filter(x=>x.storyId===story.id);
+      if(!found.length)return '';
+      const revisit=!state?`<button class="btn gray" onclick="selectJourneyRevisit('${story.id}')">${e.preferredStory===story.id?'下世优先重访':'下世重访，试试另一种选择'}</button><p class="shelfRevisitNote">需开启对应路线，并在这一世走到适合的年龄。</p>`:'';
+      return `<article class="shelfVolume"><span>已找到 ${found.length} / ${Object.keys(story.endings).length} 种结局</span><h3>${esc(story.title)}</h3>${found.map(x=>'<div class="shelfEnding"><b>'+esc(x.endingTitle)+'</b>'+(x.text?'<p>'+esc(x.text)+'</p>':'')+'</div>').join('')}${revisit}</article>`;
+    }).join('');
+    if(!e.storyEndings.length)markup+=empty('连载会在第二次重大抉择之后逐渐出现。完成三章，才能把它的结局收入书架。');
+    if(!state&&e.preferredStory)markup+='<button class="btn gray" onclick="selectJourneyRevisit(null)">下世随缘相遇</button>';
+  }else if(explorationTab==='events'){
+    const index=explorationEventIndex(),seen=e.seenEvents.map(id=>index.get(id)).filter(Boolean),cats=[...new Set(seen.map(x=>x.category))];
+    const shown=seen.filter(x=>explorationEventCategory==='全部'||x.category===explorationEventCategory);
+    const page=Math.min(explorationPage,Math.max(0,Math.ceil(shown.length/12)-1));
+    markup='<p class="shelfLead">见过的重大事件会留在图鉴；成败只属于当时的那次选择，下一世仍可能有不同结果。</p><div class="shelfFilter">'+['全部',...cats].map(c=>`<button class="${c===explorationEventCategory?'active':''}" onclick="filterExplorationEvents('${c}')">${esc(c)}</button>`).join('')+'</div>'+shown.slice(page*12,page*12+12).map(x=>`<article class="shelfVolume"><span>${esc(x.category)} · ${e.resolvedEvents.includes(x.id)?'曾作出选择':'曾经遇见'}</span><h3>${esc(x.title)}</h3><p>${esc(x.desc)}</p></article>`).join('');
+    if(!shown.length)markup+=empty('下一次与命运相遇时，书架会收下你见到的那一页。');
+    if(shown.length>12)markup+=`<div class="shelfPager"><button ${page===0?'disabled':''} onclick="pageExplorationEvents(-1)">上一页</button><span>${page+1} / ${Math.ceil(shown.length/12)}</span><button ${(page+1)*12>=shown.length?'disabled':''} onclick="pageExplorationEvents(1)">下一页</button></div>`;
+  }else{
+    markup='<p class="shelfLead">称号只是一枚旅途书签，不增加属性，也没有领取时限。</p><div class="shelfMilestones">'+explorationMilestones.map(m=>{const done=e.milestones.includes(m.id);return `<article class="shelfVolume ${done?'earned':''}"><span>${done?'已留下纪念':'尚未写到'}</span><h3>${esc(m.name)}</h3><p>${esc(m.hint)}</p>${done?`<button class="btn gray" onclick="selectExplorationTitle('${m.id}')">${e.selectedTitle===m.id?'正在佩戴':'佩戴称号'} · ${esc(m.title)}</button>`:''}</article>`;}).join('')+'</div>'+(e.selectedTitle?'<button class="btn gray" onclick="selectExplorationTitle(null)">收起称号</button>':'');
+  }
+  el('explorationContent').innerHTML=markup;
+}
+function expansionAnnualEligible(scene,age){
+  return (!scene.era||scene.era===state.era)&&age>=(scene.ageMin??18)&&age<=(scene.ageMax??1800)&&(!scene.branchKey||branchEnabled(scene.branchKey))&&(!scene.requiresWorld||state.worldsUnlocked);
+}
+
+registerExpansionEvents();
+
 (function init(){
   categories=[...modernCategories];
   renderWheelLabels();
@@ -5602,6 +6931,7 @@ function renderStoryProgress(){
   renderBranchManager();
   renderAllocation();
   renderStoryProgress();
+  renderExploration();
   const s=loadLife();
   if(s){
     state=s;
@@ -5615,6 +6945,7 @@ function renderStoryProgress(){
     const finished=!!(state.ended||state.dead||state.lifeCompleted);
     if(continueBtn)continueBtn.textContent=finished?"查看这一世的结局":"继续人生";
     renderStoryProgress();
+    renderExploration();
     saveInfo.textContent=finished
       ?`已有存档：${s.avatar} ${s.name}，这一生已经结束。点击上方按钮即可进入完整结局，不会再卡在轮盘。`
       :`已有存档：${s.avatar} ${s.name}，${s.age} 岁，已发生 ${s.majorDone} 次重大抉择。`;
