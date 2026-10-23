@@ -169,7 +169,38 @@ console.table({
 6. 打开书架的历世、故事、见闻与纪念页面，切换筛选和分页；刷新后核对保存内容。使用 390px 手机视口重复操作。
 7. 在下一世开局前，从已收藏的故事中选择“下世重访”，确认进入相应世界与年龄后优先出现；若本世关闭相关支线，则不应绕过开关强行出现。
 
-## 本次验证记录
+## 手机视觉与触控检查（2026-10-23）
+
+`mobile-layout.cjs` 是独立的真实浏览器检查，不计入上面的 46 项无依赖玩法回归，也不改变现有 GitHub Actions。需要 Node.js、可解析的 `playwright` 包和本机 Edge：
+
+```sh
+npm install --no-save --package-lock=false playwright
+node games/life/tests/mobile-layout.cjs
+```
+
+默认使用 Edge；可用 `BROWSER_CHANNEL=chrome` 或 `chromium` 选择其他已安装的浏览器。Playwright 自带 Chromium 需先运行 `npx playwright install chromium`。已配置运行环境也可通过 `NODE_PATH` 提供 Playwright，无需在仓库安装依赖。
+
+可选环境变量：`MOBILE_WIDTHS` 指定逗号分隔宽度（默认 `360,390,430,1280`）；`MOBILE_SCREENSHOTS` 指定截图目录；`MOBILE_REPORT` 指定 JSON 报告路径；`LIFE_HTML` 指定用于对照的旧 HTML 文件。PowerShell 示例：
+
+```powershell
+$env:MOBILE_SCREENSHOTS = 'E:\Codex\work\life-mobile\screenshots'
+$env:MOBILE_REPORT = 'E:\Codex\work\life-mobile\report.json'
+node games/life/tests/mobile-layout.cjs
+```
+
+检查使用临时本地 HTTP 来源和独立浏览器上下文。属性分配、能力选择、底色确认、普通轮盘抽取、事件选择、心愿选择、书架分类/筛选/分页均使用真实按钮。丰富书架收藏和阶段锁定提示使用仅存在于隔离页面的测试数据，由正常游戏渲染器生成。不会读取或改写玩家线上存档。
+
+覆盖手机描述字号、44×44 CSS px 触控区域、页面横向溢出、长名字、5/9/14 类轮盘几何、书架四个分类，以及 420px 高度下弹窗确认/关闭/分页按钮的滚动可达性。桌面保持原字号层次，检查布局与功能，不强制套用手机字号标准。
+
+2026-10-23 验证结果（Edge 155.0.4283.62）：
+
+- 360px、390px、430px 手机视口及 1280px 桌面，共 **166 项浏览器断言通过，0 失败，0 页面错误**。已目视复核分配、轮盘、事件、底色与图鉴截图。
+- 原 main 提交 `d450adeae8c9d8ef038e4be071eb9f14fa8823ff` 在 360px 的同组检查中有 18 项不满足新增标准，主要是字号/触控尺寸；420px 高度下底色确认按钮无法完整滚动至视口内。未观察到该组基线页面横向溢出，不能把所有优化都描述为已有布局故障。
+- 原有 **46 项玩法回归全部通过**；以修改前 v2.2.0 为基线的额外同随机序列对照通过。HTML 中 `<style>` 以外的源码逐字节一致，玩法脚本、存档键和格式均未改动。
+
+这是桌面 Edge 的手机视口/触控模拟，不能替代真实 iOS Safari、Android 手机和实际手指操作验证。发布后仍建议在真机检查系统字号放大、软键盘及浏览器地址栏收放。
+
+## v2.2.0 发布时验证记录
 
 2026-10-22，v2.2.0：内容/连载/探索 **22/22**、剧情/解锁 **16/16**、轮盘及旧池同随机序列基线对照 **9/9**，合计 **47 项全部通过**。基线为扩充前的 v2.1.0 文件。
 

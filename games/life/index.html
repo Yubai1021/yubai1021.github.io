@@ -394,6 +394,95 @@ input:focus{border-color:var(--purple)}
 .explorationModal{position:fixed;inset:0;background:rgba(3,7,18,.83);z-index:110;display:none;align-items:center;justify-content:center;padding:20px}.explorationModal.on{display:flex}.explorationModalCard{width:min(840px,100%);max-height:90vh;display:flex;flex-direction:column;border:1px solid #344363;border-radius:22px;background:#151e34;box-shadow:0 24px 90px #0008;overflow:hidden}.shelfModalHead{padding:22px 24px 16px}.shelfModalHead h2{font-size:23px}.shelfTabs{display:flex;gap:7px;padding:0 24px 17px;border-bottom:1px solid var(--line);flex-wrap:wrap}.shelfTabs button,.shelfFilter button,.shelfPager button{border:1px solid var(--line);background:transparent;color:#aebdd6;padding:9px 13px;border-radius:999px;font-size:12px;cursor:pointer}.shelfTabs button.active,.shelfFilter button.active{border-color:#71bca7;color:#b2f1da;background:rgba(66,215,170,.09)}.explorationContent{padding:4px 24px 24px;overflow-y:auto;min-height:180px}.shelfLead,.shelfEmpty{font-size:12px;color:#a7bad3;line-height:1.9;margin:15px 0 20px}.shelfVolume{border:1px solid rgba(156,180,213,.15);border-radius:15px;padding:17px 18px;margin:12px 0;background:rgba(24,36,60,.65);overflow-wrap:anywhere}.shelfVolume>span{font-size:10px;color:#92abbe}.shelfVolume h3{font-size:15px;line-height:1.6;margin:8px 0;color:#e0ebf7}.shelfVolume p{font-size:12px;color:#b5c7dc;line-height:1.9;margin:8px 0}.shelfVolume small{font-size:10px;color:#99a8c1;line-height:1.8}.shelfChips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.shelfChips span{font-size:9px;padding:4px 8px;border-radius:6px;background:rgba(139,124,255,.08);color:#bdb6e0}.shelfEnding{padding-top:10px;border-top:1px solid var(--line);margin-top:11px}.shelfEnding b{font-size:12px;color:#91d7c3}.shelfFilter{display:flex;flex-wrap:wrap;gap:5px}.shelfFilter button{font-size:10px;padding:6px 10px}.shelfPager{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:20px;font-size:12px}.shelfPager button:disabled{opacity:.35;cursor:default}.shelfMilestones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.shelfMilestones .shelfVolume{margin:0}.shelfVolume.earned{border-color:rgba(145,215,195,.35)}.shelfMilestones .btn{padding:9px 12px;font-size:10px}
 @media(max-width:600px){.wishGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.shelfHomeHead{align-items:flex-start}.shelfHomeHead>.btn{font-size:11px;padding:10px;flex-shrink:0}.explorationModal{padding:10px}.explorationModalCard{border-radius:17px;max-height:94vh}.shelfModalHead{padding:18px 16px 13px}.shelfTabs{padding:0 16px 13px;gap:5px}.shelfTabs button{font-size:11px;padding:8px 10px}.explorationContent{padding:3px 16px 20px}.shelfMilestones{grid-template-columns:1fr}.journeyPanel{padding:16px}.journeyPanel h3{font-size:16px}.shelfVolume{padding:14px}.gameHead .actions{flex-wrap:wrap;justify-content:flex-end}.shelfModalHead h2{font-size:20px}}
 
+/* Mobile reading and touch layout. Keep game state and wheel geometry unchanged. */
+button{touch-action:manipulation}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.stepper{flex-shrink:0}
+.stepper button{flex:0 0 44px;width:44px;height:44px}
+.allocTop>div:first-child,.person,.person>div:last-child{min-width:0}
+.name{overflow-wrap:anywhere}
+/* Modal bodies must shrink below their content height on short screens. */
+.explorationModalCard{max-height:90dvh}
+.shelfModalHead,.shelfTabs{flex-shrink:0}
+.explorationContent{min-height:0;overscroll-behavior:contain}
+.motiveDrawCard{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain}
+.branchModalCard{display:flex;flex-direction:column;max-height:92dvh}
+.branchModalHead{flex-shrink:0}
+.branchModalBody{min-height:0;max-height:none;overscroll-behavior:contain}
+@media(max-width:600px){
+  .app{padding:12px 12px max(28px,env(safe-area-inset-bottom))}
+  .card{padding:16px;border-radius:19px}
+  .top{flex-wrap:wrap}.logo{font-size:20px}.badge{font-size:12px}
+  h2{font-size:24px;line-height:1.3}
+  .btn,.overviewTab,.reviewFilters button,.branchPreset,
+  .shelfTabs button,.shelfFilter button,.shelfPager button,
+  .journeyActions button,.journeyAbandon,.journeyLeave{min-height:44px;min-width:44px}
+  .btn{line-height:1.45}
+  .pointsHead,.abilityHead,.archiveHead,.daoDrawHead,.branchManagerHead{flex-wrap:wrap}
+  .abilityCount,.remaining{flex-shrink:0}
+  /* Put the controls below the description instead of squeezing two columns. */
+  .allocTop{align-items:flex-start;flex-wrap:wrap;gap:10px}
+  .allocTop>div:first-child{flex:1 1 165px}
+  .stepper{margin-left:auto;gap:12px}
+  .allocDesc,.abilityDesc,.abilityMods,.motiveDesc,.motiveEffect,
+  .mechanicNote,.wheelLockedNote,.choice span,.wishIntro p,.wishOption span,
+  .lifeWishStatus p,.archiveText,.shelfLead,.shelfEmpty,.shelfVolume p,
+  .motiveDrawDesc,.motiveDrawEffects,.lifeEndText{font-size:13px;line-height:1.7}
+  .motiveTag,.motiveDrawSeal,.motiveDrawTag,.abilityTone,.abilityPill,
+  .attributeUse,.spinHint,.rerollNote,.trailChip,.eventTag,.effect,
+  .statName,.save,.legacyHint,.archiveTag,.archiveCount,.branchSummary,
+  .branchDesc,.branchNotice,.branchLockedBanner,.motiveDrawNote,
+  .wishIntro,.lifeWishStatus span,.shelfVolume small,.shelfVolume>span,
+  .shelfChips span,.shelfTabs button,.shelfFilter button,.shelfMilestones .btn,
+  .shelfHomeHead>.btn{font-size:12px;line-height:1.6}
+  .archiveCode,.archiveNew,.branchChip,.branchState,.branchHint,.branchFresh,
+  .motiveDrawEyebrow,.shelfEyebrow,.playerTitle{font-size:11px;line-height:1.6}
+  .motiveDrawNote,.archiveCode{color:var(--muted)}
+  .motiveDrawSeal{position:static;float:right;margin:0 0 8px 8px}
+  .motiveCard{display:flow-root}
+  .gameHead{flex-direction:column;gap:14px}
+  .gameHead .actions{width:100%;justify-content:flex-start;gap:8px}
+  .avatar{flex-shrink:0}
+  .progress{flex-wrap:wrap;line-height:1.6}
+  /* A 290px wheel fits at 360px without scaling its labels or clipping its rim. */
+  .wheelCard{padding:18px 0 14px}
+  .wheelCard>h2,.wheelCard>p,.wheelActions,.spinHint,.rerollNote{margin-left:10px;margin-right:10px}
+  .wheelWrap{transform:none;margin-top:20px;margin-bottom:24px}
+  .wheelLabel{font-size:12px}
+  .spinCurrent,.spinTrail{margin-left:8px;margin-right:8px}
+  .wheelActions>.btn{flex:1 1 130px}
+  .eventPanel{padding:12px;margin:18px 8px 0}
+  .eventTitle{font-size:22px;line-height:1.4;overflow-wrap:anywhere}
+  .eventDesc{font-size:15px;line-height:1.8;overflow-wrap:anywhere}
+  .choice{padding:14px 12px;min-height:48px;line-height:1.65}
+  .choice b{font-size:15px}.choices{gap:12px}
+  .wishGrid{grid-template-columns:1fr;gap:10px}
+  .wishOption{padding:14px}.wishOption b{font-size:14px}
+  #lifeWishDetails summary,.storyRecap summary{min-height:44px;padding:10px 0;line-height:1.7;font-size:13px}
+  .lifeWishStatus strong{display:inline-block}
+  .shelfHomeHead{flex-wrap:wrap;gap:12px}
+  .explorationModalCard{max-height:94dvh}
+  .shelfModalHead{gap:10px;padding:16px 14px 12px}
+  .shelfModalHead .btn{flex-shrink:0}
+  .shelfTabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:0 14px 12px;gap:8px}
+  .shelfTabs button{padding:9px 10px}
+  .explorationContent{padding:3px 14px 18px}
+  .shelfFilter{gap:8px}.shelfFilter button{padding:8px 12px}
+  .shelfPager{gap:10px;flex-wrap:wrap}
+  .shelfVolume .btn{max-width:100%;white-space:normal}
+  .journeyPanel p,.journeyPanel .journeyChoice,.journeyChoices>button,
+  .journeyChoices>button b{font-size:13px}
+  .journeyOptionHint,.journeyHint,.journeyRecall b,
+  .journeyActions button,.journeyAbandon,.journeyLeave{font-size:12px;line-height:1.7}
+  .journeyStatus,.journeyWait,.journeyNote,.journeyRecall{font-size:12px!important}
+  .reviewFilters{flex-wrap:wrap}
+}
+@media(max-width:600px) and (max-height:500px){
+  .shelfModalHead{padding-top:10px;padding-bottom:8px}
+  .shelfModalHead .shelfEyebrow{display:none}
+  .shelfTabs{display:flex;gap:6px;padding-bottom:8px}
+  .shelfTabs button{flex:1 1 40%;padding:6px}
+}
 </style>
 </head>
 <body>
